@@ -4,9 +4,9 @@ import JobCard from "@/components/JobCard/JobCard";
 import Navbar from "@/components/Navbar/Navbar";
 import Image from "next/image";
 
-export default function Home() {
+export default function FindJob() {
   return (
-    <div className="container">
+    <div>
       <header>
         <Navbar />
       </header>
