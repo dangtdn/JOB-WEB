@@ -3,7 +3,23 @@ import React from "react";
 const JobCard = () => {
   return (
     <div className="overflow-hidden relative h-full grid content-between px-6 !pt-4 pb-6 !border-blue-700 bg-white border border-solid transition-all rounded-md group hover:!border-blue-700">
-      <div className="bg-blue-700 p-1 css-1496rvk">
+      <div
+        className="bg-blue-700 p-1"
+        style={{
+          position: "absolute",
+          transform: "rotate(-135deg)",
+          margin: "0px",
+          zIndex: "99",
+          justifyContent: "center",
+          display: "flex",
+          color: "rgb(255, 255, 255)",
+          fontWeight: "500",
+          width: "66px",
+          height: "66px",
+          right: "-33px",
+          top: "-33px",
+        }}
+      >
         <svg
           stroke="currentColor"
           fill="currentColor"

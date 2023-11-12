@@ -17,7 +17,7 @@ const Banner = () => {
         <div className="w-10/12 m-auto z-4 relative pt-10 pb-7">
           <div className="text-center">
             <h1 className="text-xxl xl:text-xxxl font-bold text-white text-center leading-none mb-6">
-              Job Details
+              Find Your Dream Job
             </h1>
           </div>
         </div>

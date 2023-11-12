@@ -6,7 +6,7 @@ import { GrDocumentUser } from "react-icons/gr";
 const Carousel = () => {
   return (
     <section
-      className="py-16 md:py-20 lg:py-24 relative bg-cover bg-center bg-no-repeat"
+      className="w-full py-16 md:py-20 lg:py-24 relative bg-cover bg-center bg-no-repeat"
       style={{
         backgroundImage:
           'url("https://metajobs.vercel.app/assets/img/banner-bg.webp")',
