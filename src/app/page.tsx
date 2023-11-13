@@ -8,11 +8,11 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="container">
+    <div>
       <header>
         <Navbar />
       </header>
-      <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <main className="flex min-h-screen flex-col items-center justify-between pt-12">
         <Carousel />
         {/* <Reviews /> */}
         <Blogs />
