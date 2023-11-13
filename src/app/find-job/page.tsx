@@ -1,9 +1,11 @@
 import Banner from "@/components/Banner/Banner";
 import Carousel from "@/components/Carousel/Carousel";
 import Footer from "@/components/Footer/Footer";
-import JobCard from "@/components/JobCard/JobCard";
+import JobCard from "@/components/Cards/JobCard/JobCard";
 import Navbar from "@/components/Navbar/Navbar";
 import Image from "next/image";
+import { Suspense } from "react";
+import Loading from "./loading";
 
 export default function FindJob() {
   return (
@@ -382,7 +384,9 @@ export default function FindJob() {
                   </div>
                 </div>
                 <div className="grid gap-6 xl:gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 justify-center">
-                  <JobCard />
+                  <Suspense fallback={<p>Loading...</p>}>
+                    <JobCard />
+                  </Suspense>
                 </div>
                 <div className="mx-auto px-4 mt-10" />
               </div>
