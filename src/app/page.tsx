@@ -1,7 +1,7 @@
 import Blogs from "@/components/Blogs/Blogs";
 import Carousel from "@/components/Carousel/Carousel";
 import Footer from "@/components/Footer/Footer";
-import JobCard from "@/components/JobCard/JobCard";
+import JobCard from "@/components/Cards/JobCard/JobCard";
 import Navbar from "@/components/Navbar/Navbar";
 import Reviews from "@/components/Reviews/Reviews";
 import { getTodos } from "@/lib/database/todo-db";
