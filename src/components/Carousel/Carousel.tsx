@@ -16,7 +16,7 @@ const Carousel = () => {
         className="absolute w-full h-full left-0 top-0 z-2"
         style={{ backgroundColor: "rgba(0, 124, 50, 0.7)" }}
       />
-      <div className="container">
+      <div className="container mx-auto">
         <div className="w-10/12 m-auto z-4 relative">
           <div className="text-center">
             <h1 className="text-xxl xl:text-xxxl font-bold text-white text-center leading-none mb-3">

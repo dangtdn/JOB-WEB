@@ -1,5 +1,5 @@
 import connectDB from "@/lib/database/connect-db";
-import { deletePost, getPost, updatePost } from "@/lib/database/posts-db";
+import { deleteJob, getJob, updateJob } from "@/lib/database/jobs-db";
 import { createErrorResponse } from "@/utils/utils";
 import { NextResponse } from "next/server";
 
@@ -11,7 +11,7 @@ export const GET = async (
     await connectDB();
 
     const id = params.id;
-    const { post, error } = await getPost(id);
+    const { job, error } = await getJob(id);
 
     if (error) {
       throw error;
@@ -20,13 +20,13 @@ export const GET = async (
     let json_response = {
       status: "success",
       data: {
-        post,
+        job,
       },
     };
     return NextResponse.json(json_response);
   } catch (error: any) {
-    if (typeof error === "string" && error.includes("Post not found")) {
-      return createErrorResponse("Post not found", 404);
+    if (typeof error === "string" && error.includes("Job not found")) {
+      return createErrorResponse("Job not found", 404);
     }
 
     return createErrorResponse(error.message, 500);
@@ -43,7 +43,7 @@ export const PATCH = async (
     const id = params.id;
     let body = await request.json();
 
-    const { post, error } = await updatePost(id, body);
+    const { job, error } = await updateJob(id, body);
 
     if (error) {
       throw error;
@@ -52,13 +52,13 @@ export const PATCH = async (
     let json_response = {
       status: "success",
       data: {
-        post,
+        job,
       },
     };
     return NextResponse.json(json_response);
   } catch (error: any) {
-    if (typeof error === "string" && error.includes("Post not found")) {
-      return createErrorResponse("Post not found", 404);
+    if (typeof error === "string" && error.includes("Job not found")) {
+      return createErrorResponse("Job not found", 404);
     }
 
     return createErrorResponse(error.message, 500);
@@ -73,7 +73,7 @@ export const DELETE = async (
     await connectDB();
 
     const id = params.id;
-    const { error } = await deletePost(id);
+    const { error } = await deleteJob(id);
 
     if (error) {
       throw error;
@@ -81,8 +81,8 @@ export const DELETE = async (
 
     return new NextResponse(null, { status: 204 });
   } catch (error: any) {
-    if (typeof error === "string" && error.includes("Post not found")) {
-      return createErrorResponse("Post not found", 404);
+    if (typeof error === "string" && error.includes("Job not found")) {
+      return createErrorResponse("Job not found", 404);
     }
 
     return createErrorResponse(error.message, 500);

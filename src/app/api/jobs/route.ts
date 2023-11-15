@@ -1,5 +1,5 @@
 import connectDB from "@/lib/database/connect-db";
-import { createPost, getPosts } from "@/lib/database/posts-db";
+import { createJob, getJobs } from "@/lib/database/jobs-db";
 import { createErrorResponse } from "@/utils/utils";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -13,7 +13,7 @@ export const GET = async (request: NextRequest) => {
     const page = page_str ? parseInt(page_str, 10) : 1;
     const limit = limit_str ? parseInt(limit_str, 10) : 10;
 
-    const { posts, results, error } = await getPosts({ page, limit });
+    const { jobs, results, error } = await getJobs({ page, limit });
 
     if (error) {
       throw error;
@@ -22,7 +22,7 @@ export const GET = async (request: NextRequest) => {
     let json_response = {
       status: "success",
       results,
-      posts,
+      jobs,
     };
     return NextResponse.json(json_response, { status: 200 });
   } catch (error: any) {
@@ -37,10 +37,10 @@ export const POST = async (request: Request) => {
     const body = await request.json();
 
     if (!body.title) {
-      return createErrorResponse("Post must have a title", 400);
+      return createErrorResponse("Job must have a title", 400);
     }
 
-    const { post, error } = await createPost(body);
+    const { job, error } = await createJob(body);
     if (error) {
       throw error;
     }
@@ -48,16 +48,16 @@ export const POST = async (request: Request) => {
     let json_response = {
       status: "success",
       data: {
-        post,
+        job,
       },
     };
     return new NextResponse(JSON.stringify(json_response), {
-      status: 201,
+      status: 200,
       headers: { "Content-Type": "application/json" },
     });
   } catch (error: any) {
     if (error.code === 11000) {
-      return createErrorResponse("Post with title already exists", 409);
+      return createErrorResponse("Job with title already exists", 409);
     }
 
     return createErrorResponse(error.message, 500);

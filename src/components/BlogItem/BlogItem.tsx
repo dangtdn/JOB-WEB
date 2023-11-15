@@ -63,7 +63,6 @@ const BlogItem: React.FC<BlogItemProps> = ({ post, key, index = 0 }) => {
                   }}
                 />
               </span>
-              <noscript />
             </span>
           </div>
         </a>
