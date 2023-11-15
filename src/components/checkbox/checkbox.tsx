@@ -1,6 +1,6 @@
 "use client";
 
-import { updateTodoAction } from "@/app/_action";
+import { updateTodoAction } from "@/serverActions/_action";
 import { TodoClass } from "@/models/Todo";
 import { useTransition } from "react";
 

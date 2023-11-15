@@ -25,6 +25,6 @@
     "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false,
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "db.js", "src/models/Post.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "db.js", "src/models/Post.ts"],
   "exclude": ["node_modules"]
 }
