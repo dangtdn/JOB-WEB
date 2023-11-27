@@ -2,7 +2,7 @@ import Banner from "@/components/Banner/Banner";
 import Carousel from "@/components/Carousel/Carousel";
 import Footer from "@/components/Footer/Footer";
 import JobCard from "@/components/Cards/JobCard/JobCard";
-import Navbar from "@/components/Navbar/Navbar";
+import Navbar from "@/components/Header/Header";
 import Image from "next/image";
 import { Suspense } from "react";
 import Loading from "./loading";

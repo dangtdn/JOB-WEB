@@ -3,7 +3,7 @@ import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
 import Carousel from "@/components/Carousel/Carousel";
 import Footer from "@/components/Footer/Footer";
 import JobCard from "@/components/Cards/JobCard/JobCard";
-import Navbar from "@/components/Navbar/Navbar";
+import Navbar from "@/components/Header/Header";
 import Image from "next/image";
 import { RiGlobalLine, RiFacebookFill } from "react-icons/ri";
 import { TiSocialLinkedin } from "react-icons/ti";

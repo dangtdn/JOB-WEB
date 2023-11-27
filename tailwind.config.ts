@@ -6,21 +6,64 @@ const config: Config = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  darkMode: "class", // or 'media' or 'class'
+  mode: "jit",
   theme: {
+    fontFamily: {
+      body: ["Jost", "serif"],
+    },
     extend: {
-      colors: {
-        themePrimary: "rgb(28 175 87/1)!important",
-        light: "rgba(248,249,250,1)!important",
-        grayLight: "rgb(143 156 169/1)!important",
-        themeLight: "rgb(107 114 128/1)!important",
+      container: {
+        center: true,
       },
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      colors: {
+        themePrimary: "#1CAF57",
+        themeLighterAlt: "#f7f8fa",
+        themeLighter: "#B8B9BB",
+        themeLight: "#6B7280",
+        themeTertiary: "#8F9CA9",
+        themeSecondary: "#a6b2cc",
+        themeDarkAlt: "#66737F",
+        themeDark: "#36414C",
+        themeDarker: "#2d3748",
+        themeDarkerAlt: "#1a202c",
+        body: "#f2f5f8",
+        black1: "#000",
+        white: "#fff",
+
+        prm: "#8e9cce",
+        arsenic: "#36414C",
+        black: "#13161C",
+        gray: "#D5DDE5",
+        deep: "#66737F",
+        light: "#F2F5F8",
+        grayLight: "#8F9CA9",
+        greenLight: "#E8F7EE",
+        greenLight2: "#D2EFDD",
+        whiteLight: "#B8B9BB",
+        yellowLight: "#FFF6E9",
       },
       fontSize: {
+        xsss: "12px",
+        xss: "13px",
+        xss1: "14px",
+        xs: "16px",
+        xxs: "18px",
+        lg2: "20px",
+        lg: "24px",
+        xl: "32px",
+        xxl2: "40px",
+        xxl: "45px",
         xxxl: "64px",
+      },
+    },
+    variants: {
+      extend: {
+        display: ["group-hover"],
+        visibility: ["group-hover"],
+        transform: ["group-hover"],
+        scale: ["group-hover"],
+        witdh: ["group-hover"],
       },
     },
   },

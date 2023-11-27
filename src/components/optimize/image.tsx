@@ -1,4 +1,6 @@
-import Image from "next/image";
+"use client";
+
+import Image, { ImageLoader } from "next/image";
 import React from "react";
 
 export default function ImageOpt({
@@ -10,7 +12,7 @@ export default function ImageOpt({
   layout,
   noPlaceholder,
 }: any) {
-  const logoLoader = ({ src, width, quality }: { src: any, width: any, quality: any }) => {
+  const logoLoader: ImageLoader = ({ quality }) => {
     return `${src}?w=${width}&q=${quality || 75}`;
   };
 

@@ -1,12 +1,12 @@
 import { useRouter } from "next/router";
 import React from "react";
-import useSWR from "swr";
+// import useSWR from "swr";
 import { localGet, localRemove } from "../utils/localStore";
 import fetcher from "./api-user";
 import { Loader } from "./loader";
 
 export default function useUser() {
-  const { data, mutate, error } = useSWR("/users/retrives", fetcher);
+  // const { data, mutate, error } = useSWR("/users/retrives", fetcher);
   const loading = !data && !error;
   const loggedIn = localGet("UserData") !== null;
   const loggedOut = localGet("UserData") === null ? true : false;

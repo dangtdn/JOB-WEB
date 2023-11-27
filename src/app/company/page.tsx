@@ -1,7 +1,7 @@
 import Banner from "@/components/Banner/Banner";
 import CompanyCard from "@/components/Cards/CompanyCard/CompanyCard";
 import Footer from "@/components/Footer/Footer";
-import Navbar from "@/components/Navbar/Navbar";
+import Navbar from "@/components/Header/Header";
 import React from "react";
 
 const Company = () => {

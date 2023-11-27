@@ -14,10 +14,7 @@ export enum Path {
 }
 
 export enum QueryKey {
-  career = "career",
-  analytics = "analytics",
-  post = "post",
-  posts = "posts",
+  userprofile = "userprofile",
 }
 
 export enum ApiProxyBasePath {
@@ -32,7 +29,39 @@ export enum pathNameNavBar {
 }
 
 export enum RecoilAtomKey {
+  token = "token",
+  userId = "userId",
+  isSupervisor = "isSupervisor",
+  isWorkspaceAdmin = "isWorkspaceAdmin",
+  currentWorkspaceId = "currentWorkspaceId",
+  asyncTasks = "asyncTasks",
+  showFullImage = "showFullImage",
   loadingOverlay = "loadingOverlay",
+  loadingMessage = "loadingMessage",
+  stackingDialogs = "stackingDialogs",
+  dragging = "dragging",
+  directURL = "directURL",
+}
+
+export enum LocalStorageKey {
+  token = "token",
+  userId = "userId",
+  isSupervisor = "isSupervisor",
+  isWorkspaceAdmin = "isWorkspaceAdmin",
+  currentWorkspaceId = "currentWorkspaceId",
+}
+
+export enum HttpStatusCode {
+  ok = 200,
+  badRequest = 400,
+  unauthorized = 401,
+  forbidden = 403,
+  notFound = 404,
+  methodNotAllowed = 405,
+  conflict = 409,
+  locked = 423,
+  unprocessableEntity = 422,
+  internalServerError = 500,
 }
 
 export enum ProjectTypeTabId {
