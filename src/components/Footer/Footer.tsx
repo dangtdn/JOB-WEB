@@ -92,7 +92,7 @@ const Footer = () => {
                 been the industrys standard <br className="hidden xl:inline" />{" "}
                 dummy text
               </p>
-              <p className="text-xxs text-white font-normal leading-6 mb-6 flex gap-4 items-center">
+              <div className="text-xxs text-white font-normal leading-6 mb-6 flex gap-4 items-center">
                 <ImageOpt
                   src="/assets/img/map-pin5.svg"
                   width={24}
@@ -102,7 +102,7 @@ const Footer = () => {
                 />
                 Company Location here - Lorem{" "}
                 <br className="hidden xl:inline" /> Ipsum is simple Dummy Text
-              </p>
+              </div>
               <a
                 href="tel:1-202-555-0106"
                 className="text-xxs text-white font-normal leading-6 mb-6 flex gap-4 items-center"

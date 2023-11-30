@@ -2,7 +2,7 @@ import Link from "next/link";
 import React from "react";
 import CategoryItem from "./CategoryItem";
 
-const categoryList = [
+export const categoryList = [
   {
     name: "Accounting/Finance",
     image: "./assets/img/top-c-1.svg",

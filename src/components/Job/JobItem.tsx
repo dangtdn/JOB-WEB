@@ -112,7 +112,7 @@ const JobItem = ({ item }: { item: any }) => {
         <h3 className="text-xxs font-normal capitalize text-black leading-5 mb-2">
           {item ? item.jobTitle : "Web and UI/UX Designer"}
         </h3>
-        <p className="flex gap-2 justify-center items-center text-grayLight text-xss1 capitalize font-normal">
+        <div className="flex gap-2 justify-center items-center text-grayLight text-xss1 capitalize font-normal">
           <ImageOpt
             width={16}
             height={16}
@@ -121,7 +121,7 @@ const JobItem = ({ item }: { item: any }) => {
             alt="img"
           />
           {item ? item.location : "Bangalore"}
-        </p>
+        </div>
       </div>
       <div className="px-2">
         <ul className="mb-4">
@@ -139,7 +139,7 @@ const JobItem = ({ item }: { item: any }) => {
             </p>
           </li> */}
           <li className="mb-2">
-            <p className="flex gap-3 items-center text-deep text-xss1 font-normal">
+            <div className="flex gap-3 items-center text-deep text-xss1 font-normal">
               <ImageOpt
                 width={16}
                 height={16}
@@ -157,10 +157,10 @@ const JobItem = ({ item }: { item: any }) => {
                 lowercase: true,
               })}{" "} */}
               Taka
-            </p>
+            </div>
           </li>
           <li className="mb-0">
-            <p className="flex gap-3 items-center text-deep text-xss1 font-normal">
+            <div className="flex gap-3 items-center text-deep text-xss1 font-normal">
               <ImageOpt
                 width={16}
                 height={16}
@@ -173,7 +173,7 @@ const JobItem = ({ item }: { item: any }) => {
                   ? item.createdAt
                   : "Fri May 27 2022 10:19:22 GMT+0600 (Bangladesh Standard Time)"}
               </Moment> */}
-            </p>
+            </div>
           </li>
         </ul>
         <div>

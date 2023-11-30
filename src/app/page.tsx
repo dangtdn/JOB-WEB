@@ -8,6 +8,7 @@ import Blogs from "@/components/Blogs/Blogs";
 import PopularCategories from "@/components/PopularCategories/PopularCategories";
 import { jobs } from "@/utils/dummy-content/mongodb-collections/jobs";
 import RecentJob from "@/components/Job/RecentJob";
+import Testimonials from "@/components/testimonials/Testimonials";
 
 const loadingCategory = [
   {
@@ -170,8 +171,6 @@ const Home = () => {
 					/> */}
           <PopularCategories />
           <PopularJobsData data={jobs} />
-          {/* <RecentJob />  */}
-          {/* <Testimonials data={testimonialsData} /> */}
           <Blogs data={blogsData} />
         </main>
       </Layout>

@@ -19,7 +19,7 @@ const RecentJob = ({ data }: { data: any[] }) => {
 
         <div className="grid gap-6 xl:gap-8 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1">
           {_.map(_.slice(data ? data : JobList, 0, 8), (item: any, index) => (
-            <div key={item._id ? item._id : index}>
+            <div key={index}>
               <JobItem item={data ? item : false} />
             </div>
           ))}
