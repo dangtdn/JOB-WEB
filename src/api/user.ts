@@ -84,13 +84,31 @@ export const useLogoutMutation = () => {
   );
 };
 
-export const useUserProfileQuery = (userId: string) => {
+export const useUsersQuery = (userId: string) => {
   const { http, handleErrorAPIResponse } = useClient();
   return useQuery(
-    [QueryKey.userprofile, userId],
+    [QueryKey.users, userId],
     async () => {
       const res = await http.getAsync<undefined, GetUserProfileResponse>(
-        `userprofile`
+        'users'
+      );
+      return res.data;
+    },
+    {
+      onError: handleErrorAPIResponse,
+      enabled: !!userId,
+      ...getSettingCacheTime(),
+    }
+  );
+};
+
+export const useUserQuery = (userId: string) => {
+  const { http, handleErrorAPIResponse } = useClient();
+  return useQuery(
+    [QueryKey.user, userId],
+    async () => {
+      const res = await http.getAsync<undefined, GetUserProfileResponse>(
+        `user/${userId}`
       );
       return res.data;
     },

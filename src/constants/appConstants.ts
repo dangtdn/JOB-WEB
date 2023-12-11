@@ -14,7 +14,11 @@ export enum Path {
 }
 
 export enum QueryKey {
-  userprofile = "userprofile",
+  users = "users",
+  user = "user",
+  jobs = "jobs",
+  job = "job",
+  companies = "companies",
 }
 
 export enum ApiProxyBasePath {
