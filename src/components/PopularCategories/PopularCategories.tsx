@@ -65,7 +65,22 @@ export const categoryList = [
   },
 ];
 
-const PopularCategories = ({ data }: { data?: any }) => {
+export type Categories = {
+  _id: {
+    $oid: string;
+  };
+  status: {
+    isFeatured: boolean;
+    isActive: boolean;
+  };
+  categoryTitle: string;
+  subCategory: string[];
+  avatar: string;
+  iconUrl: string;
+  __v: number;
+}[];
+
+const PopularCategories = ({ data }: { data?: Categories }) => {
   return (
     <section className="py-16 md:py-20 lg:py-25 !bg-light">
       <div className="container">
@@ -78,7 +93,7 @@ const PopularCategories = ({ data }: { data?: any }) => {
           </h2>
         </div>
         <div className="grid gap-4 xl:gap-5 xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2">
-          {categoryList.map((item, index) => (
+          {(data ?? categoryList).map((item, index) => (
             <CategoryItem key={index} data={item} />
           ))}
         </div>

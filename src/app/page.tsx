@@ -5,10 +5,11 @@ import { testimonialsData } from "@/data/testimonialsData";
 import Banner from "@/components/Banner/Banner";
 import Layout from "@/components/Layout/Layout";
 import Blogs from "@/components/Blogs/Blogs";
-import PopularCategories from "@/components/PopularCategories/PopularCategories";
+import PopularCategories, { Categories } from "@/components/PopularCategories/PopularCategories";
 import { jobs } from "@/utils/dummy-content/mongodb-collections/jobs";
 import RecentJob from "@/components/Job/RecentJob";
 import Testimonials from "@/components/testimonials/Testimonials";
+import getData from "@/utils/dummy-content/i"
 
 const loadingCategory = [
   {
@@ -134,8 +135,9 @@ const loadingCategory = [
 ];
 
 const Home = () => {
+  const { } = getData();
   const totalCount = 0;
-  const categories: never[] = [];
+  const categories: Categories[] = [...categories];
 
   const CategoryData = ({
     categoryData,
@@ -146,7 +148,7 @@ const Home = () => {
   }) => {
     // if (categoryError) return <div>Error! {categoryError.message}</div>
     if (!categoryData) {
-      return <PopularCategories data={loadingCategory} />;
+      return <PopularCategories data={categories} />;
     }
 
     return <>{categoryData && <PopularCategories data={categoryData} />}</>;
