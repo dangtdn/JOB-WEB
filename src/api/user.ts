@@ -3,41 +3,25 @@ import { HttpStatusCode, QueryKey } from "@/constants/appConstants";
 import { useClient } from "@/lib/http/useClient";
 import {
   GetUserProfileResponse,
+  SignupRequest,
   UsersLoginRequest,
   UsersLoginResponse,
 } from "@/types/user";
 import { useUserAuth } from "@/lib/auth/useUserAuth";
 import { getSettingCacheTime } from "@/lib/query/client";
 
-// export const useRegisterEmailMutation = ({
-//     onSuccess: handleSuccess,
-//     onError: handleError,
-//   }: {
-//     onSuccess: (response: any) => void;
-//     onError: (status: number | undefined) => void;
-//   }) => {
-//     const { http, handleErrorAPIResponse, getStatus } = useClient();
-//     return useMutation(
-//       async (req: RegisterEmailRequest) => {
-//         const res = await http.postAsync<RegisterEmailRequest, any>('register_email', req);
-//         return res.data;
-//       },
-//       {
-//         onSuccess: handleSuccess,
-//         onError: (error) => {
-//           const status = getStatus(error);
-//           switch (status) {
-//             case HttpStatusCode.conflict:
-//               break;
-//             default:
-//               handleErrorAPIResponse(error);
-//               break;
-//           }
-//           handleError(status);
-//         },
-//       }
-//     );
-//   };
+export const useSigupMutation = () => {
+  const { http, handleErrorAPIResponse } = useClient();
+  return useMutation(
+    async (req: SignupRequest) => {
+      const res = await http.postAsync<SignupRequest, any>("signup", req);
+      return res.data;
+    },
+    {
+      onError: handleErrorAPIResponse,
+    }
+  );
+};
 
 export const useLoginMutation = ({
   onError: handleError,
@@ -90,7 +74,7 @@ export const useUsersQuery = (userId: string) => {
     [QueryKey.users, userId],
     async () => {
       const res = await http.getAsync<undefined, GetUserProfileResponse>(
-        'users'
+        "users"
       );
       return res.data;
     },
