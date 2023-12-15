@@ -5,6 +5,6 @@ export const jobFilter = [
     },
     __v: 0,
     jobExperince: ["2 + Years"],
-    jobType: [],
+    jobType: ["Internship", "Part Time"],
   },
 ];

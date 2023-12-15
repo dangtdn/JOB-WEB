@@ -7,11 +7,9 @@ import React from "react";
 const Company = () => {
   return (
     <div>
-      <header>
-        <Navbar />
-      </header>
+      <header>{/* <Navbar /> */}</header>
       <main className="flex min-h-screen flex-col items-center justify-between pt-12 !bg-light">
-        <Banner />
+        {/* <Banner /> */}
         <section className="pt-16 pb-20">
           <div className="container 2xl:px-0">
             <div className="xl:grid grid-cols-12 gap-6">

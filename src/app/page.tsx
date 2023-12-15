@@ -5,11 +5,11 @@ import { testimonialsData } from "@/data/testimonialsData";
 import Banner from "@/components/Banner/Banner";
 import Layout from "@/components/Layout/Layout";
 import Blogs from "@/components/Blogs/Blogs";
-import PopularCategories, { Categories } from "@/components/PopularCategories/PopularCategories";
+import PopularCategories from "@/components/PopularCategories/PopularCategories";
 import { jobs } from "@/utils/dummy-content/mongodb-collections/jobs";
 import RecentJob from "@/components/Job/RecentJob";
 import Testimonials from "@/components/testimonials/Testimonials";
-import getData from "@/utils/dummy-content/i"
+import { categories } from "@/utils/dummy-content/mongodb-collections/categories";
 
 const loadingCategory = [
   {
@@ -135,9 +135,8 @@ const loadingCategory = [
 ];
 
 const Home = () => {
-  const { } = getData();
   const totalCount = 0;
-  const categories: Categories[] = [...categories];
+  // const newCategories: Categories[] = [...categories];
 
   const CategoryData = ({
     categoryData,

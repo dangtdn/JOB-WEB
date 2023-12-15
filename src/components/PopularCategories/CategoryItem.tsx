@@ -4,8 +4,9 @@ import _ from "lodash";
 import React from "react";
 import ImageOpt from "../optimize/image";
 import { useRouter } from "next/navigation";
+import { Category } from "./PopularCategories";
 
-const CategoryItem = ({ data }: { data: any }) => {
+const CategoryItem = ({ data }: { data: Category }) => {
   const router = useRouter();
 
   const OnSearchHandler = (title: string) => {
@@ -25,14 +26,14 @@ const CategoryItem = ({ data }: { data: any }) => {
       onClick={() => OnSearchHandler(data?.categoryTitle)}
     >
       <div className="mb-3 flex justify-center transition-all group-hover:scale-125">
-        {data?.image && (
+        {data?.avatar && (
           <>
-            {_.includes(data.image, ".svg") ? (
+            {_.includes(data.avatar, ".svg") ? (
               <ImageOpt
                 width={60}
                 height={60}
                 noPlaceholder
-                src={data.image}
+                src={data.avatar}
                 className="rounded"
                 alt="icon"
               />
@@ -41,7 +42,7 @@ const CategoryItem = ({ data }: { data: any }) => {
                 width={60}
                 height={60}
                 className="rounded"
-                src={data.image}
+                src={data.avatar}
                 alt="icon"
               />
             )}
@@ -49,13 +50,13 @@ const CategoryItem = ({ data }: { data: any }) => {
         )}
       </div>
       <h4 className="text-xs text-black font-normal mb-2">
-        {_.capitalize(data.categoryTitle) || data.name}
+        {_.capitalize(data.categoryTitle) || data.categoryTitle}
       </h4>
       <p className="text-grayLight text-xss font-normal">
         {/* {data.count || data.subtitle} Jobs */}
-        {data.categoryTitle && data.count}
-        {!data.categoryTitle && data.subtitle} Job
-        {data.count > 1 && <span>s</span>}
+        {data.categoryTitle && data.categoryTitle}
+        {!data.categoryTitle && data.subCategory} Job
+        {data.subCategory.length > 1 && <span>s</span>}
       </p>
     </a>
     // </Link>

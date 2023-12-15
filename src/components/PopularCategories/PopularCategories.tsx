@@ -2,85 +2,85 @@ import Link from "next/link";
 import React from "react";
 import CategoryItem from "./CategoryItem";
 
-export const categoryList = [
-  {
-    name: "Accounting/Finance",
-    image: "./assets/img/top-c-1.svg",
-    subtitle: "1234 Jobs",
-  },
-  {
-    name: "Automotive Jobs",
-    image: "./assets/img/top-c-2.svg",
-    subtitle: "1234 Jobs",
-  },
-  {
-    name: "Bank/Non-Bank Fin.",
-    image: "./assets/img/top-c-3.svg",
-    subtitle: "1234 Jobs",
-  },
-  {
-    name: "Commercial/Supply",
-    image: "./assets/img/top-c-4.svg",
-    subtitle: "1234 Jobs",
-  },
-  {
-    name: "Construction/Facilities",
-    image: "./assets/img/top-c-5.svg",
-    subtitle: "1234 Jobs",
-  },
-  {
-    name: "Design/Creative",
-    image: "./assets/img/top-c-6.svg",
-    subtitle: "1234 Jobs",
-  },
-  {
-    name: "Education/Training",
-    image: "./assets/img/top-c-7.svg",
-    subtitle: "1234 Jobs",
-  },
-  {
-    name: "Engineer/Architects",
-    image: "./assets/img/top-c-8.svg",
-    subtitle: "1234 Jobs",
-  },
-  {
-    name: "Hospitality/Travel",
-    image: "./assets/img/top-c-9.svg",
-    subtitle: "1234 Jobs",
-  },
-  {
-    name: "Electrical/Repair",
-    image: "./assets/img/top-c-10.svg",
-    subtitle: "1234 Jobs",
-  },
-  {
-    name: "IT/Telecommunication",
-    image: "./assets/img/top-c-11.svg",
-    subtitle: "1234 Jobs",
-  },
-  {
-    name: "Marketing/Sales",
-    image: "./assets/img/top-c-12.svg",
-    subtitle: "1234 Jobs",
-  },
-];
-
-export type Categories = {
-  _id: {
+export type Category = {
+  _id?: {
     $oid: string;
   };
-  status: {
+  status?: {
     isFeatured: boolean;
     isActive: boolean;
   };
   categoryTitle: string;
   subCategory: string[];
   avatar: string;
-  iconUrl: string;
-  __v: number;
-}[];
+  iconUrl?: string;
+  __v?: number;
+};
 
-const PopularCategories = ({ data }: { data?: Categories }) => {
+export const categoryList: Category[] = [
+  {
+    categoryTitle: "Accounting/Finance",
+    avatar: "./assets/img/top-c-1.svg",
+    subCategory: ["1234 Jobs"],
+  },
+  {
+    categoryTitle: "Automotive Jobs",
+    avatar: "./assets/img/top-c-2.svg",
+    subCategory: ["1234 Jobs"],
+  },
+  {
+    categoryTitle: "Bank/Non-Bank Fin.",
+    avatar: "./assets/img/top-c-3.svg",
+    subCategory: ["1234 Jobs"],
+  },
+  {
+    categoryTitle: "Commercial/Supply",
+    avatar: "./assets/img/top-c-4.svg",
+    subCategory: ["1234 Jobs"],
+  },
+  {
+    categoryTitle: "Construction/Facilities",
+    avatar: "./assets/img/top-c-5.svg",
+    subCategory: ["1234 Jobs"],
+  },
+  {
+    categoryTitle: "Design/Creative",
+    avatar: "./assets/img/top-c-6.svg",
+    subCategory: ["1234 Jobs"],
+  },
+  {
+    categoryTitle: "Education/Training",
+    avatar: "./assets/img/top-c-7.svg",
+    subCategory: ["1234 Jobs"],
+  },
+  {
+    categoryTitle: "Engineer/Architects",
+    avatar: "./assets/img/top-c-8.svg",
+    subCategory: ["1234 Jobs"],
+  },
+  {
+    categoryTitle: "Hospitality/Travel",
+    avatar: "./assets/img/top-c-9.svg",
+    subCategory: ["1234 Jobs"],
+  },
+  {
+    categoryTitle: "Electrical/Repair",
+    avatar: "./assets/img/top-c-10.svg",
+    subCategory: ["1234 Jobs"],
+  },
+  {
+    categoryTitle: "IT/Telecommunication",
+    avatar: "./assets/img/top-c-11.svg",
+    subCategory: ["1234 Jobs"],
+  },
+  {
+    categoryTitle: "Marketing/Sales",
+    avatar: "./assets/img/top-c-12.svg",
+    subCategory: ["1234 Jobs"],
+  },
+];
+
+const PopularCategories = ({ data }: { data?: Category[] }) => {
   return (
     <section className="py-16 md:py-20 lg:py-25 !bg-light">
       <div className="container">

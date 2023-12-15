@@ -1,4 +1,4 @@
-[{
+export const messages = [{
   "_id": {
     "$oid": "623098c5679b0a1da34f5016"
   },

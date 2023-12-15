@@ -1,6 +1,7 @@
 "use client";
 
 import { categoryList } from "@/components/PopularCategories/PopularCategories";
+import { categories } from "@/utils/dummy-content/mongodb-collections/categories";
 import styled from "@emotion/styled";
 import _ from "lodash";
 import { useRouter } from "next/navigation";
@@ -30,7 +31,7 @@ export const JobsFilter = ({
   const [jobTypes, setJobTypes] = useState([]) as any;
   const [experienceYear, setExperience] = useState([]) as any;
   const { register, setValue, reset, watch } = useForm();
-  const categoryData = categoryList;
+  const categoryData = categories;
 
   //   /* ------------ auto complete filed if router query is not empty ------------ */
   //   useEffect(() => {
@@ -316,17 +317,17 @@ export const JobsFilter = ({
                 }}
                 onBlur={category_name.onBlur}
                 ref={category_name.ref}
-                className="border-0 focus:shadow-none py-3 bg-light text-xxs text-grayLight text-base font-normal focus-visible:white focus:outline-none"
+                className="border-0 focus:shadow-none p-3 w-full bg-light text-xxs text-grayLight text-base font-normal focus-visible:white focus:outline-none"
               >
                 <option value="">Select Categories</option>
                 {_.map(categoryData, (item, index) => {
                   return (
                     <option
-                      value={item.name}
+                      value={item.categoryTitle}
                       key={index}
-                      selected={item.name === category}
+                      selected={item.categoryTitle === category}
                     >
-                      {_.capitalize(item.name)}
+                      {_.capitalize(item.categoryTitle)}
                     </option>
                   );
                 })}

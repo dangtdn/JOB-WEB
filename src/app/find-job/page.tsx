@@ -9,17 +9,19 @@ import { JobsFilter } from "@/components/filter/search-filter";
 import SortBy from "@/components/filter/data-sort-by";
 import ImageOpt from "@/components/optimize/image";
 import Pagination from "@/components/pagination";
+import { jobFilter } from "@/utils/dummy-content/mongodb-collections/jobfilters";
+import JobItem from "@/components/Job/JobItem";
 
 export default function FindJob() {
-  const [jobTypes, setJobTypes] = useState([]);
-  const [jobExperience, setJobExperience] = useState([]);
+  const [jobTypes, setJobTypes] = useState(jobFilter[0].jobType);
+  const [jobExperience, setJobExperience] = useState(jobFilter[0].jobExperince);
 
   // get current pages
   const [currentPage, setCurrentPage] = useState(0);
   const [jobsPerPage] = useState(9);
   const [AllJobs, setAllJobs] = useState({
     totalJobCount: 0,
-    jobs: [],
+    jobs: jobs,
   });
   const data = jobs;
 
@@ -65,20 +67,18 @@ export default function FindJob() {
 													))}
 												</div>
 											)} */}
-                      {/* <div className="grid gap-6 xl:gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 justify-center">
-												{!error &&
-													!data?.loading &&
-													data?.jobs.map((item: any) => (
-														<JobItem key={item._id} item={item} />
-													))}
-											</div>
-											{!data?.loading && data?.jobs?.length === 0 && (
-												<div className="h-80 flex justify-center items-center text-center">
-													<h2 className="text-4xl font-semibold">
-														No Data Found ☹️
-													</h2>
-												</div>
-											)} */}
+                      <div className="grid gap-6 xl:gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 justify-center">
+                        {data?.map((item: any) => (
+                          <JobItem key={item._id} item={item} />
+                        ))}
+                      </div>
+                      {data.length === 0 && (
+                        <div className="h-80 flex justify-center items-center text-center">
+                          <h2 className="text-4xl font-semibold">
+                            No Data Found ☹️
+                          </h2>
+                        </div>
+                      )}
                       {AllJobs?.totalJobCount > jobsPerPage && (
                         <Pagination
                           totalCount={AllJobs?.totalJobCount}
