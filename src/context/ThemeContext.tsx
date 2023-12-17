@@ -7,6 +7,7 @@ import { useToasts } from "react-toast-notifications";
 import useUser from "../components/lib/user";
 import { authAxios, Axios } from "../components/utils/axiosKits";
 import { localRemove } from "../components/utils/localStore";
+import { categories } from "@/utils/dummy-content/mongodb-collections/categories";
 
 export const ThemeContext = createContext({});
 
@@ -42,6 +43,7 @@ const ThemeContextProvider = ({ children }: { children: any }) => {
   // } = useSWR(JobCategoryAPI, fetcher, {
   // 	revalidateOnFocus: false,
   // })
+  const categoryData = categories;
 
   // // user notification data fetching hooks
   // const { data: recentNotification, error: recentNotificationError } = useSWR(
@@ -146,7 +148,7 @@ const ThemeContextProvider = ({ children }: { children: any }) => {
         setRegisterPopup,
         lostPasswordShow,
         lostPasswordHandler,
-        // categoryData,
+        categoryData,
         // categoryError,
         // categoryMutate,
         logOutHandler,

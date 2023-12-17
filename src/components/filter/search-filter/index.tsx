@@ -1,7 +1,9 @@
 "use client";
 
 import { categoryList } from "@/components/PopularCategories/PopularCategories";
+import { ThemeContext } from "@/context/ThemeContext";
 import { categories } from "@/utils/dummy-content/mongodb-collections/categories";
+import { filters } from "@/utils/dummy-content/mongodb-collections/filters";
 import styled from "@emotion/styled";
 import _ from "lodash";
 import { useRouter } from "next/navigation";
@@ -317,16 +319,13 @@ export const JobsFilter = ({
                 }}
                 onBlur={category_name.onBlur}
                 ref={category_name.ref}
+                value={category}
                 className="border-0 focus:shadow-none p-3 w-full bg-light text-xxs text-grayLight text-base font-normal focus-visible:white focus:outline-none"
               >
                 <option value="">Select Categories</option>
                 {_.map(categoryData, (item, index) => {
                   return (
-                    <option
-                      value={item.categoryTitle}
-                      key={index}
-                      selected={item.categoryTitle === category}
-                    >
+                    <option value={item.categoryTitle} key={index}>
                       {_.capitalize(item.categoryTitle)}
                     </option>
                   );
@@ -523,360 +522,207 @@ export const JobsFilter = ({
   );
 };
 
-// export const CompanyFilter = ({ setCurrentPage }: { setCurrentPage: any }) => {
-//   const router = useRouter() as any;
-//   const { categoryData } = React.useContext(ThemeContext) as any;
-//   const [companyName, setCompanyName] = useState("") as any;
-//   const [industry, setIndustry] = React.useState("") as any;
-//   const [Size, setSize] = useState("") as any;
-//   const [Salary, setSalary] = React.useState("") as any;
-//   const [Revenue, setRevenue] = React.useState("") as any;
-//   const { register, setValue, reset, watch } = useForm({
-//     mode: "Blur" as any,
-//   });
-//   const { data: filterData, error: filterError } = useSWR(
-//     "/admin/filters/retrives",
-//     fetcher,
-//     {
-//       refreshInterval: 0,
-//     }
-//   );
+export const CompanyFilter = ({ setCurrentPage }: { setCurrentPage: any }) => {
+  const router = useRouter() as any;
+  const { categoryData } = React.useContext(ThemeContext) as any;
+  const [companyName, setCompanyName] = useState("") as any;
+  const [industry, setIndustry] = React.useState("") as any;
+  const [Size, setSize] = useState("") as any;
+  const [Salary, setSalary] = React.useState("") as any;
+  const [Revenue, setRevenue] = React.useState("") as any;
+  const { register, setValue, reset, watch } = useForm({
+    mode: "Blur" as any,
+  });
 
-//   /* ------------ auto complete filed if router query is not empty ------------ */
-//   useEffect(() => {
-//     const CallRouter = async () => {
-//       if (
-//         router.query.companyName &&
-//         (router.query.companyName !== "") !== companyName
-//       ) {
-//         await setValue("companyName", router.query.companyName);
-//         await setCompanyName(router.query.companyName);
-//       }
+  /* --------------- reset all form field on click reset button --------------- */
+  const ClearFilterHandler = () => {
+    setCompanyName("");
+    setIndustry("");
+    setSize("");
+    setSalary("");
+    setRevenue("");
+    reset();
+    router.push({
+      pathname: "/company",
+      query: {},
+    });
+  };
 
-//       if (!router.query.companyName && companyName !== "") {
-//         await setCompanyName("");
-//         await setValue("companyName", "");
-//       }
-//     };
-//     CallRouter();
-//   }, [router.query.companyName]);
+  /* ------------------- register jobTitle,location,category ------------------ */
+  const company_name = register("companyName");
+  const industry_name = register("industry");
+  const size = register("Size");
+  const salary = register("Salary");
+  const revenue = register("Revenue");
 
-//   useEffect(() => {
-//     const CallRouter = async () => {
-//       if (
-//         router.query.industry &&
-//         (router.query.industry !== "") !== industry
-//       ) {
-//         await setValue("industry", router.query.industry);
-//         await setIndustry(router.query.industry);
-//       }
-
-//       if (!router.query.industry && industry !== "") {
-//         await setIndustry("");
-//         await setValue("industry", "");
-//       }
-//     };
-//     CallRouter();
-//   }, [router.query.industry]);
-
-//   useEffect(() => {
-//     const CallRouter = async () => {
-//       if (
-//         router.query.companySize &&
-//         (router.query.companySize !== "") !== Size
-//       ) {
-//         await setValue("Size", router.query.companySize);
-//         await setSize(router.query.companySize);
-//       }
-
-//       if (!router.query.companySize && Size !== "") {
-//         await setSize("");
-//         await setValue("Size", "");
-//       }
-//     };
-//     CallRouter();
-//   }, [router.query.companySize]);
-
-//   useEffect(() => {
-//     const CallRouter = async () => {
-//       if (
-//         router.query.avarageSalary &&
-//         (router.query.avarageSalary !== "") !== Salary
-//       ) {
-//         await setValue("Salary", router.query.avarageSalary);
-//         await setSalary(router.query.avarageSalary);
-//       }
-
-//       if (!router.query.avarageSalary && Salary !== "") {
-//         await setSalary("");
-//         await setValue("Salary", "");
-//       }
-//     };
-//     CallRouter();
-//   }, [router.query.avarageSalary]);
-
-//   useEffect(() => {
-//     const CallRouter = async () => {
-//       if (router.query.revenue && (router.query.revenue !== "") !== Revenue) {
-//         await setValue("Revenue", router.query.revenue);
-//         await setRevenue(router.query.revenue);
-//       }
-
-//       if (!router.query.revenue && Revenue !== "") {
-//         await setRevenue("");
-//         await setValue("Revenue", "");
-//       }
-//     };
-//     CallRouter();
-//   }, [router.query.revenue]);
-
-//   /* --------- company name auto complete router query --------- */
-//   useEffect(() => {
-//     if (
-//       companyName !== "" ||
-//       (router.query.companyName && companyName === "")
-//     ) {
-//       const delayDebounceFn = setTimeout(() => {
-//         const values = {
-//           companyName: companyName,
-//           industry: industry,
-//           companySize: Size,
-//           avarageSalary: Salary,
-//           revenue: Revenue,
-//         };
-//         const filtered = _.pickBy(values, (value) => value !== "");
-//         router.push({
-//           pathname: "/company",
-//           query: filtered,
-//         });
-//       }, 1500);
-//       return () => clearTimeout(delayDebounceFn);
-//     }
-//   }, [companyName]);
-
-//   /* --------- industry,size,salary,revenue auto complete router query --------- */
-//   useEffect(() => {
-//     if (
-//       watch("industry") !== "" ||
-//       industry ||
-//       router.query.industry !== industry ||
-//       watch("Size") !== "" ||
-//       Size ||
-//       router.query.companySize !== Size ||
-//       watch("Salary") ||
-//       Salary ||
-//       router.query.avarageSalary !== Salary ||
-//       watch("Revenue") ||
-//       Revenue ||
-//       router.query.revenue !== Revenue
-//     ) {
-//       const values = {
-//         companyName: watch("companyName"),
-//         industry: watch("industry"),
-//         companySize: watch("Size"),
-//         avarageSalary: watch("Salary"),
-//         revenue: watch("Revenue"),
-//       };
-//       const filtered = _.pickBy(
-//         values,
-//         (value) => value !== "" && value !== null && value !== undefined
-//       );
-//       router.push({
-//         pathname: "/company",
-//         query: filtered,
-//       });
-//     }
-//   }, [industry, Size, Salary, Revenue, watch]);
-
-//   /* --------------- reset all form field on click reset button --------------- */
-//   const ClearFilterHandler = () => {
-//     setCompanyName("");
-//     setIndustry("");
-//     setSize("");
-//     setSalary("");
-//     setRevenue("");
-//     reset();
-//     router.push({
-//       pathname: "/company",
-//       query: {},
-//     });
-//   };
-
-//   /* ------------------- register jobTitle,location,category ------------------ */
-//   const company_name = register("companyName");
-//   const industry_name = register("industry");
-//   const size = register("Size");
-//   const salary = register("Salary");
-//   const revenue = register("Revenue");
-
-//   return (
-//     <div className="col-span-3">
-//       <div className="bg-white rounded-lg">
-//         <div className="px-6 py-3 flex items-center justify-between border-b border-gray">
-//           <p className="text-xs py-2 font-bold text-black leading-4">
-//             Search Filter
-//           </p>
-//           {(companyName !== "" ||
-//             industry !== "" ||
-//             Size !== "" ||
-//             Salary !== "" ||
-//             Revenue !== "") && (
-//             <button
-//               type="button"
-//               onClick={ClearFilterHandler}
-//               className="text-xss1 font-normal text-grayLight px-2.5 py-2 rounded-lg duration-300 ease-in-out hover:text-red-400 leading-4"
-//             >
-//               Clear
-//             </button>
-//           )}
-//         </div>
-//         <div className="p-6">
-//           <form className="">
-//             <div className="mb-4">
-//               <input
-//                 className="bg-light rounded-md w-full py-3 px-6 leading-tight focus:outline-none"
-//                 type="text"
-//                 {...company_name}
-//                 onChange={(e) => {
-//                   company_name.onChange(e); // method from hook form register
-//                   setCurrentPage(0); // current page reset to 0
-//                   setCompanyName(e.target.value); // your method
-//                 }}
-//                 onBlur={company_name.onBlur}
-//                 ref={company_name.ref}
-//                 placeholder="Company Name"
-//               />
-//             </div>
-//             <div className="jobCategorise pb-4">
-//               <Form.Select
-//                 aria-label="Default select example"
-//                 {...industry_name}
-//                 onChange={(e) => {
-//                   industry_name.onChange(e); // method from hook form register
-//                   setCurrentPage(0); // current page reset to 0
-//                   setIndustry(e.target.value); // your method
-//                 }}
-//                 onBlur={industry_name.onBlur}
-//                 ref={industry_name.ref}
-//                 className="border-0 focus:shadow-none py-3 bg-light text-xxs text-grayLight text-base font-normal focus-visible:white focus:outline-none"
-//               >
-//                 <option value="">Select Category</option>
-//                 {_.map(categoryData, (item) => {
-//                   return (
-//                     <option
-//                       key={item._id}
-//                       value={item.categoryTitle}
-//                       selected={item.categoryTitle === industry}
-//                     >
-//                       {item.categoryTitle}
-//                     </option>
-//                   );
-//                 })}
-//                 {categoryData?.length === 0 && (
-//                   <option value="" disabled>
-//                     No Category Found
-//                   </option>
-//                 )}
-//               </Form.Select>
-//             </div>
-//             <div className="jobCategorise pb-4">
-//               <Form.Select
-//                 aria-label="Default select example"
-//                 {...size}
-//                 onChange={(e) => {
-//                   size.onChange(e); // method from hook form register
-//                   setCurrentPage(0); // current page reset to 0
-//                   setSize(e.target.value); // your method
-//                 }}
-//                 onBlur={size.onBlur}
-//                 ref={size.ref}
-//                 className="border-0 focus:shadow-none py-3 bg-light text-xxs text-grayLight text-base font-normal focus-visible:white focus:outline-none"
-//               >
-//                 <option value="">Company Size</option>
-//                 {_.map(filterData?.companySize, (item, index) => {
-//                   return (
-//                     <option key={index} value={item} selected={item === Size}>
-//                       {item}
-//                     </option>
-//                   );
-//                 })}
-//                 {filterData?.companySize.length === 0 && (
-//                   <option value="" disabled>
-//                     No Size Found
-//                   </option>
-//                 )}
-//               </Form.Select>
-//             </div>
-//             <div className="jobCategorise pb-4">
-//               <Form.Select
-//                 aria-label="Default select example"
-//                 {...salary}
-//                 onChange={(e) => {
-//                   salary.onChange(e); // method from hook form register
-//                   setCurrentPage(0); // current page reset to 0
-//                   setSalary(e.target.value); // your method
-//                 }}
-//                 onBlur={salary.onBlur}
-//                 ref={salary.ref}
-//                 className="border-0 focus:shadow-none py-3 bg-light text-xxs text-grayLight text-base font-normal focus-visible:white focus:outline-none"
-//               >
-//                 <option value="">AVG. Salary</option>
-//                 {_.map(filterData?.avarageSalary, (item, key) => {
-//                   return (
-//                     <option key={key} value={item} selected={item === Salary}>
-//                       {item}
-//                     </option>
-//                   );
-//                 })}
-//                 {filterData?.avarageSalary.length === 0 && (
-//                   <option value="" disabled>
-//                     No Salary Found
-//                   </option>
-//                 )}
-//               </Form.Select>
-//             </div>
-//             <div className="jobCategorise pb-4">
-//               <Form.Select
-//                 aria-label="Default select example"
-//                 {...revenue}
-//                 onChange={(e) => {
-//                   revenue.onChange(e); // method from hook form register
-//                   setCurrentPage(0); // current page reset to 0
-//                   setRevenue(e.target.value); // your method
-//                 }}
-//                 onBlur={revenue.onBlur}
-//                 ref={revenue.ref}
-//                 className="border-0 focus:shadow-none py-3 bg-light text-xxs text-grayLight text-base font-normal focus-visible:white focus:outline-none"
-//               >
-//                 <option value="">Revenue</option>
-//                 {_.map(filterData?.revenue, (item, key) => {
-//                   return (
-//                     <option key={key} value={item} selected={item === Revenue}>
-//                       {item}
-//                     </option>
-//                   );
-//                 })}
-//                 {filterData?.revenue.length === 0 && (
-//                   <option value="" disabled>
-//                     No Revenue Found
-//                   </option>
-//                 )}
-//               </Form.Select>
-//             </div>
-//           </form>
-//           {/* <div className="text-center pt-2 pb-3">
-//             <button
-//               type="button"
-//               className="w-full bg-themePrimary text-white px-6 py-3 text-xs font-medium rounded-md hover:bg-black transition-all outline-none"
-//             >
-//               Search Company
-//             </button>
-//           </div> */}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
+  return (
+    <div className="col-span-3">
+      <div className="bg-white rounded-lg">
+        <div className="px-6 py-3 flex items-center justify-between border-b border-gray">
+          <p className="text-xs py-2 font-bold text-black leading-4">
+            Search Filter
+          </p>
+          {(companyName !== "" ||
+            industry !== "" ||
+            Size !== "" ||
+            Salary !== "" ||
+            Revenue !== "") && (
+            <button
+              type="button"
+              onClick={ClearFilterHandler}
+              className="text-xss1 font-normal text-grayLight px-2.5 py-2 rounded-lg duration-300 ease-in-out hover:text-red-400 leading-4"
+            >
+              Clear
+            </button>
+          )}
+        </div>
+        <div className="p-6">
+          <form className="">
+            <div className="mb-4">
+              <input
+                className="bg-light rounded-md w-full py-3 px-6 leading-tight focus:outline-none"
+                type="text"
+                {...company_name}
+                onChange={(e) => {
+                  company_name.onChange(e); // method from hook form register
+                  setCurrentPage(0); // current page reset to 0
+                  setCompanyName(e.target.value); // your method
+                }}
+                onBlur={company_name.onBlur}
+                ref={company_name.ref}
+                placeholder="Company Name"
+              />
+            </div>
+            <div className="jobCategorise pb-4">
+              <Form.Select
+                aria-label="Default select example"
+                {...industry_name}
+                onChange={(e) => {
+                  industry_name.onChange(e); // method from hook form register
+                  setCurrentPage(0); // current page reset to 0
+                  setIndustry(e.target.value); // your method
+                }}
+                onBlur={industry_name.onBlur}
+                ref={industry_name.ref}
+                value={industry}
+                className="border-0 focus:shadow-none py-3 bg-light text-xxs text-grayLight text-base font-normal focus-visible:white focus:outline-none"
+              >
+                <option value="">Select Category</option>
+                {_.map(categoryData, (item) => {
+                  return (
+                    <option key={item._id} value={item.categoryTitle}>
+                      {item.categoryTitle}
+                    </option>
+                  );
+                })}
+                {categoryData?.length === 0 && (
+                  <option value="" disabled>
+                    No Category Found
+                  </option>
+                )}
+              </Form.Select>
+            </div>
+            <div className="jobCategorise pb-4">
+              <Form.Select
+                aria-label="Default select example"
+                {...size}
+                onChange={(e) => {
+                  size.onChange(e); // method from hook form register
+                  setCurrentPage(0); // current page reset to 0
+                  setSize(e.target.value); // your method
+                }}
+                onBlur={size.onBlur}
+                ref={size.ref}
+                value={Size}
+                className="border-0 focus:shadow-none py-3 bg-light text-xxs text-grayLight text-base font-normal focus-visible:white focus:outline-none"
+              >
+                <option value="">Company Size</option>
+                {_.map(filters[0]?.companySize, (item, index) => {
+                  return (
+                    <option key={index} value={item}>
+                      {item}
+                    </option>
+                  );
+                })}
+                {filters[0]?.companySize.length === 0 && (
+                  <option value="" disabled>
+                    No Size Found
+                  </option>
+                )}
+              </Form.Select>
+            </div>
+            <div className="jobCategorise pb-4">
+              <Form.Select
+                aria-label="Default select example"
+                {...salary}
+                onChange={(e) => {
+                  salary.onChange(e); // method from hook form register
+                  setCurrentPage(0); // current page reset to 0
+                  setSalary(e.target.value); // your method
+                }}
+                onBlur={salary.onBlur}
+                ref={salary.ref}
+                value={Salary}
+                className="border-0 focus:shadow-none py-3 bg-light text-xxs text-grayLight text-base font-normal focus-visible:white focus:outline-none"
+              >
+                <option value="">AVG. Salary</option>
+                {_.map(filters[0]?.avarageSalary, (item, key) => {
+                  return (
+                    <option key={key} value={item}>
+                      {item}
+                    </option>
+                  );
+                })}
+                {filters[0]?.avarageSalary.length === 0 && (
+                  <option value="" disabled>
+                    No Salary Found
+                  </option>
+                )}
+              </Form.Select>
+            </div>
+            <div className="jobCategorise pb-4">
+              <Form.Select
+                aria-label="Default select example"
+                {...revenue}
+                onChange={(e) => {
+                  revenue.onChange(e); // method from hook form register
+                  setCurrentPage(0); // current page reset to 0
+                  setRevenue(e.target.value); // your method
+                }}
+                onBlur={revenue.onBlur}
+                ref={revenue.ref}
+                value={Revenue}
+                className="border-0 focus:shadow-none py-3 bg-light text-xxs text-grayLight text-base font-normal focus-visible:white focus:outline-none"
+              >
+                <option value="">Revenue</option>
+                {_.map(filters[0]?.revenue, (item, key) => {
+                  return (
+                    <option key={key} value={item}>
+                      {item}
+                    </option>
+                  );
+                })}
+                {filters[0]?.revenue.length === 0 && (
+                  <option value="" disabled>
+                    No Revenue Found
+                  </option>
+                )}
+              </Form.Select>
+            </div>
+          </form>
+          {/* <div className="text-center pt-2 pb-3">
+            <button
+              type="button"
+              className="w-full bg-themePrimary text-white px-6 py-3 text-xs font-medium rounded-md hover:bg-black transition-all outline-none"
+            >
+              Search Company
+            </button>
+          </div> */}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 // export const CandidateFilter = ({
 //   setCurrentPage,
@@ -1146,6 +992,7 @@ export const JobsFilter = ({
 //     </div>
 //   );
 // };
+
 const InputCheckBox = styled(Form.Check)`
   .form-check-input {
     width: 20px;

@@ -1,10 +1,12 @@
-import { useRouter } from "next/router";
+"use client";
+
 import React from "react";
 // import useSWR from "swr";
 import { localGet, localRemove } from "../utils/localStore";
 import fetcher from "./api-user";
 import { Loader } from "./loader";
 import { users } from "@/utils/dummy-content/mongodb-collections/Untitled";
+import { useRouter } from "next/navigation";
 
 export default function useUser() {
   // const { data, mutate, error } = useSWR("/users/retrives", fetcher);

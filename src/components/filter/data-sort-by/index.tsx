@@ -62,21 +62,14 @@ const SortBy = ({ totalCount }: { totalCount: any }) => {
             sort_by.onChange(e);
             handleChange(e);
           }}
+          value={sortBy}
           className="border-0 focus:shadow-none w-40 py-2 bg-light text-xxs text-grayLight text-base font-normal focus-visible:white focus:outline-none"
         >
-          <option value="" selected={sortBy === ""}>
-            Sort By
-          </option>
-          <option value="ascending" selected={sortBy === "ascending"}>
-            {_.capitalize("ascending")}
-          </option>
-          <option value="descending" selected={sortBy === "descending"}>
-            {_.capitalize("descending")}
-          </option>
+          <option value="">Sort By</option>
+          <option value="ascending">{_.capitalize("ascending")}</option>
+          <option value="descending">{_.capitalize("descending")}</option>
 
-          <option value="featured" selected={sortBy === "featured"}>
-            {_.capitalize("featured")}
-          </option>
+          <option value="featured">{_.capitalize("featured")}</option>
         </Form.Select>
       </div>
     </div>

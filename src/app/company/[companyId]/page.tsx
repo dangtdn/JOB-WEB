@@ -605,14 +605,14 @@ export default function JobDetail() {
 
   return (
     <div>
-      <header>
+      {/* <header>
         <Navbar />
       </header>
       <main className="flex min-h-screen flex-col items-center justify-center pt-12">
         <Banner />
         {renderBody()}
       </main>
-      <Footer />
+      <Footer /> */}
     </div>
   );
 }
