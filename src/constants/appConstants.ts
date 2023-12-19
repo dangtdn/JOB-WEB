@@ -19,6 +19,7 @@ export enum QueryKey {
   jobs = "jobs",
   job = "job",
   companies = "companies",
+  categories = "categories",
 }
 
 export enum ApiProxyBasePath {
