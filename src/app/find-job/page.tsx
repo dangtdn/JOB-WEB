@@ -54,22 +54,22 @@ export default function FindJob() {
                     <div className="col-span-9">
                       <SortBy totalCount={data.length} />
                       {/* {data?.loading && (
-												<div className="grid gap-6 xl:gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 justify-center">
-													{_.map(data.jobs, (item) => (
-														<div key={item.id}>
-															<ImageOpt
-																src={item.img}
-																alt="image"
-																width={315}
-																height={418}
-															/>
-														</div>
-													))}
-												</div>
-											)} */}
+                  <div className="grid gap-6 xl:gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 justify-center">
+                    {_.map(data.jobs, (item) => (
+                      <div key={item.id}>
+                        <ImageOpt
+                          src={item.img}
+                          alt="image"
+                          width={315}
+                          height={418}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )} */}
                       <div className="grid gap-6 xl:gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 justify-center">
-                        {data?.map((item: any) => (
-                          <JobItem key={item._id} item={item} />
+                        {data?.map((item, index) => (
+                          <JobItem key={index} item={item} />
                         ))}
                       </div>
                       {data.length === 0 && (

@@ -298,8 +298,10 @@ export default function JobDetails() {
                       </div>
                     </div>
                     <div className="grid">
-                      {user?._id === data?.user ? (
-                        <Link href={`/job/edit-job?active_id=${data?._id}`}>
+                      {user?._id.$oid === data?.user.$oid ? (
+                        <Link
+                          href={`/job/edit-job?active_id=${data?._id.$oid}`}
+                        >
                           <a className="py-2.5 block px-6 mb-2 leading-4 text-white bg-themePrimary rounded-md transition-all hover:bg-black hover:text-green">
                             Edit Job
                           </a>
@@ -514,11 +516,11 @@ export default function JobDetails() {
                         }}
                         type="file"
                       />
-                      {/* {errors?.image && (
+                      {errors?.image && (
                         <span className="text-red-500 text-xs italic">
-                          {errors?.image?.message}
+                          {errors?.image?.message as string}
                         </span>
-                      )} */}
+                      )}
                     </label>
                     <span className="text-xss1 text-themeLighter">
                       Maximum file size: 100 MB.

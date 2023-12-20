@@ -1,14 +1,48 @@
 import React from "react";
 import { Form } from "react-bootstrap";
 import ImageOpt from "../optimize/image";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import _ from "lodash";
+import { ThemeContext } from "@/context/ThemeContext";
 
 const Banner = ({
   totalCount,
   categories,
 }: {
   totalCount: any;
-  categories: any;
+  categories: {
+    _id: {
+      $oid: string;
+    };
+    status: {
+      isFeatured: boolean;
+      isActive: boolean;
+    };
+    categoryTitle: string;
+    subCategory: string[];
+    avatar: string;
+    iconUrl: string;
+    __v: number;
+  }[];
 }) => {
+  const { categoryData } = React.useContext(ThemeContext) as any;
+  const router = useRouter();
+  const { register, handleSubmit } = useForm({
+    mode: "onBlur",
+  });
+
+  const OnSubmitHandler = (data: any) => {
+    const values = {
+      jobTitle: data.jobTitle,
+      location: data.location,
+      category: data.category,
+    };
+    const filtered = _.pickBy(values, (value) => value !== "");
+
+    router.push("/find-job");
+  };
+
   return (
     <section
       className="py-16 md:py-20 lg:py-24 relative bg-cover bg-center bg-no-repeat"
@@ -16,7 +50,7 @@ const Banner = ({
     >
       <div
         className="absolute w-full h-full left-0 top-0 z-2"
-        style={{ backgroundColor: "rgba(0, 124, 50, 0.7)" }}
+        style={{ backgroundColor: "rgb(135 186 171 / 77%)" }}
       ></div>
       <div className="container">
         <div className="w-10/12 m-auto z-4 relative">
@@ -33,17 +67,16 @@ const Banner = ({
           </div>
           <div
             className="search-wrapper mt-10 p-2 rounded-2xl mb-10"
-            style={{ backgroundColor: "rgba(121, 184, 151, 0.5)" }}
+            style={{ backgroundColor: "#87baab" }}
           >
-            {/* <form onSubmit={handleSubmit(OnSubmitHandler)}> */}
-            <form>
+            <form onSubmit={handleSubmit(OnSubmitHandler)}>
               <div className="bg-white overflow-hidden rounded-xl  md:grid gap-7 lg:gap-10 grid-cols-8 xl:grid-cols-7 items-center">
                 <div className="col-span-2  px-4 md:px-0 border-r-2 border-gray h-full flex items-center">
                   <input
                     type="text"
                     className="w-full block !pr-3 py-4 border-b-2 border-gray md:border-0 md:py-4 focus:outline-none bg-left bg-no-repeat px-8 placeholder:text-deep"
                     placeholder="Job Title"
-                    // {...register('jobTitle')}
+                    {...register("jobTitle")}
                     style={{
                       backgroundImage: "url(assets/img/search.svg)",
                       backgroundPosition: "0 center",
@@ -55,7 +88,7 @@ const Banner = ({
                     type="text"
                     className="w-full block !pr-3 py-3 border-b-2 border-gray md:border-0 md:py-4 focus:outline-none bg-left bg-no-repeat px-8 placeholder:text-deep"
                     placeholder="Location"
-                    // {...register('location')}
+                    {...register("location")}
                     style={{
                       backgroundImage: "url(assets/img/map-pin.svg)",
                       backgroundPosition: "0 center",
@@ -65,15 +98,15 @@ const Banner = ({
                 <div className="col-span-2 px-4 md:!px-0">
                   <Form.Select
                     aria-label="Default select example"
-                    // {...register('category')}
+                    {...register("category")}
                     className="border-0 focus:shadow-none py-3 select2-init text-xxs text-deep font-normal focus-visible:white focus:outline-none"
                   >
                     <option value="">Select Categories</option>
-                    {/* {categories.map((item: any) => (
-                    <option value={item.categoryTitle} key={item._id}>
-                      {_.capitalize(item.categoryTitle)}
-                    </option>
-                  ))} */}
+                    {categories.map((item, index) => (
+                      <option value={item.categoryTitle} key={index}>
+                        {_.capitalize(item.categoryTitle)}
+                      </option>
+                    ))}
                   </Form.Select>
                 </div>
                 <div className="btn-banner px-4 md:!px-0 col-span-2 xl:col-span-1 text-center grid md:justify-end py-4 md:!py-2 lg:text-right mr-4">

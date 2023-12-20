@@ -1,21 +1,54 @@
-// import { AxiosRequestConfig } from 'axios'
-// import { AxiosRequestConfig } from 'axios'
-import { useRouter } from "next/router";
+"use client";
+
 import React, { createContext } from "react";
 import { useToasts } from "react-toast-notifications";
-// import useSWR from 'swr'
 import useUser from "../components/lib/user";
 import { authAxios, Axios } from "../components/utils/axiosKits";
 import { localRemove } from "../components/utils/localStore";
 import { categories } from "@/utils/dummy-content/mongodb-collections/categories";
+import { useRouter } from "next/navigation";
+import { Category } from "@/types/category";
 
-export const ThemeContext = createContext({});
+type ThemeContextType = {
+  apiEndPoint?: string;
+  body?: false | HTMLBodyElement | null;
+  windowWidth?: number | false;
+  windowHeight?: number | false;
+  isMobileMenuOpen?: boolean;
+  setIsMobileMenuOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+  isSideNavOpen?: boolean;
+  setIsSideNavOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+  LoginPopup?: boolean;
+  LoginPopupHandler?: () => void;
+  setLoginPopup?: React.Dispatch<React.SetStateAction<boolean>>;
+  RegisterPopup?: boolean;
+  RegisterPopupHandler?: () => void;
+  setRegisterPopup?: React.Dispatch<React.SetStateAction<boolean>>;
+  lostPasswordShow?: boolean;
+  lostPasswordHandler?: () => void;
+  categoryData?: {
+    _id: {
+      $oid: string;
+    };
+    status: {
+      isFeatured: boolean;
+      isActive: boolean;
+    };
+    categoryTitle: string;
+    subCategory: string[];
+    avatar: string;
+    iconUrl: string;
+    __v: number;
+  }[];
+  // categoryError,
+  // categoryMutate,
+  logOutHandler?: () => Promise<void>;
+  frontendLogOutHandler?: () => Promise<void>;
+  // recentNotification,
+  // recentNotificationError,
+};
 
-// const fetcher = (url: AxiosRequestConfig<any>) =>
-// 	Axios(url).then((res: any) => res.data.data)
-// const authFetcher = (url: AxiosRequestConfig<any>) =>
-// 	authAxios(url).then((res: any) => res.data.data.notification)
-// const JobCategoryAPI = '/jobs/categories/retrives'
+export const ThemeContext = createContext<ThemeContextType>({});
 
 const ThemeContextProvider = ({ children }: { children: any }) => {
   const apiEndPoint = `/api/v1`;

@@ -6,7 +6,7 @@ import {
   GetCategoriesResponse,
   PostCategoryRequest,
   PutCategoryRequest,
-} from "@/types/categories";
+} from "@/types/category";
 
 export const useCategoriesQuery = () => {
   const { http, handleErrorAPIResponse } = useClient();

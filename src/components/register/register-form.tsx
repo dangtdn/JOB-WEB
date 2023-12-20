@@ -99,7 +99,6 @@ const RegisterForm = () => {
               <Label className="w-6/12">
                 <input
                   type="radio"
-                  name="user_role"
                   id="freelancer-radio"
                   defaultValue="candidate"
                   className="hidden absolute"
@@ -116,7 +115,6 @@ const RegisterForm = () => {
               <Label className="w-6/12">
                 <input
                   type="radio"
-                  name="user_role"
                   id="employer-radio"
                   defaultValue="employer"
                   {...register("freelancer_role")}
@@ -212,7 +210,7 @@ const RegisterForm = () => {
               />
               {errors?.password && (
                 <span className="text-red-600 text-xss italic">
-                  {/* {errors?.password?.message} */}
+                  {errors?.password?.message as string}
                 </span>
               )}
             </div>
@@ -240,7 +238,7 @@ const RegisterForm = () => {
               />
               {errors?.confirm_password && (
                 <span className="text-red-600 text-xss italic">
-                  {/* {errors?.confirm_password?.message} */}
+                  {errors?.confirm_password?.message as string}
                 </span>
               )}
             </div>

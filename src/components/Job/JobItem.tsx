@@ -12,7 +12,7 @@ const JobItem = ({ item }: { item: any }) => {
   const currCompanyLogo =
     companies.find((company) => company._id.$oid === item.company.$oid)?.logo ??
     "";
-  console.log("currCompanyLogo: ", currCompanyLogo);
+
   return (
     <div
       className={`overflow-hidden relative h-full grid content-between px-6 !pt-4 pb-6 ${

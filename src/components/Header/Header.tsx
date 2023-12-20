@@ -15,18 +15,22 @@ const Menu = [
   {
     name: "Home",
     link: "/",
+    pathName: "",
   },
   {
     name: "Find Job",
     link: "/find-job",
+    pathName: "find-job",
   },
   {
     name: "Company",
     link: "/company",
+    pathName: "company",
   },
   {
     name: "Contact Us",
     link: "/contact",
+    pathName: "contact",
   },
 ];
 
@@ -34,18 +38,22 @@ const DashboardMenuList = [
   {
     name: "Dashboard",
     link: "/dashboard",
+    pathName: "",
   },
   {
     name: "Job Alerts",
     link: "/job/job-alerts",
+    pathName: "",
   },
   {
     name: "Manages Resumes",
     link: "/resume/manages-resumes",
+    pathName: "",
   },
   {
     name: "My Profile",
     link: "/my-profile",
+    pathName: "",
   },
 ];
 
@@ -53,18 +61,22 @@ const EmployerMenuList = [
   {
     name: "Dashboard",
     link: "/dashboard",
+    pathName: "",
   },
   {
     name: "Manges Jobs",
     link: "/job/manages-jobs",
+    pathName: "",
   },
   {
     name: "Manages Companies",
     link: "/company/manages-companies",
+    pathName: "",
   },
   {
     name: "My Profile",
     link: "/my-profile",
+    pathName: "",
   },
 ];
 
@@ -72,22 +84,27 @@ const AdminMenuList = [
   {
     name: "Dashboard",
     link: "/dashboard",
+    pathName: "",
   },
   {
     name: "Manges Jobs",
     link: "/job/manages-jobs",
+    pathName: "",
   },
   {
     name: "Manages Companies",
     link: "/company/manages-companies",
+    pathName: "",
   },
   {
     name: "Manages Resumes",
     link: "/resume/manages-resumes",
+    pathName: "",
   },
   {
     name: "My Profile",
     link: "/my-profile",
+    pathName: "",
   },
 ];
 
@@ -98,7 +115,7 @@ const Header = ({ IsLogIn }: { IsLogIn: any }) => {
   ) as any;
   // const { user, loggedIn } = useUser();
   const userData = users[0];
-  const loggedIn = true;
+  const loggedIn = false;
   const [UserMenu, setUserMenu] = React.useState(false);
   const pathName = usePathname();
   let path = pathName.split("/") as any;
@@ -144,7 +161,7 @@ const Header = ({ IsLogIn }: { IsLogIn: any }) => {
                     <Link
                       href={item.link}
                       className={`${
-                        path === item.link
+                        path === item.pathName
                           ? "text-themePrimary"
                           : "text-arsenic"
                       } text-xs  font-medium transition-all hover:text-themePrimary`}
@@ -229,14 +246,14 @@ const Header = ({ IsLogIn }: { IsLogIn: any }) => {
                       {path === "/login" || path === "/sign-up" ? (
                         <Link
                           href={"/login"}
-                          className="block bg-black text-white px-3 py-2 text-xs font-medium rounded-md hover:!bg-themePrimary transition-all outline-none"
+                          className="block bg-arsenic text-white px-3 py-2 text-xs font-medium rounded-md hover:!bg-themePrimary transition-all outline-none"
                         >
                           Sign In
                         </Link>
                       ) : (
                         <button
                           onClick={LoginPopupHandler}
-                          className="block bg-black text-white px-3 py-2 text-xs font-medium rounded-md hover:!bg-themePrimary transition-all outline-none"
+                          className="block bg-arsenic text-white px-3 py-2 text-xs font-medium rounded-md hover:!bg-themePrimary transition-all outline-none"
                         >
                           Sign In
                         </button>
@@ -247,14 +264,14 @@ const Header = ({ IsLogIn }: { IsLogIn: any }) => {
                       {path === "/login" || path === "/sign-up" ? (
                         <Link
                           href={"/sign-up"}
-                          className="block bg-themePrimary text-white px-3 py-2 text-xs font-medium rounded-md hover:bg-black transition-all outline-none"
+                          className="block bg-themePrimary text-white px-3 py-2 text-xs font-medium rounded-md hover:bg-arsenic transition-all outline-none"
                         >
                           Sign Up
                         </Link>
                       ) : (
                         <button
                           onClick={RegisterPopupHandler}
-                          className="block bg-themePrimary text-white px-3 py-2 text-xs font-medium rounded-md hover:bg-black transition-all outline-none"
+                          className="block bg-themePrimary text-white px-3 py-2 text-xs font-medium rounded-md hover:bg-arsenic transition-all outline-none"
                         >
                           Sign Up
                         </button>
@@ -339,7 +356,7 @@ const Header = ({ IsLogIn }: { IsLogIn: any }) => {
                   <Link
                     href={item.link}
                     className={`${
-                      path === item.link
+                      path === item.pathName
                         ? "text-themePrimary !border-themePrimary"
                         : "text-light"
                     } text-xxs py-3.5 px-4 border-b border-deep w-full transition-all hover:text-themePrimary hover:!border-themePrimary`}

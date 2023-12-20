@@ -2,15 +2,21 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { QueryKey } from "@/constants/appConstants";
 import { useClient } from "@/lib/http/useClient";
 import { getSettingCacheTime } from "@/lib/query/client";
-import { GetJobsResponse, PostJobRequest, PutJobRequest } from "@/types/jobs";
+import {
+  GetCompaniesResponse,
+  PostCompanyRequest,
+  PutCompanyRequest,
+} from "@/types/company";
 
-export const useJobsQuery = () => {
+export const useCompaniesQuery = () => {
   const { http, handleErrorAPIResponse } = useClient();
   return useQuery(
-    [QueryKey.categories],
+    [QueryKey.companies],
     async () => {
-      const res = await http.getAsync<undefined, GetJobsResponse>("jobs");
-      return res.data.jobs;
+      const res = await http.getAsync<undefined, GetCompaniesResponse>(
+        "companies"
+      );
+      return res.data.companies;
     },
     {
       onError: handleErrorAPIResponse,
@@ -19,12 +25,12 @@ export const useJobsQuery = () => {
   );
 };
 
-export const useCreateJobMutation = () => {
+export const useCreateCompanyMutation = () => {
   const { http, handleErrorAPIResponse } = useClient();
   return useMutation(
-    async (req: PostJobRequest) => {
-      const res = await http.postAsync<PostJobRequest, undefined>(
-        "admin/job/create",
+    async (req: PostCompanyRequest) => {
+      const res = await http.postAsync<PostCompanyRequest, undefined>(
+        "admin/company/create",
         req
       );
       return res.data;
@@ -35,12 +41,12 @@ export const useCreateJobMutation = () => {
   );
 };
 
-export const useUpdateJobMutation = () => {
+export const useUpdateCompanyMutation = () => {
   const { http, handleErrorAPIResponse } = useClient();
   return useMutation(
-    async (req: PutJobRequest) => {
-      const res = await http.putAsync<PutJobRequest, undefined>(
-        `/admin/job/update/${req._id}`,
+    async (req: PutCompanyRequest) => {
+      const res = await http.putAsync<PutCompanyRequest, undefined>(
+        `/admin/company/update/${req._id}`,
         req
       );
       return res.data;
@@ -51,12 +57,12 @@ export const useUpdateJobMutation = () => {
   );
 };
 
-export const useDeleteJobMutation = () => {
+export const useDeleteCompanyMutation = () => {
   const { http, handleErrorAPIResponse } = useClient();
   return useMutation(
-    async (jobId: string) => {
+    async (companyId: string) => {
       const res = await http.deleteAsync<undefined, undefined>(
-        `/admin/job/delete/${jobId}`,
+        `/admin/company/delete/${companyId}`,
         undefined
       );
       return res.data;

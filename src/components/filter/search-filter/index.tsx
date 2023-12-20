@@ -605,12 +605,12 @@ export const CompanyFilter = ({ setCurrentPage }: { setCurrentPage: any }) => {
                 onBlur={industry_name.onBlur}
                 ref={industry_name.ref}
                 value={industry}
-                className="border-0 focus:shadow-none py-3 bg-light text-xxs text-grayLight text-base font-normal focus-visible:white focus:outline-none"
+                className="border-0 focus:shadow-none p-3 w-full bg-light text-xxs text-grayLight text-base font-normal focus-visible:white focus:outline-none"
               >
                 <option value="">Select Category</option>
-                {_.map(categoryData, (item) => {
+                {_.map(categoryData, (item, index) => {
                   return (
-                    <option key={item._id} value={item.categoryTitle}>
+                    <option key={index} value={item.categoryTitle}>
                       {item.categoryTitle}
                     </option>
                   );
@@ -634,7 +634,7 @@ export const CompanyFilter = ({ setCurrentPage }: { setCurrentPage: any }) => {
                 onBlur={size.onBlur}
                 ref={size.ref}
                 value={Size}
-                className="border-0 focus:shadow-none py-3 bg-light text-xxs text-grayLight text-base font-normal focus-visible:white focus:outline-none"
+                className="border-0 focus:shadow-none p-3 w-full bg-light text-xxs text-grayLight text-base font-normal focus-visible:white focus:outline-none"
               >
                 <option value="">Company Size</option>
                 {_.map(filters[0]?.companySize, (item, index) => {
@@ -663,7 +663,7 @@ export const CompanyFilter = ({ setCurrentPage }: { setCurrentPage: any }) => {
                 onBlur={salary.onBlur}
                 ref={salary.ref}
                 value={Salary}
-                className="border-0 focus:shadow-none py-3 bg-light text-xxs text-grayLight text-base font-normal focus-visible:white focus:outline-none"
+                className="border-0 focus:shadow-none p-3 w-full bg-light text-xxs text-grayLight text-base font-normal focus-visible:white focus:outline-none"
               >
                 <option value="">AVG. Salary</option>
                 {_.map(filters[0]?.avarageSalary, (item, key) => {
@@ -692,7 +692,7 @@ export const CompanyFilter = ({ setCurrentPage }: { setCurrentPage: any }) => {
                 onBlur={revenue.onBlur}
                 ref={revenue.ref}
                 value={Revenue}
-                className="border-0 focus:shadow-none py-3 bg-light text-xxs text-grayLight text-base font-normal focus-visible:white focus:outline-none"
+                className="border-0 focus:shadow-none p-3 w-full bg-light text-xxs text-grayLight text-base font-normal focus-visible:white focus:outline-none"
               >
                 <option value="">Revenue</option>
                 {_.map(filters[0]?.revenue, (item, key) => {

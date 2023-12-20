@@ -9,21 +9,20 @@ const jobs = [
     img: "/assets/img/loader/job_loader.svg",
   },
   {
-    id: 1,
+    id: 2,
     img: "/assets/img/loader/job_loader.svg",
   },
   {
-    id: 1,
+    id: 3,
     img: "/assets/img/loader/job_loader.svg",
   },
   {
-    id: 1,
+    id: 4,
     img: "/assets/img/loader/job_loader.svg",
   },
 ];
 
 const RelatedJobs = ({ data }: { data: any }) => {
-  console.log("data: ", data);
   return (
     <section className="py-28 bg-white">
       <div className="container">

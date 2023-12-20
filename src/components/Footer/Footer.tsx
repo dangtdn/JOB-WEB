@@ -75,7 +75,7 @@ const Footer = () => {
   return (
     <>
       {/* Footer Component */}
-      <footer className="bg-black overflow-hidden">
+      <footer className="bg-arsenic overflow-hidden">
         <div className="container">
           <div className="md:grid gap-8 md:grid-cols-12 pt-16 pb-14">
             <div className="xl:col-span-4 lg:col-span-4 md:col-span-12 mb-10 xl:mb-0 xl:pr-10">
