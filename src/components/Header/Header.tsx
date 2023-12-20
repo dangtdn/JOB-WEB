@@ -10,6 +10,7 @@ import ImageOpt from "../optimize/image";
 import { ThemeContext } from "@/context/ThemeContext";
 // import useUser from "../lib/user";
 import { users } from "@/utils/dummy-content/mongodb-collections/Untitled";
+import useSticky from "@/hooks/useSticky";
 
 const Menu = [
   {
@@ -109,6 +110,7 @@ const AdminMenuList = [
 ];
 
 const Header = ({ IsLogIn }: { IsLogIn: any }) => {
+  const { stickyRef, sticky } = useSticky();
   const [show, setShow] = useState(false);
   const { LoginPopupHandler, RegisterPopupHandler } = React.useContext(
     ThemeContext
@@ -131,7 +133,10 @@ const Header = ({ IsLogIn }: { IsLogIn: any }) => {
   return (
     <>
       {/* Header Component */}
-      <header className="shadow-sm">
+      <header
+        ref={stickyRef}
+        className={`shadow-sm ${sticky ? "sticky-header shadow-md" : ""}`}
+      >
         <nav className="container py-2.5 bg-white">
           <div className="flex items-center justify-between">
             <div className="flex items-center">

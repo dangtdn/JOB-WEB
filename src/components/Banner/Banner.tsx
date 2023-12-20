@@ -50,7 +50,7 @@ const Banner = ({
     >
       <div
         className="absolute w-full h-full left-0 top-0 z-2"
-        style={{ backgroundColor: "rgb(135 186 171 / 77%)" }}
+        style={{ backgroundColor: "#a6a5dea6" }}
       ></div>
       <div className="container">
         <div className="w-10/12 m-auto z-4 relative">
@@ -67,7 +67,7 @@ const Banner = ({
           </div>
           <div
             className="search-wrapper mt-10 p-2 rounded-2xl mb-10"
-            style={{ backgroundColor: "#87baab" }}
+            style={{ backgroundColor: "#A6A5DE" }}
           >
             <form onSubmit={handleSubmit(OnSubmitHandler)}>
               <div className="bg-white overflow-hidden rounded-xl  md:grid gap-7 lg:gap-10 grid-cols-8 xl:grid-cols-7 items-center">

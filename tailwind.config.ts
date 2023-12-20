@@ -17,7 +17,7 @@ const config: Config = {
         center: true,
       },
       colors: {
-        themePrimary: "#b27092",
+        themePrimary: "#8A84E2",
         themeSecond: "#87baab",
         themeLighterAlt: "#f7f8fa",
         themeLighter: "#B8B9BB",
