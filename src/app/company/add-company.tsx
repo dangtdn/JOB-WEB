@@ -1,4 +1,5 @@
 import Layout from "@/components/Layout/Layout";
+import AddCompanyForm from "@/components/dashboard/form/add-company-form";
 import useUser, { UserGoBack, UserNotLogin } from "@/components/lib/user";
 import Head from "next/head";
 import React from "react";

@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactPaginate from 'react-paginate'
-import Image from '../../optimize/image'
 
 const Pagination = ({
 	totalCount,
