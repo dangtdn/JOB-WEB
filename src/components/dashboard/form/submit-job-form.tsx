@@ -5,7 +5,7 @@ import Link from "next/link";
 import Router from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useToasts } from "react-toast-notifications";
+import { toast } from "react-toastify";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { LoaderGrowing } from "../../lib/loader";
 import ImageOpt from "../../optimize/image";
@@ -55,7 +55,7 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
   const jobForm = companyName ? false : (true as boolean);
   const [loading, setLoading] = React.useState(false);
   // const { mutate } = useSWRConfig()
-  const { addToast } = useToasts();
+  // const { addToast } = useToasts();
 
   // register submit job form
   const {

@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useToasts } from "react-toast-notifications";
+import { toast } from "react-toastify";
 import { ThemeContext } from "../../context/ThemeContext";
 import { Axios } from "../utils/axiosKits";
 
@@ -9,7 +9,7 @@ const PopupRegister = () => {
   const { RegisterPopup, RegisterPopupHandler, LoginPopupHandler } =
     React.useContext(ThemeContext) as any;
   const [CurrentPage, setCurrentPage] = React.useState(1);
-  const { addToast } = useToasts();
+  // const { addToast } = useToasts();
 
   const {
     register,

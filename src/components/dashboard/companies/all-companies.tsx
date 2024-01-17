@@ -11,7 +11,7 @@ import {
   RiStarFill,
   RiStarHalfLine,
 } from "react-icons/ri";
-import { useToasts } from "react-toast-notifications";
+import { toast } from "react-toastify";
 import { LoaderGrowing } from "../../lib/loader";
 import useUser from "../../lib/user";
 import ImageOpt from "../../optimize/image";
@@ -34,7 +34,7 @@ const AllCompanies = () => {
   const data = companies;
   const error = false;
   const [loading, setLoading] = React.useState(false);
-  const { addToast } = useToasts();
+  // const { addToast } = useToasts();
   const { user, isAdmin } = useUser();
 
   // delete category function here

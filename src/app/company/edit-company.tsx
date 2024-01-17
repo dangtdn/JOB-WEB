@@ -6,7 +6,7 @@ import Head from "next/head";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useToasts } from "react-toast-notifications";
+import { toast } from "react-toastify";
 
 // const fetcher = (url: string) =>
 // 	authAxios(url).then((res) => res.data.data.company)
@@ -57,7 +57,6 @@ const EditCompany = () => {
     },
   });
   //   const { mutate } = useSWRConfig();
-  const { addToast } = useToasts();
 
   React.useEffect(() => {
     if (data && !isDirty) {

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useToasts } from "react-toast-notifications";
+import { toast } from "react-toastify";
 import { Axios } from "../utils/axiosKits";
 import { localGet, localRemove, localSave } from "../utils/localStore";
 import { useRouter } from "next/navigation";
@@ -19,7 +19,7 @@ const LoginForm = () => {
     formState: { errors, isSubmitting },
   } = useForm();
   const router = useRouter();
-  const { addToast } = useToasts();
+  // const { addToast } = useToasts();
 
   React.useEffect(() => {
     const local = localGet("user_login_info");

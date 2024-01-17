@@ -1,7 +1,7 @@
 import Router from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useToasts } from "react-toast-notifications";
+import { toast } from "react-toastify";
 import ImageOpt from "../../optimize/image";
 import { authAxios } from "../../utils/axiosKits";
 
@@ -15,7 +15,7 @@ const AddCompanyForm = () => {
     formState: { errors, isSubmitting },
   } = useForm();
   // const { mutate } = useSWRConfig()
-  const { addToast } = useToasts();
+  // const { addToast } = useToasts();
 
   // submit form handler
   const submitHandler = async (data: any) => {

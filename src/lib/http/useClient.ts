@@ -2,10 +2,10 @@ import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
 import { getApiCoreBasePath } from "./endpoints";
 import client from "../axios/client";
-import { useToasts } from "react-toast-notifications";
+import { toast } from "react-toastify";
 
 export const useClient = () => {
-  const { addToast } = useToasts();
+  // const { addToast } = useToasts();
 
   const getAsync = <Req, Res>(
     path: string,

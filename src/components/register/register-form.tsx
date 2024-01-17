@@ -2,14 +2,14 @@ import styled from "@emotion/styled";
 import Link from "next/link";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useToasts } from "react-toast-notifications";
+import { toast } from "react-toastify";
 import { Axios } from "../utils/axiosKits";
 import { useRouter } from "next/navigation";
 
 const RegisterForm = () => {
   const [CurrentPage, setCurrentPage] = React.useState(1);
   const [loading, setLoading] = React.useState(false);
-  const { addToast } = useToasts();
+  // const { addToast } = useToasts();
   const router = useRouter();
 
   const {

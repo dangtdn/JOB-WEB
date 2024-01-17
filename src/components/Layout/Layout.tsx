@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import { ToastProvider } from "react-toast-notifications";
+import { ToastContainer } from "react-toastify";
 import PopupLogin from "@/components/register/popup-login";
 import PopupRegister from "@/components/register/popup-register";
 import LostPassword from "@/components/register/lost-password";
@@ -12,16 +12,15 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const isLogIn = false;
   return (
     <>
-      <ToastProvider>
-        <ThemeContext>
-          <Header IsLogIn={isLogIn} />
-          {children}
-          <Footer />
-          <PopupLogin />
-          <PopupRegister />
-          <LostPassword />
-        </ThemeContext>
-      </ToastProvider>
+      <ThemeContext>
+        <Header IsLogIn={isLogIn} />
+        {children}
+        <ToastContainer />
+        <Footer />
+        <PopupLogin />
+        <PopupRegister />
+        <LostPassword />
+      </ThemeContext>
     </>
   );
 };

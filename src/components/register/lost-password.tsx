@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useToasts } from "react-toast-notifications";
+import { toast } from "react-toastify";
 import { ThemeContext } from "../../context/ThemeContext";
 import PopupModule from "../lib/popup-modul";
 import { Axios } from "../utils/axiosKits";
@@ -8,7 +8,7 @@ import { Axios } from "../utils/axiosKits";
 const LostPassword = () => {
   const { lostPasswordShow, lostPasswordHandler } =
     React.useContext(ThemeContext);
-  const { addToast } = useToasts();
+  // const { addToast } = useToasts();
   const [currentStep, setCurrentStep] = React.useState(1);
   const {
     register,

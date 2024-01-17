@@ -7,10 +7,10 @@ import PageTitle from "@/components/page-title";
 import Head from "next/head";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useToasts } from "react-toast-notifications";
+import { toast } from "react-toastify";
 
 export default function ContactUs() {
-  const { addToast } = useToasts();
+  // const { addToast } = useToasts();
   const [successMessage, setSuccessMessage] = React.useState("");
   const {
     register,
@@ -38,17 +38,17 @@ export default function ContactUs() {
       //   }
       // });
     } catch (error: any) {
-      if (error?.response?.data) {
-        addToast(error.response.data.message, {
-          appearance: "error",
-          autoDismiss: true,
-        });
-      } else {
-        addToast(error.message, {
-          appearance: "error",
-          autoDismiss: true,
-        });
-      }
+      // if (error?.response?.data) {
+      //   addToast(error.response.data.message, {
+      //     appearance: "error",
+      //     autoDismiss: true,
+      //   });
+      // } else {
+      //   addToast(error.message, {
+      //     appearance: "error",
+      //     autoDismiss: true,
+      //   });
+      // }
     }
   };
 

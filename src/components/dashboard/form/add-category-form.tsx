@@ -2,7 +2,7 @@ import { capitalize } from "lodash";
 import Router from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useToasts } from "react-toast-notifications";
+import { toast } from "react-toastify";
 import ImageOpt from "../../optimize/image";
 import { authAxios } from "../../utils/axiosKits";
 
@@ -20,7 +20,7 @@ const AddCategoryForm = () => {
     mode: "onChange",
   }) as any;
 
-  const { addToast } = useToasts();
+  // const { addToast } = useToasts();
 
   const onSubmitHandler = (data: any) => {
     const formData = new FormData();

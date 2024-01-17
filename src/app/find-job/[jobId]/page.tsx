@@ -5,7 +5,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { FacebookShareButton, TwitterShareButton } from "react-share";
-import { useToasts } from "react-toast-notifications";
+import { toast } from "react-toastify";
 // import sweetAlert from "sweetalert";
 import { jobs } from "@/utils/dummy-content/mongodb-collections/jobs";
 import { jobApplies } from "@/utils/dummy-content/mongodb-collections/jobapplies";
@@ -54,7 +54,6 @@ export default function JobDetails() {
   const [bookmark, setBookmark] = React.useState(false);
   const { LoginPopupHandler } = React.useContext(ThemeContext) as any;
   const [loading, setLoading] = React.useState(false);
-  const { addToast } = useToasts();
   // const { mutate } = useSWRConfig();
   const [FileName, setFileName] = React.useState();
   const {

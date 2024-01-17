@@ -2,7 +2,7 @@ import React from "react";
 import { Col, Row } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { FaCamera } from "react-icons/fa";
-import { useToasts } from "react-toast-notifications";
+import { toast } from "react-toastify";
 // import { useSWRConfig } from "swr";
 import { LoaderGrowing } from "../../lib/loader";
 import Image from "../../optimize/image";
@@ -11,7 +11,7 @@ import { authAxios } from "../../utils/axiosKits";
 const ProfileBox = ({ data }: { data: any }) => {
   const [photoImage, setPhotoImage] = React.useState(null) as any;
   //   const { mutate } = useSWRConfig();
-  const { addToast } = useToasts();
+  // const { addToast } = useToasts();
   const {
     register,
     handleSubmit,

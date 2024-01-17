@@ -8,7 +8,7 @@ import "slick-carousel/slick/slick-theme.css";
 // React Skeleton CSS
 import "react-loading-skeleton/dist/skeleton.css";
 import ThemeContext from "../src/context/ThemeContext";
-import { ToastProvider } from "react-toast-notifications";
+import { ToastProvider } from "react-toastify";
 import Head from "next/head";
 import _ from "lodash";
 import React from "react";

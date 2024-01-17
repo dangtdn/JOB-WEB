@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext } from "react";
-import { useToasts } from "react-toast-notifications";
+import { toast } from "react-toastify";
 import useUser from "../components/lib/user";
 import { authAxios, Axios } from "../components/utils/axiosKits";
 import { localRemove } from "../components/utils/localStore";
@@ -85,7 +85,7 @@ const ThemeContextProvider = ({ children }: { children: any }) => {
   // )
 
   const router = useRouter();
-  const { addToast } = useToasts();
+  // const { addToast } = useToasts();
 
   React.useEffect(() => {
     const body = document.querySelector("body") as any;
