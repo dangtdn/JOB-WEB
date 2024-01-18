@@ -1,11 +1,12 @@
 import Layout from "@/components/Layout/Layout";
-import { UserGoBack, UserNotLogin } from "@/components/lib/user";
+import AllCompanies from "@/components/dashboard/companies/all-companies";
+import useUser, { UserGoBack, UserNotLogin } from "@/components/lib/user";
 import Head from "next/head";
 import React from "react";
 
 export default function ManagesCompanies() {
   const { user, loggedIn, loggedOut, isCandidate } = useUser();
-  const userData = user?.data;
+  const userData = user;
 
   return (
     <>
