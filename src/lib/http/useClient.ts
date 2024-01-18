@@ -5,8 +5,6 @@ import client from "../axios/client";
 import { toast } from "react-toastify";
 
 export const useClient = () => {
-  // const { addToast } = useToasts();
-
   const getAsync = <Req, Res>(
     path: string,
     params?: Req,
@@ -63,9 +61,9 @@ export const useClient = () => {
         const { status } = error.response;
         switch (status) {
           default:
-            addToast("Đã có lỗi xảy ra!", {
-              appearance: "error",
-              autoDismiss: true,
+            toast.error("Đã có lỗi xảy ra!", {
+              position: "bottom-right",
+              className: "foo-bar",
             });
             break;
         }

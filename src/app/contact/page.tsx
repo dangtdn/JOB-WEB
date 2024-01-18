@@ -4,13 +4,13 @@ import Footer from "@/components/Footer/Footer";
 import Navbar from "@/components/Header/Header";
 import Layout from "@/components/Layout/Layout";
 import PageTitle from "@/components/page-title";
+import { Axios } from "@/components/utils/axiosKits";
 import Head from "next/head";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 export default function ContactUs() {
-  // const { addToast } = useToasts();
   const [successMessage, setSuccessMessage] = React.useState("");
   const {
     register,
@@ -23,32 +23,32 @@ export default function ContactUs() {
 
   const onSubmitHandler = async (data: any) => {
     try {
-      // await Axios({
-      //   method: "POST",
-      //   url: "/admin/contact",
-      //   data,
-      // }).then((res) => {
-      //   if (res.status === 200 || res.status === 201) {
-      //     addToast(res.data.message, {
-      //       appearance: "success",
-      //       autoDismiss: true,
-      //     });
-      //     setSuccessMessage(res.data.message);
-      //     reset();
-      //   }
-      // });
+      await Axios({
+        method: "POST",
+        url: "/admin/contact",
+        data,
+      }).then((res) => {
+        if (res.status === 200 || res.status === 201) {
+          toast.success(res.data.message, {
+            position: "bottom-right",
+            className: "foo-bar",
+          });
+          setSuccessMessage(res.data.message);
+          reset();
+        }
+      });
     } catch (error: any) {
-      // if (error?.response?.data) {
-      //   addToast(error.response.data.message, {
-      //     appearance: "error",
-      //     autoDismiss: true,
-      //   });
-      // } else {
-      //   addToast(error.message, {
-      //     appearance: "error",
-      //     autoDismiss: true,
-      //   });
-      // }
+      if (error?.response?.data) {
+        toast.error(error.response.data.message, {
+          position: "bottom-right",
+          className: "foo-bar",
+        });
+      } else {
+        toast.error(error.message, {
+          position: "bottom-right",
+          className: "foo-bar",
+        });
+      }
     }
   };
 

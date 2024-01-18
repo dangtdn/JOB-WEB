@@ -20,46 +20,41 @@ const AddCategoryForm = () => {
     mode: "onChange",
   }) as any;
 
-  // const { addToast } = useToasts();
-
   const onSubmitHandler = (data: any) => {
     const formData = new FormData();
     formData.append("categoryTitle", data.categoryTitle);
     formData.append("categoryIcon", data.categoryIcon[0]);
     formData.append("subCategory", data.subCategory);
     setProcessing(true);
-    // try {
-    // 	authAxios
-    // 		.post('/admin/categories/retrives', formData)
-    // 		.then((res) => {
-    // 			addToast(res.data.message, {
-    // 				appearance: 'success',
-    // 				autoDismiss: true,
-    // 				autoDismissTimeout: 3000,
-    // 			})
-    // 			mutate('/admin/categories/retrives').then(() => {
-    // 				reset()
-    // 				setPhotoImage(null)
-    // 				Router.push(`/job/category`)
-    // 				setProcessing(false)
-    // 			})
-    // 		})
-    // 		.catch((err) => {
-    // 			addToast(capitalize(err.response.data.message), {
-    // 				appearance: 'error',
-    // 				autoDismiss: true,
-    // 				autoDismissTimeout: 3000,
-    // 			})
-    // 			setProcessing(false)
-    // 		})
-    // } catch (error: any) {
-    // 	addToast(error.response.data.message, {
-    // 		appearance: 'error',
-    // 		autoDismiss: true,
-    // 		autoDismissTimeout: 3000,
-    // 	})
-    // 	setProcessing(false)
-    // }
+    try {
+      authAxios
+        .post("/admin/categories/retrives", formData)
+        .then((res) => {
+          toast.success(res.data.message, {
+            position: "bottom-right",
+            className: "foo-bar",
+          });
+          // mutate('/admin/categories/retrives').then(() => {
+          // 	reset()
+          // 	setPhotoImage(null)
+          // 	Router.push(`/job/category`)
+          // 	setProcessing(false)
+          // })
+        })
+        .catch((err) => {
+          toast.error(capitalize(err.response.data.message), {
+            position: "bottom-right",
+            className: "foo-bar",
+          });
+          setProcessing(false);
+        });
+    } catch (error: any) {
+      toast.error(error.response.data.message, {
+        position: "bottom-right",
+        className: "foo-bar",
+      });
+      setProcessing(false);
+    }
     setTimeout(() => {
       setProcessing(false);
     }, 10000);

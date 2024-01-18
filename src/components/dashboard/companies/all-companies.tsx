@@ -34,7 +34,6 @@ const AllCompanies = () => {
   const data = companies;
   const error = false;
   const [loading, setLoading] = React.useState(false);
-  // const { addToast } = useToasts();
   const { user, isAdmin } = useUser();
 
   // delete category function here
@@ -48,35 +47,32 @@ const AllCompanies = () => {
     } as any).then((willDelete) => {
       if (willDelete) {
         setLoading(true);
-        // try {
-        //   authAxios
-        //     .delete(`/companies/company/${id}`)
-        //     .then((res) => {
-        //       mutate("/companies/private").then(() => {
-        //         addToast(capitalize(res.data.message), {
-        //           appearance: "success",
-        //           autoDismiss: true,
-        //           autoDismissTimeout: 3000,
-        //         });
-        //         setLoading(false);
-        //       });
-        //     })
-        //     .catch((err) => {
-        //       addToast(err?.response?.data?.message, {
-        //         appearance: "error",
-        //         autoDismiss: true,
-        //         autoDismissTimeout: 3000,
-        //       });
-        //       setLoading(false);
-        //     });
-        // } catch (error: any) {
-        //   addToast(error.response.data.message, {
-        //     appearance: "error",
-        //     autoDismiss: true,
-        //     autoDismissTimeout: 3000,
-        //   });
-        //   setLoading(false);
-        // }
+        try {
+          authAxios
+            .delete(`/companies/company/${id}`)
+            .then((res) => {
+              // mutate("/companies/private").then(() => {
+              //   toast.success(capitalize(res.data.message), {
+              //     position: "bottom-right",
+              //     className: "foo-bar",
+              //   });
+              //   setLoading(false);
+              // });
+            })
+            .catch((err) => {
+              toast.error(err?.response?.data?.message, {
+                position: "bottom-right",
+                className: "foo-bar",
+              });
+              setLoading(false);
+            });
+        } catch (error: any) {
+          toast.error(error.response.data.message, {
+            position: "bottom-right",
+            className: "foo-bar",
+          });
+          setLoading(false);
+        }
       }
     });
   };

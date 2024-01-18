@@ -9,7 +9,6 @@ const PopupRegister = () => {
   const { RegisterPopup, RegisterPopupHandler, LoginPopupHandler } =
     React.useContext(ThemeContext) as any;
   const [CurrentPage, setCurrentPage] = React.useState(1);
-  // const { addToast } = useToasts();
 
   const {
     register,
@@ -26,15 +25,15 @@ const PopupRegister = () => {
     }
     if (CurrentPage === 2) {
       if (data.password !== data.confirm_password) {
-        addToast("Password and Confirm Password does not match", {
-          appearance: "error",
-          autoDismiss: true,
+        toast.error("Password and Confirm Password does not match", {
+          position: "bottom-right",
+          className: "foo-bar",
         });
       } else if (data.password === data.confirm_password) {
         try {
           await Axios({
             method: "post",
-            url: `/user/signup`,
+            url: `/signup`,
             data: {
               fullName: {
                 firstName: data.first_name,
@@ -52,9 +51,9 @@ const PopupRegister = () => {
             },
           }).then((res) => {
             if (res.status === 200 || res.status === 201) {
-              addToast(res.data.message, {
-                appearance: "success",
-                autoDismiss: true,
+              toast.success(res.data.message, {
+                position: "bottom-right",
+                className: "foo-bar",
               });
               RegisterPopupHandler();
               LoginPopupHandler();
@@ -65,9 +64,9 @@ const PopupRegister = () => {
             }
           });
         } catch (error: any) {
-          addToast(error.response.data.message, {
-            appearance: "error",
-            autoDismiss: true,
+          toast.error(error.response.data.message, {
+            position: "bottom-right",
+            className: "foo-bar",
           });
         }
       }

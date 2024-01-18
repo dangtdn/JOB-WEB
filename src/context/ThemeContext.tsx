@@ -51,7 +51,7 @@ type ThemeContextType = {
 export const ThemeContext = createContext<ThemeContextType>({});
 
 const ThemeContextProvider = ({ children }: { children: any }) => {
-  const apiEndPoint = `/api/v1`;
+  const apiEndPoint = `/api`;
   const [windowWidth, setWindowWidth] = React.useState(
     typeof window === "object" && window.innerWidth
   );
@@ -85,7 +85,6 @@ const ThemeContextProvider = ({ children }: { children: any }) => {
   // )
 
   const router = useRouter();
-  // const { addToast } = useToasts();
 
   React.useEffect(() => {
     const body = document.querySelector("body") as any;
@@ -134,14 +133,14 @@ const ThemeContextProvider = ({ children }: { children: any }) => {
       localRemove("UserData");
       await mutate(null);
       await router.replace("/login");
-      addToast("You have successfully logged out", {
-        appearance: "success",
-        autoDismiss: true,
+      toast.success("You have successfully logged out", {
+        position: "bottom-right",
+        className: "foo-bar",
       });
     } catch (error: any) {
-      addToast(error.response.data.message, {
-        appearance: "error",
-        autoDismiss: true,
+      toast.error(error.response.data.message, {
+        position: "bottom-right",
+        className: "foo-bar",
       });
     }
   };
@@ -150,14 +149,14 @@ const ThemeContextProvider = ({ children }: { children: any }) => {
     try {
       await localRemove("UserData");
       await mutate(null);
-      addToast("You have successfully logged out", {
-        appearance: "success",
-        autoDismiss: true,
+      toast.success("You have successfully logged out", {
+        position: "bottom-right",
+        className: "foo-bar",
       });
     } catch (error: any) {
-      addToast(error.response.data.message, {
-        appearance: "error",
-        autoDismiss: true,
+      toast.error(error.response.data.message, {
+        position: "bottom-right",
+        className: "foo-bar",
       });
     }
   };

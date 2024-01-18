@@ -8,7 +8,6 @@ import { Axios } from "../utils/axiosKits";
 const LostPassword = () => {
   const { lostPasswordShow, lostPasswordHandler } =
     React.useContext(ThemeContext);
-  // const { addToast } = useToasts();
   const [currentStep, setCurrentStep] = React.useState(1);
   const {
     register,
@@ -28,9 +27,9 @@ const LostPassword = () => {
         },
       }).then((res) => {
         if (res.status === 200 || res.status === 201) {
-          addToast(res.data.message, {
-            appearance: "success",
-            autoDismiss: true,
+          toast.success(res.data.message, {
+            position: "bottom-right",
+            className: "foo-bar",
           });
           setCurrentStep(2);
           reset();
@@ -38,14 +37,14 @@ const LostPassword = () => {
       });
     } catch (error: any) {
       if (error.response?.data) {
-        addToast(error.response.data.message, {
-          appearance: "error",
-          autoDismiss: true,
+        toast.error(error.response.data.message, {
+          position: "bottom-right",
+          className: "foo-bar",
         });
       } else {
-        addToast(error.message, {
-          appearance: "error",
-          autoDismiss: true,
+        toast.error(error.message, {
+          position: "bottom-right",
+          className: "foo-bar",
         });
       }
     }

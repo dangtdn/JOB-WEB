@@ -9,7 +9,6 @@ import { useRouter } from "next/navigation";
 const RegisterForm = () => {
   const [CurrentPage, setCurrentPage] = React.useState(1);
   const [loading, setLoading] = React.useState(false);
-  // const { addToast } = useToasts();
   const router = useRouter();
 
   const {
@@ -28,16 +27,16 @@ const RegisterForm = () => {
     if (CurrentPage === 2) {
       setLoading(true);
       if (data.password !== data.confirm_password) {
-        addToast("Password and Confirm Password does not match", {
-          appearance: "error",
-          autoDismiss: true,
+        toast.error("Password and Confirm Password does not match", {
+          position: "bottom-right",
+          className: "foo-bar",
         });
         setLoading(false);
       } else if (data.password === data.confirm_password) {
         try {
           await Axios({
             method: "post",
-            url: `/user/signup`,
+            url: `/signup`,
             data: {
               fullName: {
                 firstName: data.first_name,
@@ -52,13 +51,17 @@ const RegisterForm = () => {
                 isEmployer: data.freelancer_role === "employer" ? true : false,
                 isAdmin: data.freelancer_role === "admin" ? true : false,
               },
+              resetLink: "",
+              avatar: "",
+              cloudinary_id: "",
+              jobsHistory: [],
             },
           }).then((res) => {
             setLoading(false);
             if (res.status === 200 || res.status === 201) {
-              addToast(res.data.message, {
-                appearance: "success",
-                autoDismiss: true,
+              toast.success(res.data.message, {
+                position: "bottom-right",
+                className: "foo-bar",
               });
               router.push("/login");
               setTimeout(() => {
@@ -69,9 +72,9 @@ const RegisterForm = () => {
           });
         } catch (error: any) {
           setLoading(false);
-          addToast(error.response.data.message, {
-            appearance: "error",
-            autoDismiss: true,
+          toast.error(error.response.data.message, {
+            position: "bottom-right",
+            className: "foo-bar",
           });
         }
       }

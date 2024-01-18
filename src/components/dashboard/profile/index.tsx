@@ -11,7 +11,6 @@ import { authAxios } from "../../utils/axiosKits";
 const ProfileBox = ({ data }: { data: any }) => {
   const [photoImage, setPhotoImage] = React.useState(null) as any;
   //   const { mutate } = useSWRConfig();
-  // const { addToast } = useToasts();
   const {
     register,
     handleSubmit,
@@ -57,22 +56,22 @@ const ProfileBox = ({ data }: { data: any }) => {
       formData.append("profileImage", data.profileImage[0]);
     }
     try {
-      //   await authAxios({
-      //     method: "PUT",
-      //     url: `/users/self`,
-      //     data: formData,
-      //   }).then((res: any) => {
-      //     mutate("/users/retrives").then(() => {
-      //       addToast(res.data.message, {
-      //         appearance: "success",
-      //         autoDismiss: true,
-      //       });
-      //     });
-      //   });
+      await authAxios({
+        method: "PUT",
+        url: `/users/self`,
+        data: formData,
+      }).then((res: any) => {
+        // mutate("/users/retrives").then(() => {
+        //   toast.success(res.data.message, {
+        //     position: "bottom-right",
+        //     className: "foo-bar",
+        //   });
+        // });
+      });
     } catch (error: any) {
-      addToast(error.response.data.message, {
-        appearance: "error",
-        autoDismiss: true,
+      toast.error(error.response.data.message, {
+        position: "bottom-right",
+        className: "foo-bar",
       });
     }
   };
@@ -91,39 +90,39 @@ const ProfileBox = ({ data }: { data: any }) => {
     // validate new-password
     const newPass = data.newPassword;
     if (newPass.length < 6) {
-      return addToast("Too-short New password", {
-        appearance: "error",
-        autoDismiss: true,
+      return toast.error("Too-short New password", {
+        position: "bottom-right",
+        className: "foo-bar",
       });
     } else if (newPass.length > 30) {
-      return addToast("Too-long New password", {
-        appearance: "error",
-        autoDismiss: true,
+      return toast.error("Too-long New password", {
+        position: "bottom-right",
+        className: "foo-bar",
       });
     } else if (newPass.search(/\d/) == -1) {
-      return addToast("Need Number in New password", {
-        appearance: "error",
-        autoDismiss: true,
+      return toast.error("Need Number in New password", {
+        position: "bottom-right",
+        className: "foo-bar",
       });
     } else if (newPass.search(/[a-zA-Z]/) == -1) {
-      return addToast("Need Letter in New password", {
-        appearance: "error",
-        autoDismiss: true,
+      return toast.error("Need Letter in New password", {
+        position: "bottom-right",
+        className: "foo-bar",
       });
     } else if (newPass.search(/[A-Z]/) == -1) {
-      return addToast("Need Uppercase in New password", {
-        appearance: "error",
-        autoDismiss: true,
+      return toast.error("Need Uppercase in New password", {
+        position: "bottom-right",
+        className: "foo-bar",
       });
     } else if (newPass.search(/[a-z]/) == -1) {
-      return addToast("Need Lowercase in New password", {
-        appearance: "error",
-        autoDismiss: true,
+      return toast.error("Need Lowercase in New password", {
+        position: "bottom-right",
+        className: "foo-bar",
       });
     } else if (newPass.search(/[^a-zA-Z0-9\!\@\#\$\%\^\&\*\(\)\_\+]/) != -1) {
-      return addToast("Bad character in New password", {
-        appearance: "error",
-        autoDismiss: true,
+      return toast.error("Bad character in New password", {
+        position: "bottom-right",
+        className: "foo-bar",
       });
     }
 
@@ -137,15 +136,15 @@ const ProfileBox = ({ data }: { data: any }) => {
         url: `/users/password/reset`,
         data: passwordData,
       }).then((res) => {
-        addToast(res.data.message, {
-          appearance: "success",
-          autoDismiss: true,
+        toast.success(res.data.message, {
+          position: "bottom-right",
+          className: "foo-bar",
         });
       });
     } catch (error: any) {
-      addToast(error.response.data.message, {
-        appearance: "error",
-        autoDismiss: true,
+      toast.error(error.response.data.message, {
+        position: "bottom-right",
+        className: "foo-bar",
       });
     }
   };

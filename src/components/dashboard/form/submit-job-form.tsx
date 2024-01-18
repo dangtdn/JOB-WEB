@@ -55,7 +55,6 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
   const jobForm = companyName ? false : (true as boolean);
   const [loading, setLoading] = React.useState(false);
   // const { mutate } = useSWRConfig()
-  // const { addToast } = useToasts();
 
   // register submit job form
   const {
@@ -112,33 +111,33 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
     formData.append("salaryMinimum", salaryMinimum); // return number
     formData.append("specialTags", specialTags); // return array
 
-    // try {
-    //   await authAxios({
-    //     method: "POST",
-    //     url: "/jobs/retrives",
-    //     data: formData,
-    //   }).then((res) => {
-    //     addToast(res.data.message, {
-    //       appearance: "success",
-    //       autoDismiss: true,
-    //     });
-    //     mutate("/jobs/private");
-    //     reset();
-    //     Router.push("/job/manages-jobs");
-    //   });
-    // } catch (error: any) {
-    //   if (error?.response?.data) {
-    //     addToast(error.response.data.message, {
-    //       appearance: "error",
-    //       autoDismiss: true,
-    //     });
-    //   } else {
-    //     addToast(error?.message, {
-    //       appearance: "error",
-    //       autoDismiss: true,
-    //     });
-    //   }
-    // }
+    try {
+      await authAxios({
+        method: "POST",
+        url: "/jobs/retrives",
+        data: formData,
+      }).then((res) => {
+        toast.success(res.data.message, {
+          position: "bottom-right",
+          className: "foo-bar",
+        });
+        // mutate("/jobs/private");
+        reset();
+        Router.push("/job/manages-jobs");
+      });
+    } catch (error: any) {
+      if (error?.response?.data) {
+        toast.error(error.response.data.message, {
+          position: "bottom-right",
+          className: "foo-bar",
+        });
+      } else {
+        toast.error(error?.message, {
+          position: "bottom-right",
+          className: "foo-bar",
+        });
+      }
+    }
   };
 
   // company log image upload preview handler

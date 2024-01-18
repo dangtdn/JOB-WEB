@@ -19,7 +19,6 @@ const LoginForm = () => {
     formState: { errors, isSubmitting },
   } = useForm();
   const router = useRouter();
-  // const { addToast } = useToasts();
 
   React.useEffect(() => {
     const local = localGet("user_login_info");
@@ -52,9 +51,9 @@ const LoginForm = () => {
             expires_in: new Date(new Date().getTime() + 86400000),
           });
           /* -------------------------- user logged in popup ------------------------- */
-          addToast(res.data.message, {
-            appearance: "success",
-            autoDismiss: true,
+          toast.success(res.data.message, {
+            position: "bottom-right",
+            className: "foo-bar",
           });
           router.replace("/dashboard");
           setTimeout(() => {
@@ -64,14 +63,14 @@ const LoginForm = () => {
       })
       .catch((error) => {
         if (error.response.data) {
-          addToast(error.response.data.message, {
-            appearance: "error",
-            autoDismiss: true,
+          toast.error(error.response.data.message, {
+            position: "bottom-right",
+            className: "foo-bar",
           });
         } else {
-          addToast(error.message, {
-            appearance: "error",
-            autoDismiss: true,
+          toast.error(error.message, {
+            position: "bottom-right",
+            className: "foo-bar",
           });
         }
       });

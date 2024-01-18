@@ -15,7 +15,6 @@ const AddCompanyForm = () => {
     formState: { errors, isSubmitting },
   } = useForm();
   // const { mutate } = useSWRConfig()
-  // const { addToast } = useToasts();
 
   // submit form handler
   const submitHandler = async (data: any) => {
@@ -45,35 +44,32 @@ const AddCompanyForm = () => {
     formData.append("revenue", data.revenue);
     formData.append("eatablishedDate", data.eatablishedDate);
 
-    // try {
-    // 	await authAxios({
-    // 		method: 'post',
-    // 		url: '/companies/retrives',
-    // 		data: formData,
-    // 	})
-    // 		.then((res) => {
-    // 			mutate('/companies/private')
-    // 			addToast(res.data.message, {
-    // 				appearance: 'success',
-    // 				autoDismiss: true,
-    // 				autoDismissTimeout: 3000,
-    // 			})
-    // 			Router.push('/company/manages-companies')
-    // 		})
-    // 		.catch((err) => {
-    // 			addToast(err.response.data.message, {
-    // 				appearance: 'error',
-    // 				autoDismiss: true,
-    // 				autoDismissTimeout: 3000,
-    // 			})
-    // 		})
-    // } catch (error: any) {
-    // 	addToast(error.response.data.message, {
-    // 		appearance: 'error',
-    // 		autoDismiss: true,
-    // 		autoDismissTimeout: 3000,
-    // 	})
-    // }
+    try {
+      await authAxios({
+        method: "post",
+        url: "/companies/retrives",
+        data: formData,
+      })
+        .then((res) => {
+          // mutate('/companies/private')
+          toast.success(res.data.message, {
+            position: "bottom-right",
+            className: "foo-bar",
+          });
+          Router.push("/company/manages-companies");
+        })
+        .catch((err) => {
+          toast.error(err.response.data.message, {
+            position: "bottom-right",
+            className: "foo-bar",
+          });
+        });
+    } catch (error: any) {
+      toast.error(error.response.data.message, {
+        position: "bottom-right",
+        className: "foo-bar",
+      });
+    }
   };
 
   // company log image upload preview handler

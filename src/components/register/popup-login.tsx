@@ -25,7 +25,6 @@ const PopupLogin = () => {
     formState: { errors, isSubmitting },
   } = useForm();
   const router = useRouter();
-  // const { addToast } = useToasts();
 
   React.useEffect(() => {
     const local = localGet("user_login_info");
@@ -42,7 +41,7 @@ const PopupLogin = () => {
     setLoading(true);
     await Axios({
       method: "post",
-      url: `/users/login`,
+      url: `/login`,
       data: {
         email: data.email,
         password: data.password,
@@ -70,9 +69,9 @@ const PopupLogin = () => {
         }
       })
       .catch((error) => {
-        addToast(error.response.data.message, {
-          appearance: "error",
-          autoDismiss: true,
+        toast.error(error.response.data.message, {
+          position: "bottom-right",
+          className: "foo-bar",
         });
         setLoading(false);
       });

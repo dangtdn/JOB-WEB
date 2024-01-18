@@ -8,7 +8,7 @@ import { MdClose, MdOutlineFactCheck } from "react-icons/md";
 import { RiCheckboxCircleLine, RiEyeOffLine } from "react-icons/ri";
 import { toast } from "react-toastify";
 import sweetAlert from "sweetalert";
-import useSWR, { useSWRConfig } from "swr";
+// import useSWR, { useSWRConfig } from "swr";
 import { LoaderGrowing } from "../../lib/loader";
 import useUser from "../../lib/user";
 import { authAxios } from "../../utils/axiosKits";
@@ -17,10 +17,9 @@ import Pagination from "../pagination";
 const fetcher = (url: string) => authAxios(url).then((res) => res.data.data);
 
 const AllResumes = () => {
-  const { mutate } = useSWRConfig();
-  // const { addToast } = useToasts();
+  // const { mutate } = useSWRConfig();
   const { user, isAdmin } = useUser();
-  const { data, error } = useSWR("/resumes/retrives", fetcher);
+  // const { data, error } = useSWR("/resumes/retrives", fetcher);
   const [loading, setLoading] = React.useState(false);
   // get current pages
   const [currentPage, setCurrentPage] = React.useState(1);
@@ -46,27 +45,24 @@ const AllResumes = () => {
             .delete(`/resumes/resume/${id}`)
             .then((res) => {
               return mutate("/resumes/retrives").then(() => {
-                addToast(res.data.message, {
-                  appearance: "success",
-                  autoDismiss: true,
-                  autoDismissTimeout: 3000,
+                toast.success(res.data.message, {
+                  position: "bottom-right",
+                  className: "foo-bar",
                 });
                 setLoading(false);
               }, 1000 as any);
             })
             .catch((err) => {
-              addToast(err?.response?.data?.message, {
-                appearance: "error",
-                autoDismiss: true,
-                autoDismissTimeout: 3000,
+              toast.error(err?.response?.data?.message, {
+                position: "bottom-right",
+                className: "foo-bar",
               });
               setLoading(false);
             });
         } catch (error: any) {
-          addToast(error?.response?.data?.message, {
-            appearance: "error",
-            autoDismiss: true,
-            autoDismissTimeout: 3000,
+          toast.error(error?.response?.data?.message, {
+            position: "bottom-right",
+            className: "foo-bar",
           });
           setLoading(false);
         }
@@ -95,27 +91,24 @@ const AllResumes = () => {
           })
             .then((res) => {
               return mutate("/resumes/retrives").then(() => {
-                addToast(res.data.message, {
-                  appearance: "success",
-                  autoDismiss: true,
-                  autoDismissTimeout: 3000,
+                toast.success(res.data.message, {
+                  position: "bottom-right",
+                  className: "foo-bar",
                 });
                 setLoading(false);
               }, 1000 as any);
             })
             .catch((err) => {
-              addToast(capitalize(err.response?.data?.message), {
-                appearance: "error",
-                autoDismiss: true,
-                autoDismissTimeout: 3000,
+              toast.error(capitalize(err.response?.data?.message), {
+                position: "bottom-right",
+                className: "foo-bar",
               });
               setLoading(false);
             });
         } catch (error: any) {
-          addToast(capitalize(error.response?.data?.message), {
-            appearance: "error",
-            autoDismiss: true,
-            autoDismissTimeout: 3000,
+          toast.error(capitalize(error.response?.data?.message), {
+            position: "bottom-right",
+            className: "foo-bar",
           });
           setLoading(false);
         }
@@ -144,27 +137,24 @@ const AllResumes = () => {
           })
             .then((res) => {
               return mutate("/resumes/retrives").then(() => {
-                addToast(res.data.message, {
-                  appearance: "success",
-                  autoDismiss: true,
-                  autoDismissTimeout: 3000,
+                toast.success(res.data.message, {
+                  position: "bottom-right",
+                  className: "foo-bar",
                 });
                 setLoading(false);
               }, 1000 as any);
             })
             .catch((err) => {
-              addToast(capitalize(err.response.data.message), {
-                appearance: "error",
-                autoDismiss: true,
-                autoDismissTimeout: 3000,
+              toast.error(capitalize(err.response.data.message), {
+                position: "bottom-right",
+                className: "foo-bar",
               });
               setLoading(false);
             });
         } catch (error: any) {
-          addToast(capitalize(error.response?.data?.message), {
-            appearance: "error",
-            autoDismiss: true,
-            autoDismissTimeout: 3000,
+          toast.error(capitalize(error.response?.data?.message), {
+            position: "bottom-right",
+            className: "foo-bar",
           });
           setLoading(false);
         }
@@ -184,25 +174,25 @@ const AllResumes = () => {
         },
       })
         .then((res) => {
-          addToast(res.data.message, {
-            appearance: "success",
-            autoDismiss: true,
+          toast.success(res.data.message, {
+            position: "bottom-right",
+            className: "foo-bar",
           });
-          mutate(`/resumes/retrives`).then(() => {
-            setLoading(false);
-          }, 1000 as any);
+          // mutate(`/resumes/retrives`).then(() => {
+          //   setLoading(false);
+          // }, 1000 as any);
         })
         .catch((err) => {
-          addToast(err.response?.data?.message, {
-            appearance: "error",
-            autoDismiss: true,
+          toast.error(err.response?.data?.message, {
+            position: "bottom-right",
+            className: "foo-bar",
           });
           setLoading(false);
         });
     } catch (error: any) {
-      addToast(error.response?.data?.message, {
-        appearance: "error",
-        autoDismiss: true,
+      toast.error(error.response?.data?.message, {
+        position: "bottom-right",
+        className: "foo-bar",
       });
       setLoading(false);
     }
@@ -220,25 +210,25 @@ const AllResumes = () => {
         },
       })
         .then((res) => {
-          return mutate(`/resumes/retrives`).then(() => {
-            addToast(res.data.message, {
-              appearance: "success",
-              autoDismiss: true,
-            });
-            setLoading(false);
-          }, 700 as any);
+          // return mutate(`/resumes/retrives`).then(() => {
+          //   toast.success(res.data.message, {
+          //     position: "bottom-right",
+          //     className: "foo-bar",
+          //   });
+          //   setLoading(false);
+          // }, 700 as any);
         })
         .catch((err) => {
-          addToast(err.response?.data?.message, {
-            appearance: "error",
-            autoDismiss: true,
+          toast.error(err.response?.data?.message, {
+            position: "bottom-right",
+            className: "foo-bar",
           });
           setLoading(false);
         });
     } catch (error: any) {
-      addToast(error.response?.data?.message, {
-        appearance: "error",
-        autoDismiss: true,
+      toast.error(error.response?.data?.message, {
+        position: "bottom-right",
+        className: "foo-bar",
       });
       setLoading(false);
     }
