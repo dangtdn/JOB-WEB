@@ -3,23 +3,18 @@
 import React from "react";
 // import useSWR from "swr";
 import { localGet, localRemove } from "../utils/localStore";
-import fetcher from "./api-user";
 import { Loader } from "../loader/loader";
 import { users } from "@/utils/dummy-content/mongodb-collections/Untitled";
 import { useRouter } from "next/navigation";
 
 export default function useUser() {
-  // const { data, mutate, error } = useSWR("/users/retrives", fetcher);
-  const data = users[0];
+  const data = localGet("UserData") ?? users[0];
   const loading = false;
   const loggedIn = localGet("UserData") !== null;
   const loggedOut = localGet("UserData") === null ? true : false;
   const localData = localGet("UserData");
 
   // auto logout if token is expired or not found in localStorage
-  // if (error && error?.response?.status === 401) {
-  //   localRemove("UserData");
-  // }
 
   React.useEffect(() => {
     if (localData) {
@@ -42,7 +37,6 @@ export default function useUser() {
     loggedIn,
     loggedOut,
     user: data,
-    // mutate,
     isConfirmed,
     isAdmin,
     isEmployer,

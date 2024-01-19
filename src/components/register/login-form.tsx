@@ -35,7 +35,7 @@ const LoginForm = () => {
 
     await Axios({
       method: "post",
-      url: `/users/login`,
+      url: `/signin`,
       data: {
         email: data.email,
         password: data.password,
