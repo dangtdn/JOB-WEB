@@ -10,17 +10,17 @@ import { toast } from "react-toastify";
 import { jobs } from "@/utils/dummy-content/mongodb-collections/jobs";
 import { jobApplies } from "@/utils/dummy-content/mongodb-collections/jobapplies";
 import { usePathname, useRouter } from "next/navigation";
-import useUser from "@/components/lib/user";
+import useUser from "@/lib/auth/user";
 import { bookmarks } from "@/utils/dummy-content/mongodb-collections/bookmarks";
 import { companies } from "@/utils/dummy-content/mongodb-collections/companies";
 import ImageOpt from "@/components/optimize/image";
 import { ThemeContext } from "@/context/ThemeContext";
 import Layout from "@/components/Layout/Layout";
 import PageTitle from "@/components/page-title";
-import { LoaderGrowing } from "@/components/lib/loader";
+import { LoaderGrowing } from "@/lib/loader/loader";
 import JobOverview from "@/components/Job/JobOverview";
 import JobCompanyName from "@/components/Job/JobCompanyName";
-import PopupModule from "@/components/lib/popup-modul";
+import PopupModule from "@/lib/popup-modul/popup-modul";
 
 // const fetcher = (url: string) => Axios(url).then((res) => res.data)
 // const authFetcher = (url: string) => authAxios(url).then((res) => res.data.data)

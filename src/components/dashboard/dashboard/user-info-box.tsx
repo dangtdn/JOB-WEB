@@ -1,5 +1,5 @@
 import React from "react";
-import { authAxios } from "../../utils/axiosKits";
+import { authAxios } from "../../../lib/utils/axiosKits";
 
 const fetcher = (url: string) => authAxios(url).then((res) => res.data.data);
 const dashboardStatic = "/users/statistics";

@@ -2,8 +2,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { ThemeContext } from "../../context/ThemeContext";
-import PopupModule from "../lib/popup-modul";
-import { Axios } from "../utils/axiosKits";
+import PopupModule from "../../lib/popup-modul/popup-modul";
+import { Axios } from "../../lib/utils/axiosKits";
 
 const LostPassword = () => {
   const { lostPasswordShow, lostPasswordHandler } =

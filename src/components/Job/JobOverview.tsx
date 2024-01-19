@@ -2,7 +2,7 @@ import _ from "lodash";
 // import millify from 'millify'
 import React from "react";
 import Moment from "react-moment";
-import { LoaderGrowing } from "../lib/loader";
+import { LoaderGrowing } from "../../lib/loader/loader";
 import ImageOpt from "../optimize/image";
 
 const JobOverview = ({ data }: { data: any }) => {

@@ -1,6 +1,6 @@
 import React from "react";
 import ImageOpt from "../optimize/image";
-import { LoaderGrowing } from "../lib/loader";
+import { LoaderGrowing } from "../../lib/loader/loader";
 
 const JobCompanyName = ({ data }: { data: any }) => {
   return (

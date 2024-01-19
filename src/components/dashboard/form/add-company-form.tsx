@@ -3,7 +3,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import ImageOpt from "../../optimize/image";
-import { authAxios } from "../../utils/axiosKits";
+import { authAxios } from "../../../lib/utils/axiosKits";
 
 const AddCompanyForm = () => {
   const [CompanyHeaderImg, setCompanyHeaderImg] = React.useState("");

@@ -3,7 +3,7 @@ import millify from "millify";
 import Link from "next/link";
 import React from "react";
 import Moment from "react-moment";
-import { LoaderGrowing } from "../lib/loader";
+import { LoaderGrowing } from "../../lib/loader/loader";
 import ImageOpt from "../optimize/image";
 
 const CompanyJobItem = ({ item, loading }: { item: any; loading: any }) => {

@@ -12,10 +12,10 @@ import {
   RiStarHalfLine,
 } from "react-icons/ri";
 import { toast } from "react-toastify";
-import { LoaderGrowing } from "../../lib/loader";
-import useUser from "../../lib/user";
+import { LoaderGrowing } from "../../../lib/loader/loader";
+import useUser from "../../../lib/auth/user";
 import ImageOpt from "../../optimize/image";
-import { authAxios } from "../../utils/axiosKits";
+import { authAxios } from "../../../lib/utils/axiosKits";
 import sweetAlert from "sweetalert";
 import { GoCheck } from "react-icons/go";
 import {

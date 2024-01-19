@@ -1,8 +1,8 @@
-'use client'
+"use client";
 
 import Layout from "@/components/Layout/Layout";
-import { Loader } from "@/components/lib/loader";
-import useUser, { UserLogin } from "@/components/lib/user";
+import { Loader } from "@/lib/loader/loader";
+import useUser, { UserLogin } from "@/lib/auth/user";
 import LoginForm from "@/components/register/login-form";
 import Head from "next/head";
 import React from "react";

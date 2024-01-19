@@ -2,9 +2,9 @@
 
 import React, { createContext } from "react";
 import { toast } from "react-toastify";
-import useUser from "../components/lib/user";
-import { authAxios, Axios } from "../components/utils/axiosKits";
-import { localRemove } from "../components/utils/localStore";
+import useUser from "../lib/auth/user";
+import { authAxios, Axios } from "../lib/utils/axiosKits";
+import { localRemove } from "../lib/utils/localStore";
 import { categories } from "@/utils/dummy-content/mongodb-collections/categories";
 import { useRouter } from "next/navigation";
 import { Category } from "@/types/category";

@@ -8,16 +8,16 @@ import React from "react";
 import { ThemeContext } from "@/context/ThemeContext";
 import { usePathname } from "next/navigation";
 import { bookmarks } from "@/data/mongodb collections/bookmarks";
-import useUser from "@/components/lib/user";
+import useUser from "@/lib/auth/user";
 import { companies } from "@/data/mongodb collections/companies";
 import Layout from "@/components/Layout/Layout";
 import PageTitle from "@/components/page-title";
-import { LoaderGrowing } from "@/components/lib/loader";
+import { LoaderGrowing } from "@/lib/loader/loader";
 import ImageOpt from "@/components/optimize/image";
 import CompanyJobItem from "@/components/company/company-job-item";
 import CompanyInfo from "@/components/company/company-info";
 import { jobs } from "@/data/mongodb collections/jobs";
-import PopupModule from "@/components/lib/popup-modul";
+import PopupModule from "@/lib/popup-modul/popup-modul";
 
 // const fetcher = (url: string) => Axios(url).then((res) => res.data)
 // const authFetcher = (url: string) => authAxios(url).then((res) => res.data.data)

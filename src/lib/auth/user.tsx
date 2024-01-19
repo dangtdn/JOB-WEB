@@ -4,7 +4,7 @@ import React from "react";
 // import useSWR from "swr";
 import { localGet, localRemove } from "../utils/localStore";
 import fetcher from "./api-user";
-import { Loader } from "./loader";
+import { Loader } from "../loader/loader";
 import { users } from "@/utils/dummy-content/mongodb-collections/Untitled";
 import { useRouter } from "next/navigation";
 

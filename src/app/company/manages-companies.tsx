@@ -1,6 +1,6 @@
 import Layout from "@/components/Layout/Layout";
 import AllCompanies from "@/components/dashboard/companies/all-companies";
-import useUser, { UserGoBack, UserNotLogin } from "@/components/lib/user";
+import useUser, { UserGoBack, UserNotLogin } from "@/lib/auth/user";
 import Head from "next/head";
 import React from "react";
 

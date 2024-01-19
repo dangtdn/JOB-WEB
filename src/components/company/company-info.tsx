@@ -1,5 +1,5 @@
 import React from "react";
-import { LoaderGrowing } from "../lib/loader";
+import { LoaderGrowing } from "../../lib/loader/loader";
 import ImageOpt from "../optimize/image";
 
 const CompanyInfo = ({ data }: { data: any }) => {

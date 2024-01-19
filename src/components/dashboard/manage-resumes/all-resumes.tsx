@@ -9,9 +9,9 @@ import { RiCheckboxCircleLine, RiEyeOffLine } from "react-icons/ri";
 import { toast } from "react-toastify";
 import sweetAlert from "sweetalert";
 // import useSWR, { useSWRConfig } from "swr";
-import { LoaderGrowing } from "../../lib/loader";
-import useUser from "../../lib/user";
-import { authAxios } from "../../utils/axiosKits";
+import { LoaderGrowing } from "../../../lib/loader/loader";
+import useUser from "../../../lib/auth/user";
+import { authAxios } from "../../../lib/utils/axiosKits";
 import Pagination from "../pagination";
 
 const fetcher = (url: string) => authAxios(url).then((res) => res.data.data);

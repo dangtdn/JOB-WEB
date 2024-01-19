@@ -4,8 +4,8 @@ import Link from "next/link";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { Axios } from "../utils/axiosKits";
-import { localGet, localRemove, localSave } from "../utils/localStore";
+import { Axios } from "../../lib/utils/axiosKits";
+import { localGet, localRemove, localSave } from "../../lib/utils/localStore";
 import { useRouter } from "next/navigation";
 import { ThemeContext } from "@/context/ThemeContext";
 

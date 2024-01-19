@@ -1,5 +1,5 @@
 import Layout from "@/components/Layout/Layout";
-import { LoaderGrowing } from "@/components/lib/loader";
+import { LoaderGrowing } from "@/lib/loader/loader";
 import ImageOpt from "@/components/optimize/image";
 import { companies } from "@/data/mongodb collections/companies";
 import Head from "next/head";

@@ -4,9 +4,9 @@ import { useForm } from "react-hook-form";
 import { FaCamera } from "react-icons/fa";
 import { toast } from "react-toastify";
 // import { useSWRConfig } from "swr";
-import { LoaderGrowing } from "../../lib/loader";
+import { LoaderGrowing } from "../../../lib/loader/loader";
 import Image from "../../optimize/image";
-import { authAxios } from "../../utils/axiosKits";
+import { authAxios } from "../../../lib/utils/axiosKits";
 
 const ProfileBox = ({ data }: { data: any }) => {
   const [photoImage, setPhotoImage] = React.useState(null) as any;

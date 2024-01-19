@@ -1,7 +1,7 @@
 import Layout from "@/components/Layout/Layout";
 import RecentActivities from "@/components/dashboard/dashboard/recent-activities";
 import UserInfoBox from "@/components/dashboard/dashboard/user-info-box";
-import useUser, { UserNotLogin } from "@/components/lib/user";
+import useUser, { UserNotLogin } from "@/lib/auth/user";
 import Head from "next/head";
 import React from "react";
 

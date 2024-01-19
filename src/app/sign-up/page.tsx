@@ -1,7 +1,7 @@
 "use client";
 
 import Layout from "@/components/Layout/Layout";
-import useUser, { UserLogin } from "@/components/lib/user";
+import useUser, { UserLogin } from "@/lib/auth/user";
 import RegisterForm from "@/components/register/register-form";
 import Head from "next/head";
 import React from "react";
