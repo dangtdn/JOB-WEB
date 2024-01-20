@@ -41,7 +41,7 @@ const PopupLogin = () => {
     setLoading(true);
     await Axios({
       method: "post",
-      url: `/login`,
+      url: `/signin`,
       data: {
         email: data.email,
         password: data.password,
@@ -62,8 +62,8 @@ const PopupLogin = () => {
           // 		appearance: 'success',
           // 		autoDismiss: true,
           // 	})
-          // 	setLoading(false)
-          // 	LoginPopupHandler()
+          setLoading(false);
+          LoginPopupHandler?.();
           // 	reset()
           // })
         }

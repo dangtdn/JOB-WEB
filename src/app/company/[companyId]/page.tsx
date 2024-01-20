@@ -1,3 +1,5 @@
+"use client";
+
 import _ from "lodash";
 import Head from "next/head";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
@@ -283,7 +285,7 @@ export default function CompanyProfile() {
                     </p>
 
                     {/* Bookmark */}
-                    {user?._id !== data?.user && (
+                    {user?._id.$oid !== data?.user && (
                       <button
                         onClick={() => {
                           if (isBookmark) {

@@ -8,9 +8,9 @@ import { HiChevronDown } from "react-icons/hi";
 import { MdClose } from "react-icons/md";
 import ImageOpt from "../optimize/image";
 import { ThemeContext } from "@/context/ThemeContext";
-// import useUser from "../lib/user";
 import { users } from "@/utils/dummy-content/mongodb-collections/Untitled";
 import useSticky from "@/hooks/useSticky";
+import useUser from "@/lib/auth/user";
 
 const Menu = [
   {
@@ -115,9 +115,7 @@ const Header = ({ IsLogIn }: { IsLogIn: any }) => {
   const { LoginPopupHandler, RegisterPopupHandler } = React.useContext(
     ThemeContext
   ) as any;
-  // const { user, loggedIn } = useUser();
-  const userData = users[0];
-  const loggedIn = false;
+  const { user: userData, loggedIn } = useUser();
   const [UserMenu, setUserMenu] = React.useState(false);
   const pathName = usePathname();
   let path = pathName.split("/") as any;

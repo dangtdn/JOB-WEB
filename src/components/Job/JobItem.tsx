@@ -178,7 +178,9 @@ const JobItem = ({ item }: { item: any }) => {
         </ul>
         <div>
           <Link
-            href={item ? (item?._id ? `/job/${item?._id.$oid}` : "#") : "#"}
+            href={
+              item ? (item?._id ? `/find-job/${item?._id.$oid}` : "#") : "#"
+            }
             className="block leading-4 text-deep text-xs group-hover:text-white text-center py-3 px-6 bg-light rounded-md transition-all group-hover:!bg-themePrimary"
           >
             Apply Now

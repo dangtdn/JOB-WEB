@@ -1,3 +1,5 @@
+"use client";
+
 import _ from "lodash";
 import Head from "next/head";
 import Link from "next/link";

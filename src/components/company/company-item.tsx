@@ -21,11 +21,11 @@ const CompanyItem = ({ item }: { item: any }) => {
         <p className="text-deep text-xss1 font-normal mb-2 leading-6">
           {item ? item.companyTagline : "Web and UI/UX Designer"}
         </p>
-        {/* <div className="">
+        <div className="">
           <ul className="flex flex-wrap justify-center">
             <li>
               <a href="#">
-                <Image
+                <ImageOpt
                   width={20}
                   height={20}
                   noPlaceholder
@@ -36,7 +36,7 @@ const CompanyItem = ({ item }: { item: any }) => {
             </li>
             <li>
               <a href="#">
-                <Image
+                <ImageOpt
                   width={20}
                   height={20}
                   noPlaceholder
@@ -47,7 +47,7 @@ const CompanyItem = ({ item }: { item: any }) => {
             </li>
             <li>
               <a href="#">
-                <Image
+                <ImageOpt
                   width={20}
                   height={20}
                   noPlaceholder
@@ -58,7 +58,7 @@ const CompanyItem = ({ item }: { item: any }) => {
             </li>
             <li>
               <a href="#">
-                <Image
+                <ImageOpt
                   width={20}
                   height={20}
                   noPlaceholder
@@ -69,7 +69,7 @@ const CompanyItem = ({ item }: { item: any }) => {
             </li>
             <li>
               <a href="#">
-                <Image
+                <ImageOpt
                   width={20}
                   height={20}
                   noPlaceholder
@@ -84,7 +84,7 @@ const CompanyItem = ({ item }: { item: any }) => {
               </a>
             </li>
           </ul>
-        </div> */}
+        </div>
       </div>
       <div className="px-2">
         <ul className="mb-6">

@@ -27,16 +27,16 @@ export default function useUser() {
     }
   }, [localData]);
 
-  const isAdmin = data?.role.isAdmin;
-  const isConfirmed = data?.isConfirmed;
-  const isEmployer = data?.role.isEmployer;
-  const isCandidate = data?.role.isCandidate;
+  const isAdmin = data?.user.role.isAdmin;
+  const isConfirmed = data?.user.isConfirmed;
+  const isEmployer = data?.user.role.isEmployer;
+  const isCandidate = data?.user.role.isCandidate;
 
   return {
     loading,
     loggedIn,
     loggedOut,
-    user: data,
+    user: data?.user,
     isConfirmed,
     isAdmin,
     isEmployer,

@@ -128,10 +128,11 @@ const CompanyJobItem = ({ item, loading }: { item: any; loading: any }) => {
           </li>
         </ul>
         <div>
-          <Link href={`/job/${item?._id}`}>
-            <a className="block text-center py-3 px-6 bg-light rounded-md group-hover:!bg-themePrimary leading-4 text-deep transition-all text-xs group-hover:text-white">
-              Apply Now
-            </a>
+          <Link
+            href={`/job/${item?._id.$oid}`}
+            className="block text-center py-3 px-6 bg-light rounded-md group-hover:!bg-themePrimary leading-4 text-deep transition-all text-xs group-hover:text-white"
+          >
+            Apply Now
           </Link>
         </div>
       </div>
