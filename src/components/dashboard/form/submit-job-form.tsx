@@ -2,7 +2,6 @@ import styled from "@emotion/styled";
 import _ from "lodash";
 import Multiselect from "multiselect-react-dropdown";
 import Link from "next/link";
-import Router from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -14,11 +13,13 @@ import { MultiSelect } from "./multi-select-dropdown";
 import { filters } from "@/data/mongodb collections/filters";
 import { companies } from "@/data/mongodb collections/companies";
 import { packages } from "@/data/mongodb collections/packages";
+import { useRouter } from "next/navigation";
 
 const fetcher = (url: string) => authAxios(url).then((res) => res.data.data);
 const newFeature = (url: string) => authAxios(url).then((res) => res.data);
 
 const SubmitJobForm = ({ userData }: { userData: any }) => {
+  const router = useRouter();
   // const { data: filterData, error: filterError } = useSWR(
   // 	'/admin/filters/retrives',
   // 	fetcher,
@@ -123,7 +124,7 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
         });
         // mutate("/jobs/private");
         reset();
-        Router.push("/job/manages-jobs");
+        router.push("/job/manages-jobs");
       });
     } catch (error: any) {
       if (error?.response?.data) {

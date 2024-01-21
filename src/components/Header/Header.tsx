@@ -66,7 +66,7 @@ const EmployerMenuList = [
   },
   {
     name: "Manges Jobs",
-    link: "/job/manages-jobs",
+    link: "/find-job/manages-jobs",
     pathName: "",
   },
   {
@@ -89,7 +89,7 @@ const AdminMenuList = [
   },
   {
     name: "Manges Jobs",
-    link: "/job/manages-jobs",
+    link: "/find-job/manages-jobs",
     pathName: "",
   },
   {

@@ -10,12 +10,21 @@ import { CompanyFilter } from "@/components/filter/search-filter";
 import ImageOpt from "@/components/optimize/image";
 import PageTitle from "@/components/page-title";
 import Pagination from "@/components/pagination";
+import { Axios } from "@/lib/utils/axiosKits";
 import { companies } from "@/utils/dummy-content/mongodb-collections/companies";
 import _ from "lodash";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
+import useSWR from "swr";
+
+const fetcher = (url: string) =>
+  Axios(url).then((res) => {
+    console.log(res.data);
+    return res.data;
+  });
+const CompanyAPI = "/companies";
 
 const CompanyDataList = () => {
   // get current pages
@@ -25,82 +34,72 @@ const CompanyDataList = () => {
     totalCompanyCount: 0,
   }) as any;
   const [companyFilter, setCompanyFilter] = React.useState({});
-  const router = useRouter();
-
-  const data = { companies };
-  // const API =
-  //   router.pathname === router.asPath
-  //     ? `${CompanyAPI}?page=${currentPage}`
-  //     : `${CompanyAPI}${router.asPath.replace(
-  //         "/company",
-  //         ""
-  //       )}&page=${currentPage}`;
-  // const { data, error } = useSWR(API, fetcher, {
-  //   fallbackData: {
-  //     companies: [
-  //       {
-  //         id: 1,
-  //         img: "./assets/img/loader/company_loader.svg",
-  //       },
-  //       {
-  //         id: 2,
-  //         img: "./assets/img/loader/company_loader.svg",
-  //       },
-  //       {
-  //         id: 3,
-  //         img: "./assets/img/loader/company_loader.svg",
-  //       },
-  //       {
-  //         id: 4,
-  //         img: "./assets/img/loader/company_loader.svg",
-  //       },
-  //       {
-  //         id: 5,
-  //         img: "./assets/img/loader/company_loader.svg",
-  //       },
-  //       {
-  //         id: 6,
-  //         img: "./assets/img/loader/company_loader.svg",
-  //       },
-  //       {
-  //         id: 7,
-  //         img: "./assets/img/loader/company_loader.svg",
-  //       },
-  //       {
-  //         id: 8,
-  //         img: "./assets/img/loader/company_loader.svg",
-  //       },
-  //       {
-  //         id: 9,
-  //         img: "./assets/img/loader/company_loader.svg",
-  //       },
-  //     ],
-  //     companyFilter: companyFilter,
-  //     totalCompanyCount: AllCompanies?.totalCompanyCount || 0,
-  //     loading: true,
-  //   },
-  // });
-
+  const { data, error } = useSWR(CompanyAPI, fetcher, {
+    fallbackData: {
+      companies: [
+        {
+          id: 1,
+          img: "./assets/img/loader/company_loader.svg",
+        },
+        {
+          id: 2,
+          img: "./assets/img/loader/company_loader.svg",
+        },
+        {
+          id: 3,
+          img: "./assets/img/loader/company_loader.svg",
+        },
+        {
+          id: 4,
+          img: "./assets/img/loader/company_loader.svg",
+        },
+        {
+          id: 5,
+          img: "./assets/img/loader/company_loader.svg",
+        },
+        {
+          id: 6,
+          img: "./assets/img/loader/company_loader.svg",
+        },
+        {
+          id: 7,
+          img: "./assets/img/loader/company_loader.svg",
+        },
+        {
+          id: 8,
+          img: "./assets/img/loader/company_loader.svg",
+        },
+        {
+          id: 9,
+          img: "./assets/img/loader/company_loader.svg",
+        },
+      ],
+      companyFilter: companyFilter,
+      totalCompanyCount: AllCompanies?.totalCompanyCount || 0,
+      loading: true,
+    },
+  });
+  console.log("data: ", data);
   const handlePageChange = (data: any) => {
     setCurrentPage(data.selected);
   };
 
-  // React.useEffect(() => {
-  //   if (data) {
-  //     setCompanyFilter(data.companyFilter);
-  //   }
-  //   if (!data.loading) {
-  //     setAllCompanies(data);
-  //   }
-  // }, [data]);
+  React.useEffect(() => {
+    if (data) {
+      setCompanyFilter(data.companyFilter);
+    }
+    if (!data.loading) {
+      setAllCompanies(data);
+    }
+  }, [data]);
 
-  // if (error) return <div>Error! {error.message}</div>;
-  // if (!data)
-  //   return (
-  //     <div className="h-80 w-full flex justify-center items-center">
-  //       <h1 className="text-5xl font-semibold text-center">Loading...</h1>
-  //     </div>
-  //   );
+  if (error) return <div>Error! {error.message}</div>;
+  if (!data)
+    return (
+      <div className="h-80 w-full flex justify-center items-center">
+        <h1 className="text-5xl font-semibold text-center">Loading...</h1>
+      </div>
+    );
 
   return (
     <>

@@ -76,8 +76,11 @@ export interface GetUserProfileResponse {
     firstName: string;
     lastName: string;
   };
+  aboutMe: string;
+  _id: string;
   email: string;
   password: string;
+  phoneNumber: string;
   isConfirmed: boolean;
   // package: {
   //     type: mongoose.Schema.Types.ObjectId,

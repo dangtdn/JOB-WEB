@@ -6,13 +6,16 @@ import { localGet, localRemove } from "../utils/localStore";
 import { Loader } from "../loader/loader";
 import { users } from "@/utils/dummy-content/mongodb-collections/Untitled";
 import { useRouter } from "next/navigation";
+import { GetUserProfileResponse } from "@/types/user";
 
 export default function useUser() {
-  const data = localGet("UserData") ?? users[0];
   const loading = false;
   const loggedIn = localGet("UserData") !== null;
   const loggedOut = localGet("UserData") === null ? true : false;
   const localData = localGet("UserData");
+  const dataUser: GetUserProfileResponse = localData
+    ? localGet("UserData")?.user
+    : undefined;
 
   // auto logout if token is expired or not found in localStorage
 
@@ -27,16 +30,16 @@ export default function useUser() {
     }
   }, [localData]);
 
-  const isAdmin = data?.user.role.isAdmin;
-  const isConfirmed = data?.user.isConfirmed;
-  const isEmployer = data?.user.role.isEmployer;
-  const isCandidate = data?.user.role.isCandidate;
+  const isAdmin = dataUser?.role.isAdmin ?? false;
+  const isConfirmed = dataUser?.isConfirmed ?? false;
+  const isEmployer = dataUser?.role.isEmployer ?? false;
+  const isCandidate = dataUser?.role.isCandidate ?? false;
 
   return {
     loading,
     loggedIn,
     loggedOut,
-    user: data?.user,
+    user: dataUser,
     isConfirmed,
     isAdmin,
     isEmployer,

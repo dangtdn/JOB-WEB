@@ -1,11 +1,12 @@
-import Router from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import ImageOpt from "../../optimize/image";
 import { authAxios } from "../../../lib/utils/axiosKits";
+import { useRouter } from "next/navigation";
 
 const AddCompanyForm = () => {
+  const router = useRouter();
   const [CompanyHeaderImg, setCompanyHeaderImg] = React.useState("");
   const [LogoImg, setLogoImg] = React.useState("");
   const {
@@ -56,7 +57,7 @@ const AddCompanyForm = () => {
             position: "bottom-right",
             className: "foo-bar",
           });
-          Router.push("/company/manages-companies");
+          router.push("/company/manages-companies");
         })
         .catch((err) => {
           toast.error(err.response.data.message, {

@@ -1,5 +1,8 @@
+"use client";
+
 import Layout from "@/components/Layout/Layout";
 import RecentActivities from "@/components/dashboard/dashboard/recent-activities";
+import ResumePackages from "@/components/dashboard/dashboard/resume-packages";
 import UserInfoBox from "@/components/dashboard/dashboard/user-info-box";
 import useUser, { UserNotLogin } from "@/lib/auth/user";
 import Head from "next/head";
@@ -27,9 +30,9 @@ const Dashboard = () => {
                   <div>
                     <RecentActivities />
                   </div>
-                  {/* <div>
+                  <div>
                     <ResumePackages />
-                  </div> */}
+                  </div>
                 </div>
               </div>
             </section>

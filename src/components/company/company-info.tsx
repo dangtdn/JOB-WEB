@@ -5,12 +5,12 @@ import ImageOpt from "../optimize/image";
 const CompanyInfo = ({ data }: { data: any }) => {
   return (
     <div className="p-8 rounded-md bg-white mb-6 relative">
-      {(!data?.company || data?.loading) && <LoaderGrowing />}
+      {(!data?.data || data?.loading) && <LoaderGrowing />}
       <h4 className="text-lg2 font-bold text-black leading-6 mb-6">
         Company Info
       </h4>
       <ul>
-        {data?.company?.category !== "" && (
+        {data?.data.category !== "" && (
           <li className="flex gap-3 items-center flex-wrap mb-3">
             <div className="">
               <ImageOpt
@@ -25,13 +25,11 @@ const CompanyInfo = ({ data }: { data: any }) => {
               <h5 className="text-base font-medium text-black leading-5 mb-0">
                 Industry
               </h5>
-              <p className="text-grayLight text-sm">
-                {data?.company?.category}
-              </p>
+              <p className="text-grayLight text-sm">{data?.data.category}</p>
             </div>
           </li>
         )}
-        {data?.company?.companySize !== "" && (
+        {data?.data.companySize !== "" && (
           <li className="flex gap-3 items-center flex-wrap mb-3">
             <div className="">
               <ImageOpt
@@ -46,13 +44,11 @@ const CompanyInfo = ({ data }: { data: any }) => {
               <h5 className="text-base font-medium text-black leading-5 mb-0">
                 Company Size
               </h5>
-              <p className="text-grayLight text-sm">
-                {data?.company?.companySize}
-              </p>
+              <p className="text-grayLight text-sm">{data?.data.companySize}</p>
             </div>
           </li>
         )}
-        {data?.company?.avarageSalary !== "" && (
+        {data?.data.avarageSalary !== "" && (
           <li className="flex gap-3 items-center flex-wrap mb-3">
             <div className="">
               <ImageOpt
@@ -68,12 +64,12 @@ const CompanyInfo = ({ data }: { data: any }) => {
                 Avg. Salary
               </h5>
               <p className="text-grayLight text-sm">
-                {data?.company?.avarageSalary}
+                {data?.data.avarageSalary}
               </p>
             </div>
           </li>
         )}
-        {data?.company?.location !== "" && (
+        {data?.data.location !== "" && (
           <li className="flex gap-3 items-center flex-wrap mb-3">
             <div className="">
               <ImageOpt
@@ -88,9 +84,7 @@ const CompanyInfo = ({ data }: { data: any }) => {
               <h5 className="text-base font-medium text-black leading-5 mb-0">
                 Job Location
               </h5>
-              <p className="text-grayLight text-sm">
-                {data?.company?.location}
-              </p>
+              <p className="text-grayLight text-sm">{data?.data.location}</p>
             </div>
           </li>
         )}

@@ -42,7 +42,7 @@ export default function JobDetails() {
   const isApplied = _.find(jobApplies, (item) => item?.jobItem?.$oid === id);
   const data = _.find([...jobs], (item) => item?._id.$oid === id);
   const bookmarkData = [...bookmarks].find(
-    (item) => item?.user.$oid && item?.user.$oid === user?._id.$oid
+    (item) => item?.user.$oid && item?.user.$oid === user._id
   );
   const companiesData = [...companies];
   // const { data: bookmarkData } = useSWR(
@@ -299,7 +299,7 @@ export default function JobDetails() {
                       </div>
                     </div>
                     <div className="grid">
-                      {user?._id.$oid === data?.user.$oid ? (
+                      {user._id === data?.user.$oid ? (
                         <Link
                           href={`/job/edit-job?active_id=${data?._id.$oid}`}
                         >
