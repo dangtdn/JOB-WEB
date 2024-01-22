@@ -78,7 +78,7 @@ const CompanyJobItem = ({ item, loading }: { item: any; loading: any }) => {
       <div>
         <ul className="mb-3">
           {/* <li className="mb-2">
-            <p className="flex gap-3 items-center text-deep text-xss font-normal">
+            <div className="flex gap-3 items-center text-deep text-xss font-normal">
               <Image
                 width={20}
                 height={20}
@@ -87,10 +87,10 @@ const CompanyJobItem = ({ item, loading }: { item: any; loading: any }) => {
                 alt="img"
               />
               02 Vacancy
-            </p>
+            </div>
           </li> */}
           <li className="mb-2">
-            <p className="flex gap-3 items-center text-deep text-xss font-normal">
+            <div className="flex gap-3 items-center text-deep text-xss font-normal">
               <ImageOpt
                 width={16}
                 height={16}
@@ -108,10 +108,10 @@ const CompanyJobItem = ({ item, loading }: { item: any; loading: any }) => {
                 lowercase: true,
               })}{" "}
               Taka
-            </p>
+            </div>
           </li>
           <li className="mb-0">
-            <p className="flex gap-3 items-center text-deep text-xss font-normal">
+            <div className="flex gap-3 items-center text-deep text-xss font-normal">
               <ImageOpt
                 width={20}
                 height={20}
@@ -124,7 +124,7 @@ const CompanyJobItem = ({ item, loading }: { item: any; loading: any }) => {
 									? item.createdAt
 									: 'Fri May 27 2022 10:19:22 GMT+0600 (Bangladesh Standard Time)'}
 							</Moment> */}
-            </p>
+            </div>
           </li>
         </ul>
         <div>

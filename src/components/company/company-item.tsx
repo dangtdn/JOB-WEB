@@ -90,7 +90,7 @@ const CompanyItem = ({ item }: { item: any }) => {
         <ul className="mb-6">
           {item && item.companySize && (
             <li className="mb-3">
-              <p className="flex gap-3 items-center text-deep text-xss1 font-normal">
+              <div className="flex gap-3 items-center text-deep text-xss1 font-normal">
                 <ImageOpt
                   width={16}
                   height={16}
@@ -100,12 +100,12 @@ const CompanyItem = ({ item }: { item: any }) => {
                   alt="img"
                 />
                 {item ? item.companySize : "10-20"} Employee
-              </p>
+              </div>
             </li>
           )}
           {item && item.avarageSalary && (
             <li className="mb-3">
-              <p className="flex gap-3 items-center text-deep text-xss1 font-normal">
+              <div className="flex gap-3 items-center text-deep text-xss1 font-normal">
                 <ImageOpt
                   width={16}
                   height={16}
@@ -115,12 +115,12 @@ const CompanyItem = ({ item }: { item: any }) => {
                   alt="img"
                 />
                 {item ? item.avarageSalary : "100K"}
-              </p>
+              </div>
             </li>
           )}
           {item && item.location && (
             <li className="mb-0">
-              <p className="flex gap-3 items-center text-deep text-xss1 font-normal">
+              <div className="flex gap-3 items-center text-deep text-xss1 font-normal">
                 <ImageOpt
                   width={16}
                   height={16}
@@ -130,14 +130,14 @@ const CompanyItem = ({ item }: { item: any }) => {
                   alt="img"
                 />
                 {item ? item.location : "USA"}
-              </p>
+              </div>
             </li>
           )}
         </ul>
       </div>
       <div>
         <Link
-          href={`/company/${item?._id}`}
+          href={`/company/${item?._id?.$oid}`}
           className="block leading-4 text-deep transition-all font-medium text-xs group-hover:text-white text-center py-3 px-6 bg-light rounded-md group-hover:!bg-themePrimary"
         >
           See Details

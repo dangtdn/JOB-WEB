@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Loading from "./loading";
 import Layout from "@/components/Layout/Layout";
 import PageTitle from "@/components/page-title";
@@ -11,19 +11,133 @@ import ImageOpt from "@/components/optimize/image";
 import Pagination from "@/components/pagination";
 import { jobFilter } from "@/utils/dummy-content/mongodb-collections/jobfilters";
 import JobItem from "@/components/Job/JobItem";
+import { Axios } from "@/lib/utils/axiosKits";
+import useSWR from "swr";
+import _ from "lodash";
+import { Loader } from "@/lib/loader/loader";
+
+const fetcher = (url: string) => Axios(url).then((res) => res.data.data);
 
 export default function FindJob() {
-  const [jobTypes, setJobTypes] = useState(jobFilter[0].jobType);
-  const [jobExperience, setJobExperience] = useState(jobFilter[0].jobExperince);
+  const [jobTypes, setJobTypes] = useState<{ types: string; count: number }[]>(
+    []
+  );
+  const [jobExperience, setJobExperience] = useState<
+    { value: string; count: number }[]
+  >([]);
 
   // get current pages
   const [currentPage, setCurrentPage] = useState(0);
   const [jobsPerPage] = useState(9);
-  const [AllJobs, setAllJobs] = useState({
+  const [allJobs, setAllJobs] = useState({
     totalJobCount: 0,
     jobs: jobs,
   });
-  const data = jobs;
+  const [jobFilter, setJobFilter] = useState<any[]>([]);
+  const data = { data: jobs, loading: false };
+
+  // call SWR
+  // const AllAPI = "/jobs";
+  // const { data, error } = useSWR(AllAPI, fetcher, {
+  //   fallbackData: {
+  //     jobs: [
+  //       {
+  //         id: 1,
+  //         img: "./assets/img/loader/job_loader.svg",
+  //       },
+  //       {
+  //         id: 1,
+  //         img: "./assets/img/loader/job_loader.svg",
+  //       },
+  //       {
+  //         id: 1,
+  //         img: "./assets/img/loader/job_loader.svg",
+  //       },
+  //       {
+  //         id: 1,
+  //         img: "./assets/img/loader/job_loader.svg",
+  //       },
+  //       {
+  //         id: 1,
+  //         img: "./assets/img/loader/job_loader.svg",
+  //       },
+  //       {
+  //         id: 1,
+  //         img: "./assets/img/loader/job_loader.svg",
+  //       },
+  //       {
+  //         id: 1,
+  //         img: "./assets/img/loader/job_loader.svg",
+  //       },
+  //       {
+  //         id: 1,
+  //         img: "./assets/img/loader/job_loader.svg",
+  //       },
+  //       {
+  //         id: 1,
+  //         img: "./assets/img/loader/job_loader.svg",
+  //       },
+  //     ],
+  //     filter: {
+  //       jobTypes: jobTypes,
+  //       jobExperience: jobExperience,
+  //     },
+  //     totalJobCount: allJobs?.totalJobCount || 0,
+  //     loading: true,
+  //   },
+  // });
+
+  useEffect(() => {
+    if (data) {
+      const filter = {
+        jobTypes: (
+          data?.data?.map((item) => item.jobTypes) as string[][]
+        ).reduce((arr, item) => (arr = [...arr, ...item]), []),
+        jobExperience: data?.data?.map(
+          (item) => item.jobExperience
+        ) as string[],
+      };
+      const filterJobTypes = filter?.jobTypes.filter((value, index, self) => {
+        return self.indexOf(value) === index;
+      });
+      const filterJobExperience = filter?.jobExperience.filter(
+        (value, index, self) => {
+          return self.indexOf(value) === index;
+        }
+      );
+
+      setJobTypes(
+        filterJobTypes.map((type) => ({
+          types: type,
+          count: data.data.filter(({ jobTypes }) =>
+            jobTypes.includes(type.trim())
+          ).length,
+        }))
+      );
+      setJobExperience(
+        filterJobExperience
+          .filter((value) => value)
+          .map((experience) => ({
+            value: experience,
+            count: data.data.filter(
+              ({ jobExperience }) => jobExperience === experience
+            ).length,
+          }))
+      );
+    }
+    if (!data.loading) {
+      setJobFilter(data.data);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (jobFilter) {
+      setAllJobs({
+        totalJobCount: jobFilter.length,
+        jobs: [...jobFilter],
+      });
+    }
+  }, [jobFilter]);
 
   const handlePageChange = (data: any) => {
     setCurrentPage(data.selected);
@@ -35,11 +149,7 @@ export default function FindJob() {
         <main>
           <PageTitle title="Find Your Dream Job" excerpt={null} image={null} />
           {/* {error && <div>Error! {error.message}</div>} */}
-          {!data && (
-            <div className="h-80 w-full flex justify-center items-center">
-              <h1 className="text-5xl font-semibold text-center">Loading...</h1>
-            </div>
-          )}
+          {!data && <Loader />}
           {data && (
             <>
               <section className="pt-14 pb-20 !bg-light">
@@ -49,39 +159,41 @@ export default function FindJob() {
                       types={jobTypes}
                       jobExperience={jobExperience}
                       setCurrentPage={setCurrentPage}
+                      setJobFilter={setJobFilter}
+                      defaultData={data.data}
                     />
 
                     <div className="col-span-9">
-                      <SortBy totalCount={data.length} />
-                      {/* {data?.loading && (
-                  <div className="grid gap-6 xl:gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 justify-center">
-                    {_.map(data.jobs, (item) => (
-                      <div key={item.id}>
-                        <ImageOpt
-                          src={item.img}
-                          alt="image"
-                          width={315}
-                          height={418}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                )} */}
+                      <SortBy totalCount={allJobs.jobs.length} />
+                      {data?.loading && (
+                        <div className="grid gap-6 xl:gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 justify-center">
+                          {_.map(data?.data, (item) => (
+                            <div key={item._id.$oid}>
+                              <ImageOpt
+                                src={item.avatar}
+                                alt="image"
+                                width={315}
+                                height={418}
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      )}
                       <div className="grid gap-6 xl:gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 justify-center">
-                        {data?.map((item, index) => (
+                        {allJobs?.jobs?.map((item: any, index: number) => (
                           <JobItem key={index} item={item} />
                         ))}
                       </div>
-                      {data.length === 0 && (
+                      {allJobs?.jobs?.length === 0 && (
                         <div className="h-80 flex justify-center items-center text-center">
                           <h2 className="text-4xl font-semibold">
                             No Data Found ☹️
                           </h2>
                         </div>
                       )}
-                      {AllJobs?.totalJobCount > jobsPerPage && (
+                      {allJobs?.totalJobCount > jobsPerPage && (
                         <Pagination
-                          totalCount={AllJobs?.totalJobCount}
+                          totalCount={allJobs?.totalJobCount}
                           showPerPage={jobsPerPage}
                           handlePageChange={handlePageChange}
                         />

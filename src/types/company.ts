@@ -13,7 +13,7 @@ export interface Company {
   logo: string;
 }
 
-interface CompanyDetail extends Company {
+export interface CompanyDetail extends Company {
   status: {
     isPublished: boolean;
     isApproved: boolean;

@@ -11,12 +11,13 @@ import ImageOpt from "@/components/optimize/image";
 import PageTitle from "@/components/page-title";
 import Pagination from "@/components/pagination";
 import { Axios } from "@/lib/utils/axiosKits";
+import { CompanyDetail } from "@/types/company";
 import { companies } from "@/utils/dummy-content/mongodb-collections/companies";
 import _ from "lodash";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import useSWR from "swr";
 
 const fetcher = (url: string) =>
@@ -28,72 +29,87 @@ const CompanyAPI = "/companies";
 
 const CompanyDataList = () => {
   // get current pages
-  const [currentPage, setCurrentPage] = React.useState(0);
-  const [companiesPerPage] = React.useState(9);
-  const [AllCompanies, setAllCompanies] = React.useState({
+  const [currentPage, setCurrentPage] = useState(0);
+  const [companiesPerPage] = useState(9);
+  const [companyFilter, setCompanyFilter] = useState<any[]>([]);
+  const [AllCompanies, setAllCompanies] = useState<{
+    companies: any[];
+    totalCompanyCount: number;
+  }>({
+    companies: companyFilter,
     totalCompanyCount: 0,
   }) as any;
-  const [companyFilter, setCompanyFilter] = React.useState({});
-  const { data, error } = useSWR(CompanyAPI, fetcher, {
-    fallbackData: {
-      companies: [
-        {
-          id: 1,
-          img: "./assets/img/loader/company_loader.svg",
-        },
-        {
-          id: 2,
-          img: "./assets/img/loader/company_loader.svg",
-        },
-        {
-          id: 3,
-          img: "./assets/img/loader/company_loader.svg",
-        },
-        {
-          id: 4,
-          img: "./assets/img/loader/company_loader.svg",
-        },
-        {
-          id: 5,
-          img: "./assets/img/loader/company_loader.svg",
-        },
-        {
-          id: 6,
-          img: "./assets/img/loader/company_loader.svg",
-        },
-        {
-          id: 7,
-          img: "./assets/img/loader/company_loader.svg",
-        },
-        {
-          id: 8,
-          img: "./assets/img/loader/company_loader.svg",
-        },
-        {
-          id: 9,
-          img: "./assets/img/loader/company_loader.svg",
-        },
-      ],
-      companyFilter: companyFilter,
-      totalCompanyCount: AllCompanies?.totalCompanyCount || 0,
-      loading: true,
-    },
-  });
+  // const { data, error } = useSWR(CompanyAPI, fetcher, {
+  //   fallbackData: {
+  //     companies: [
+  //       {
+  //         id: 1,
+  //         img: "./assets/img/loader/company_loader.svg",
+  //       },
+  //       {
+  //         id: 2,
+  //         img: "./assets/img/loader/company_loader.svg",
+  //       },
+  //       {
+  //         id: 3,
+  //         img: "./assets/img/loader/company_loader.svg",
+  //       },
+  //       {
+  //         id: 4,
+  //         img: "./assets/img/loader/company_loader.svg",
+  //       },
+  //       {
+  //         id: 5,
+  //         img: "./assets/img/loader/company_loader.svg",
+  //       },
+  //       {
+  //         id: 6,
+  //         img: "./assets/img/loader/company_loader.svg",
+  //       },
+  //       {
+  //         id: 7,
+  //         img: "./assets/img/loader/company_loader.svg",
+  //       },
+  //       {
+  //         id: 8,
+  //         img: "./assets/img/loader/company_loader.svg",
+  //       },
+  //       {
+  //         id: 9,
+  //         img: "./assets/img/loader/company_loader.svg",
+  //       },
+  //     ],
+  //     companyFilter: companyFilter,
+  //     totalCompanyCount: AllCompanies?.totalCompanyCount || 0,
+  //     loading: true,
+  //   },
+  // });
+  const data = {
+    companies: companies,
+    loading: false,
+    error: false,
+  };
   console.log("data: ", data);
   const handlePageChange = (data: any) => {
     setCurrentPage(data.selected);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (data) {
-      setCompanyFilter(data.companyFilter);
+      setCompanyFilter(data.companies);
     }
-    if (!data.loading) {
-      setAllCompanies(data);
-    }
-  }, [data]);
+  }, []);
 
-  if (error) return <div>Error! {error.message}</div>;
+  useEffect(() => {
+    if (companyFilter) {
+      setAllCompanies({
+        companies: companyFilter,
+        totalCompanyCount: companyFilter.length,
+      });
+    }
+  }, [companyFilter]);
+
+  // if (error) return <div>Error! {error.message}</div>;
   if (!data)
     return (
       <div className="h-80 w-full flex justify-center items-center">
@@ -106,7 +122,11 @@ const CompanyDataList = () => {
       <section className="pt-16 pb-20 !bg-light">
         <div className="container 2xl:px-0">
           <div className="xl:grid grid-cols-12 gap-6">
-            <CompanyFilter setCurrentPage={setCurrentPage} />
+            <CompanyFilter
+              setCurrentPage={setCurrentPage}
+              setCompanyFilter={setCompanyFilter}
+              defaultData={data.companies}
+            />
 
             <div className="col-span-9">
               <div className="bg-white rounded-md md:flex flex-wrap justify-between items-center mb-6 py-2.5 md:py-2">
@@ -137,8 +157,8 @@ const CompanyDataList = () => {
                     />
                   </div>
                 ))} */}
-                {data.companies.length > 0 &&
-                  _.map(data.companies, (item, index) => (
+                {AllCompanies.companies.length > 0 &&
+                  _.map(AllCompanies.companies, (item, index) => (
                     <CompanyItem key={index} item={item} />
                   ))}
               </div>
