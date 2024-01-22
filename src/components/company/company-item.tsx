@@ -137,7 +137,7 @@ const CompanyItem = ({ item }: { item: any }) => {
       </div>
       <div>
         <Link
-          href={`/company/${item?._id?.$oid}`}
+          href={`/company/${item?._id ?? item?._id?.$oid}`}
           className="block leading-4 text-deep transition-all font-medium text-xs group-hover:text-white text-center py-3 px-6 bg-light rounded-md group-hover:!bg-themePrimary"
         >
           See Details

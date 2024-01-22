@@ -39,19 +39,11 @@ export default function JobDetails() {
   // 		refreshInterval: 0,
   // 	}
   // )
+  console.log("user: ", user);
   const isApplied = _.find(jobApplies, (item) => item?.jobItem?.$oid === id);
   const data = _.find([...jobs], (item) => item?._id.$oid === id);
-  const bookmarkData = [...bookmarks].find(
-    (item) => item?.user.$oid && item?.user.$oid === user._id
-  );
+
   const companiesData = [...companies];
-  // const { data: bookmarkData } = useSWR(
-  //   id ? `/bookmarks/bookmark/${id}` : null,
-  //   authFetcher,
-  //   {
-  //     refreshInterval: 0,
-  //   }
-  // );
   const [Show, setShow] = React.useState(false);
   const [bookmark, setBookmark] = React.useState(false);
   const { LoginPopupHandler } = React.useContext(ThemeContext) as any;
@@ -114,88 +106,6 @@ export default function JobDetails() {
     // 			autoDismiss: true,
     // 		})
     // 	}
-    // }
-  };
-
-  // job bookmark submit form
-  const jobBookmarkSubmit = async (data: any) => {
-    setLoading(true);
-    // try {
-    //   await authAxios({
-    //     method: "post",
-    //     url: "/bookmarks/retrives",
-    //     data: {
-    //       job: id,
-    //       note: data.note,
-    //     },
-    //   }).then(
-    //     (res: {
-    //       data: {
-    //         message:
-    //           | string
-    //           | number
-    //           | boolean
-    //           | React.ReactElement<
-    //               any,
-    //               string | React.JSXElementConstructor<any>
-    //             >
-    //           | Iterable<React.ReactNode>
-    //           | React.ReactPortal
-    //           | React.PromiseLikeOfReactNode
-    //           | null
-    //           | undefined;
-    //       };
-    //     }) => {
-    //       mutate(`/bookmarks/bookmark/${id}`).then(() => {
-    //         addToast(res.data.message, {
-    //           appearance: "success",
-    //           autoDismiss: true,
-    //         });
-    //         setBookmark(!bookmark);
-    //         setLoading(false);
-    //         bookmarkReset();
-    //       });
-    //     }
-    //   );
-    // } catch (error: any) {
-    //   addToast(error.responsive.data.message, {
-    //     appearance: "error",
-    //     autoDismiss: true,
-    //   });
-    //   setLoading(false);
-    // }
-  };
-
-  // remove bookmark function
-  const removeBookmark = async () => {
-    // setLoading(true);
-    // try {
-    //   await authAxios({
-    //     method: "DELETE",
-    //     url: `/bookmarks/bookmark/${id}`,
-    //   }).then((res) => {
-    //     mutate(`/bookmarks/bookmark/${id}`).then(() => {
-    //       addToast(res.data.message, {
-    //         appearance: "success",
-    //         autoDismiss: true,
-    //       });
-    //       setLoading(false);
-    //     });
-    //   });
-    // } catch (error: any) {
-    //   if (error?.response?.data?.message) {
-    //     addToast(error.response.data.message, {
-    //       appearance: "error",
-    //       autoDismiss: true,
-    //     });
-    //     setLoading(false);
-    //   } else {
-    //     addToast("Something went wrong", {
-    //       appearance: "error",
-    //       autoDismiss: true,
-    //     });
-    //     setLoading(false);
-    //   }
     // }
   };
 
@@ -299,13 +209,12 @@ export default function JobDetails() {
                       </div>
                     </div>
                     <div className="grid">
-                      {user._id === data?.user.$oid ? (
+                      {user && user?._id === data?.user.$oid ? (
                         <Link
                           href={`/job/edit-job?active_id=${data?._id.$oid}`}
+                          className="py-2.5 block px-6 mb-2 leading-4 text-white bg-themePrimary rounded-md transition-all hover:bg-black hover:text-green"
                         >
-                          <a className="py-2.5 block px-6 mb-2 leading-4 text-white bg-themePrimary rounded-md transition-all hover:bg-black hover:text-green">
-                            Edit Job
-                          </a>
+                          Edit Job
                         </Link>
                       ) : (
                         !isEmployer &&
@@ -323,42 +232,6 @@ export default function JobDetails() {
                         ))
                       )}
                     </div>
-
-                    {/* Bookmark */}
-                    {/* {user?._id !== data?.user && (
-                      <button
-                        onClick={() => {
-                          if (bookmarkData?.isBookmark) {
-                            // remove bookmark
-                            sweetAlert({
-                              title: "Are you sure?",
-                              text: "You want to remove this job from your bookmark?",
-                              icon: "warning",
-                              buttons: true as any,
-                              dangerMode: true,
-                            }).then((willDelete) => {
-                              if (willDelete) {
-                                removeBookmark();
-                              }
-                            });
-                          } else {
-                            setBookmark(!bookmark);
-                          }
-                        }}
-                        className={`!p-2 group flex absolute top-0 right-0 justify-center items-center gap-2 mb-2 leading-4 rounded-md transition-all`}
-                      >
-                        {" "}
-                        {bookmarkData?.isBookmark ? (
-                          <AiFillHeart
-                            className={`text-themePrimary group-hover:text-themeLight text-lg`}
-                          />
-                        ) : (
-                          <AiOutlineHeart
-                            className={`text-themeLight group-hover:text-themePrimary text-lg`}
-                          />
-                        )}
-                      </button>
-                    )} */}
                   </div>
                   {/* left bottom */}
                   <div className="p-8 rounded-md bg-white relative">
@@ -572,81 +445,6 @@ export default function JobDetails() {
                 onClick={() => {
                   LoginPopupHandler();
                   setShow(!Show);
-                }}
-              >
-                Login Now
-              </button>
-            </div>
-          </div>
-        )}
-      </PopupModule>
-      {/* Job Bookmark popup */}
-      <PopupModule
-        PopupTitle="Bookmark Details"
-        Popup={bookmark}
-        PopupHandler={() => {
-          setBookmark(!bookmark);
-        }}
-      >
-        {loggedIn ? (
-          <form
-            className="grid grid-cols-1 gap-4"
-            onSubmit={bookmarkHandleSubmit(jobBookmarkSubmit)}
-          >
-            <div className="mb-6">
-              <label
-                className="block mb-2 text-themeDarker font-normal"
-                htmlFor="note"
-              >
-                Bookmark Note:
-              </label>
-              <textarea
-                className={`appearance-none block w-full !p-3 leading-5 text-themeDarker border ${
-                  errors?.note ? "!border-red-500" : "border-gray"
-                } placeholder:font-normal h-40 placeholder:text-xss1 rounded placeholder-themeDarkAlt focus:outline-none focus:ring-2 focus:ring-themePrimary focus:ring-opacity-50`}
-                id="note"
-                {...bookmarkRegister("note")}
-                placeholder="Note"
-              />
-              {errors?.note && (
-                <span className="text-red-500 text-xss italic">
-                  This field is required
-                </span>
-              )}
-            </div>
-            <button
-              className={`!py-3 px-7 flex gap-2 justify-center items-center transition-all duration-300 ease-in-out mb-6 w-full text-base text-white font-normal text-center leading-6 ${
-                bookmarkIsSubmitting || loading
-                  ? "bg-themeDarkerAlt"
-                  : "bg-themePrimary"
-              } rounded-md hover:bg-black`}
-              type="submit"
-              disabled={bookmarkIsSubmitting || loading}
-            >
-              {bookmarkIsSubmitting || loading
-                ? "Please wait..."
-                : "Add Bookmark"}
-              {(bookmarkIsSubmitting || loading) && (
-                <div
-                  className="spinner-grow w-5 h-5 text-themePrimary"
-                  role="status"
-                >
-                  <span className="sr-only">Loading...</span>
-                </div>
-              )}
-            </button>
-          </form>
-        ) : (
-          <div className="text-center grid justify-center items-center h-40">
-            <div>
-              <p className="text-xxs text-themeLighter !mb-4">
-                You must be logged in to bookmark this job.
-              </p>
-              <button
-                className="bg-themePrimary text-white px-10 !py-3 hover:bg-themeDarkerAlt transition-all duration-300 ease-in-out rounded text-base font-normal"
-                onClick={() => {
-                  LoginPopupHandler();
-                  setBookmark(!bookmark);
                 }}
               >
                 Login Now

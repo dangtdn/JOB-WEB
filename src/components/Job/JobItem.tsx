@@ -9,9 +9,7 @@ import { companies } from "@/utils/dummy-content/mongodb-collections/companies";
 // const { millify } = require("millify");
 
 const JobItem = ({ item }: { item: any }) => {
-  const currCompanyLogo =
-    companies.find((company) => company._id.$oid === item.company.$oid)?.logo ??
-    "";
+  const currCompanyLogo = item.company.logo ?? "";
 
   return (
     <div
@@ -178,9 +176,7 @@ const JobItem = ({ item }: { item: any }) => {
         </ul>
         <div>
           <Link
-            href={
-              item ? (item?._id ? `/find-job/${item?._id.$oid}` : "#") : "#"
-            }
+            href={item ? (item?._id ? `/find-job/${item?._id}` : "#") : "#"}
             className="block leading-4 text-deep text-xs group-hover:text-white text-center py-3 px-6 bg-light rounded-md transition-all group-hover:!bg-themePrimary"
           >
             Apply Now

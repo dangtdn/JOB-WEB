@@ -16,7 +16,7 @@ import useSWR from "swr";
 import _ from "lodash";
 import { Loader } from "@/lib/loader/loader";
 
-const fetcher = (url: string) => Axios(url).then((res) => res.data.data);
+const fetcher = (url: string) => Axios(url).then((res) => res.data);
 
 export default function FindJob() {
   const [jobTypes, setJobTypes] = useState<{ types: string; count: number }[]>(
@@ -29,72 +29,75 @@ export default function FindJob() {
   // get current pages
   const [currentPage, setCurrentPage] = useState(0);
   const [jobsPerPage] = useState(9);
-  const [allJobs, setAllJobs] = useState({
+  const [allJobs, setAllJobs] = useState<{
+    totalJobCount: number;
+    jobs: any[];
+  }>({
     totalJobCount: 0,
-    jobs: jobs,
+    jobs: [],
   });
   const [jobFilter, setJobFilter] = useState<any[]>([]);
-  const data = { data: jobs, loading: false };
+  // const data = { data: jobs, loading: false };
 
   // call SWR
-  // const AllAPI = "/jobs";
-  // const { data, error } = useSWR(AllAPI, fetcher, {
-  //   fallbackData: {
-  //     jobs: [
-  //       {
-  //         id: 1,
-  //         img: "./assets/img/loader/job_loader.svg",
-  //       },
-  //       {
-  //         id: 1,
-  //         img: "./assets/img/loader/job_loader.svg",
-  //       },
-  //       {
-  //         id: 1,
-  //         img: "./assets/img/loader/job_loader.svg",
-  //       },
-  //       {
-  //         id: 1,
-  //         img: "./assets/img/loader/job_loader.svg",
-  //       },
-  //       {
-  //         id: 1,
-  //         img: "./assets/img/loader/job_loader.svg",
-  //       },
-  //       {
-  //         id: 1,
-  //         img: "./assets/img/loader/job_loader.svg",
-  //       },
-  //       {
-  //         id: 1,
-  //         img: "./assets/img/loader/job_loader.svg",
-  //       },
-  //       {
-  //         id: 1,
-  //         img: "./assets/img/loader/job_loader.svg",
-  //       },
-  //       {
-  //         id: 1,
-  //         img: "./assets/img/loader/job_loader.svg",
-  //       },
-  //     ],
-  //     filter: {
-  //       jobTypes: jobTypes,
-  //       jobExperience: jobExperience,
-  //     },
-  //     totalJobCount: allJobs?.totalJobCount || 0,
-  //     loading: true,
-  //   },
-  // });
-
+  const jobAPI = "/jobs";
+  const { data, error } = useSWR(jobAPI, fetcher, {
+    fallbackData: {
+      jobs: [
+        {
+          id: 1,
+          img: "./assets/img/loader/job_loader.svg",
+        },
+        {
+          id: 1,
+          img: "./assets/img/loader/job_loader.svg",
+        },
+        {
+          id: 1,
+          img: "./assets/img/loader/job_loader.svg",
+        },
+        {
+          id: 1,
+          img: "./assets/img/loader/job_loader.svg",
+        },
+        {
+          id: 1,
+          img: "./assets/img/loader/job_loader.svg",
+        },
+        {
+          id: 1,
+          img: "./assets/img/loader/job_loader.svg",
+        },
+        {
+          id: 1,
+          img: "./assets/img/loader/job_loader.svg",
+        },
+        {
+          id: 1,
+          img: "./assets/img/loader/job_loader.svg",
+        },
+        {
+          id: 1,
+          img: "./assets/img/loader/job_loader.svg",
+        },
+      ],
+      filter: {
+        jobTypes: jobTypes,
+        jobExperience: jobExperience,
+      },
+      totalJobCount: allJobs?.totalJobCount || 0,
+      loading: true,
+    },
+  });
+  console.log("jobs: ", data);
   useEffect(() => {
-    if (data) {
+    if (data.success) {
       const filter = {
         jobTypes: (
-          data?.data?.map((item) => item.jobTypes) as string[][]
+          data?.jobs?.map((item: any) => item.jobTypes) as string[][]
         ).reduce((arr, item) => (arr = [...arr, ...item]), []),
-        jobExperience: data?.data?.map(
-          (item) => item.jobExperience
+        jobExperience: data?.jobs?.map(
+          (item: any) => item.jobExperience
         ) as string[],
       };
       const filterJobTypes = filter?.jobTypes.filter((value, index, self) => {
@@ -109,8 +112,8 @@ export default function FindJob() {
       setJobTypes(
         filterJobTypes.map((type) => ({
           types: type,
-          count: data.data.filter(({ jobTypes }) =>
-            jobTypes.includes(type.trim())
+          count: data?.jobs?.filter((job: any) =>
+            job.jobTypes.includes(type.trim())
           ).length,
         }))
       );
@@ -119,16 +122,14 @@ export default function FindJob() {
           .filter((value) => value)
           .map((experience) => ({
             value: experience,
-            count: data.data.filter(
-              ({ jobExperience }) => jobExperience === experience
+            count: data?.jobs?.filter(
+              (job: any) => job.jobExperience === experience
             ).length,
           }))
       );
+      setJobFilter(data.jobs);
     }
-    if (!data.loading) {
-      setJobFilter(data.data);
-    }
-  }, []);
+  }, [data]);
 
   useEffect(() => {
     if (jobFilter) {

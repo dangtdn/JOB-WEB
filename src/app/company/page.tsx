@@ -39,66 +39,71 @@ const CompanyDataList = () => {
     companies: companyFilter,
     totalCompanyCount: 0,
   }) as any;
-  // const { data, error } = useSWR(CompanyAPI, fetcher, {
-  //   fallbackData: {
-  //     companies: [
-  //       {
-  //         id: 1,
-  //         img: "./assets/img/loader/company_loader.svg",
-  //       },
-  //       {
-  //         id: 2,
-  //         img: "./assets/img/loader/company_loader.svg",
-  //       },
-  //       {
-  //         id: 3,
-  //         img: "./assets/img/loader/company_loader.svg",
-  //       },
-  //       {
-  //         id: 4,
-  //         img: "./assets/img/loader/company_loader.svg",
-  //       },
-  //       {
-  //         id: 5,
-  //         img: "./assets/img/loader/company_loader.svg",
-  //       },
-  //       {
-  //         id: 6,
-  //         img: "./assets/img/loader/company_loader.svg",
-  //       },
-  //       {
-  //         id: 7,
-  //         img: "./assets/img/loader/company_loader.svg",
-  //       },
-  //       {
-  //         id: 8,
-  //         img: "./assets/img/loader/company_loader.svg",
-  //       },
-  //       {
-  //         id: 9,
-  //         img: "./assets/img/loader/company_loader.svg",
-  //       },
-  //     ],
-  //     companyFilter: companyFilter,
-  //     totalCompanyCount: AllCompanies?.totalCompanyCount || 0,
-  //     loading: true,
-  //   },
-  // });
+  const { data: dataCompany, error } = useSWR(CompanyAPI, fetcher, {
+    fallbackData: {
+      companies: [
+        {
+          id: 1,
+          img: "./assets/img/loader/company_loader.svg",
+        },
+        {
+          id: 2,
+          img: "./assets/img/loader/company_loader.svg",
+        },
+        {
+          id: 3,
+          img: "./assets/img/loader/company_loader.svg",
+        },
+        {
+          id: 4,
+          img: "./assets/img/loader/company_loader.svg",
+        },
+        {
+          id: 5,
+          img: "./assets/img/loader/company_loader.svg",
+        },
+        {
+          id: 6,
+          img: "./assets/img/loader/company_loader.svg",
+        },
+        {
+          id: 7,
+          img: "./assets/img/loader/company_loader.svg",
+        },
+        {
+          id: 8,
+          img: "./assets/img/loader/company_loader.svg",
+        },
+        {
+          id: 9,
+          img: "./assets/img/loader/company_loader.svg",
+        },
+      ],
+      companyFilter: companyFilter,
+      totalCompanyCount: AllCompanies?.totalCompanyCount || 0,
+      loading: true,
+    },
+  });
+  // const data = {
+  //   companies: companies,
+  //   loading: false,
+  //   error: false,
+  // };
   const data = {
-    companies: companies,
-    loading: false,
-    error: false,
+    companies: dataCompany.companies,
+    loading: dataCompany.loading,
+    error,
   };
-  console.log("data: ", data);
+  console.log("dataCompany: ", dataCompany);
   const handlePageChange = (data: any) => {
     setCurrentPage(data.selected);
   };
 
   useEffect(() => {
-    if (data) {
-      setCompanyFilter(data.companies);
+    if (dataCompany.success) {
+      setCompanyFilter(dataCompany.companies);
     }
-  }, []);
+  }, [dataCompany]);
 
   useEffect(() => {
     if (companyFilter) {
@@ -108,7 +113,7 @@ const CompanyDataList = () => {
       });
     }
   }, [companyFilter]);
-
+  console.log("companyFilter: ", companyFilter);
   // if (error) return <div>Error! {error.message}</div>;
   if (!data)
     return (

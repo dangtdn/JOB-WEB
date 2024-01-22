@@ -13,7 +13,7 @@ import { bookmarks } from "@/data/mongodb collections/bookmarks";
 import useUser from "@/lib/auth/user";
 import Layout from "@/components/Layout/Layout";
 import PageTitle from "@/components/page-title";
-import { LoaderGrowing } from "@/lib/loader/loader";
+import { Loader, LoaderGrowing } from "@/lib/loader/loader";
 import ImageOpt from "@/components/optimize/image";
 import CompanyJobItem from "@/components/company/company-job-item";
 import CompanyInfo from "@/components/company/company-info";
@@ -21,6 +21,7 @@ import { jobs } from "@/data/mongodb collections/jobs";
 import PopupModule from "@/lib/popup-modul/popup-modul";
 import { Axios, authAxios } from "@/lib/utils/axiosKits";
 import useSWR, { useSWRConfig } from "swr";
+import { MdLocalPhone, MdMailOutline } from "react-icons/md";
 
 const fetcher = (url: string) => Axios(url).then((res) => res.data);
 const authFetcher = (url: string) =>
@@ -30,26 +31,9 @@ export default function CompanyProfile() {
   const pathName = usePathname();
   const id = pathName.split("/").at(-1);
   const { LoginPopupHandler } = React.useContext(ThemeContext) as any;
-  // check isBookmark true or false
-  // const { data: bookmarkData } = useSWR(
-  // 	`/user/bookmark/find/${id}`,
-  // 	authFetcher,
-  // 	{
-  // 		refreshInterval: 0,
-  // 	}
-  // )
-  const [bookmark, setBookmark] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const { user, loggedIn } = useUser();
   const { mutate } = useSWRConfig();
-  const bookmarkData =
-    bookmarks.find((item) => item.user.$oid === user._id)?.bookmarks ?? [];
-  let isBookmark = false;
-  bookmarkData.forEach((item: any) => {
-    if (item.company) {
-      isBookmark = true;
-    }
-  });
   const {
     register,
     handleSubmit,
@@ -59,10 +43,10 @@ export default function CompanyProfile() {
   } = useForm({
     mode: "onChange",
   });
-  const { data, error } = useSWR(`/companies/${id}`, fetcher, {
+  const { data, error } = useSWR(`/company/${id}`, fetcher, {
     refreshInterval: 0,
     fallbackData: {
-      data: {
+      company: {
         avarageSalary: "1050",
         category: "Category Name",
         companyEmail: "info@exasssmple.com",
@@ -93,69 +77,6 @@ export default function CompanyProfile() {
   });
   const jobsData = jobs.filter((item) => item.company.$oid === id);
   console.log("dataId: ", data);
-  // company bookmark submit form
-  const companyBookmarkSubmit = async (data: any) => {
-    setLoading(true);
-    // try {
-    // 	await authAxios({
-    // 		method: 'post',
-    // 		url: '/user/bookmark',
-    // 		data: {
-    // 			company: id,
-    // 			note: data.note,
-    // 		},
-    // 	}).then((res) => {
-    // 		mutate(`/user/bookmark/find/${id}`).then(() => {
-    // 			addToast(res.data.message, {
-    // 				appearance: 'success',
-    // 				autoDismiss: true,
-    // 			})
-    // 			setLoading(false)
-    // 			setBookmark(!bookmark)
-    // 			reset()
-    // 		})
-    // 	})
-    // } catch (error: any) {
-    // 	addToast(error.responsive.data.message, {
-    // 		appearance: 'error',
-    // 		autoDismiss: true,
-    // 	})
-    // 	setLoading(false)
-    // }
-  };
-
-  // remove bookmark function
-  const removeBookmark = async () => {
-    setLoading(true);
-    // try {
-    //   await authAxios({
-    //     method: "DELETE",
-    //     url: `/user/bookmark/${router.query.id}`,
-    //   }).then((res) => {
-    //     mutate(`/user/bookmark/find/${router.query.id}`).then(() => {
-    //       addToast(res.data.message, {
-    //         appearance: "success",
-    //         autoDismiss: true,
-    //       });
-    //       setLoading(false);
-    //     });
-    //   });
-    // } catch (error: any) {
-    //   if (error?.response?.data) {
-    //     addToast(error.response.data.message, {
-    //       appearance: "error",
-    //       autoDismiss: true,
-    //     });
-    //     setLoading(false);
-    //   } else {
-    //     addToast(error.message, {
-    //       appearance: "error",
-    //       autoDismiss: true,
-    //     });
-    //     setLoading(false);
-    //   }
-    // }
-  };
 
   return (
     <div>
@@ -165,16 +86,13 @@ export default function CompanyProfile() {
 
       <Layout>
         <main>
-          <PageTitle title="Company Details" image={data?.data.thumb} />
+          <PageTitle title="Company Details" image={data?.company.thumb} />
           <section className="pt-16 pb-24 bg-light">
             <div className="container">
               <div className="lg:grid grid-cols-12 gap-6">
                 <div className="col-span-8">
                   {/* left Top */}
                   <div className="p-8 rounded-md bg-white flex flex-wrap gap-10 xl:gap-36 items-center mb-6 relative">
-                    {(!data?.data || data?.loading || loading) && (
-                      <LoaderGrowing />
-                    )}
                     <div className="flex gap-4 items-center flex-wrap">
                       <div>
                         <ImageOpt
@@ -182,8 +100,8 @@ export default function CompanyProfile() {
                           height={100}
                           className="rounded-md"
                           src={
-                            data?.data.logo
-                              ? data?.data.logo
+                            data?.company.logo
+                              ? data?.company.logo
                               : "/assets/img/avatar.png"
                           }
                           alt="img"
@@ -191,17 +109,17 @@ export default function CompanyProfile() {
                       </div>
                       <div className="mb-6 xl:mb-0">
                         <h2 className="text-lg text-black font-bold leading-6 mb-2">
-                          {data?.data.companyName}
+                          {data?.company.companyName}
                         </h2>
                         <p className="text-grayLight text-xss1 font-normal mb-3">
-                          {data?.data.companyTagline}
+                          {data?.company.companyTagline}
                         </p>
                         <ul className="flex gap-3 flex-wrap">
                           {/* website link */}
-                          {data?.data.companyWebsite !== "" && (
+                          {data?.company.companyWebsite !== "" && (
                             <li>
                               <a
-                                href={data?.data.companyWebsite}
+                                href={data?.company.companyWebsite}
                                 target="_blank"
                                 rel="noreferrer"
                               >
@@ -216,10 +134,10 @@ export default function CompanyProfile() {
                             </li>
                           )}
                           {/* facebook link */}
-                          {data?.data.socialLink?.facebook !== "" && (
+                          {data?.company.socialLink?.facebook !== "" && (
                             <li>
                               <a
-                                href={data?.data.socialLink?.facebook}
+                                href={data?.company.socialLink?.facebook}
                                 target="_blank"
                                 rel="noreferrer"
                               >
@@ -234,10 +152,10 @@ export default function CompanyProfile() {
                             </li>
                           )}
                           {/* linkedin link */}
-                          {data?.data.socialLink?.linkedin !== "" && (
+                          {data?.company.socialLink?.linkedin !== "" && (
                             <li>
                               <a
-                                href={data?.data.socialLink?.linkedin}
+                                href={data?.company.socialLink?.linkedin}
                                 target="_blank"
                                 rel="noreferrer"
                               >
@@ -252,10 +170,10 @@ export default function CompanyProfile() {
                             </li>
                           )}
                           {/* twitter link */}
-                          {data?.data.socialLink?.twitter !== "" && (
+                          {data?.company.socialLink?.twitter !== "" && (
                             <li>
                               <a
-                                href={data?.data.socialLink?.twitter}
+                                href={data?.company.socialLink?.twitter}
                                 target="_blank"
                                 rel="noreferrer"
                               >
@@ -272,65 +190,31 @@ export default function CompanyProfile() {
                         </ul>
                       </div>
                     </div>
-                    <p className="mb-0">
+                    <div className="mb-0">
+                      <MdMailOutline size={20} />
                       <a
                         className="text-xxs font-normal text-black leading-6 block !mb-3"
-                        href={`mailto:${data?.data.companyEmail}`}
+                        href={`mailto:${data?.company.companyEmail}`}
                       >
-                        {data?.data.companyEmail}
+                        {data?.company.companyEmail}
                       </a>
                       <a
                         className="text-xxs font-normal text-black leading-6 block"
-                        href={`mailto:${data?.data.phoneNumber}`}
+                        href={`mailto:${data?.company.phoneNumber}`}
                       >
-                        {data?.data.phoneNumber}
+                        <MdLocalPhone size={20} />
+                        {data?.company.phoneNumber}
                       </a>
-                    </p>
-
-                    {/* Bookmark */}
-                    {user._id !== data?.data.user?._id && (
-                      <button
-                        onClick={() => {
-                          if (isBookmark) {
-                            // remove bookmark
-                            sweetAlert({
-                              title: "Are you sure?",
-                              text: "You want to remove this company from your bookmark?",
-                              icon: "warning",
-                              buttons: true as any,
-                              dangerMode: true,
-                            }).then((willDelete) => {
-                              if (willDelete) {
-                                removeBookmark();
-                              }
-                            });
-                          } else {
-                            setBookmark(!bookmark);
-                          }
-                        }}
-                        className={`!p-2 group flex absolute top-0 right-0 justify-center items-center gap-2 mb-2 leading-4 rounded-md transition-all`}
-                      >
-                        {" "}
-                        {isBookmark ? (
-                          <AiFillHeart
-                            className={`text-themePrimary group-hover:text-themeLight text-lg`}
-                          />
-                        ) : (
-                          <AiOutlineHeart
-                            className={`text-themeLight group-hover:text-themePrimary text-lg`}
-                          />
-                        )}
-                      </button>
-                    )}
+                    </div>
                   </div>
                   {/* left Bottom */}
                   <div className="p-8 rounded-md bg-white relative">
-                    {(!data?.data || data?.loading) && <LoaderGrowing />}
+                    {/* {(!data?.data || data?.loading) && <LoaderGrowing />} */}
                     <h4 className="text-lg2 font-bold text-black leading-6 mb-6">
                       About Company
                     </h4>
                     <div className="mb-0 text-xs text-deep font-normal leading-6">
-                      {data?.data.description}
+                      {data?.company.description}
                     </div>
                   </div>
 
@@ -369,79 +253,6 @@ export default function CompanyProfile() {
           </section>
         </main>
       </Layout>
-      {/* company Bookmark popup */}
-      <PopupModule
-        PopupTitle="Bookmark Details"
-        Popup={bookmark}
-        PopupHandler={() => {
-          setBookmark(!bookmark);
-        }}
-      >
-        {loggedIn ? (
-          <form
-            className="grid grid-cols-1 gap-4"
-            onSubmit={handleSubmit(companyBookmarkSubmit)}
-          >
-            <div className="mb-6">
-              <label
-                className="block mb-2 text-themeDarker font-normal"
-                htmlFor="note"
-              >
-                Bookmark Note:
-              </label>
-              <textarea
-                className={`appearance-none block w-full !p-3 leading-5 text-themeDarker border ${
-                  errors?.note ? "!border-red-500" : "border-gray"
-                } placeholder:font-normal h-40 placeholder:text-xss1 rounded placeholder-themeDarkAlt focus:outline-none focus:ring-2 focus:ring-themePrimary focus:ring-opacity-50`}
-                id="note"
-                {...register("note")}
-                placeholder="Note"
-              />
-              {errors?.note && (
-                <span className="text-red-500 text-xss italic">
-                  This field is required
-                </span>
-              )}
-            </div>
-            <button
-              className={`!py-3 px-7 flex gap-2 justify-center items-center transition-all duration-300 ease-in-out mb-6 w-full text-base text-white font-normal text-center leading-6 ${
-                isSubmitting || loading
-                  ? "bg-themeDarkerAlt"
-                  : "bg-themePrimary"
-              } rounded-md hover:bg-black`}
-              type="submit"
-              disabled={isSubmitting || loading}
-            >
-              {isSubmitting || loading ? "Please wait..." : "Add Bookmark"}
-              {(isSubmitting || loading) && (
-                <div
-                  className="spinner-grow w-5 h-5 text-themePrimary"
-                  role="status"
-                >
-                  <span className="sr-only">Loading...</span>
-                </div>
-              )}
-            </button>
-          </form>
-        ) : (
-          <div className="text-center grid justify-center items-center h-40">
-            <div>
-              <p className="text-xxs text-themeLighter !mb-4">
-                You must be logged in to bookmark this company.
-              </p>
-              <button
-                className="bg-themePrimary text-white px-10 !py-3 hover:bg-themeDarkerAlt transition-all duration-300 ease-in-out rounded text-base font-normal"
-                onClick={() => {
-                  LoginPopupHandler();
-                  setBookmark(!bookmark);
-                }}
-              >
-                Login Now
-              </button>
-            </div>
-          </div>
-        )}
-      </PopupModule>
     </div>
   );
 }
