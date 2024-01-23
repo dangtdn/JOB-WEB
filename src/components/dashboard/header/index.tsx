@@ -15,6 +15,7 @@ const MainHeader = ({
 }) => {
   const { user, isConfirmed } = useUser();
   const userData = user;
+
   return (
     <>
       <div data-container="1">

@@ -1,5 +1,12 @@
 import React from "react";
 import { authAxios } from "../../../lib/utils/axiosKits";
+import useUser from "@/lib/auth/user";
+import { jobs } from "@/data/mongodb collections/jobs";
+import { untitled } from "@/data/mongodb collections/Untitled";
+import { resumes } from "@/data/mongodb collections/resumes";
+import { jobApplies } from "@/data/mongodb collections/jobapplies";
+import { companies } from "@/data/mongodb collections/companies";
+import { toast } from "react-toastify";
 
 const fetcher = (url: string) => authAxios(url).then((res) => res.data.data);
 const dashboardStatic = "/users/statistics";
@@ -7,10 +14,118 @@ const dashboardStatic = "/users/statistics";
 const UserInfoBox = (): any => {
   // Use SWR
   // const { data, error } = useSWR(dashboardStatic, fetcher)
-  const data: any[] = [];
+  const { user, isAdmin, isEmployer, isCandidate } = useUser();
+  const dataJobs = [...jobs];
+  // const data: any[] = [];
+
+  // total job count for Employees
+  const totalJobCount = dataJobs.filter(
+    (job) => job?._id?.$oid === user?._id
+  ).length;
+  // count the total isFeatured jobs for Employee
+  const featuredJobCount = dataJobs.filter(
+    (job) => job.status.isFeatured
+  ).length;
+  // count total isPublished jobs for admin from job  model
+  const totalPublishedJobCount = dataJobs.filter(
+    (job) => job.status.isPublished
+  ).length;
+  // count total isApproved jobs from job  model
+  const approvedJobCount = dataJobs.filter(
+    (job) => job.status.isApproved
+  ).length;
+  // total employer count for admin
+  const totalEmployerCount = untitled.filter(
+    (user) => user.role.isEmployer
+  ).length;
+  // total resume count for a candidate
+  const totalResumeCount = resumes.filter(
+    (resume) => resume?.user?.$oid === user?._id
+  ).length;
+  //total isApproved resume count for a candidate
+  const approvedResumeCount = resumes.filter(
+    (resume) => resume.status.isApproved
+  ).length;
+  //total published resume count for admin
+  const totalPublishedResumeCount = resumes.filter(
+    (resume) => resume.status.isPublished
+  ).length;
+  //total resume count
+  const activeResumeCount = resumes.filter(
+    (resume) => resume.status.isActive
+  ).length;
+  const appliedJobCount = jobApplies.filter(
+    (jobApplie) => jobApplie?.user?.$oid === user?._id
+  ).length;
+  const publishedCompanyCount = companies.filter(
+    (company) => company.status.isPublished
+  ).length;
+
+  const getDashboardStat = () => {
+    if (isAdmin) {
+      return [
+        {
+          title: "Total Jobs",
+          count: totalPublishedJobCount,
+        },
+        {
+          title: "Total Resumes",
+          count: totalPublishedResumeCount,
+        },
+        {
+          title: "Total Employees",
+          count: totalEmployerCount,
+        },
+        {
+          title: "Total Companies",
+          count: publishedCompanyCount,
+        },
+      ];
+    } else if (isEmployer) {
+      return [
+        {
+          title: "Total Jobs",
+          count: totalJobCount,
+        },
+        {
+          title: "Featured Jobs",
+          count: featuredJobCount,
+        },
+        {
+          title: "Approved Jobs",
+          count: approvedJobCount,
+        },
+        // {
+        //   title: "Bookmarked",
+        //   count: bookmarkCount,
+        // },
+      ];
+    } else if (isCandidate) {
+      return [
+        {
+          title: "Total Resumes",
+          count: totalResumeCount,
+        },
+        {
+          title: "Approved Resumes",
+          count: approvedResumeCount,
+        },
+        // {
+        //   title: "Bookmarked",
+        //   count: bookmarkCount,
+        // },
+        {
+          title: "Applied Jobs",
+          count: appliedJobCount,
+        },
+      ];
+    } else {
+      return [];
+    }
+  };
 
   // if (error) return 'An error has occurred.'
-  if (!data)
+  if (!getDashboardStat().length)
     return (
       <section className="mb-8">
         <div className="mx-auto">
@@ -40,7 +155,7 @@ const UserInfoBox = (): any => {
     <section className="mb-8">
       <div className="mx-auto">
         <div className="grid lg:grid-cols-4 grid-cols-1 sm:grid-cols-2   gap-4">
-          {data.map((item: any, index: number) => (
+          {getDashboardStat().map((item: any, index: number) => (
             <div
               key={index}
               className={`shadow py-4 px-3 ${

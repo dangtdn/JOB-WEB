@@ -1,9 +1,9 @@
 "use client";
 
-import Layout from "@/components/Layout/Layout";
 import RecentActivities from "@/components/dashboard/dashboard/recent-activities";
 import ResumePackages from "@/components/dashboard/dashboard/resume-packages";
 import UserInfoBox from "@/components/dashboard/dashboard/user-info-box";
+import Layout from "@/components/dashboard/layout";
 import useUser, { UserNotLogin } from "@/lib/auth/user";
 import Head from "next/head";
 import React from "react";
@@ -22,21 +22,21 @@ const Dashboard = () => {
       <Layout>
         <main>
           {loggedOut && <UserNotLogin />}
-          {userData && loggedIn && (
-            <section className="mb-6">
-              <div className="mx-auto">
-                <UserInfoBox />
-                <div className="grid lg:grid-cols-2 grid-cols-1 sm:grid-cols-1 gap-4">
-                  <div>
-                    <RecentActivities />
-                  </div>
-                  <div>
-                    <ResumePackages />
-                  </div>
+          {/* {userData && loggedIn && ( */}
+          <section className="mb-6">
+            <div className="mx-auto">
+              <UserInfoBox />
+              <div className="grid lg:grid-cols-2 grid-cols-1 sm:grid-cols-1 gap-4">
+                <div>
+                  <RecentActivities />
+                </div>
+                <div>
+                  <ResumePackages />
                 </div>
               </div>
-            </section>
-          )}
+            </div>
+          </section>
+          {/* )} */}
         </main>
       </Layout>
     </>

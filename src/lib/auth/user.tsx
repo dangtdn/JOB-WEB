@@ -15,7 +15,10 @@ export default function useUser() {
   const localData = localGet("UserData");
   const dataUser: GetUserProfileResponse = localData
     ? localGet("UserData")?.user
-    : undefined;
+    : {
+        ...users[0],
+        _id: "624c18bf471afaba20bc15d3",
+      };
 
   // auto logout if token is expired or not found in localStorage
 

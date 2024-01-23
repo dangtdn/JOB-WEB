@@ -171,10 +171,9 @@ const TableItem = ({ item }: { item: any }) => {
         <td className="text-themeDark text-base pl-6 py-4 align-middle">
           <Link
             href={item?.jobItem?.jobTitle ? `/job/${item?.jobItem?._id}` : "#"}
+            className="text-lg2 text-themeDark hover:text-themePrimary transition-all duration-200 ease-in-out font-bold"
           >
-            <a className="text-lg2 text-themeDark hover:text-themePrimary transition-all duration-200 ease-in-out font-bold">
-              {item?.jobItem?.jobTitle}
-            </a>
+            {item?.jobItem?.jobTitle}
           </Link>
           <br />
           <span className="text-sm text-themeLight">

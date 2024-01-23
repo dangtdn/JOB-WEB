@@ -74,10 +74,11 @@ const RecentActivities = () => {
               {recentNotification.length} Recent Activities
             </p>
           </div>
-          <Link href="/notifications">
-            <a className="text-sm text-white transition-all duration-300 ease-in-out bg-themePrimary hover:bg-themeDarkerAlt !py-3 px-8 rounded">
-              View All
-            </a>
+          <Link
+            href="/notifications"
+            className="text-sm text-white transition-all duration-300 ease-in-out bg-themePrimary hover:bg-themeDarkerAlt !py-3 px-8 rounded"
+          >
+            View All
           </Link>
         </div>
       </div>

@@ -244,8 +244,11 @@ const AllResumes = () => {
 
       <div className="pb-6 text-right">
         <button className="!py-3 px-8 bg-themePrimary rounded-lg shadow shadow-themePrimary">
-          <Link href="/resume/add-resume">
-            <a className="text-white font-medium text-xxs">Add Resume</a>
+          <Link
+            href="/resume/add-resume"
+            className="text-white font-medium text-xxs"
+          >
+            Add Resume
           </Link>
         </button>
       </div>

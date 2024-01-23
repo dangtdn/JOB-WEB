@@ -1,23 +1,46 @@
 import dynamic from "next/dynamic";
 import React, { useContext } from "react";
-import { ThemeContext } from "../../../context/ThemeContext";
+import ThemeContextProvider, {
+  ThemeContext,
+} from "../../../context/ThemeContext";
 import MainHeader from "../header";
+import { ToastContainer } from "react-toastify";
+import Footer from "@/components/Footer/Footer";
+import PopupLogin from "@/components/register/popup-login";
+import PopupRegister from "@/components/register/popup-register";
+import LostPassword from "@/components/register/lost-password";
 
-const Layout = (props: { children: any }) => {
-  const { isLogIn } = useContext(ThemeContext) as any;
-  if (isLogIn) {
-    return (
-      <>
-        <MainHeader isLogin={true}>{props.children}</MainHeader>
-      </>
-    );
-  } else {
-    return (
-      <>
-        <MainHeader isLogin={false}>{props.children}</MainHeader>
-      </>
-    );
-  }
+const Layout = ({ children }: { children: any }) => {
+  // const { isLogIn } = useContext(ThemeContext) as any;
+  const isLogIn = true;
+
+  const renderBody = () => {
+    if (isLogIn) {
+      return (
+        <>
+          <MainHeader isLogin={true}>{children}</MainHeader>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <MainHeader isLogin={false}>{children}</MainHeader>
+        </>
+      );
+    }
+  };
+
+  return (
+    <>
+      <ThemeContextProvider>
+        {renderBody()}
+        <ToastContainer />
+        <PopupLogin />
+        <PopupRegister />
+        <LostPassword />
+      </ThemeContextProvider>
+    </>
+  );
 };
 
 export default Layout;

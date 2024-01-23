@@ -155,21 +155,23 @@ const Header = () => {
             <div className="flex items-center">
               <div className="xl:pl-5 lg:w-auto lg:pr-0 xl:w-80">
                 {/* Desktop logo here ... */}
-                <Link href="/dashboard">
-                  <a className="text-xl font-bold" data-config-id="brand">
-                    <span className="hidden xl:flex items-center">
-                      <Image
-                        src="/../assets/img/logo.svg" // logo image here ...
-                        alt="Logo Artemis"
-                        width={146}
-                        height={33}
-                      />
-                    </span>
-                    {/* Mobile Logo Text */}
-                    <h1 className="m-0 pr-3 text-4xl font-bold text-black xl:hidden lg:block">
-                      M
-                    </h1>
-                  </a>
+                <Link
+                  href="/dashboard"
+                  className="text-xl font-bold"
+                  data-config-id="brand"
+                >
+                  <span className="hidden xl:flex items-center">
+                    <Image
+                      src="/../assets/img/logo.svg" // logo image here ...
+                      alt="Logo Artemis"
+                      width={146}
+                      height={33}
+                    />
+                  </span>
+                  {/* Mobile Logo Text */}
+                  <h1 className="m-0 pr-3 text-4xl font-bold text-black xl:hidden lg:block">
+                    M
+                  </h1>
                 </Link>
               </div>
               <div className="lg:hidden">
@@ -192,12 +194,11 @@ const Header = () => {
                 <ul className="bg-white w-full z-50 menu-open md:space-x-8 space-x-6 font-normal hidden absolute left-0 top-20 lg:static lg:flex">
                   {Menu.map((item, index) => (
                     <li className="ml-6 xl:ml-0 xl:mb-0" key={index}>
-                      <Link href={item.link}>
-                        <a
-                          className={`text-themeDark text-sm  font-medium transition-all hover:text-themePrimary`}
-                        >
-                          {item.name}
-                        </a>
+                      <Link
+                        href={item.link}
+                        className={`text-themeDark text-sm  font-medium transition-all hover:text-themePrimary`}
+                      >
+                        {item.name}
                       </Link>
                     </li>
                   ))}
@@ -405,10 +406,11 @@ const Header = () => {
               <ul>
                 {Menu.map((item, index) => (
                   <li key={index} className="border-b">
-                    <Link href="/">
-                      <a className="block rounded w-full px-4 py-2 text-base text-themeDark hover:text-white hover:bg-themePrimary">
-                        {item.name}
-                      </a>
+                    <Link
+                      href="/"
+                      className="block rounded w-full px-4 py-2 text-base text-themeDark hover:text-white hover:bg-themePrimary"
+                    >
+                      {item.name}
                     </Link>
                   </li>
                 ))}
@@ -489,10 +491,11 @@ const Header = () => {
                     </div>
                     <div>
                       <p className="text-sm text-text-themeDarker">
-                        <Link href="/notifications">
-                          <a className="text-themePrimary hover:text-themeLighterAlt">
-                            View all
-                          </a>
+                        <Link
+                          href="/notifications"
+                          className="text-themePrimary hover:text-themeLighterAlt"
+                        >
+                          View all
                         </Link>
                       </p>
                     </div>
@@ -552,10 +555,11 @@ function DashboardMenu({ active }: { active: any }) {
               <>
                 {DashboardMenuList.map((item, index) => (
                   <li key={index}>
-                    <Link href={item.link}>
-                      <a className="block rounded w-full duration-300 ease-in-out py-2 text-base text-themeDarker hover:text-themePrimary">
-                        {item.name}
-                      </a>
+                    <Link
+                      href={item.link}
+                      className="block rounded w-full duration-300 ease-in-out py-2 text-base text-themeDarker hover:text-themePrimary"
+                    >
+                      {item.name}
                     </Link>
                   </li>
                 ))}
@@ -565,10 +569,11 @@ function DashboardMenu({ active }: { active: any }) {
               <>
                 {EmployerMenuList.map((item, index) => (
                   <li key={index}>
-                    <Link href={item.link}>
-                      <a className="block rounded w-full duration-300 ease-in-out py-2 text-base text-themeDarker hover:text-themePrimary">
-                        {item.name}
-                      </a>
+                    <Link
+                      href={item.link}
+                      className="block rounded w-full duration-300 ease-in-out py-2 text-base text-themeDarker hover:text-themePrimary"
+                    >
+                      {item.name}
                     </Link>
                   </li>
                 ))}
@@ -578,10 +583,11 @@ function DashboardMenu({ active }: { active: any }) {
               <>
                 {AdminMenuList.map((item, index) => (
                   <li key={index}>
-                    <Link href={item.link}>
-                      <a className="block rounded w-full duration-300 ease-in-out py-2 text-base text-themeDarker hover:text-themePrimary">
-                        {item.name}
-                      </a>
+                    <Link
+                      href={item.link}
+                      className="block rounded w-full duration-300 ease-in-out py-2 text-base text-themeDarker hover:text-themePrimary"
+                    >
+                      {item.name}
                     </Link>
                   </li>
                 ))}
@@ -672,10 +678,11 @@ function NotificationMenu({ active }: { active: any }) {
                 </div>
                 <div>
                   <p className="text-sm text-themeDarker">
-                    <Link href="/notifications">
-                      <a className="text-themePrimary hover:text-themeDarker">
-                        View all
-                      </a>
+                    <Link
+                      href="/notifications"
+                      className="text-themePrimary hover:text-themeDarker"
+                    >
+                      View all
                     </Link>
                   </p>
                 </div>

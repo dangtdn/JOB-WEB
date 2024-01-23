@@ -271,10 +271,11 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
           </div>
           {ApprovedCompanies.length < 1 && (
             <div className="pt-6">
-              <Link href="/company/add-company">
-                <a className="bg-themePrimary inline-block text-white rounded-lg px-4 !py-3 shadow-xl shadow-themePrimary/25">
-                  Add Company
-                </a>
+              <Link
+                href="/company/add-company"
+                className="bg-themePrimary inline-block text-white rounded-lg px-4 !py-3 shadow-xl shadow-themePrimary/25"
+              >
+                Add Company
               </Link>
             </div>
           )}
@@ -820,10 +821,11 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
                         )}
                       </button>
                       {/* redirect to package page */}
-                      <Link href="/packages/active-package">
-                        <a className="bg-themeDarkerAlt hover:bg-themePrimary transition-all duration-300 ease-in-out text-white rounded-lg px-4 py-2 shadow-xl">
-                          View Packages
-                        </a>
+                      <Link
+                        href="/packages/active-package"
+                        className="bg-themeDarkerAlt hover:bg-themePrimary transition-all duration-300 ease-in-out text-white rounded-lg px-4 py-2 shadow-xl"
+                      >
+                        View Packages
                       </Link>
                     </div>
                   </div>

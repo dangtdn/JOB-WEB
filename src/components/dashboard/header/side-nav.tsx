@@ -27,20 +27,6 @@ const candidatesMenu = [
     image: "./assets/img/nav-img-1.svg",
   },
   {
-    name: "Messages",
-    link: "/messages",
-    icon: <Messages />,
-    alert: "",
-    image: "./assets/img/nav-img-2.svg",
-  },
-  {
-    name: "Bookmarks",
-    link: "/bookmarks",
-    icon: <Bookmarks />,
-    alert: "",
-    image: "./assets/img/nav-img-3.svg",
-  },
-  {
     name: "Job Alerts",
     link: "/job/job-alerts",
     icon: <Alerts />,
@@ -85,20 +71,6 @@ const employerMenu = [
     image: "./assets/img/nav-img-1.svg",
   },
   {
-    name: "Messages",
-    link: "/messages",
-    icon: <Messages />,
-    alert: "",
-    image: "./assets/img/nav-img-2.svg",
-  },
-  {
-    name: "Bookmarks",
-    link: "/bookmarks",
-    icon: <Bookmarks />,
-    alert: "",
-    image: "./assets/img/nav-img-3.svg",
-  },
-  {
     name: "Manages Jobs",
     link: "/job/manages-jobs",
     icon: <ManagesJobIcon />,
@@ -127,13 +99,6 @@ const employerMenu = [
     image: "./assets/img/nav-img-6.svg",
   },
   {
-    name: "Packages",
-    link: "/packages/active-package",
-    icon: <Packages />,
-    alert: "",
-    image: "./assets/img/nav-img-7.svg",
-  },
-  {
     name: "My Profile",
     link: "/my-profile",
     icon: <Profile />,
@@ -148,20 +113,6 @@ const adminMenu = [
     icon: <Dashboard />,
     alert: "",
     image: "./assets/img/nav-img-1.svg",
-  },
-  {
-    name: "Messages",
-    link: "/messages",
-    icon: <Messages />,
-    alert: "",
-    image: "./assets/img/nav-img-2.svg",
-  },
-  {
-    name: "Bookmarks",
-    link: "/bookmarks",
-    icon: <Bookmarks />,
-    alert: "",
-    image: "./assets/img/nav-img-3.svg",
   },
   {
     name: "Manages Jobs",
@@ -233,45 +184,6 @@ const adminMenu = [
     ],
   },
   {
-    name: "Packages",
-    link: "/packages",
-    icon: <Packages />,
-    alert: "",
-    image: "./assets/img/nav-img-7.svg",
-    submenu: [
-      {
-        name: "Create New Package",
-        link: "/packages/create-new-package",
-        icon: <AddIcon />,
-        alert: "",
-        image: "./assets/img/nav-img-6.svg",
-      },
-    ],
-  },
-  {
-    name: "Setting",
-    link: "/setting/email-setting",
-    icon: <SettingIcon />,
-    alert: "",
-    image: "./assets/img/nav-img-6.svg",
-    submenu: [
-      {
-        name: "Email Setting",
-        link: "/setting/email-setting",
-        icon: <EmailIcon />,
-        alert: "",
-        image: "./assets/img/nav-img-6.svg",
-      },
-      {
-        name: "Filter Setting",
-        link: "/setting/filter-setting",
-        icon: <FilterIcon />,
-        alert: "",
-        image: "./assets/img/nav-img-6.svg",
-      },
-    ],
-  },
-  {
     name: "My Profile",
     link: "/my-profile",
     icon: <Profile />,
@@ -288,9 +200,10 @@ const SideNav = ({ data }: { data: any }) => {
   let path = pathName.split("/");
   path = path[path.length - 1] as any;
 
-  const SideNavMenuHandler = () => {
+  const sideNavMenuHandler = () => {
     setIsSideNavOpen(!isSideNavOpen);
   };
+  console.log("isSideNavOpen: ", isSideNavOpen);
 
   return (
     <>
@@ -301,12 +214,12 @@ const SideNav = ({ data }: { data: any }) => {
       >
         <div
           className="navbar-backdrop fixed lg:hidden inset-0 bg-gray-800 opacity-20"
-          onClick={SideNavMenuHandler}
+          onClick={sideNavMenuHandler}
         ></div>
         <nav className="fixed top-16 xl:top-20 left-0 bottom-0 flex flex-col w-24 xl:w-80 pt-6 pb-3 bg-white shadow overflow-y-auto">
           <div>
             <ul className="text-sm">
-              {!data && (
+              {/* {!data && (
                 <>
                   {_.map(
                     ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
@@ -317,73 +230,70 @@ const SideNav = ({ data }: { data: any }) => {
                     )
                   )}
                 </>
-              )}
+              )} */}
               {data?.role?.isCandidate &&
                 candidatesMenu.map((menu, index) => (
                   <li key={index}>
-                    <Link href={menu.link}>
-                      <a
-                        className={`${
-                          pathName === (menu.link as any)
-                            ? "bg-themePrimary text-white"
-                            : "hover:bg-themePrimary hover:!text-white"
-                        } relative mx-auto flex duration-300 ease-in-out gap-3 group items-center xl:w-full w-14 h-14 xl:h-auto xl:py-4 xl:px-7 mb-2 xl:justify-start justify-center text-gray-500 rounded-full xl:rounded-none`}
+                    <Link
+                      href={menu.link}
+                      className={`${
+                        pathName === (menu.link as any)
+                          ? "bg-themePrimary text-white"
+                          : "hover:bg-themePrimary hover:!text-white"
+                      } relative mx-auto flex duration-300 ease-in-out gap-3 group items-center xl:w-full w-14 h-14 xl:h-auto xl:py-4 xl:px-7 mb-2 xl:justify-start justify-center text-gray-500 rounded-full xl:rounded-none`}
+                    >
+                      {menu.icon}
+                      <span
+                        data-config-id="link7"
+                        className={`hidden xl:block text-xxs font-normal`}
                       >
-                        {menu.icon}
+                        {menu.name}
+                      </span>
+                      {menu.alert !== "" && (
                         <span
-                          data-config-id="link7"
-                          className={`hidden xl:block text-xxs font-normal`}
+                          className={`${
+                            pathName === (menu.link as any)
+                              ? "bg-red-400 text-white"
+                              : "bg-themePrimary text-white"
+                          } flex justify-center items-center group-hover:bg-red-400 text-xsss xl:static absolute top-0 right-1 rounded-full w-4 h-4`}
                         >
-                          {menu.name}
+                          {menu.alert}
                         </span>
-                        {menu.alert !== "" && (
-                          <span
-                            className={`${
-                              pathName === (menu.link as any)
-                                ? "bg-red-400 text-white"
-                                : "bg-themePrimary text-white"
-                            } flex justify-center items-center group-hover:bg-red-400 text-xsss xl:static absolute top-0 right-1 rounded-full w-4 h-4`}
-                          >
-                            {menu.alert}
-                          </span>
-                        )}
-                      </a>
+                      )}
                     </Link>
                   </li>
                 ))}
-              {data?.role?.isEmployer &&
-                employerMenu.map((menu, index) => (
-                  <li key={index}>
-                    <Link href={menu.link}>
-                      <a
+              {employerMenu.map((menu, index) => (
+                <li key={index}>
+                  <Link
+                    href={menu.link}
+                    className={`${
+                      pathName === (menu.link as any)
+                        ? "bg-themePrimary text-white"
+                        : "hover:bg-themePrimary hover:!text-white"
+                    } relative mx-auto flex duration-300 ease-in-out gap-3 group items-center xl:w-full w-14 h-14 xl:h-auto xl:py-4 xl:px-7 mb-2 xl:justify-start justify-center text-gray-500 rounded-full xl:rounded-none`}
+                  >
+                    {menu.icon}
+                    <span
+                      data-config-id="link7"
+                      className={`hidden xl:block text-xxs font-normal`}
+                    >
+                      {menu.name}
+                    </span>
+                    {menu.alert !== "" && (
+                      <span
                         className={`${
                           pathName === (menu.link as any)
-                            ? "bg-themePrimary text-white"
-                            : "hover:bg-themePrimary hover:!text-white"
-                        } relative mx-auto flex duration-300 ease-in-out gap-3 group items-center xl:w-full w-14 h-14 xl:h-auto xl:py-4 xl:px-7 mb-2 xl:justify-start justify-center text-gray-500 rounded-full xl:rounded-none`}
+                            ? "bg-red-400 text-white"
+                            : "bg-themePrimary text-white"
+                        } flex justify-center items-center group-hover:bg-red-400 text-xsss xl:static absolute top-0 right-1 rounded-full w-4 h-4`}
                       >
-                        {menu.icon}
-                        <span
-                          data-config-id="link7"
-                          className={`hidden xl:block text-xxs font-normal`}
-                        >
-                          {menu.name}
-                        </span>
-                        {menu.alert !== "" && (
-                          <span
-                            className={`${
-                              pathName === (menu.link as any)
-                                ? "bg-red-400 text-white"
-                                : "bg-themePrimary text-white"
-                            } flex justify-center items-center group-hover:bg-red-400 text-xsss xl:static absolute top-0 right-1 rounded-full w-4 h-4`}
-                          >
-                            {menu.alert}
-                          </span>
-                        )}
-                      </a>
-                    </Link>
-                  </li>
-                ))}
+                        {menu.alert}
+                      </span>
+                    )}
+                  </Link>
+                </li>
+              ))}
               {data?.role?.isAdmin &&
                 adminMenu.map((menu, index) => {
                   return (
@@ -393,33 +303,32 @@ const SideNav = ({ data }: { data: any }) => {
                           <Dropdown menu={menu} pathName={pathName} />
                         </>
                       ) : (
-                        <Link href={menu.link} className="mb-2">
-                          <a
-                            className={`${
-                              pathName === (menu.link as any)
-                                ? "bg-themePrimary text-white"
-                                : "hover:bg-themePrimary hover:!text-white"
-                            } relative mx-auto flex duration-300 ease-in-out gap-3 group items-center xl:w-full w-14 h-14 xl:h-auto xl:py-4 xl:px-7 xl:justify-start justify-center text-gray-500 rounded-full xl:rounded-none`}
+                        <Link
+                          href={menu.link}
+                          className={`mb-2 ${
+                            pathName === (menu.link as any)
+                              ? "bg-themePrimary text-white"
+                              : "hover:bg-themePrimary hover:!text-white"
+                          } relative mx-auto flex duration-300 ease-in-out gap-3 group items-center xl:w-full w-14 h-14 xl:h-auto xl:py-4 xl:px-7 xl:justify-start justify-center text-gray-500 rounded-full xl:rounded-none`}
+                        >
+                          {menu.icon}
+                          <span
+                            data-config-id="link7"
+                            className={`hidden xl:block text-xxs font-normal`}
                           >
-                            {menu.icon}
+                            {menu.name}
+                          </span>
+                          {menu.alert !== "" && (
                             <span
-                              data-config-id="link7"
-                              className={`hidden xl:block text-xxs font-normal`}
+                              className={`${
+                                pathName === (menu.link as any)
+                                  ? "bg-red-400 text-white"
+                                  : "bg-themePrimary text-white"
+                              } flex justify-center items-center group-hover:bg-red-400 text-xsss xl:static absolute top-0 right-1 rounded-full w-4 h-4`}
                             >
-                              {menu.name}
+                              {menu.alert}
                             </span>
-                            {menu.alert !== "" && (
-                              <span
-                                className={`${
-                                  pathName === (menu.link as any)
-                                    ? "bg-red-400 text-white"
-                                    : "bg-themePrimary text-white"
-                                } flex justify-center items-center group-hover:bg-red-400 text-xsss xl:static absolute top-0 right-1 rounded-full w-4 h-4`}
-                              >
-                                {menu.alert}
-                              </span>
-                            )}
-                          </a>
+                          )}
                         </Link>
                       )}
                     </li>
@@ -473,31 +382,30 @@ const Dropdown = ({ menu, pathName }: { menu: any; pathName: any }) => {
             : "hover:bg-themePrimary hover:!text-white"
         } flex justify-between items-center duration-300 ease-in-out`}
       >
-        <Link href={menu.link}>
-          <a
-            className={`${
-              pathName === menu.link ? "text-white" : "hover:!text-white"
-            } relative mx-auto flex gap-3 group items-center xl:w-full w-14 h-14 xl:h-auto xl:py-4 xl:px-7 xl:justify-start justify-center text-gray-500 rounded-full xl:rounded-none`}
+        <Link
+          href={menu.link}
+          className={`${
+            pathName === menu.link ? "text-white" : "hover:!text-white"
+          } relative mx-auto flex gap-3 group items-center xl:w-full w-14 h-14 xl:h-auto xl:py-4 xl:px-7 xl:justify-start justify-center text-gray-500 rounded-full xl:rounded-none`}
+        >
+          {menu.icon}
+          <span
+            data-config-id="link7"
+            className={`hidden xl:block text-xxs font-normal`}
           >
-            {menu.icon}
+            {menu.name}
+          </span>
+          {menu.alert !== "" && (
             <span
-              data-config-id="link7"
-              className={`hidden xl:block text-xxs font-normal`}
+              className={`${
+                pathName === menu.link || show
+                  ? "bg-red-400 text-white"
+                  : "bg-themePrimary text-white"
+              } flex justify-center items-center group-hover:bg-red-400 text-xsss xl:static absolute top-0 right-1 rounded-full w-4 h-4`}
             >
-              {menu.name}
+              {menu.alert}
             </span>
-            {menu.alert !== "" && (
-              <span
-                className={`${
-                  pathName === menu.link || show
-                    ? "bg-red-400 text-white"
-                    : "bg-themePrimary text-white"
-                } flex justify-center items-center group-hover:bg-red-400 text-xsss xl:static absolute top-0 right-1 rounded-full w-4 h-4`}
-              >
-                {menu.alert}
-              </span>
-            )}
-          </a>
+          )}
         </Link>
         <button type="button" onClick={OnClickHandler} className="p-2.5">
           <RiArrowDownSLine
@@ -513,33 +421,32 @@ const Dropdown = ({ menu, pathName }: { menu: any; pathName: any }) => {
         <ul id="dropdown">
           {_.map(menu?.submenu, (submenu, index) => (
             <li key={index}>
-              <Link href={submenu.link}>
-                <a
-                  className={`${
-                    pathName === submenu.link
-                      ? "!text-themePrimary"
-                      : "hover:!text-themePrimary"
-                  } relative mx-auto flex text-themeDark duration-300 ease-in-out bg-green-100 gap-3 group items-center xl:w-full w-14 h-14 xl:h-auto xl:py-4 xl:px-7 xl:justify-start justify-center text-gray-500 rounded-full xl:rounded-none`}
+              <Link
+                href={submenu.link}
+                className={`${
+                  pathName === submenu.link
+                    ? "!text-themePrimary"
+                    : "hover:!text-themePrimary"
+                } relative mx-auto flex text-themeDark duration-300 ease-in-out bg-green-100 gap-3 group items-center xl:w-full w-14 h-14 xl:h-auto xl:py-4 xl:px-7 xl:justify-start justify-center text-gray-500 rounded-full xl:rounded-none`}
+              >
+                {submenu.icon}
+                <span
+                  data-config-id="link7"
+                  className={`hidden xl:block text-xs font-normal`}
                 >
-                  {submenu.icon}
+                  {submenu.name}
+                </span>
+                {submenu.alert !== "" && (
                   <span
-                    data-config-id="link7"
-                    className={`hidden xl:block text-xs font-normal`}
+                    className={`${
+                      pathName === submenu.link
+                        ? "bg-red-400 text-white"
+                        : "bg-themePrimary text-white"
+                    } flex justify-center items-center group-hover:bg-red-400 text-xsss xl:static absolute top-0 right-1 rounded-full w-4 h-4`}
                   >
-                    {submenu.name}
+                    {submenu.alert}
                   </span>
-                  {submenu.alert !== "" && (
-                    <span
-                      className={`${
-                        pathName === submenu.link
-                          ? "bg-red-400 text-white"
-                          : "bg-themePrimary text-white"
-                      } flex justify-center items-center group-hover:bg-red-400 text-xsss xl:static absolute top-0 right-1 rounded-full w-4 h-4`}
-                    >
-                      {submenu.alert}
-                    </span>
-                  )}
-                </a>
+                )}
               </Link>
             </li>
           ))}

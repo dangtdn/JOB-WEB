@@ -269,8 +269,11 @@ const AllCompanies = () => {
 
       <div className="pb-6 text-right">
         <button className="!py-3 px-8 bg-themePrimary rounded-lg shadow shadow-themePrimary">
-          <Link href="/company/add-company">
-            <a className="text-white font-medium text-xxs">Add Company</a>
+          <Link
+            href="/company/add-company"
+            className="text-white font-medium text-xxs"
+          >
+            Add Company
           </Link>
         </button>
       </div>
@@ -383,7 +386,7 @@ const AllCompanies = () => {
                 <div
                   key={index}
                   className={`p-4 mb-4 shadow rounded-lg relative  ${
-                    user._id.$oid === item.user.$oid && isAdmin
+                    user._id === item.user.$oid && isAdmin
                       ? "bg-green-50"
                       : "bg-white"
                   }`}
@@ -453,7 +456,7 @@ const TableItem = ({
   return (
     <tr
       className={`border-b ${
-        user._id.$oid === item.user.$oid && isAdmin ? "bg-green-50" : ""
+        user._id === item.user.$oid && isAdmin ? "bg-green-50" : ""
       } w-full border-themeLighter align-top last-of-type:border-none`}
     >
       <td className="text-themeDark text-base pl-6 py-4 align-middle">
@@ -540,16 +543,17 @@ const TableItem = ({
             }`}
           >
             {/* Edit */}
-            <Link href={`/company/edit-company?active_id=${item._id}`}>
-              <a className="flex items-center gap-2 text-themeDarker hover:text-themePrimary transition-all duration-300 ease-in-out group">
-                <span className="w-9 h-9 bg-[#1caf5721] flex items-center justify-center rounded-lg">
-                  <AiOutlineEdit className="w-6 h-6 text-themeDarker group-hover:text-themePrimary transition-all duration-300 ease-in-out" />
-                </span>
-                <span>Edit</span>
-              </a>
+            <Link
+              href={`/company/edit-company?active_id=${item._id}`}
+              className="flex items-center gap-2 text-themeDarker hover:text-themePrimary transition-all duration-300 ease-in-out group"
+            >
+              <span className="w-9 h-9 bg-[#1caf5721] flex items-center justify-center rounded-lg">
+                <AiOutlineEdit className="w-6 h-6 text-themeDarker group-hover:text-themePrimary transition-all duration-300 ease-in-out" />
+              </span>
+              <span>Edit</span>
             </Link>
             {/* Disable */}
-            {user._id.$oid === item.user.$oid && (
+            {user._id === item.user.$oid && (
               <div>
                 {item.status.isPublished ? (
                   <div
@@ -684,15 +688,16 @@ const MobileTable = ({
           <div className="flex flex-wrap gap-3 mt-3">
             {/* Edit */}
             <div className="flex items-center gap-2">
-              <Link href={`/company/edit-company?active_id=${item._id}`}>
-                <a className="bg-green-200 shadow-sm flex gap-2 py-2 px-3 items-center justify-center rounded-lg">
-                  <AiOutlineEdit className="text-xxs text-themeDarker transition-all duration-300 ease-in-out" />
-                  <span className="text-themeDarker text-sm">Edit</span>
-                </a>
+              <Link
+                href={`/company/edit-company?active_id=${item._id}`}
+                className="bg-green-200 shadow-sm flex gap-2 py-2 px-3 items-center justify-center rounded-lg"
+              >
+                <AiOutlineEdit className="text-xxs text-themeDarker transition-all duration-300 ease-in-out" />
+                <span className="text-themeDarker text-sm">Edit</span>
               </Link>
             </div>
             {/* Disable */}
-            {user._id.$oid === item.user.$oid && (
+            {user._id === item.user.$oid && (
               <div className="flex items-center gap-2">
                 {item.status.isPublished ? (
                   <div

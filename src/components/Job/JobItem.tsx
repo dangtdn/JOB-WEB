@@ -10,74 +10,77 @@ import { companies } from "@/utils/dummy-content/mongodb-collections/companies";
 
 const JobItem = ({ item }: { item: any }) => {
   const currCompanyLogo = item.company.logo ?? "";
-
+  const convertItem = {
+    ...item,
+    _id: item._id.$oid,
+  };
   return (
     <div
       className={`overflow-hidden relative h-full grid content-between px-6 !pt-4 pb-6 ${
-        item
-          ? item?.status?.isFeatured
+        convertItem
+          ? convertItem?.status?.isFeatured
             ? "!border-themePrimary"
             : "border-gray"
           : "border-gray"
       } bg-white border border-solid transition-all rounded-md group hover:!border-themePrimary`}
     >
-      {item && item?.status?.isFeatured && (
+      {convertItem && convertItem?.status?.isFeatured && (
         <Featured className="bg-themePrimary p-1">
           {/* featured icon */}
           <AiFillStar className="text-white text-xxs -rotate-6" />
         </Featured>
       )}
       <span className="flex flex-wrap gap-2 left-0">
-        {item ? (
-          _.map(item.jobTypes, (item) =>
-            _.upperCase(item) === "INTERNSHIP" ? (
+        {convertItem ? (
+          _.map(convertItem.jobTypes, (convertItem) =>
+            _.upperCase(convertItem) === "INTERNSHIP" ? (
               <span
-                key={item}
+                key={convertItem}
                 className="bg-red-100 py-1 px-2.5 rounded-sm text-xss1 font-normal text-red-400"
               >
-                {_.capitalize(_.replace(item, /[-]/g, " "))}
+                {_.capitalize(_.replace(convertItem, /[-]/g, " "))}
               </span>
-            ) : _.upperCase(item) === "TEMPORARY" ? (
+            ) : _.upperCase(convertItem) === "TEMPORARY" ? (
               <span
-                key={item}
+                key={convertItem}
                 className="bg-yellow-100 py-1 px-2.5 rounded-sm text-xss1 font-normal text-yellow-500"
               >
-                {_.capitalize(_.replace(item, /[-]/g, " "))}
+                {_.capitalize(_.replace(convertItem, /[-]/g, " "))}
               </span>
-            ) : _.upperCase(item) === "FULL TIME" ? (
+            ) : _.upperCase(convertItem) === "FULL TIME" ? (
               <span
-                key={item}
+                key={convertItem}
                 className="bg-blue-100 py-1 px-2.5 rounded-sm text-xss1 font-normal text-blue-500"
               >
-                {_.capitalize(_.replace(item, /[-]/g, " "))}
+                {_.capitalize(_.replace(convertItem, /[-]/g, " "))}
               </span>
-            ) : _.upperCase(item) === "FREELANCE" ? (
+            ) : _.upperCase(convertItem) === "FREELANCE" ? (
               <span
-                key={item}
+                key={convertItem}
                 className="bg-orange-100 py-1 px-2.5 rounded-sm text-xss1 font-normal text-orange-500"
               >
-                {_.capitalize(_.replace(item, /[-]/g, " "))}
+                {_.capitalize(_.replace(convertItem, /[-]/g, " "))}
               </span>
-            ) : _.upperCase(item) === "PART TIME" ? (
+            ) : _.upperCase(convertItem) === "PART TIME" ? (
               <span
-                key={item}
+                key={convertItem}
                 className="bg-purple-100 py-1 px-2.5 rounded-sm text-xss1 font-normal text-purple-500"
               >
-                {_.capitalize(_.replace(item, /[-]/g, " "))}
+                {_.capitalize(_.replace(convertItem, /[-]/g, " "))}
               </span>
-            ) : _.upperCase(item) === "REMOTE" ? (
+            ) : _.upperCase(convertItem) === "REMOTE" ? (
               <span
-                key={item}
+                key={convertItem}
                 className="bg-cyan-100 py-1 px-2.5 rounded-sm text-xss1 font-normal text-cyan-500"
               >
-                {_.capitalize(_.replace(item, /[-]/g, " "))}
+                {_.capitalize(_.replace(convertItem, /[-]/g, " "))}
               </span>
             ) : (
               <span
-                key={item}
+                key={convertItem}
                 className="bg-greenLight py-1 px-2.5 rounded-sm text-xss1 font-normal text-themePrimary"
               >
-                {_.capitalize(_.replace(item, /[-]/g, " "))}
+                {_.capitalize(_.replace(convertItem, /[-]/g, " "))}
               </span>
             )
           )
@@ -108,7 +111,7 @@ const JobItem = ({ item }: { item: any }) => {
           )}
         </div>
         <h3 className="text-xxs font-normal capitalize text-black leading-5 mb-2">
-          {item ? item.jobTitle : "Web and UI/UX Designer"}
+          {convertItem ? convertItem.jobTitle : "Web and UI/UX Designer"}
         </h3>
         <div className="flex gap-2 justify-center items-center text-grayLight text-xss1 capitalize font-normal">
           <ImageOpt
@@ -118,7 +121,7 @@ const JobItem = ({ item }: { item: any }) => {
             src="/assets/img/map-pin1.svg"
             alt="img"
           />
-          {item ? item.location : "Bangalore"}
+          {convertItem ? convertItem.location : "Bangalore"}
         </div>
       </div>
       <div className="px-2">
@@ -145,12 +148,12 @@ const JobItem = ({ item }: { item: any }) => {
                 src="/assets/img/dollar-sign3.svg"
                 alt="img"
               />
-              {/* {millify(item.salary?.minimum ? item.salary?.minimum : 10000, {
+              {/* {millify(convertItem.salary?.minimum ? convertItem.salary?.minimum : 10000, {
                 precision: 3,
                 lowercase: true,
               })}{" "}
               -{" "}
-              {millify(item.salary?.maximum ? item.salary?.maximum : 100000, {
+              {millify(convertItem.salary?.maximum ? convertItem.salary?.maximum : 100000, {
                 precision: 3,
                 lowercase: true,
               })}{" "} */}
@@ -167,8 +170,8 @@ const JobItem = ({ item }: { item: any }) => {
                 alt="img"
               />
               {/* <Moment fromNow>
-                {item
-                  ? item.createdAt
+                {convertItem
+                  ? convertItem.createdAt
                   : "Fri May 27 2022 10:19:22 GMT+0600 (Bangladesh Standard Time)"}
               </Moment> */}
             </div>
@@ -176,7 +179,13 @@ const JobItem = ({ item }: { item: any }) => {
         </ul>
         <div>
           <Link
-            href={item ? (item?._id ? `/find-job/${item?._id}` : "#") : "#"}
+            href={
+              convertItem
+                ? convertItem?._id
+                  ? `/find-job/${convertItem?._id}`
+                  : "#"
+                : "#"
+            }
             className="block leading-4 text-deep text-xs group-hover:text-white text-center py-3 px-6 bg-light rounded-md transition-all group-hover:!bg-themePrimary"
           >
             Apply Now

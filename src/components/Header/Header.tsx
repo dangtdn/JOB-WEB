@@ -109,7 +109,7 @@ const AdminMenuList = [
   },
 ];
 
-const Header = ({ IsLogIn }: { IsLogIn: any }) => {
+const Header = () => {
   const { stickyRef, sticky } = useSticky();
   const [show, setShow] = useState(false);
   const { LoginPopupHandler, RegisterPopupHandler } = React.useContext(
@@ -127,7 +127,7 @@ const Header = ({ IsLogIn }: { IsLogIn: any }) => {
   const UserMenuHandler = () => {
     setUserMenu(!UserMenu);
   };
-
+  console.log("loggedIn: ", loggedIn);
   return (
     <>
       {/* Header Component */}
