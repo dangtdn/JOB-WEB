@@ -26,14 +26,6 @@ const Menu = [
     link: "/company",
   },
   {
-    name: "Candidate",
-    link: "/candidate",
-  },
-  {
-    name: "Career Advice",
-    link: "/career-advice",
-  },
-  {
     name: "Contact Us",
     link: "/contact-us",
   },
@@ -43,10 +35,6 @@ const DashboardMenuList = [
   {
     name: "Dashboard",
     link: "/dashboard",
-  },
-  {
-    name: "Messages",
-    link: "/messages",
   },
   {
     name: "Job Alerts",
@@ -68,10 +56,6 @@ const EmployerMenuList = [
     link: "/dashboard",
   },
   {
-    name: "Messages",
-    link: "/messages",
-  },
-  {
     name: "Manges Jobs",
     link: "/job/manages-jobs",
   },
@@ -89,10 +73,6 @@ const AdminMenuList = [
   {
     name: "Dashboard",
     link: "/dashboard",
-  },
-  {
-    name: "Messages",
-    link: "/messages",
   },
   {
     name: "Manges Jobs",

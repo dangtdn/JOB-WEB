@@ -23,7 +23,7 @@ const MainHeader = ({
         <Header />
         <div className="lg:ml-24 xl:ml-80 mt-16 xl:mt-20" data-bucket="1">
           <div className="py-10 px-4 md:!px-8 relative">
-            {!isConfirmed && user && <EmailAlert />}
+            {/* {!isConfirmed && user && <EmailAlert />} */}
             {children}
           </div>
         </div>

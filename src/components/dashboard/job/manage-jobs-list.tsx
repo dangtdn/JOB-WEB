@@ -16,17 +16,22 @@ import { RiCheckboxCircleLine, RiEyeOffLine } from "react-icons/ri";
 
 import sweetAlert from "sweetalert";
 import Pagination from "../pagination";
-import { authAxios } from "@/lib/utils/axiosKits";
+import { Axios, authAxios } from "@/lib/utils/axiosKits";
 import useUser from "@/lib/auth/user";
 import { toast } from "react-toastify";
 import { LoaderGrowing } from "@/lib/loader/loader";
+import useSWR from "swr";
 
-const fetcher = (url: string) => authAxios(url).then((res) => res.data.data);
+const fetcher = (url: string) => Axios(url).then((res) => res.data);
 
 const MangeJobsList = () => {
+  const { data: oldData, error } = useSWR("/jobs", fetcher);
   const [loading, setLoading] = React.useState(false) as any;
   const { user, isAdmin } = useUser();
-
+  const data = {
+    jobs: oldData.filter((item: any) => item.user === user._id),
+  };
+  console.log("data: ", data);
   // delete job function start
   const deleteJob = async (id: any) => {
     sweetAlert({
@@ -311,7 +316,7 @@ const MangeJobsList = () => {
   const indexOfLastPost = currentPage * ShowPerPage;
   const indexOfFirstPost = indexOfLastPost - ShowPerPage;
   const currentPosts = data
-    ? data?.slice(indexOfFirstPost, indexOfLastPost)
+    ? data?.jobs.slice(indexOfFirstPost, indexOfLastPost)
     : [];
 
   const handlePageChange = (data: any) => {
@@ -369,7 +374,7 @@ const MangeJobsList = () => {
               </th>
             </tr>
           </thead>
-          {!data && (
+          {!data.jobs && (
             <div className="w-full h-80">
               <LoaderGrowing />
             </div>
@@ -388,9 +393,9 @@ const MangeJobsList = () => {
                 </td>
               </tr>
             )}
-            {data &&
+            {data?.jobs &&
               !error &&
-              (data.length > 0 ? (
+              (data?.jobs.length > 0 ? (
                 <>
                   {currentPosts.map((item: any, index: any) => (
                     <TableItem
@@ -434,16 +439,16 @@ const MangeJobsList = () => {
             </div>
           </div>
         )}
-        {!data && (
+        {!data?.jobs && (
           <div className="w-full lg:w-2/4 mx-auto h-40 bg-white shadow rounded-lg flex justify-center items-center relative">
             <div className="text-center">
               <LoaderGrowing />
             </div>
           </div>
         )}
-        {data &&
+        {data?.jobs &&
           !error &&
-          (data.length > 0 ? (
+          (data?.jobs.length > 0 ? (
             <>
               {_.map(currentPosts, (item, index) => (
                 <div
@@ -476,11 +481,11 @@ const MangeJobsList = () => {
             </div>
           ))}
       </div>
-      {data && !error && data.length > 0 && (
+      {data?.jobs && !error && data?.jobs.length > 0 && (
         <div>
           <Pagination
             setShowPerPage={setShowPerPage}
-            totalCount={data?.length}
+            totalCount={data?.jobs?.length}
             showPerPage={ShowPerPage}
             handlePageChange={handlePageChange}
           />

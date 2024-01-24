@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { Col, Row } from "react-bootstrap";
 import { useForm } from "react-hook-form";
@@ -7,6 +9,7 @@ import { toast } from "react-toastify";
 import { LoaderGrowing } from "../../../lib/loader/loader";
 import Image from "../../optimize/image";
 import { authAxios } from "../../../lib/utils/axiosKits";
+import ImageOpt from "../../optimize/image";
 
 const ProfileBox = ({ data }: { data: any }) => {
   const [photoImage, setPhotoImage] = React.useState(null) as any;
@@ -166,7 +169,7 @@ const ProfileBox = ({ data }: { data: any }) => {
                 <div className="relative inline-block w-40 h-40 xl:w-52 xl:h-52 rounded-full border-3 !border-themeLighter">
                   <label htmlFor="image">
                     {photoImage && (
-                      <Image
+                      <ImageOpt
                         className="rounded-full p-1"
                         layout="fill"
                         src={photoImage}
@@ -174,7 +177,7 @@ const ProfileBox = ({ data }: { data: any }) => {
                       />
                     )}
                     {!photoImage && (
-                      <Image
+                      <ImageOpt
                         className="rounded-full p-1"
                         layout="fill"
                         src="https://res.cloudinary.com/dyor9qtzh/image/upload/v1646289332/Meta-jobs/user_biyxrq.png"

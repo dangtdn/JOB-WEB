@@ -1,3 +1,5 @@
+"use client";
+
 import Layout from "@/components/Layout/Layout";
 import ProfileBox from "@/components/dashboard/profile";
 import useUser, { UserNotLogin } from "@/lib/auth/user";
@@ -8,7 +10,7 @@ import React from "react";
 const MyProfile = () => {
   const { user, loggedIn, loggedOut } = useUser();
   //   const userData = user?.data;
-  const userData = users[0];
+  // const userData = users[0];
 
   return (
     <>
@@ -19,7 +21,7 @@ const MyProfile = () => {
       <Layout>
         <main>
           {loggedOut && <UserNotLogin />}
-          {userData && loggedIn && <ProfileBox data={userData} />}
+          {user && loggedIn && <ProfileBox data={user} />}
         </main>
       </Layout>
     </>

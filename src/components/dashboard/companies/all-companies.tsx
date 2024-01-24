@@ -15,7 +15,7 @@ import { toast } from "react-toastify";
 import { LoaderGrowing } from "../../../lib/loader/loader";
 import useUser from "../../../lib/auth/user";
 import ImageOpt from "../../optimize/image";
-import { authAxios } from "../../../lib/utils/axiosKits";
+import { Axios, authAxios } from "../../../lib/utils/axiosKits";
 import sweetAlert from "sweetalert";
 import { GoCheck } from "react-icons/go";
 import {
@@ -25,17 +25,21 @@ import {
 } from "react-icons/md";
 import { companies } from "@/data/mongodb collections/companies";
 import Pagination from "../pagination";
+import useSWR, { useSWRConfig } from "swr";
 
-const fetcher = (url: string) => authAxios(url).then((res) => res.data.data);
+const fetcher = (url: string) => Axios(url).then((res) => res.data);
 
 const AllCompanies = () => {
-  //   const { mutate } = useSWRConfig();
-  //   const { data, error } = useSWR("/companies/private", fetcher);
-  const data = companies;
-  const error = false;
+  const { mutate } = useSWRConfig();
+  const { data: oldData, error } = useSWR("/companies", fetcher);
+  // const data = companies;
+  // const error = false;
   const [loading, setLoading] = React.useState(false);
   const { user, isAdmin } = useUser();
-
+  const data = {
+    companies: oldData?.companies.filter((item: any) => item.user === user._id),
+  };
+  console.log("oldData: ", oldData);
   // delete category function here
   const deleteCategory = (id: any) => {
     sweetAlert({
@@ -255,8 +259,8 @@ const AllCompanies = () => {
   const [ShowPerPage, setShowPerPage] = React.useState(10);
   const indexOfLastPost = currentPage * ShowPerPage;
   const indexOfFirstPost = indexOfLastPost - ShowPerPage;
-  const currentPosts = data
-    ? data?.slice(indexOfFirstPost, indexOfLastPost)
+  const currentPosts = data?.companies
+    ? data?.companies?.slice(indexOfFirstPost, indexOfLastPost)
     : [];
 
   const handlePageChange = (data: { selected: number }) => {
@@ -283,7 +287,7 @@ const AllCompanies = () => {
       {/* table start here */}
       {/* table data for desktop */}
       <div className="shadow rounded-lg mb-10 overflow-x-auto overflow-y-hidden hidden md:block relative">
-        {!data && !error && (
+        {!data?.companies && !error && (
           <div className="relative min-h-40">
             <table className="w-full table-auto">
               <thead>
@@ -320,7 +324,7 @@ const AllCompanies = () => {
             </div>
           </div>
         )}
-        {data && !error && (
+        {data?.companies && !error && (
           <>
             {loading && <LoaderGrowing />}
             <table className="w-full table-auto">
@@ -341,7 +345,7 @@ const AllCompanies = () => {
                 </tr>
               </thead>
               <tbody>
-                {data.length > 0 ? (
+                {data?.companies.length > 0 ? (
                   <>
                     {_.map(currentPosts, (item, index) => (
                       <TableItem
@@ -373,14 +377,14 @@ const AllCompanies = () => {
 
       {/* table data for mobile */}
       <div className="block md:hidden">
-        {!data && !error && (
+        {!data?.companies && !error && (
           <div className="p-4 mb-4 h-60 relative shadow rounded-lg bg-white">
             <LoaderGrowing />
           </div>
         )}
-        {data &&
+        {data?.companies &&
           !error &&
-          (data.length > 0 ? (
+          (data?.companies.length > 0 ? (
             <>
               {_.map(currentPosts, (item, index) => (
                 <div
@@ -412,11 +416,11 @@ const AllCompanies = () => {
           ))}
       </div>
 
-      {data && !error && data.length > 0 && (
+      {data?.companies && !error && data?.companies.length > 0 && (
         <div>
           <Pagination
             setShowPerPage={setShowPerPage}
-            totalCount={data?.length}
+            totalCount={data?.companies.length}
             showPerPage={ShowPerPage}
             handlePageChange={handlePageChange}
           />
