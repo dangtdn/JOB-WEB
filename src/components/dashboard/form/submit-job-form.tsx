@@ -9,14 +9,14 @@ import { toast } from "react-toastify";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { LoaderGrowing } from "../../../lib/loader/loader";
 import ImageOpt from "../../optimize/image";
-import { authAxios } from "../../../lib/utils/axiosKits";
+import { Axios, authAxios } from "../../../lib/utils/axiosKits";
 import { MultiSelect } from "./multi-select-dropdown";
 import { filters } from "@/data/mongodb collections/filters";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
 import useUser from "@/lib/auth/user";
 
-const fetcher = (url: string) => authAxios(url).then((res) => res.data);
+const fetcher = (url: string) => Axios(url).then((res) => res.data);
 const newFeature = (url: string) => authAxios(url).then((res) => res.data);
 
 const SubmitJobForm = ({ userData }: { userData: any }) => {
@@ -30,12 +30,10 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
   // )
   const { data: companies, error: companiesError } = useSWR(
     "/companies",
-    fetcher,
-    {
-      refreshInterval: 0,
-    }
+    fetcher
   );
-  const companiesData = companies.companies;
+  console.log("companies: ", companies);
+  const companiesData = companies?.companies;
   const filterData = filters[0];
   // remove isApproved false from companiesData
   const ApprovedCompanies = _.filter(companiesData, (company) => {
@@ -48,7 +46,7 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
   const [loading, setLoading] = React.useState(false);
   const { user } = useUser();
   // const { mutate } = useSWRConfig()
-
+  console.log("companyName: ", companyName);
   // register submit job form
   const {
     register,
@@ -88,6 +86,7 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
     const input = {
       user: user._id,
       companyName: companyName[0].companyName,
+      company: companyName[0]._id,
       jobTitle,
       location,
       region,
@@ -108,15 +107,37 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
     };
     const request = {
       job: {
-        ...input,
+        user: user._id,
+        jobTitle: "Lead Jober",
+        location: "North Terrencefurt",
+        region: ["Mount Pleasant"],
+        jobTypes: ["Part Time"],
+        category: "Design/Creative",
+        specialTags: ["PHP"],
+        jobDescription: "Lead",
+        jobExperience: "2",
+        applyDeadline:
+          "Sun Dec 18 2022 08:51:19 GMT+0600 (Bangladesh Standard Time)",
+        hourlyrate: {
+          minimum: 50,
+          maximum: 100,
+        },
+        salary: {
+          minimum: 10000,
+          maximum: 20000,
+        },
+        applyLink: "https://examplelink.com",
+        expireAt: "1650882239758",
+        company: "657825d08a7997d16dca9acc",
+        email: "zelal@ojjomedia.com",
       },
       headerImage: data.headerImage ? headerImage[0] : undefined,
     };
 
     try {
-      await authAxios({
+      await Axios({
         method: "POST",
-        url: "/jobs",
+        url: "/admin/job/create",
         data: request,
       }).then((res) => {
         toast.success(res.data.message, {
@@ -125,7 +146,7 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
         });
         // mutate("/jobs/private");
         reset();
-        router.push("/job/manages-jobs");
+        router.push("/find-job/manages-jobs");
       });
     } catch (error: any) {
       if (error?.response?.data) {

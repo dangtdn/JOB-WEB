@@ -29,7 +29,7 @@ const MangeJobsList = () => {
   const [loading, setLoading] = React.useState(false) as any;
   const { user, isAdmin } = useUser();
   const data = {
-    jobs: oldData.filter((item: any) => item.user === user._id),
+    jobs: oldData?.jobs?.filter((item: any) => item.user === user._id),
   };
   console.log("data: ", data);
   // delete job function start
@@ -316,7 +316,7 @@ const MangeJobsList = () => {
   const indexOfLastPost = currentPage * ShowPerPage;
   const indexOfFirstPost = indexOfLastPost - ShowPerPage;
   const currentPosts = data
-    ? data?.jobs.slice(indexOfFirstPost, indexOfLastPost)
+    ? data?.jobs?.slice(indexOfFirstPost, indexOfLastPost)
     : [];
 
   const handlePageChange = (data: any) => {

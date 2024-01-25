@@ -8,7 +8,7 @@ export const Axios = axios.create({
 export const authAxios = axios.create({
   baseURL: `http://localhost:8000/api`,
   headers: {
-    Authorization: `Bearer ${localGet("UserData")?.accessToken}`,
+    Authorization: `Bearer ${localGet("UserData")?.token}`,
     Accept: "application/json",
   },
 });

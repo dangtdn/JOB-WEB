@@ -1,3 +1,5 @@
+"use client";
+
 import SubmitJobForm from "@/components/dashboard/form/submit-job-form";
 import Layout from "@/components/dashboard/layout";
 import useUser, { UserGoBack, UserNotLogin } from "@/lib/auth/user";
