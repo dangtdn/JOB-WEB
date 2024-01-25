@@ -1,4 +1,5 @@
-import styled from "@emotion/styled";
+"use client";
+
 import _ from "lodash";
 import Multiselect from "multiselect-react-dropdown";
 import Link from "next/link";
@@ -11,11 +12,11 @@ import ImageOpt from "../../optimize/image";
 import { authAxios } from "../../../lib/utils/axiosKits";
 import { MultiSelect } from "./multi-select-dropdown";
 import { filters } from "@/data/mongodb collections/filters";
-import { companies } from "@/data/mongodb collections/companies";
-import { packages } from "@/data/mongodb collections/packages";
 import { useRouter } from "next/navigation";
+import useSWR from "swr";
+import useUser from "@/lib/auth/user";
 
-const fetcher = (url: string) => authAxios(url).then((res) => res.data.data);
+const fetcher = (url: string) => authAxios(url).then((res) => res.data);
 const newFeature = (url: string) => authAxios(url).then((res) => res.data);
 
 const SubmitJobForm = ({ userData }: { userData: any }) => {
@@ -27,24 +28,15 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
   // 		refreshInterval: 0,
   // 	}
   // )
-  // const { data: companiesData, error: companiesError } = useSWR(
-  // 	'/companies/private',
-  // 	fetcher,
-  // 	{
-  // 		refreshInterval: 0,
-  // 	}
-  // )
-  // // package data fetched from server
-  // const { data: Data, error: packageError } = useSWR(
-  // 	`/packages/retrives`,
-  // 	newFeature,
-  // 	{
-  // 		refreshInterval: 0,
-  // 	}
-  // )
+  const { data: companies, error: companiesError } = useSWR(
+    "/companies",
+    fetcher,
+    {
+      refreshInterval: 0,
+    }
+  );
+  const companiesData = companies.companies;
   const filterData = filters[0];
-  const companiesData = companies;
-  const packageData = packages;
   // remove isApproved false from companiesData
   const ApprovedCompanies = _.filter(companiesData, (company) => {
     return company.status.isApproved && company.status.isActive;
@@ -52,9 +44,9 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
   const { categoryData } = React.useContext(ThemeContext) as any;
   const [companyName, setCompanyName] = React.useState("");
   const [JobHeaderImg, setJobHeaderImg] = React.useState("");
-  const Package = userData?.package ? false : true;
   const jobForm = companyName ? false : (true as boolean);
   const [loading, setLoading] = React.useState(false);
+  const { user } = useUser();
   // const { mutate } = useSWRConfig()
 
   // register submit job form
@@ -93,30 +85,39 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
       salaryMinimum,
       specialTags,
     } = data;
-    const formData = new FormData();
-    formData.append("jobTitle", jobTitle); // return string
-    formData.append("jobDescription", jobDescription); // return string
-    formData.append("applyLink", applyLink); // return string
-    formData.append("category", category[0].categoryTitle); // return category title
-    formData.append("company", companyName[0]._id); // return company id
-    formData.append("email", email); // return company email
-    if (data.headerImage) {
-      formData.append("headerImage", headerImage[0]); // return image file
-    }
-    formData.append("hourlyrateMaximum", hourlyrateMaximum); // return number
-    formData.append("hourlyrateMinimum", hourlyrateMinimum); // return number
-    formData.append("location", location); // return string
-    formData.append("jobTypes", jobTypes); // return array
-    formData.append("region", region[0]); // return string
-    formData.append("salaryMaximum", salaryMaximum); // return number
-    formData.append("salaryMinimum", salaryMinimum); // return number
-    formData.append("specialTags", specialTags); // return array
+    const input = {
+      user: user._id,
+      companyName: companyName[0].companyName,
+      jobTitle,
+      location,
+      region,
+      jobTypes,
+      category,
+      specialTags,
+      jobDescription,
+      email,
+      hourlyrate: {
+        minimum: hourlyrateMinimum,
+        maximum: hourlyrateMaximum,
+      },
+      salary: {
+        minimum: salaryMinimum,
+        maximum: salaryMaximum,
+      },
+      applyLink,
+    };
+    const request = {
+      job: {
+        ...input,
+      },
+      headerImage: data.headerImage ? headerImage[0] : undefined,
+    };
 
     try {
       await authAxios({
         method: "POST",
-        url: "/jobs/retrives",
-        data: formData,
+        url: "/jobs",
+        data: request,
       }).then((res) => {
         toast.success(res.data.message, {
           position: "bottom-right",
@@ -153,42 +154,6 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
     required: "Company name is required",
   });
 
-  const onPackageSubmit = async (data: any) => {
-    setLoading(true);
-    // try {
-    //   await authAxios({
-    //     method: "PUT",
-    //     url: "/user/package",
-    //     data: data,
-    //   }).then((res) => {
-    //     mutate("/users/retrives").then(() => {
-    //       setLoading(false);
-    //       addToast(res.data.message, {
-    //         appearance: "success",
-    //         autoDismiss: true,
-    //       });
-    //     });
-    //   });
-    // } catch (error: any) {
-    //   if (error?.response?.data) {
-    //     addToast(error.response.data.message, {
-    //       appearance: "error",
-    //       autoDismiss: true,
-    //     });
-    //     setLoading(false);
-    //   } else {
-    //     addToast(error?.message, {
-    //       appearance: "error",
-    //       autoDismiss: true,
-    //     });
-    //     setLoading(false);
-    //   }
-    // }
-  };
-
-  const packageItem = registerPackage("packageId", {
-    required: "Package is required",
-  });
   return (
     <section>
       <div className="rounded-lg shadow-lg mb-8">
@@ -198,12 +163,12 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
           </p>
         </div>
         <div className="sm:px-5 py-10 mx-3 sm:mx-0 relative">
-          {/* {companiesError && (
+          {companiesError && (
             <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
               <p className="font-bold">Error</p>
               <p>{companiesError.message}</p>
             </div>
-          )} */}
+          )}
           {!companiesData && <LoaderGrowing />}
           <div className="flex flex-col sm:flex-row gap-8 ">
             {/* company */}
@@ -740,109 +705,8 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
           </form>
         </div>
       </div>
-      {/* package select popup */}
-      {Package && (
-        <div className={`absolute top-0 left-0 w-full h-full z-30`}>
-          {/* popup box wrapper */}
-          <div className="flexed top-0 left-0 bottom-0 right-0">
-            <div className="grid w-full h-screen justify-center items-center z-40 !px-5">
-              <PackagePopup className="bg-white rounded-lg shadow-lg overflow-y-auto">
-                <div className="bg-themePrimary text-themeLighterAlt px-6 py-6">
-                  <h2 className="text-xl font-semibold text-center">
-                    Select Package
-                  </h2>
-                  <p className="text-base text-center text-themeLighterAlt">
-                    You need to select a package to post a job.
-                  </p>
-                </div>
-                <form onSubmit={handleSubmitPackage(onPackageSubmit)}>
-                  <div className="px-6 py-4">
-                    {/* package list radio */}
-                    <div className="grid grid-cols-1 gap-4">
-                      {packageData.map((item: any, index: any) => (
-                        <div
-                          key={index}
-                          className="flex items-center !gap-5 justify-center"
-                        >
-                          <input
-                            className=""
-                            type="radio"
-                            name="packageId"
-                            ref={packageItem.ref}
-                            onBlur={packageItem.onBlur}
-                            onChange={(e) => {
-                              packageItem.onChange(e);
-                              setValue("packageId", item._id);
-                            }}
-                            id={`packageId-${index}`}
-                            value={item._id}
-                            defaultChecked={index === 0}
-                          />
-                          <label
-                            className="flex items-center"
-                            htmlFor={`packageId-${index}`}
-                          >
-                            <div className="cursor-pointer">
-                              <h3 className="text-lg font-semibold">
-                                {item.packageName}
-                              </h3>
-                              <p className="text-sm text-themeDarker">
-                                {item.shortDesc}
-                              </p>
-                            </div>
-                          </label>
-                          <div className="flex items-center justify-center">
-                            <h3 className="text-lg font-semibold">
-                              {item.pricing}
-                            </h3>
-                            <p className="text-sm text-themeDarker">$</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                    {/* list submit button */}
-                    <div className="flex flex-wrap justify-between gap-4 mt-8">
-                      <button
-                        type="submit"
-                        disabled={loading}
-                        className={`${
-                          loading
-                            ? "bg-themeDarkerAlt"
-                            : "bg-themePrimary hover:bg-themeDarkerAlt"
-                        } flex items-center !gap-2 transition-all duration-300 ease-in-out text-white rounded-lg px-4 py-2 shadow-xl`}
-                      >
-                        {loading ? "Processing..." : "Choose Package"}
-                        {/* loader */}
-                        {loading && (
-                          <div
-                            className="spinner-grow w-4 h-4 text-themePrimary"
-                            role="status"
-                          />
-                        )}
-                      </button>
-                      {/* redirect to package page */}
-                      <Link
-                        href="/packages/active-package"
-                        className="bg-themeDarkerAlt hover:bg-themePrimary transition-all duration-300 ease-in-out text-white rounded-lg px-4 py-2 shadow-xl"
-                      >
-                        View Packages
-                      </Link>
-                    </div>
-                  </div>
-                </form>
-              </PackagePopup>
-            </div>
-          </div>
-          <div className="absolute top-0 left-0 bottom-0 right-0 bg-themeDarkerAlt w-full -z-10 h-full opacity-50"></div>
-        </div>
-      )}
     </section>
   );
 };
 
 export default SubmitJobForm;
-const PackagePopup = styled.div`
-  max-width: 700px;
-  width: 100%;
-  max-height: 600px;
-`;

@@ -40,53 +40,53 @@ const PopupLogin = () => {
   const onSubmitHandler = async (data: any) => {
     const local = localGet("user_login_info");
     setLoading(true);
-    // await Axios({
-    //   method: "post",
-    //   url: `/signin`,
-    //   data: {
-    //     email: data.email,
-    //     password: data.password,
-    //   },
-    // })
-    //   .then((res) => {
-    //     if (res.status === 200 || res.status === 201) {
-    //       /* ------------------------- localStorage data save ------------------------- */
-    //       localSave("UserData", {
-    //         ...res.data,
-    //         login_at: new Date(),
-    //         // expires one day after login
-    //         expires_in: new Date(new Date().getTime() + 86400000),
-    //       });
-    //       /* -------------------------- user logged in popup ------------------------- */
-    //       // mutate('/users/retrives').then(() => {
-    //       // 	addToast(res.data.message, {
-    //       // 		appearance: 'success',
-    //       // 		autoDismiss: true,
-    //       // 	})
-    //       setLoading(false);
-    //       LoginPopupHandler?.();
-    //       // 	reset()
-    //       // })
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     toast.error(error.response.data.message, {
-    //       position: "bottom-right",
-    //       className: "foo-bar",
-    //     });
-    //     setLoading(false);
-    //   });
+    await Axios({
+      method: "post",
+      url: `/signin`,
+      data: {
+        email: data.email,
+        password: data.password,
+      },
+    })
+      .then((res) => {
+        if (res.status === 200 || res.status === 201) {
+          /* ------------------------- localStorage data save ------------------------- */
+          localSave("UserData", {
+            ...res.data,
+            login_at: new Date(),
+            // expires one day after login
+            expires_in: new Date(new Date().getTime() + 86400000),
+          });
+          /* -------------------------- user logged in popup ------------------------- */
+          // mutate('/users/retrives').then(() => {
+          toast.success(res.data.message, {
+            position: "bottom-right",
+            className: "foo-bar",
+          });
+          setLoading(false);
+          LoginPopupHandler?.();
+          reset();
+          // })
+        }
+      })
+      .catch((error) => {
+        toast.error(error.response.data.message, {
+          position: "bottom-right",
+          className: "foo-bar",
+        });
+        setLoading(false);
+      });
 
     // test
-    localSave("UserData", {
-      ...untitled[0],
-      login_at: new Date(),
-      // expires one day after login
-      expires_in: new Date(new Date().getTime() + 86400000),
-    });
-    setLoading(false);
-    LoginPopupHandler?.();
-    reset();
+    // localSave("UserData", {
+    //   ...untitled[0],
+    //   login_at: new Date(),
+    //   // expires one day after login
+    //   expires_in: new Date(new Date().getTime() + 86400000),
+    // });
+    // setLoading(false);
+    // LoginPopupHandler?.();
+    // reset();
 
     // test
     if (data.remember) {

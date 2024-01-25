@@ -3,10 +3,11 @@ import { LoaderGrowing } from "@/lib/loader/loader";
 import ImageOpt from "@/components/optimize/image";
 import { companies } from "@/data/mongodb collections/companies";
 import Head from "next/head";
-import { usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { authAxios } from "@/lib/utils/axiosKits";
 
 // const fetcher = (url: string) =>
 // 	authAxios(url).then((res) => res.data.data.company)
@@ -114,36 +115,36 @@ const EditCompany = () => {
     formData.append("revenue", data.revenue);
     formData.append("eatablishedDate", data.eatablishedDate);
 
-    // try {
-    //   await authAxios({
-    //     method: "PUT",
-    //     url: `/companies/company/${router.query.active_id}`,
-    //     data: formData,
-    //   })
-    //     .then((res: any) => {
-    //       mutate("/companies/private").then(() => {
-    //         addToast(res.data.message, {
-    //           appearance: "success",
-    //           autoDismiss: true,
-    //           autoDismissTimeout: 3000,
-    //         });
-    //         Router.push("/company/manages-companies");
-    //       });
-    //     })
-    //     .catch((err: any) => {
-    //       addToast(err.response.data.message, {
-    //         appearance: "error",
-    //         autoDismiss: true,
-    //         autoDismissTimeout: 3000,
-    //       });
-    //     });
-    // } catch (error: any) {
-    //   addToast(error.response.data.message, {
-    //     appearance: "error",
-    //     autoDismiss: true,
-    //     autoDismissTimeout: 3000,
-    //   });
-    // }
+    try {
+      await authAxios({
+        method: "PUT",
+        url: `/companies/company/${id}`,
+        data: formData,
+      })
+        .then((res: any) => {
+          //   mutate("/companies/private").then(() => {
+          toast.success(res.data.message, {
+            position: "bottom-right",
+            className: "foo-bar",
+            autoClose: 3000,
+          });
+          router.push("/company/manages-companies");
+          //   });
+        })
+        .catch((err: any) => {
+          toast.error(err.response.data.message, {
+            position: "bottom-right",
+            className: "foo-bar",
+            autoClose: 3000,
+          });
+        });
+    } catch (error: any) {
+      toast.error(error.response.data.message, {
+        position: "bottom-right",
+        className: "foo-bar",
+        autoClose: 3000,
+      });
+    }
   };
 
   // company log image upload preview handler

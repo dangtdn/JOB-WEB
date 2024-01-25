@@ -7,11 +7,11 @@ import { FaCamera } from "react-icons/fa";
 import { toast } from "react-toastify";
 // import { useSWRConfig } from "swr";
 import { LoaderGrowing } from "../../../lib/loader/loader";
-import Image from "../../optimize/image";
 import { authAxios } from "../../../lib/utils/axiosKits";
 import ImageOpt from "../../optimize/image";
+import { GetUserProfileResponse } from "@/types/user";
 
-const ProfileBox = ({ data }: { data: any }) => {
+const ProfileBox = ({ data }: { data: GetUserProfileResponse }) => {
   const [photoImage, setPhotoImage] = React.useState(null) as any;
   //   const { mutate } = useSWRConfig();
   const {
@@ -55,20 +55,30 @@ const ProfileBox = ({ data }: { data: any }) => {
     formData.append("email", data.email);
     formData.append("phoneNumber", data.phoneNumber);
     formData.append("aboutMe", data.aboutMe);
-    if (data.profileImage) {
-      formData.append("profileImage", data.profileImage[0]);
-    }
+    // if (data.profileImage) {
+    //   formData.append("profileImage", data.profileImage[0]);
+    // }
+    const request = {
+      fullName: {
+        firstName: data.firstName,
+        lastName: data.lastName,
+      },
+      aboutMe: data.aboutMe,
+      // avatar:
+      //   "https://res.cloudinary.com/js-template/image/upload/v1647758536/zh1snvlag4w0zyz0jjzq.jpg",
+      phoneNumber: data.phoneNumber,
+    };
     try {
       await authAxios({
         method: "PUT",
-        url: `/users/self`,
-        data: formData,
+        url: `/admin/user/update/${data._id}`,
+        data: request,
       }).then((res: any) => {
         // mutate("/users/retrives").then(() => {
-        //   toast.success(res.data.message, {
-        //     position: "bottom-right",
-        //     className: "foo-bar",
-        //   });
+        toast.success(res.data.message, {
+          position: "bottom-right",
+          className: "foo-bar",
+        });
         // });
       });
     } catch (error: any) {

@@ -638,7 +638,7 @@ const TableItem = ({
           >
             {/* Edit */}
             <Link
-              href={`/job/edit-job?active_id=${item._id}`}
+              href={`/job/${item._id}/edit-job`}
               className="flex items-center group cursor-pointer gap-2 text-themeDark hover:text-themePrimary"
             >
               <span className="w-9 h-9 bg-[#1caf5721] flex items-center justify-center rounded-lg">

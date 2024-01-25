@@ -548,7 +548,7 @@ const TableItem = ({
           >
             {/* Edit */}
             <Link
-              href={`/company/edit-company?active_id=${item._id}`}
+              href={`/company/${item._id}/edit-company`}
               className="flex items-center gap-2 text-themeDarker hover:text-themePrimary transition-all duration-300 ease-in-out group"
             >
               <span className="w-9 h-9 bg-[#1caf5721] flex items-center justify-center rounded-lg">
