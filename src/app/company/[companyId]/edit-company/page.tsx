@@ -85,7 +85,7 @@ const EditCompany = () => {
       setLogoImg(data?.logo);
       setCompanyHeaderImg(data?.thumb ?? "");
     }
-  }, [data, setValue]);
+  }, [data, isDirty, setValue]);
 
   // submit form handler
   const submitHandler = async (data: any) => {

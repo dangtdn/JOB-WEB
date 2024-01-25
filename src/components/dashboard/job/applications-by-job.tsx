@@ -10,20 +10,21 @@ import { toast } from "react-toastify";
 import PopupModule from "@/lib/popup-modul/popup-modul";
 import { usePathname } from "next/navigation";
 import { jobs } from "@/data/mongodb collections/jobs";
+import useSWR from "swr";
 
-const fetcher = (url: string) => authAxios(url).then((res) => res.data.data);
+const fetcher = (url: string) => authAxios(url).then((res) => res.data);
 
 const ApplicationsByJob = () => {
   const pathName = usePathname();
   const id = pathName.split("/").at(-1);
-  //   const { data: applicationData, error } = useSWR(
-  //     id ? `/employee/application/job/${id}` : null,
-  //     fetcher
-  //   );
+  const { data: applicationDataAPI, error } = useSWR(
+    id ? `jobs/${id}/job-apply` : null,
+    fetcher
+  );
   const currentJob = _.find(jobs, (item) => item._id.$oid === id);
   const applicationData = {
     ...currentJob,
-    applications: [],
+    applications: applicationDataAPI.applications,
   };
   const data = applicationData?.applications;
   const [loading, setLoading] = React.useState(false);

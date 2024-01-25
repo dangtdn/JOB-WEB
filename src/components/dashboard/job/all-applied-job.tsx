@@ -9,13 +9,16 @@ import { authAxios } from "@/lib/utils/axiosKits";
 import { LoaderGrowing } from "@/lib/loader/loader";
 import { jobApplies } from "@/data/mongodb collections/jobapplies";
 import PopupModule from "@/lib/popup-modul/popup-modul";
+import useSWR from "swr";
+import useUser from "@/lib/auth/user";
 
 const fetcher = (url: string) => authAxios(url).then((res) => res.data.data);
 
 const AllApplications = () => {
-  //   const { data, error } = useSWR("jobs/apply/retrives", fetcher);
-  const data = jobApplies;
-  const error = false;
+  const { user } = useUser();
+  const { data, error } = useSWR(`users/${user._id}/job-apply`, fetcher);
+  // const data = jobApplies;
+  // const error = false;
   // get current pages
   const [currentPage, setCurrentPage] = React.useState(1);
   const [ShowPerPage, setShowPerPage] = React.useState(10);
