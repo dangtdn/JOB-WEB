@@ -4,11 +4,15 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import ImageOpt from "../../optimize/image";
 import { authAxios } from "../../../lib/utils/axiosKits";
+import { useRouter } from "next/navigation";
+import useUser from "@/lib/auth/user";
 
 const AddCategoryForm = () => {
   const [photoImage, setPhotoImage] = React.useState(null) as any;
   const [processing, setProcessing] = React.useState(false) as any;
   // const { mutate } = useSWRConfig()
+  const router = useRouter();
+  const { user } = useUser();
   const {
     register,
     handleSubmit,
@@ -24,20 +28,25 @@ const AddCategoryForm = () => {
     formData.append("categoryTitle", data.categoryTitle);
     formData.append("categoryIcon", data.categoryIcon[0]);
     formData.append("subCategory", data.subCategory);
+
+    const request = {
+      categoryName: data.categoryTitle,
+      user: user._id,
+    };
     setProcessing(true);
     try {
       authAxios
-        .post("/admin/categories/retrives", formData)
+        .post("/admin/category/create", request)
         .then((res) => {
           toast.success(res.data.message, {
             position: "bottom-right",
             className: "foo-bar",
           });
           // mutate('/admin/categories/retrives').then(() => {
-          // 	reset()
-          // 	setPhotoImage(null)
-          // 	Router.push(`/job/category`)
-          // 	setProcessing(false)
+          reset();
+          setPhotoImage(null);
+          router.push(`/job/category`);
+          setProcessing(false);
           // })
         })
         .catch((err) => {

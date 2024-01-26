@@ -48,7 +48,7 @@ const AddCompanyForm = () => {
     try {
       await authAxios({
         method: "post",
-        url: "/companies/retrives",
+        url: "/admin/company/create",
         data: formData,
       })
         .then((res) => {
