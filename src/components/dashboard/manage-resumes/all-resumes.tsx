@@ -11,23 +11,25 @@ import sweetAlert from "sweetalert";
 // import useSWR, { useSWRConfig } from "swr";
 import { LoaderGrowing } from "../../../lib/loader/loader";
 import useUser from "../../../lib/auth/user";
-import { authAxios } from "../../../lib/utils/axiosKits";
+import { Axios, authAxios } from "../../../lib/utils/axiosKits";
 import Pagination from "../pagination";
+import useSWR from "swr";
 
-const fetcher = (url: string) => authAxios(url).then((res) => res.data.data);
+const fetcher = (url: string) => Axios(url).then((res) => res.data);
 
 const AllResumes = () => {
   // const { mutate } = useSWRConfig();
   const { user, isAdmin } = useUser();
-  // const { data, error } = useSWR("/resumes/retrives", fetcher);
+  const { data: resumesData, error } = useSWR("/resumes", fetcher);
   const [loading, setLoading] = React.useState(false);
   // get current pages
   const [currentPage, setCurrentPage] = React.useState(1);
   const [ShowPerPage, setShowPerPage] = React.useState(10);
   const indexOfLastPost = currentPage * ShowPerPage;
   const indexOfFirstPost = indexOfLastPost - ShowPerPage;
+  const data = resumesData?.resumes ?? [];
   const currentPosts = data
-    ? data?.slice(indexOfFirstPost, indexOfLastPost)
+    ? data.slice(indexOfFirstPost, indexOfLastPost)
     : [];
   // delete resume function here
   const deleteResume = (id: any) => {
@@ -40,32 +42,32 @@ const AllResumes = () => {
     }).then((willDelete) => {
       if (willDelete) {
         setLoading(true);
-        try {
-          authAxios
-            .delete(`/resumes/resume/${id}`)
-            .then((res) => {
-              return mutate("/resumes/retrives").then(() => {
-                toast.success(res.data.message, {
-                  position: "bottom-right",
-                  className: "foo-bar",
-                });
-                setLoading(false);
-              }, 1000 as any);
-            })
-            .catch((err) => {
-              toast.error(err?.response?.data?.message, {
-                position: "bottom-right",
-                className: "foo-bar",
-              });
-              setLoading(false);
-            });
-        } catch (error: any) {
-          toast.error(error?.response?.data?.message, {
-            position: "bottom-right",
-            className: "foo-bar",
-          });
-          setLoading(false);
-        }
+        // try {
+        //   authAxios
+        //     .delete(`/resumes/resume/${id}`)
+        //     .then((res) => {
+        //       return mutate("/resumes/retrives").then(() => {
+        //         toast.success(res.data.message, {
+        //           position: "bottom-right",
+        //           className: "foo-bar",
+        //         });
+        //         setLoading(false);
+        //       }, 1000 as any);
+        //     })
+        //     .catch((err) => {
+        //       toast.error(err?.response?.data?.message, {
+        //         position: "bottom-right",
+        //         className: "foo-bar",
+        //       });
+        //       setLoading(false);
+        //     });
+        // } catch (error: any) {
+        //   toast.error(error?.response?.data?.message, {
+        //     position: "bottom-right",
+        //     className: "foo-bar",
+        //   });
+        //   setLoading(false);
+        // }
       }
     });
   };
@@ -81,37 +83,37 @@ const AllResumes = () => {
     }).then((willDelete) => {
       if (willDelete) {
         setLoading(true);
-        try {
-          authAxios({
-            method: "PUT",
-            url: `/admin/resumes/status/${id}`,
-            data: {
-              status: "approved",
-            },
-          })
-            .then((res) => {
-              return mutate("/resumes/retrives").then(() => {
-                toast.success(res.data.message, {
-                  position: "bottom-right",
-                  className: "foo-bar",
-                });
-                setLoading(false);
-              }, 1000 as any);
-            })
-            .catch((err) => {
-              toast.error(capitalize(err.response?.data?.message), {
-                position: "bottom-right",
-                className: "foo-bar",
-              });
-              setLoading(false);
-            });
-        } catch (error: any) {
-          toast.error(capitalize(error.response?.data?.message), {
-            position: "bottom-right",
-            className: "foo-bar",
-          });
-          setLoading(false);
-        }
+        // try {
+        //   authAxios({
+        //     method: "PUT",
+        //     url: `/admin/resumes/status/${id}`,
+        //     data: {
+        //       status: "approved",
+        //     },
+        //   })
+        //     .then((res) => {
+        //       return mutate("/resumes/retrives").then(() => {
+        //         toast.success(res.data.message, {
+        //           position: "bottom-right",
+        //           className: "foo-bar",
+        //         });
+        //         setLoading(false);
+        //       }, 1000 as any);
+        //     })
+        //     .catch((err) => {
+        //       toast.error(capitalize(err.response?.data?.message), {
+        //         position: "bottom-right",
+        //         className: "foo-bar",
+        //       });
+        //       setLoading(false);
+        //     });
+        // } catch (error: any) {
+        //   toast.error(capitalize(error.response?.data?.message), {
+        //     position: "bottom-right",
+        //     className: "foo-bar",
+        //   });
+        //   setLoading(false);
+        // }
       }
     });
   };
@@ -127,37 +129,37 @@ const AllResumes = () => {
     }).then((willDelete) => {
       if (willDelete) {
         setLoading(true);
-        try {
-          authAxios({
-            method: "PUT",
-            url: `/admin/resumes/status/${id}`,
-            data: {
-              status: "rejected",
-            },
-          })
-            .then((res) => {
-              return mutate("/resumes/retrives").then(() => {
-                toast.success(res.data.message, {
-                  position: "bottom-right",
-                  className: "foo-bar",
-                });
-                setLoading(false);
-              }, 1000 as any);
-            })
-            .catch((err) => {
-              toast.error(capitalize(err.response.data.message), {
-                position: "bottom-right",
-                className: "foo-bar",
-              });
-              setLoading(false);
-            });
-        } catch (error: any) {
-          toast.error(capitalize(error.response?.data?.message), {
-            position: "bottom-right",
-            className: "foo-bar",
-          });
-          setLoading(false);
-        }
+        // try {
+        //   authAxios({
+        //     method: "PUT",
+        //     url: `/admin/resumes/status/${id}`,
+        //     data: {
+        //       status: "rejected",
+        //     },
+        //   })
+        //     .then((res) => {
+        //       return mutate("/resumes/retrives").then(() => {
+        //         toast.success(res.data.message, {
+        //           position: "bottom-right",
+        //           className: "foo-bar",
+        //         });
+        //         setLoading(false);
+        //       }, 1000 as any);
+        //     })
+        //     .catch((err) => {
+        //       toast.error(capitalize(err.response.data.message), {
+        //         position: "bottom-right",
+        //         className: "foo-bar",
+        //       });
+        //       setLoading(false);
+        //     });
+        // } catch (error: any) {
+        //   toast.error(capitalize(error.response?.data?.message), {
+        //     position: "bottom-right",
+        //     className: "foo-bar",
+        //   });
+        //   setLoading(false);
+        // }
       }
     });
   };
@@ -373,7 +375,7 @@ const AllResumes = () => {
                   <div
                     key={index}
                     className={`p-4 mb-4 shadow rounded-lg ${
-                      user?.data._id === item.user && isAdmin
+                      user?._id === item.user && isAdmin
                         ? "bg-green-50"
                         : "bg-white"
                     }`}
@@ -443,7 +445,7 @@ const TableItem = ({
   return (
     <tr
       className={`border-b border-themeLighter ${
-        user?.data._id === item.user && isAdmin ? "bg-green-50" : ""
+        user?._id === item.user && isAdmin ? "bg-green-50" : ""
       } w-full align-top last-of-type:border-none`}
     >
       <td className="w-60 text-themeDark text-base  pl-6 py-4 align-middle">
@@ -522,7 +524,7 @@ const TableItem = ({
               </div>
             </Link>
             {/* Disable */}
-            {user?.data._id === item.user && (
+            {user?._id === item.user && (
               <div>
                 {item.status?.isPublished ? (
                   <div
@@ -548,7 +550,7 @@ const TableItem = ({
               </div>
             )}
             {/* Approved */}
-            {user?.data &&
+            {user &&
               isAdmin &&
               (item.status?.isApproved ? (
                 <div
@@ -665,7 +667,7 @@ const MobileTable = ({
           </Link>
         </div>
         {/* Disable */}
-        {user?.data._id === item.user && (
+        {user?._id === item.user && (
           <div className="flex items-center gap-2">
             {item.status?.isPublished ? (
               <div
@@ -687,7 +689,7 @@ const MobileTable = ({
           </div>
         )}
         {/* Approved */}
-        {user?.data &&
+        {user &&
           isAdmin &&
           (item.status?.isApproved ? (
             <div className="flex items-center gap-2">

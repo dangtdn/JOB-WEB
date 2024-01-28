@@ -1,8 +1,10 @@
-import Layout from "@/components/Layout/Layout";
+"use client";
+
+import React from "react";
 import AllResumes from "@/components/dashboard/manage-resumes/all-resumes";
 import useUser, { UserGoBack, UserNotLogin } from "@/lib/auth/user";
 import Head from "next/head";
-import React from "react";
+import Layout from "@/components/dashboard/layout";
 
 export default function ManagesResumes() {
   const { user, loggedIn, loggedOut, isEmployer } = useUser();

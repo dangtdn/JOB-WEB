@@ -7,7 +7,7 @@ import PopupRegister from "@/components/register/popup-register";
 import LostPassword from "@/components/register/lost-password";
 import ThemeContextProvider, { ThemeContext } from "@/context/ThemeContext";
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = ({ children }: { children: React.ReactElement }) => {
   return (
     <>
       <ThemeContextProvider>

@@ -1,4 +1,7 @@
-import Layout from "@/components/Layout/Layout";
+"use client";
+
+import ResumeForm from "@/components/dashboard/add-resume/resume-form";
+import Layout from "@/components/dashboard/layout";
 import useUser, { UserGoBack, UserNotLogin } from "@/lib/auth/user";
 import Head from "next/head";
 import React from "react";
@@ -17,7 +20,7 @@ export default function AddResume() {
         <main>
           {loggedOut && <UserNotLogin />}
           {isEmployer && <UserGoBack />}
-          {/* {userData && loggedIn && !isEmployer && <ResumeForm />} */}
+          {userData && loggedIn && !isEmployer && <ResumeForm />}
         </main>
       </Layout>
     </>

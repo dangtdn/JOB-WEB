@@ -1,3 +1,5 @@
+"use client";
+
 import AllApplications from "@/components/dashboard/job/all-applied-job";
 import Layout from "@/components/dashboard/layout";
 import useUser, { UserGoBack, UserNotLogin } from "@/lib/auth/user";
@@ -14,9 +16,9 @@ const Applications = () => {
       </Head>
 
       <Layout>
-        {loggedOut && <UserNotLogin />}
-        {isEmployer && <UserGoBack />}
         <main>
+          {loggedOut && <UserNotLogin />}
+          {isEmployer && <UserGoBack />}
           {userData && loggedIn && !isEmployer && <AllApplications />}
         </main>
       </Layout>

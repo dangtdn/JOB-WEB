@@ -17,6 +17,7 @@ import { RiArrowDownSLine } from "react-icons/ri";
 import Skeleton from "react-loading-skeleton";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { usePathname } from "next/navigation";
+import { GetUserProfileResponse } from "@/types/user";
 
 const candidatesMenu = [
   {
@@ -192,7 +193,7 @@ const adminMenu = [
   },
 ];
 
-const SideNav = ({ data }: { data: any }) => {
+const SideNav = ({ data }: { data: GetUserProfileResponse }) => {
   const { isSideNavOpen, setIsSideNavOpen, logOutHandler } = React.useContext(
     ThemeContext
   ) as any;
@@ -203,7 +204,7 @@ const SideNav = ({ data }: { data: any }) => {
   const sideNavMenuHandler = () => {
     setIsSideNavOpen(!isSideNavOpen);
   };
-  console.log("isSideNavOpen: ", isSideNavOpen);
+  console.log("data.role.: ", data.role.isCandidate);
 
   return (
     <>
@@ -231,7 +232,7 @@ const SideNav = ({ data }: { data: any }) => {
                   )}
                 </>
               )} */}
-              {data?.role?.isCandidate &&
+              {data?.role.isCandidate &&
                 candidatesMenu.map((menu, index) => (
                   <li key={index}>
                     <Link
@@ -263,37 +264,38 @@ const SideNav = ({ data }: { data: any }) => {
                     </Link>
                   </li>
                 ))}
-              {employerMenu.map((menu, index) => (
-                <li key={index}>
-                  <Link
-                    href={menu.link}
-                    className={`${
-                      pathName === (menu.link as any)
-                        ? "bg-themePrimary text-white"
-                        : "hover:bg-themePrimary hover:!text-white"
-                    } relative mx-auto flex duration-300 ease-in-out gap-3 group items-center xl:w-full w-14 h-14 xl:h-auto xl:py-4 xl:px-7 mb-2 xl:justify-start justify-center text-gray-500 rounded-full xl:rounded-none`}
-                  >
-                    {menu.icon}
-                    <span
-                      data-config-id="link7"
-                      className={`hidden xl:block text-xxs font-normal`}
+              {data?.role?.isEmployer &&
+                employerMenu.map((menu, index) => (
+                  <li key={index}>
+                    <Link
+                      href={menu.link}
+                      className={`${
+                        pathName === (menu.link as any)
+                          ? "bg-themePrimary text-white"
+                          : "hover:bg-themePrimary hover:!text-white"
+                      } relative mx-auto flex duration-300 ease-in-out gap-3 group items-center xl:w-full w-14 h-14 xl:h-auto xl:py-4 xl:px-7 mb-2 xl:justify-start justify-center text-gray-500 rounded-full xl:rounded-none`}
                     >
-                      {menu.name}
-                    </span>
-                    {menu.alert !== "" && (
+                      {menu.icon}
                       <span
-                        className={`${
-                          pathName === (menu.link as any)
-                            ? "bg-red-400 text-white"
-                            : "bg-themePrimary text-white"
-                        } flex justify-center items-center group-hover:bg-red-400 text-xsss xl:static absolute top-0 right-1 rounded-full w-4 h-4`}
+                        data-config-id="link7"
+                        className={`hidden xl:block text-xxs font-normal`}
                       >
-                        {menu.alert}
+                        {menu.name}
                       </span>
-                    )}
-                  </Link>
-                </li>
-              ))}
+                      {menu.alert !== "" && (
+                        <span
+                          className={`${
+                            pathName === (menu.link as any)
+                              ? "bg-red-400 text-white"
+                              : "bg-themePrimary text-white"
+                          } flex justify-center items-center group-hover:bg-red-400 text-xsss xl:static absolute top-0 right-1 rounded-full w-4 h-4`}
+                        >
+                          {menu.alert}
+                        </span>
+                      )}
+                    </Link>
+                  </li>
+                ))}
               {data?.role?.isAdmin &&
                 adminMenu.map((menu, index) => {
                   return (

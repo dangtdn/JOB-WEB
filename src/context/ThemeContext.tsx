@@ -130,8 +130,7 @@ const ThemeContextProvider = ({ children }: { children: any }) => {
 
   const logOutHandler = async () => {
     try {
-      localRemove("UserData");
-      await mutate(null);
+      await localRemove("UserData");
       await router.replace("/login");
       toast.success("You have successfully logged out", {
         position: "bottom-right",
@@ -147,8 +146,7 @@ const ThemeContextProvider = ({ children }: { children: any }) => {
 
   const frontendLogOutHandler = async () => {
     try {
-      await localRemove("UserData");
-      await mutate(null);
+      localRemove("UserData");
       toast.success("You have successfully logged out", {
         position: "bottom-right",
         className: "foo-bar",
