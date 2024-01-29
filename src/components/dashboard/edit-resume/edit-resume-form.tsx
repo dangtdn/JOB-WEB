@@ -2,7 +2,7 @@
 "use client";
 
 import _ from "lodash";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { GoPlus } from "react-icons/go";
@@ -20,10 +20,12 @@ const fetcher = (url: string) => authAxios(url).then((res) => res.data);
 
 const EditResume = () => {
   const router = useRouter();
+  const pathName = usePathname();
+  const id = pathName.split("/").at(-1);
   const { mutate } = useSWRConfig();
   const { data, error } = useSWR("/admin/filters/retrives", fetcher);
   const { data: resumeData, error: resumeError } = useSWR(
-    `/resumes/resume/${router.query.active_id}`,
+    `/resumes/resume/${id}`,
     fetcher
   );
   const { categoryData } = React.useContext(ThemeContext) as any;
@@ -139,7 +141,7 @@ const EditResume = () => {
     try {
       await authAxios({
         method: "PUT",
-        url: `/resumes/resume/${router.query.active_id}`,
+        url: `/resumes/resume/${id}`,
         data: formData,
       }).then((res) => {
         mutate(`/resumes/resume/`).then(() => {

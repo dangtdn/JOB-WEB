@@ -12,6 +12,7 @@ import Multiselect from "multiselect-react-dropdown";
 // import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -57,13 +58,11 @@ const EditJob = () => {
   const jobForm = companyName ? false : true;
   const { mutate } = useSWRConfig();
   const router = useRouter();
-  const { data, error } = useSWR(
-    router?.query?.active_id ? `/jobs/job/${router?.query?.active_id}` : null,
-    fetcher,
-    {
-      refreshInterval: 0,
-    }
-  );
+  const pathName = usePathname();
+  const jobId = pathName.split("/").at(-1);
+  const { data, error } = useSWR(jobId ? `/jobs/job/${jobId}` : null, fetcher, {
+    refreshInterval: 0,
+  });
   const { user } = useUser();
   const userData = user;
   const isCandidate = userData?.role.isCandidate;
