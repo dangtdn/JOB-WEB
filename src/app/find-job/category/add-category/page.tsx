@@ -1,14 +1,15 @@
 "use client";
 
-import AllApplications from "@/components/dashboard/job/all-applied-job";
+import AddCategoryForm from "@/components/dashboard/form/add-category-form";
 import Layout from "@/components/dashboard/layout";
 import useUser, { UserGoBack, UserNotLogin } from "@/lib/auth/user";
 import Head from "next/head";
 import React from "react";
 
-const Applications = () => {
-  const { user, loggedIn, loggedOut, isEmployer } = useUser();
+const AddCategory = () => {
+  const { user, loggedIn, loggedOut, isAdmin } = useUser();
   const userData = user;
+
   return (
     <>
       <Head>
@@ -16,14 +17,14 @@ const Applications = () => {
       </Head>
 
       <Layout>
-        {loggedOut && <UserNotLogin />}
-        {isEmployer && <UserGoBack />}
         <main>
-          {userData && loggedIn && !isEmployer && <AllApplications />}
+          {loggedOut && <UserNotLogin />}
+          {userData && !isAdmin && <UserGoBack />}
+          {userData && loggedIn && <AddCategoryForm />}
         </main>
       </Layout>
     </>
   );
 };
 
-export default Applications;
+export default AddCategory;

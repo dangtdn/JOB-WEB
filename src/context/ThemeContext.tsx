@@ -8,6 +8,8 @@ import { localRemove } from "../lib/utils/localStore";
 import { categories } from "@/utils/dummy-content/mongodb-collections/categories";
 import { useRouter } from "next/navigation";
 import { Category } from "@/types/category";
+import { AxiosRequestConfig } from "axios";
+import useSWR from "swr";
 
 type ThemeContextType = {
   apiEndPoint?: string;
@@ -48,6 +50,10 @@ type ThemeContextType = {
   // recentNotificationError,
 };
 
+const fetcher = (url: AxiosRequestConfig<any>) =>
+  Axios(url).then((res: any) => res.data.category);
+const JobCategoryAPI = "/categories";
+
 export const ThemeContext = createContext<ThemeContextType>({});
 
 const ThemeContextProvider = ({ children }: { children: any }) => {
@@ -69,14 +75,14 @@ const ThemeContextProvider = ({ children }: { children: any }) => {
   const { user, loggedOut, loggedIn, mutate } = useUser() as any;
 
   // Frontend data fetching hooks
-  // const {
-  // 	data: categoryData,
-  // 	error: categoryError,
-  // 	mutate: categoryMutate,
-  // } = useSWR(JobCategoryAPI, fetcher, {
-  // 	revalidateOnFocus: false,
-  // })
-  const categoryData = categories;
+  const {
+    data: categoryData,
+    error: categoryError,
+    mutate: categoryMutate,
+  } = useSWR(JobCategoryAPI, fetcher, {
+    revalidateOnFocus: false,
+  });
+  // const categoryData = categories;
 
   // // user notification data fetching hooks
   // const { data: recentNotification, error: recentNotificationError } = useSWR(

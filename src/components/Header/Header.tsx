@@ -386,11 +386,8 @@ const Header = () => {
 
 function DashboardMenu({ active }: { active: any }) {
   const { frontendLogOutHandler } = React.useContext(ThemeContext) as any;
-  // const { user, isCandidate, isEmployer, isAdmin } = useUser();
-  const user = users[0];
-  const isEmployer = user.role.isEmployer;
-  const isCandidate = user.role.isCandidate;
-  const isAdmin = user.role.isAdmin;
+  const { user, isCandidate, isEmployer, isAdmin } = useUser();
+  
   return (
     <>
       <DashboardMenuWrapper

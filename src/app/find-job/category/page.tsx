@@ -1,14 +1,15 @@
 "use client";
 
-import AllApplications from "@/components/dashboard/job/all-applied-job";
+import CategoryInfo from "@/components/dashboard/job-alerts/category-info";
 import Layout from "@/components/dashboard/layout";
 import useUser, { UserGoBack, UserNotLogin } from "@/lib/auth/user";
 import Head from "next/head";
 import React from "react";
 
-const Applications = () => {
-  const { user, loggedIn, loggedOut, isEmployer } = useUser();
+export default function Category() {
+  const { user, loggedIn, loggedOut, isAdmin } = useUser();
   const userData = user;
+
   return (
     <>
       <Head>
@@ -16,14 +17,12 @@ const Applications = () => {
       </Head>
 
       <Layout>
-        {loggedOut && <UserNotLogin />}
-        {isEmployer && <UserGoBack />}
         <main>
-          {userData && loggedIn && !isEmployer && <AllApplications />}
+          {loggedOut && <UserNotLogin />}
+          {userData && !isAdmin && <UserGoBack />}
+          {userData && loggedIn && isAdmin && <CategoryInfo />}
         </main>
       </Layout>
     </>
   );
-};
-
-export default Applications;
+}
