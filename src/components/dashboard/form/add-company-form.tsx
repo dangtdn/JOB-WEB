@@ -4,11 +4,13 @@ import { toast } from "react-toastify";
 import ImageOpt from "../../optimize/image";
 import { authAxios } from "../../../lib/utils/axiosKits";
 import { useRouter } from "next/navigation";
+import useUser from "@/lib/auth/user";
 
 const AddCompanyForm = () => {
   const router = useRouter();
   const [CompanyHeaderImg, setCompanyHeaderImg] = React.useState("");
   const [LogoImg, setLogoImg] = React.useState("");
+  const { user } = useUser();
   const {
     register,
     handleSubmit,
@@ -19,6 +21,27 @@ const AddCompanyForm = () => {
 
   // submit form handler
   const submitHandler = async (data: any) => {
+    const {
+      companyName,
+      companyTagline,
+      phoneNumber,
+      companyEmail,
+      companyWebsite,
+      logoImage,
+      description,
+      category,
+      location,
+      locationLatitude,
+      locationLongitude,
+      videoLink,
+      linkedinLink,
+      facebookLink,
+      twitterLink,
+      avarageSalary,
+      companySize,
+      revenue,
+      eatablishedDate,
+    } = data;
     const formData = new FormData();
     formData.append("companyName", data.companyName);
     formData.append("companyTagline", data.companyTagline);
@@ -45,11 +68,36 @@ const AddCompanyForm = () => {
     formData.append("revenue", data.revenue);
     formData.append("eatablishedDate", data.eatablishedDate);
 
+    const request = {
+      user: user._id,
+      companyName,
+      companyTagline,
+      category,
+      companyEmail,
+      phoneNumber,
+      eatablishedDate,
+      companyWebsite,
+      avarageSalary,
+      socialLink: {
+        linkedin: linkedinLink,
+        facebook: facebookLink,
+        twitter: twitterLink,
+      },
+      companySize,
+      description,
+      location,
+      locationMap: {
+        latitude: locationLatitude,
+        longitude: locationLongitude,
+      },
+      logo: logoImage[0],
+    };
+
     try {
       await authAxios({
         method: "post",
         url: "/admin/company/create",
-        data: formData,
+        data: request,
       })
         .then((res) => {
           // mutate('/companies/private')

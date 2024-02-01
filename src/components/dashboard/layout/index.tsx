@@ -1,5 +1,3 @@
-"use client";
-
 import dynamic from "next/dynamic";
 import React, { useContext } from "react";
 import ThemeContextProvider, {
@@ -12,7 +10,7 @@ import PopupLogin from "@/components/register/popup-login";
 import PopupRegister from "@/components/register/popup-register";
 import LostPassword from "@/components/register/lost-password";
 
-const Layout = ({ children }: { children: any }) => {
+const Layout = ({ children }: { children: React.ReactElement }) => {
   // const { isLogIn } = useContext(ThemeContext) as any;
   const isLogIn = true;
 

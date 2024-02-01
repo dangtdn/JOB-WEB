@@ -17,6 +17,7 @@ import { RiArrowDownSLine } from "react-icons/ri";
 import Skeleton from "react-loading-skeleton";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { usePathname } from "next/navigation";
+import { GetUserProfileResponse } from "@/types/user";
 
 const candidatesMenu = [
   {
@@ -192,7 +193,7 @@ const adminMenu = [
   },
 ];
 
-const SideNav = ({ data }: { data: any }) => {
+const SideNav = ({ data }: { data: GetUserProfileResponse }) => {
   const { isSideNavOpen, setIsSideNavOpen, logOutHandler } = React.useContext(
     ThemeContext
   ) as any;
@@ -203,7 +204,7 @@ const SideNav = ({ data }: { data: any }) => {
   const sideNavMenuHandler = () => {
     setIsSideNavOpen(!isSideNavOpen);
   };
-  console.log("isSideNavOpen: ", isSideNavOpen);
+  console.log("data.role.: ", data.role.isCandidate);
 
   return (
     <>
@@ -231,7 +232,7 @@ const SideNav = ({ data }: { data: any }) => {
                   )}
                 </>
               )} */}
-              {data?.role?.isCandidate &&
+              {data?.role.isCandidate &&
                 candidatesMenu.map((menu, index) => (
                   <li key={index}>
                     <Link

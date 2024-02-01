@@ -1,3 +1,5 @@
+"use client";
+
 import styled from "@emotion/styled";
 import _ from "lodash";
 import Link from "next/link";

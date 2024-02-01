@@ -4,7 +4,6 @@ import Layout from "@/components/dashboard/layout";
 import AllResumes from "@/components/dashboard/manage-resumes/all-resumes";
 import useUser, { UserGoBack, UserNotLogin } from "@/lib/auth/user";
 import Head from "next/head";
-import React from "react";
 
 export default function ManagesResumes() {
   const { user, loggedIn, loggedOut, isEmployer } = useUser();

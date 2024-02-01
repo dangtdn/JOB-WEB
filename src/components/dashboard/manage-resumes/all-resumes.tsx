@@ -29,7 +29,7 @@ const AllResumes = () => {
   console.log("resumeData: ", resumeData);
   const data = resumeData?.resumes ?? [];
   const currentPosts = data
-    ? data?.slice(indexOfFirstPost, indexOfLastPost)
+    ? data.slice(indexOfFirstPost, indexOfLastPost)
     : [];
   // delete resume function here
   const deleteResume = (id: any) => {
