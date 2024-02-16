@@ -23,17 +23,17 @@ const CategoryItem = ({ data }: { data: Category }) => {
     // <Link href="/">
     <a
       className="text-center bg-white rounded-lg p-6 group cursor-pointer"
-      onClick={() => OnSearchHandler(data?.categoryTitle)}
+      onClick={() => OnSearchHandler(data?.categoryName)}
     >
       <div className="mb-3 flex justify-center transition-all group-hover:scale-125">
-        {data?.avatar && (
+        {data?.logo && (
           <>
-            {_.includes(data.avatar, ".svg") ? (
+            {_.includes(data.logo, ".svg") ? (
               <ImageOpt
                 width={60}
                 height={60}
                 noPlaceholder
-                src={data.avatar}
+                src={data.logo}
                 className="rounded"
                 alt="icon"
               />
@@ -42,7 +42,7 @@ const CategoryItem = ({ data }: { data: Category }) => {
                 width={60}
                 height={60}
                 className="rounded"
-                src={data.avatar}
+                src={"/assets/img/avatar.png"}
                 alt="icon"
               />
             )}
@@ -50,13 +50,13 @@ const CategoryItem = ({ data }: { data: Category }) => {
         )}
       </div>
       <h4 className="text-xs text-black font-normal mb-2">
-        {_.capitalize(data.categoryTitle) || data.categoryTitle}
+        {_.capitalize(data.categoryName) || data.categoryName}
       </h4>
       <p className="text-grayLight text-xss font-normal">
         {/* {data.count || data.subtitle} Jobs */}
-        {data.categoryTitle && data.categoryTitle}
-        {!data.categoryTitle && data.subCategory} Job
-        {data.subCategory.length > 1 && <span>s</span>}
+        {data.categoryName && data.categoryName}
+        {/* {!data.categoryTitle && data.subCategory} Job */}
+        {/* {data.subCategory.length > 1 && <span>s</span>} */}
       </p>
     </a>
     // </Link>

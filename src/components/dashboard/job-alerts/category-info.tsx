@@ -74,7 +74,7 @@ const CategoryInfo = () => {
       <div className="pb-6 text-right">
         <button className="py-3 px-8 bg-themePrimary rounded-lg shadow shadow-themePrimary">
           <Link
-            href="/job/add-category"
+            href="/find-job/category/add-category"
             className="text-white font-medium text-xxs"
           >
             Add New Category
@@ -305,7 +305,7 @@ const MobileTable = ({
         {/* Edit */}
         <div className="flex items-center group cursor-pointer gap-2">
           <Link
-            href={`/job/edit-category?active_id=${item._id}`}
+            href={`/find-job/category/edit-category?active_id=${item._id}`}
             className="bg-green-200 shadow-sm flex gap-2 py-2 px-3 items-center justify-center rounded-lg"
           >
             <AiOutlineEdit className="text-xs text-themeDarker" />

@@ -1,20 +1,12 @@
 "use client";
 
-import { categoryList } from "@/components/PopularCategories/PopularCategories";
 import ImageOpt from "@/components/optimize/image";
 import { ThemeContext } from "@/context/ThemeContext";
-import { categories } from "@/utils/dummy-content/mongodb-collections/categories";
-import { filters } from "@/utils/dummy-content/mongodb-collections/filters";
 import styled from "@emotion/styled";
 import _ from "lodash";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Form } from "react-bootstrap";
 import { Controller, useForm } from "react-hook-form";
-// import useSWR from 'swr'
-// import { ThemeContext } from '../../../../context/ThemeContext'
-// import { Axios } from '../../../utils/axiosKits'
-
-// const fetcher = (url: string) => Axios(url).then((res) => res.data.data);
 
 interface JobFieldValues {
   jobTitle: string;
@@ -46,7 +38,7 @@ export const JobsFilter = ({
   setJobFilter: React.Dispatch<React.SetStateAction<any[]>>;
   defaultData: any[];
 }) => {
-  //   const { categoryData } = useContext(ThemeContext) as any;
+  const { categoryData } = useContext(ThemeContext) as any;
   const [jobTypes, setJobTypes] = useState<string[]>([]);
   const [experienceYear, setExperienceYear] = useState<string[]>([]);
   const {
@@ -56,7 +48,6 @@ export const JobsFilter = ({
     handleSubmit,
     getValues,
   } = useForm<JobFieldValues>({ mode: "onChange" });
-  const categoryData = categories;
 
   /* --------------- reset all form field on click reset button --------------- */
   const ClearFilterHandler = () => {
@@ -254,8 +245,8 @@ export const JobsFilter = ({
                       <option value="">Select Categories</option>
                       {_.map(categoryData, (item, index) => {
                         return (
-                          <option value={item.categoryTitle} key={index}>
-                            {_.capitalize(item.categoryTitle)}
+                          <option value={item.categoryName} key={index}>
+                            {_.capitalize(item.categoryName)}
                           </option>
                         );
                       })}

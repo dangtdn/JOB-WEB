@@ -91,11 +91,18 @@ export default function FindJob() {
   });
   console.log("jobs: ", data);
   useEffect(() => {
-    if (data.success) {
+    if (data?.success) {
+      const jobTypes: string[] = [];
+      for (const job of data.jobs) {
+        if (job.jobTypes) {
+          jobTypes.push(...job.jobTypes);
+        }
+      }
       const filter = {
-        jobTypes: (
-          data?.jobs?.map((item: any) => item.jobTypes) as string[][]
-        ).reduce((arr, item) => (arr = [...arr, ...item]), []),
+        // jobTypes: (
+        //   data?.jobs?.map((item: any) => item.jobTypes) as string[][]
+        // ).reduce((arr, types) => (arr = [...arr, ...types]), []),
+        jobTypes,
         jobExperience: data?.jobs?.map(
           (item: any) => item.jobExperience
         ) as string[],
@@ -161,7 +168,7 @@ export default function FindJob() {
                       jobExperience={jobExperience}
                       setCurrentPage={setCurrentPage}
                       setJobFilter={setJobFilter}
-                      defaultData={data.data}
+                      defaultData={data.jobs}
                     />
 
                     <div className="col-span-9">

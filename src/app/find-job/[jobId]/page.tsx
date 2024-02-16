@@ -10,7 +10,7 @@ import { FacebookShareButton, TwitterShareButton } from "react-share";
 import { toast } from "react-toastify";
 // import sweetAlert from "sweetalert";
 import { jobs } from "@/utils/dummy-content/mongodb-collections/jobs";
-import { jobApplies } from "@/utils/dummy-content/mongodb-collections/jobapplies";
+// import { jobApplies } from "@/utils/dummy-content/mongodb-collections/jobapplies";
 import { usePathname, useRouter } from "next/navigation";
 import useUser from "@/lib/auth/user";
 import { bookmarks } from "@/utils/dummy-content/mongodb-collections/bookmarks";
@@ -23,26 +23,70 @@ import { LoaderGrowing } from "@/lib/loader/loader";
 import JobOverview from "@/components/Job/JobOverview";
 import JobCompanyName from "@/components/Job/JobCompanyName";
 import PopupModule from "@/lib/popup-modul/popup-modul";
+import { Axios, authAxios } from "@/lib/utils/axiosKits";
+import useSWR from "swr";
 
-// const fetcher = (url: string) => Axios(url).then((res) => res.data)
-// const authFetcher = (url: string) => authAxios(url).then((res) => res.data.data)
+const fetcher = (url: string) => Axios(url).then((res) => res.data);
+const authFetcher = (url: string) => authAxios(url).then((res) => res.data);
 
 export default function JobDetails() {
   const router = useRouter();
   const pathName = usePathname();
   const id = pathName.split("/").at(-1);
   const { user, loggedIn, isEmployer } = useUser();
-  // const { data: applyJob } = useSWR(
-  // 	loggedIn ? '/jobs/apply/retrives' : null,
-  // 	authFetcher,
-  // 	{
-  // 		refreshInterval: 0,
-  // 	}
-  // )
-  console.log("user: ", user);
+  const { data: jobApplies } = useSWR(
+    loggedIn ? `/jobs/${id}/job-apply` : null,
+    authFetcher,
+    {
+      refreshInterval: 0,
+    }
+  );
+  console.log("jobApplies: ", jobApplies);
   const isApplied = _.find(jobApplies, (item) => item?.jobItem?.$oid === id);
-  const data = _.find([...jobs], (item) => item?._id.$oid === id);
-
+  // const data = _.find([...jobs], (item) => item?._id.$oid === id);
+  const { data, error } = useSWR(id ? `/jobs/${id}` : null, fetcher, {
+    fallbackData: {
+      job: {
+        applyLink: "https://localhost.com",
+        avatar:
+          "https://res.cloudinary.com/js-template/image/upload/v1647869499/fo7kcvjmwabbjheb7urc.jpg",
+        category: "IT/Telecommunication",
+        company: {
+          _id: "6232421d2b674a4761d4a050",
+          companyName: "Company Name",
+          companyTagline: "Get it done with love",
+          companyEmail: "info@example.com",
+          phoneNumber: "123456789",
+          companyWebsite: "https://yourwebsite.com",
+          socialLink: {
+            linkedin: "undefined",
+            facebook: "undefined",
+            twitter: "undefined",
+          },
+          logo: "/assets/img/avatar.png",
+        },
+        createdAt: "2022-03-20T13:38:21.874Z",
+        email: "info@gmail.com",
+        hourlyrate: { minimum: 22, maximum: 22 },
+        jobDescription: "adeqwdqw",
+        jobTitle: "developer",
+        jobTypes: ["Full Time", "Freelance"],
+        location: "dhaka",
+        region: "America",
+        salary: { minimum: 222, maximum: 222 },
+        specialTags: ["HTML", "Development"],
+        status: {
+          isApproved: false,
+          isPublished: true,
+          isFeatured: false,
+          isActive: true,
+        },
+        updatedAt: "2022-03-21T13:31:40.115Z",
+      },
+      loading: true,
+    },
+  });
+  console.log("data: ", data);
   const companiesData = [...companies];
   const [Show, setShow] = React.useState(false);
   const [bookmark, setBookmark] = React.useState(false);
@@ -124,28 +168,22 @@ export default function JobDetails() {
 
       <Layout>
         <main>
-          <PageTitle image={data?.avatar} title="Job Details" />
+          <PageTitle image={data.job?.avatar} title="Job Details" />
           <section className="pt-20 pb-24 !bg-light">
             <div className="container">
               <div className="lg:grid grid-cols-12 gap-6">
                 <div className="col-span-8">
                   {/* left Top */}
                   <div className="p-8 rounded-md bg-white flex flex-wrap justify-between items-center mb-6 relative">
-                    {(!data || loading || loading) && <LoaderGrowing />}
+                    {(!data.job || loading || loading) && <LoaderGrowing />}
                     <div className="flex gap-6 items-center flex-wrap">
                       <div className="">
                         <ImageOpt
                           width={100}
                           height={100}
                           src={
-                            companiesData.find(
-                              (company) =>
-                                company._id.$oid === data?.company.$oid
-                            )
-                              ? companiesData.find(
-                                  (company) =>
-                                    company._id.$oid === data?.company.$oid
-                                )?.logo
+                            data?.job?.company?.logo
+                              ? data?.job?.company?.logo
                               : "/assets/img/avatar.png"
                           }
                           alt="img"
@@ -153,10 +191,14 @@ export default function JobDetails() {
                       </div>
                       <div className="mb-6 xl:mb-0">
                         <h2 className="text-lg text-black font-bold leading-6 !mb-2">
-                          {data?.jobTitle ? data?.jobTitle : "Job Name"}
+                          {data?.job?.jobTitle
+                            ? data?.job?.jobTitle
+                            : "Job Name"}
                         </h2>
                         <p className="text-grayLight text-xss1 font-normal !mb-2">
-                          <span>{data?.category ? data?.category : ""}</span>
+                          <span>
+                            {data?.job?.category ? data?.job?.category : ""}
+                          </span>
                         </p>
                         {/* social icons */}
                         <ul className="flex gap-3 flex-wrap items-center">
@@ -178,7 +220,7 @@ export default function JobDetails() {
                             {/* facebook share link */}
                             <FacebookShareButton
                               url={`/api/v1/job/${id}`}
-                              quote={`${data?.jobTitle}`}
+                              quote={`${data?.job?.jobTitle}`}
                               className="social-icon"
                             >
                               <ImageOpt
@@ -193,7 +235,7 @@ export default function JobDetails() {
                           <li>
                             <TwitterShareButton
                               url={`/api/v1/job/${id}`}
-                              title={data?.jobTitle}
+                              title={data?.job?.jobTitle}
                               className="social-icon"
                             >
                               <ImageOpt
@@ -209,9 +251,9 @@ export default function JobDetails() {
                       </div>
                     </div>
                     <div className="grid">
-                      {user && user?._id === data?.user.$oid ? (
+                      {user && user?._id === data?.user ? (
                         <Link
-                          href={`/job/edit-job?active_id=${data?._id.$oid}`}
+                          href={`/job/edit-job?active_id=${data?._id}`}
                           className="py-2.5 block px-6 mb-2 leading-4 text-white bg-themePrimary rounded-md transition-all hover:bg-black hover:text-green"
                         >
                           Edit Job
@@ -235,13 +277,13 @@ export default function JobDetails() {
                   </div>
                   {/* left bottom */}
                   <div className="p-8 rounded-md bg-white relative">
-                    {/* {(!data?.data || data?.loading) && <LoaderGrowing />} */}
+                    {(!data?.job || data?.loading) && <LoaderGrowing />}
                     <h4 className="text-lg2 font-bold text-black leading-6 mb-6">
                       Job Description
                     </h4>
                     <div className="mb-8">
-                      {data?.jobDescription
-                        ? data?.jobDescription
+                      {data?.job?.jobDescription
+                        ? data?.job?.jobDescription
                         : "No description"}
                     </div>
                     {/* Tags */}
@@ -250,7 +292,7 @@ export default function JobDetails() {
                         Tagged as:
                       </h4>
                       <ul className="flex gap-3 flex-wrap">
-                        {_.map(data?.specialTags, (tag, index) => (
+                        {_.map(data?.job?.specialTags, (tag, index) => (
                           <li
                             className="text-deep text-xss1 font-normal py-0.5 px-3 rounded-sm border border-solid border-gray"
                             key={index}

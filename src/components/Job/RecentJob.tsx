@@ -7,6 +7,7 @@ import { jobs } from "@/utils/dummy-content/mongodb-collections/jobs";
 const JobList = jobs;
 
 const RecentJob = ({ data }: { data: any[] }) => {
+  console.log("jobs: ", data);
   return (
     <section className="py-16 md:py-20 lg:py-24 bg-white">
       <div className="container">
@@ -18,9 +19,9 @@ const RecentJob = ({ data }: { data: any[] }) => {
         </div>
 
         <div className="grid gap-6 xl:gap-8 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1">
-          {_.map(_.slice(data ? data : JobList, 0, 8), (item: any, index) => (
+          {_.map(_.slice(data, 0, 8), (item: any, index) => (
             <div key={index}>
-              <JobItem item={data ? item : false} />
+              <JobItem item={item} />
             </div>
           ))}
         </div>

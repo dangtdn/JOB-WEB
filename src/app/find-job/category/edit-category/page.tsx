@@ -67,7 +67,7 @@ const EditCategory = () => {
           });
           mutate("/job/category");
           setProcessing(false);
-          router.push("/job/category");
+          router.push("/find-job/category");
         })
         .catch((err) => {
           toast.error(capitalize(err.response.data.message), {

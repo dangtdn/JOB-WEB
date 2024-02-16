@@ -46,7 +46,10 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
   const [loading, setLoading] = React.useState(false);
   const { user } = useUser();
   // const { mutate } = useSWRConfig()
-  console.log("companyName: ", companyName);
+  console.log(
+    "categoryData: ",
+    categoryData?.map((item: any) => item.categoryName)
+  );
   // register submit job form
   const {
     register,
@@ -112,7 +115,7 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
         location,
         region,
         jobTypes,
-        category: category[0]?.categoryTitle ?? "",
+        category: category[0]?.categoryName ?? "",
         specialTags,
         jobDescription,
         jobExperience: "5",
@@ -133,7 +136,6 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
       },
       headerImage: data.headerImage ? headerImage[0] : undefined,
     };
-
     try {
       await Axios({
         method: "POST",
@@ -390,7 +392,7 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
                 <MultiSelect
                   disabled={jobForm}
                   options={categoryData}
-                  displayValue="categoryTitle"
+                  displayValue="categoryName"
                   name="category"
                   validationSyntax={true}
                   register={register}

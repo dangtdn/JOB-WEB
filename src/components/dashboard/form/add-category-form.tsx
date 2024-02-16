@@ -25,14 +25,23 @@ const AddCategoryForm = () => {
 
   const onSubmitHandler = (data: any) => {
     const formData = new FormData();
-    formData.append("categoryTitle", data.categoryTitle);
-    formData.append("categoryIcon", data.categoryIcon[0]);
-    formData.append("subCategory", data.subCategory);
+    // formData.append("categoryTitle", data.categoryTitle);
+    // formData.append("categoryIcon", data.categoryIcon[0]);
+    // formData.append("subCategory", data.subCategory);
 
     const request = {
-      categoryName: data.categoryTitle,
-      user: user._id,
+      category: {
+        categoryName: data.categoryTitle,
+        logo: "",
+        user: user._id,
+      },
+      isAdmin: true,
     };
+
+    // const request = {
+    //   categoryName: data.categoryTitle,
+    //   user: user._id,
+    // };
     setProcessing(true);
     try {
       authAxios
@@ -45,7 +54,7 @@ const AddCategoryForm = () => {
           // mutate('/admin/categories/retrives').then(() => {
           reset();
           setPhotoImage(null);
-          router.push(`/job/category`);
+          router.push(`/find-job/category`);
           setProcessing(false);
           // })
         })

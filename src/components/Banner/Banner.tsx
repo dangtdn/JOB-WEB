@@ -12,18 +12,15 @@ const Banner = ({
 }: {
   totalCount: any;
   categories: {
-    _id: {
-      $oid: string;
-    };
+    _id: string;
     status: {
       isFeatured: boolean;
       isActive: boolean;
     };
-    categoryTitle: string;
+    categoryName: string;
     subCategory: string[];
-    avatar: string;
+    logo: string;
     iconUrl: string;
-    __v: number;
   }[];
 }) => {
   const { categoryData } = React.useContext(ThemeContext) as any;
@@ -102,9 +99,9 @@ const Banner = ({
                     className="border-0 focus:shadow-none py-3 select2-init text-xxs text-deep font-normal focus-visible:white focus:outline-none"
                   >
                     <option value="">Select Categories</option>
-                    {categories.map((item, index) => (
-                      <option value={item.categoryTitle} key={index}>
-                        {_.capitalize(item.categoryTitle)}
+                    {categories?.map((item, index) => (
+                      <option value={item.categoryName} key={index}>
+                        {_.capitalize(item.categoryName)}
                       </option>
                     ))}
                   </Form.Select>

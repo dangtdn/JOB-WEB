@@ -6,7 +6,7 @@ import { LoaderGrowing } from "../../lib/loader/loader";
 import ImageOpt from "../optimize/image";
 
 const JobOverview = ({ data }: { data: any }) => {
-  const date = new Date(data?.data?.expireAt);
+  const date = new Date(data?.job?.expireAt);
   const expireAt = date.toLocaleDateString("en-US", {
     year: "numeric",
     day: "numeric",
@@ -14,13 +14,13 @@ const JobOverview = ({ data }: { data: any }) => {
   });
   return (
     <div className="p-8 rounded-md bg-white mb-6 relative">
-      {(!data?.data || data?.loading) && <LoaderGrowing />}
+      {(!data?.job || data?.loading) && <LoaderGrowing />}
       <h4 className="text-lg2 font-bold text-black leading-6 mb-6">
         Job Overview
       </h4>
       <ul>
         {/* Posted Date */}
-        {data?.data?.createdAt && (
+        {data?.job?.createdAt && (
           <li className="flex gap-3 items-center flex-wrap  !mb-3">
             <div className="">
               <ImageOpt
@@ -43,7 +43,7 @@ const JobOverview = ({ data }: { data: any }) => {
           </li>
         )}
         {/* Deadline */}
-        {data?.data?.expireAt && (
+        {data?.job?.expireAt && (
           <li className="flex gap-3 items-center flex-wrap  !mb-3">
             <div className="">
               <ImageOpt
@@ -82,7 +82,7 @@ const JobOverview = ({ data }: { data: any }) => {
             </p>
           </div>
         </li> */}
-        {data?.data?.jobTypes && (
+        {data?.job?.jobTypes && (
           <li className="flex gap-3 items-center flex-wrap  !mb-3">
             <div className="">
               <ImageOpt
@@ -98,13 +98,13 @@ const JobOverview = ({ data }: { data: any }) => {
                 Job Types
               </h5>
               <p className="text-grayLight text-sm font-normal">
-                {_.toString(data?.data?.jobTypes)}
+                {_.toString(data?.job?.jobTypes)}
               </p>
             </div>
           </li>
         )}
         {/* Hourly Rate */}
-        {data?.data?.hourlyrate?.minimum && data?.data?.hourlyrate?.maximum && (
+        {data?.job?.hourlyrate?.minimum && data?.job?.hourlyrate?.maximum && (
           <li className="flex gap-3 items-center flex-wrap  !mb-3">
             <div className="">
               <ImageOpt
@@ -138,7 +138,7 @@ const JobOverview = ({ data }: { data: any }) => {
           </li>
         )}
         {/* Salary */}
-        {data?.data?.salary?.minimum && data?.data?.salary?.maximum && (
+        {data?.job?.salary?.minimum && data?.job?.salary?.maximum && (
           <li className="flex gap-3 items-center flex-wrap  !mb-3">
             <div className="">
               <ImageOpt
@@ -168,7 +168,7 @@ const JobOverview = ({ data }: { data: any }) => {
           </li>
         )}
         {/* Location */}
-        {data?.data?.location && (
+        {data?.job?.location && (
           <li className="flex gap-3 items-center flex-wrap  !mb-3">
             <div className="">
               <ImageOpt
@@ -184,7 +184,7 @@ const JobOverview = ({ data }: { data: any }) => {
                 Job Location
               </h5>
               <p className="text-grayLight text-sm font-normal">
-                {data.data.location}
+                {data?.job?.location}
               </p>
             </div>
           </li>

@@ -3,6 +3,9 @@ import React from "react";
 import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
 import TestimonialItem from "./TestimonialItem";
 import Slider from "react-slick";
+// Import css files
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 export type TestimonialsData = {
   name: string;

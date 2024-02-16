@@ -6,10 +6,16 @@ import Banner from "@/components/Banner/Banner";
 import Layout from "@/components/Layout/Layout";
 import Blogs from "@/components/Blogs/Blogs";
 import PopularCategories from "@/components/PopularCategories/PopularCategories";
-import { jobs } from "@/utils/dummy-content/mongodb-collections/jobs";
 import RecentJob from "@/components/Job/RecentJob";
 import Testimonials from "@/components/testimonials/Testimonials";
-import { categories } from "@/utils/dummy-content/mongodb-collections/categories";
+import useSWR from "swr";
+import { Axios } from "@/lib/utils/axiosKits";
+
+const fetcher = (url: string) => Axios(url).then((res: any) => res.data);
+const JobsAPI = "/jobs";
+const catsAPI = "/categories";
+const comsAPI = "/companies";
+const resAPI = "/resumes";
 
 const loadingCategory = [
   {
@@ -18,8 +24,8 @@ const loadingCategory = [
       isFeatured: false,
       isActive: true,
     },
-    categoryTitle: "Category Name",
-    avatar: "/assets/img/avatar.png",
+    categoryName: "Category Name",
+    logo: "/assets/img/avatar.png",
     count: 0,
   },
   {
@@ -28,8 +34,8 @@ const loadingCategory = [
       isFeatured: false,
       isActive: true,
     },
-    categoryTitle: "Category Name",
-    avatar: "/assets/img/avatar.png",
+    categoryName: "Category Name",
+    logo: "/assets/img/avatar.png",
     count: 0,
   },
   {
@@ -38,8 +44,8 @@ const loadingCategory = [
       isFeatured: false,
       isActive: true,
     },
-    categoryTitle: "Category Name",
-    avatar: "/assets/img/avatar.png",
+    categoryName: "Category Name",
+    logo: "/assets/img/avatar.png",
     count: 0,
   },
   {
@@ -48,8 +54,8 @@ const loadingCategory = [
       isFeatured: false,
       isActive: true,
     },
-    categoryTitle: "Category Name",
-    avatar: "/assets/img/avatar.png",
+    categoryName: "Category Name",
+    logo: "/assets/img/avatar.png",
     count: 0,
   },
   {
@@ -58,8 +64,8 @@ const loadingCategory = [
       isFeatured: false,
       isActive: true,
     },
-    categoryTitle: "Category Name",
-    avatar: "/assets/img/avatar.png",
+    categoryName: "Category Name",
+    logo: "/assets/img/avatar.png",
     count: 0,
   },
   {
@@ -68,8 +74,8 @@ const loadingCategory = [
       isFeatured: false,
       isActive: true,
     },
-    categoryTitle: "Category Name",
-    avatar: "/assets/img/avatar.png",
+    categoryName: "Category Name",
+    logo: "/assets/img/avatar.png",
     count: 0,
   },
   {
@@ -78,8 +84,8 @@ const loadingCategory = [
       isFeatured: false,
       isActive: true,
     },
-    categoryTitle: "Category Name",
-    avatar: "/assets/img/avatar.png",
+    categoryName: "Category Name",
+    logo: "/assets/img/avatar.png",
     count: 0,
   },
   {
@@ -88,8 +94,8 @@ const loadingCategory = [
       isFeatured: false,
       isActive: true,
     },
-    categoryTitle: "Category Name",
-    avatar: "/assets/img/avatar.png",
+    categoryName: "Category Name",
+    logo: "/assets/img/avatar.png",
     count: 0,
   },
   {
@@ -98,8 +104,8 @@ const loadingCategory = [
       isFeatured: false,
       isActive: true,
     },
-    categoryTitle: "Category Name",
-    avatar: "/assets/img/avatar.png",
+    categoryName: "Category Name",
+    logo: "/assets/img/avatar.png",
     count: 0,
   },
   {
@@ -108,8 +114,8 @@ const loadingCategory = [
       isFeatured: false,
       isActive: true,
     },
-    categoryTitle: "Category Name",
-    avatar: "/assets/img/avatar.png",
+    categoryName: "Category Name",
+    logo: "/assets/img/avatar.png",
     count: 0,
   },
   {
@@ -118,8 +124,8 @@ const loadingCategory = [
       isFeatured: false,
       isActive: true,
     },
-    categoryTitle: "Category Name",
-    avatar: "/assets/img/avatar.png",
+    categoryName: "Category Name",
+    logo: "/assets/img/avatar.png",
     count: 0,
   },
   {
@@ -128,26 +134,37 @@ const loadingCategory = [
       isFeatured: false,
       isActive: true,
     },
-    categoryTitle: "Category Name",
-    avatar: "/assets/img/avatar.png",
+    categoryName: "Category Name",
+    logo: "/assets/img/avatar.png",
     count: 0,
   },
 ];
 
 const Home = () => {
-  const totalCount = 0;
-  // const newCategories: Categories[] = [...categories];
-
-  const CategoryData = ({
-    categoryData,
-    categoryError,
-  }: {
-    categoryData: any;
-    categoryError: any;
-  }) => {
-    // if (categoryError) return <div>Error! {categoryError.message}</div>
+  const { data: categoryData, error: categoryError } = useSWR(
+    catsAPI,
+    fetcher,
+    {
+      fallbackData: loadingCategory,
+    }
+  );
+  const { data: jobData, error: jobError } = useSWR(JobsAPI, fetcher, {
+    fallbackData: [],
+  });
+  const { data: companyData, error: companyError } = useSWR(comsAPI, fetcher, {
+    fallbackData: [],
+  });
+  const { data: resumeData, error: resumeError } = useSWR(resAPI, fetcher, {
+    fallbackData: [],
+  });
+  const totalCount = {
+    totalJobs: jobData.jobs?.length,
+    totalCompanies: companyData?.companies?.length,
+    totalResumes: resumeData.resumes?.length,
+  };
+  const CategoryData = ({ categoryData }: { categoryData: any }) => {
     if (!categoryData) {
-      return <PopularCategories data={categories} />;
+      return <PopularCategories data={loadingCategory} />;
     }
 
     return <>{categoryData && <PopularCategories data={categoryData} />}</>;
@@ -165,13 +182,11 @@ const Home = () => {
     <div>
       <Layout>
         <main>
-          <Banner totalCount={totalCount} categories={categories} />
-          {/* <CategoryData
-						categoryData={categoryData}
-						categoryError={categoryError}
-					/> */}
-          <PopularCategories />
-          <PopularJobsData data={jobs} />
+          <Banner totalCount={totalCount} categories={categoryData} />
+          <CategoryData categoryData={categoryData} />
+          {/* <PopularCategories /> */}
+          <PopularJobsData data={jobData.jobs} />
+          <Testimonials data={testimonialsData} />
           <Blogs data={blogsData} />
         </main>
       </Layout>
