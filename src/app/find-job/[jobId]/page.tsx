@@ -25,6 +25,7 @@ import JobCompanyName from "@/components/Job/JobCompanyName";
 import PopupModule from "@/lib/popup-modul/popup-modul";
 import { Axios, authAxios } from "@/lib/utils/axiosKits";
 import useSWR from "swr";
+import RelatedJobs from "@/components/Job/RelatedJobs";
 
 const fetcher = (url: string) => Axios(url).then((res) => res.data);
 const authFetcher = (url: string) => authAxios(url).then((res) => res.data);
@@ -311,9 +312,9 @@ export default function JobDetails() {
               </div>
             </div>
           </section>
-          {/* {data?.relatedJobs && data?.relatedJobs.length > 0 && (
+          {data?.relatedJobs && data?.relatedJobs.length > 0 && (
             <RelatedJobs data={data} />
-          )} */}
+          )}
         </main>
       </Layout>
 

@@ -330,7 +330,7 @@ const MangeJobsList = () => {
       <div className="pb-6 text-right">
         <button className="!py-3 px-8 bg-themePrimary rounded-lg shadow shadow-themePrimary">
           <Link
-            href="/job/submit-job"
+            href="/find-job/submit-job"
             className="text-white font-medium text-xxs"
           >
             Add New Job

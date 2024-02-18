@@ -119,17 +119,17 @@ const CompanyJobItem = ({ item, loading }: { item: any; loading: any }) => {
                 src="/assets/img/clock1.svg"
                 alt="img"
               />
-              {/* <Moment fromNow>
-								{item
-									? item.createdAt
-									: 'Fri May 27 2022 10:19:22 GMT+0600 (Bangladesh Standard Time)'}
-							</Moment> */}
+              <Moment fromNow>
+                {item
+                  ? item.createdAt
+                  : "Fri May 27 2022 10:19:22 GMT+0600 (Bangladesh Standard Time)"}
+              </Moment>
             </div>
           </li>
         </ul>
         <div>
           <Link
-            href={`/job/${item?._id.$oid}`}
+            href={`/find-job/${item?._id}`}
             className="block text-center py-3 px-6 bg-light rounded-md group-hover:!bg-themePrimary leading-4 text-deep transition-all text-xs group-hover:text-white"
           >
             Apply Now

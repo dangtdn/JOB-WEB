@@ -488,8 +488,8 @@ export const CompanyFilter = ({
                       <option value="">Select Category</option>
                       {_.map(categoryData, (item, index) => {
                         return (
-                          <option key={index} value={item.categoryTitle}>
-                            {item.categoryTitle}
+                          <option key={index} value={item.categoryName}>
+                            {item.categoryName}
                           </option>
                         );
                       })}

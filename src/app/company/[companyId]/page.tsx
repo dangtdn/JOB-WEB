@@ -75,7 +75,6 @@ export default function CompanyProfile() {
       loading: true,
     },
   });
-  const jobsData = jobs.filter((item) => item.company.$oid === id);
   console.log("dataId: ", data);
 
   return (
@@ -93,6 +92,9 @@ export default function CompanyProfile() {
                 <div className="col-span-8">
                   {/* left Top */}
                   <div className="p-8 rounded-md bg-white flex flex-wrap gap-10 xl:gap-36 items-center mb-6 relative">
+                    {(!data?.company || data?.loading || loading) && (
+                      <LoaderGrowing />
+                    )}
                     <div className="flex gap-4 items-center flex-wrap">
                       <div>
                         <ImageOpt
@@ -191,25 +193,29 @@ export default function CompanyProfile() {
                       </div>
                     </div>
                     <div className="mb-0">
-                      <MdMailOutline size={20} />
-                      <a
-                        className="text-xxs font-normal text-black leading-6 block !mb-3"
-                        href={`mailto:${data?.company.companyEmail}`}
-                      >
-                        {data?.company.companyEmail}
-                      </a>
-                      <a
-                        className="text-xxs font-normal text-black leading-6 block"
-                        href={`mailto:${data?.company.phoneNumber}`}
-                      >
+                      <div className="flex flex-wrap gap-3">
+                        <MdMailOutline size={20} />
+                        <a
+                          className="text-xxs font-normal text-black leading-6 !mb-3"
+                          href={`mailto:${data?.company.companyEmail}`}
+                        >
+                          {data?.company.companyEmail}
+                        </a>
+                      </div>
+                      <div className="flex flex-wrap gap-3">
                         <MdLocalPhone size={20} />
-                        {data?.company.phoneNumber}
-                      </a>
+                        <a
+                          className="text-xxs font-normal text-black leading-6"
+                          href={`mailto:${data?.company.phoneNumber}`}
+                        >
+                          {data?.company.phoneNumber}
+                        </a>
+                      </div>
                     </div>
                   </div>
                   {/* left Bottom */}
                   <div className="p-8 rounded-md bg-white relative">
-                    {/* {(!data?.data || data?.loading) && <LoaderGrowing />} */}
+                    {(!data?.company || data?.loading) && <LoaderGrowing />}
                     <h4 className="text-lg2 font-bold text-black leading-6 mb-6">
                       About Company
                     </h4>
@@ -223,9 +229,9 @@ export default function CompanyProfile() {
                       Open Job
                     </h4>
 
-                    {jobsData?.length > 0 ? (
+                    {data?.jobs?.length > 0 ? (
                       <div className="grid gap-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1">
-                        {_.map(jobsData, (item, index) => {
+                        {_.map(data?.jobs, (item, index) => {
                           return (
                             <CompanyJobItem
                               key={index}

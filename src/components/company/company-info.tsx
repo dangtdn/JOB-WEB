@@ -5,7 +5,7 @@ import ImageOpt from "../optimize/image";
 const CompanyInfo = ({ data }: { data: any }) => {
   return (
     <div className="p-8 rounded-md bg-white mb-6 relative">
-      {/* {(!data?.data || data?.loading) && <LoaderGrowing />} */}
+      {(!data?.company || data?.loading) && <LoaderGrowing />}
       <h4 className="text-lg2 font-bold text-black leading-6 mb-6">
         Company Info
       </h4>

@@ -175,10 +175,10 @@ export default function FindJob() {
                       <SortBy totalCount={allJobs.jobs.length} />
                       {data?.loading && (
                         <div className="grid gap-6 xl:gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 justify-center">
-                          {_.map(data?.data, (item) => (
-                            <div key={item._id.$oid}>
+                          {_.map(data?.jobs, (item) => (
+                            <div key={item.id}>
                               <ImageOpt
-                                src={item.avatar}
+                                src={item.img}
                                 alt="image"
                                 width={315}
                                 height={418}

@@ -1,9 +1,9 @@
 import _ from "lodash";
-// import millify from 'millify'
 import React from "react";
 import Moment from "react-moment";
 import { LoaderGrowing } from "../../lib/loader/loader";
 import ImageOpt from "../optimize/image";
+import millify from "millify";
 
 const JobOverview = ({ data }: { data: any }) => {
   const date = new Date(data?.job?.expireAt);
@@ -37,7 +37,7 @@ const JobOverview = ({ data }: { data: any }) => {
               </h5>
               <p className="text-grayLight text-sm font-normal">
                 {/* post date 2 day ago */}
-                {/* <Moment fromNow>{data?.data?.createdAt}</Moment> */}
+                <Moment fromNow>{data?.job?.createdAt}</Moment>
               </p>
             </div>
           </li>
@@ -63,7 +63,7 @@ const JobOverview = ({ data }: { data: any }) => {
           </li>
         )}
         {/* job title */}
-        {/* <li className="flex gap-3 items-center flex-wrap  !mb-3">
+        <li className="flex gap-3 items-center flex-wrap  !mb-3">
           <div className="">
             <ImageOpt
               width={50}
@@ -78,10 +78,10 @@ const JobOverview = ({ data }: { data: any }) => {
               Job Title
             </h5>
             <p className="text-grayLight text-sm font-normal">
-              {data?.data?.jobTitle}
+              {data?.job?.jobTitle}
             </p>
           </div>
-        </li> */}
+        </li>
         {data?.job?.jobTypes && (
           <li className="flex gap-3 items-center flex-wrap  !mb-3">
             <div className="">
@@ -120,18 +120,15 @@ const JobOverview = ({ data }: { data: any }) => {
                 Hourly Rate
               </h5>
               <p className="text-grayLight text-sm font-normal">
-                {/* {millify(data?.data ? data?.data?.hourlyrate?.minimum : 10000, {
-									precision: 3,
-									lowercase: true,
-								})}{' '}
-								-{' '}
-								{millify(
-									data?.data ? data?.data?.hourlyrate?.maximum : 100000,
-									{
-										precision: 3,
-										lowercase: true,
-									}
-								)}{' '} */}
+                {millify(data?.job ? data?.job?.hourlyrate?.minimum : 10000, {
+                  precision: 3,
+                  lowercase: true,
+                })}{" "}
+                -{" "}
+                {millify(data?.job ? data?.job?.hourlyrate?.maximum : 100000, {
+                  precision: 3,
+                  lowercase: true,
+                })}{" "}
                 / hour
               </p>
             </div>
@@ -154,15 +151,15 @@ const JobOverview = ({ data }: { data: any }) => {
                 Salary
               </h5>
               <p className="text-grayLight text-sm font-normal">
-                {/* {millify(data?.data ? data?.data?.salary?.minimum : 10000, {
+                {millify(data?.job ? data?.job?.salary?.minimum : 10000, {
                   precision: 3,
                   lowercase: true,
                 })}{" "}
                 -{" "}
-                {millify(data?.data ? data?.data?.salary?.maximum : 100000, {
+                {millify(data?.job ? data?.job?.salary?.maximum : 100000, {
                   precision: 3,
                   lowercase: true,
-                })}{" "} */}
+                })}{" "}
               </p>
             </div>
           </li>

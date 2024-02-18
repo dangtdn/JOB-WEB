@@ -1,9 +1,5 @@
 "use client";
 
-import Banner from "@/components/Banner/Banner";
-import CompanyCard from "@/components/Cards/CompanyCard/CompanyCard";
-import Footer from "@/components/Footer/Footer";
-import Navbar from "@/components/Header/Header";
 import Layout from "@/components/Layout/Layout";
 import CompanyItem from "@/components/company/company-item";
 import { CompanyFilter } from "@/components/filter/search-filter";
@@ -11,12 +7,9 @@ import ImageOpt from "@/components/optimize/image";
 import PageTitle from "@/components/page-title";
 import Pagination from "@/components/pagination";
 import { Axios } from "@/lib/utils/axiosKits";
-import { CompanyDetail } from "@/types/company";
-import { companies } from "@/utils/dummy-content/mongodb-collections/companies";
 import _ from "lodash";
 import Head from "next/head";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import useSWR from "swr";
 
@@ -39,7 +32,7 @@ const CompanyDataList = () => {
     companies: companyFilter,
     totalCompanyCount: 0,
   }) as any;
-  const { data: dataCompany, error } = useSWR(CompanyAPI, fetcher, {
+  const { data, error } = useSWR(CompanyAPI, fetcher, {
     fallbackData: {
       companies: [
         {
@@ -84,26 +77,16 @@ const CompanyDataList = () => {
       loading: true,
     },
   });
-  // const data = {
-  //   companies: companies,
-  //   loading: false,
-  //   error: false,
-  // };
-  const data = {
-    companies: dataCompany.companies,
-    loading: dataCompany.loading,
-    error,
-  };
-  console.log("dataCompany: ", dataCompany);
+  console.log("dataCompany: ", data);
   const handlePageChange = (data: any) => {
     setCurrentPage(data.selected);
   };
 
   useEffect(() => {
-    if (dataCompany.success) {
-      setCompanyFilter(dataCompany.companies);
+    if (data.success) {
+      setCompanyFilter(data.companies);
     }
-  }, [dataCompany]);
+  }, [data]);
 
   useEffect(() => {
     if (companyFilter) {
@@ -152,16 +135,17 @@ const CompanyDataList = () => {
                 </div>
               </div>
               <div className="grid gap-6 xl:gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1">
-                {/* {_.map(data.companies, (item) => (
-                  <div key={item._id.$oid}>
-                    <ImageOpt
-                      src={item ? item?.logo : "assets/img/cm-logo1.png"}
-                      alt="image"
-                      width={315}
-                      height={437}
-                    />
-                  </div>
-                ))} */}
+                {data?.loading &&
+                  _.map(data?.companies, (item) => (
+                    <div key={item.id}>
+                      <ImageOpt
+                        src={item.img}
+                        alt="image"
+                        width={315}
+                        height={437}
+                      />
+                    </div>
+                  ))}
                 {AllCompanies.companies.length > 0 &&
                   _.map(AllCompanies.companies, (item, index) => (
                     <CompanyItem key={index} item={item} />
