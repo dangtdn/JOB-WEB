@@ -7,17 +7,17 @@ import { resumes } from "@/data/mongodb collections/resumes";
 import { jobApplies } from "@/data/mongodb collections/jobapplies";
 import { companies } from "@/data/mongodb collections/companies";
 import { toast } from "react-toastify";
+import useSWR from "swr";
 
-const fetcher = (url: string) => authAxios(url).then((res) => res.data.data);
+const fetcher = (url: string) => authAxios(url).then((res) => res.data);
 const dashboardStatic = "/users/statistics";
 
 const UserInfoBox = (): any => {
   // Use SWR
-  // const { data, error } = useSWR(dashboardStatic, fetcher)
+  const { data, error } = useSWR("/user/statistics", fetcher);
   const { user, isAdmin, isEmployer, isCandidate } = useUser();
   const dataJobs = [...jobs];
-  // const data: any[] = [];
-
+  console.log("data: ", data);
   // total job count for Employees
   const totalJobCount = dataJobs.filter(
     (job) => job?._id?.$oid === user?._id

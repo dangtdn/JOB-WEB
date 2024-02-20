@@ -22,21 +22,21 @@ const Dashboard = () => {
       <Layout>
         <main>
           {loggedOut && <UserNotLogin />}
-          {/* {userData && loggedIn && ( */}
-          <section className="mb-6">
-            <div className="mx-auto">
-              <UserInfoBox />
-              <div className="grid lg:grid-cols-2 grid-cols-1 sm:grid-cols-1 gap-4">
-                <div>
-                  <RecentActivities />
-                </div>
-                <div>
-                  <ResumePackages />
+          {userData && loggedIn && (
+            <section className="mb-6">
+              <div className="mx-auto">
+                <UserInfoBox />
+                <div className="grid lg:grid-cols-2 grid-cols-1 sm:grid-cols-1 gap-4">
+                  <div>
+                    <RecentActivities />
+                  </div>
+                  {/* <div>
+                    <ResumePackages />
+                  </div> */}
                 </div>
               </div>
-            </div>
-          </section>
-          {/* )} */}
+            </section>
+          )}
         </main>
       </Layout>
     </>
