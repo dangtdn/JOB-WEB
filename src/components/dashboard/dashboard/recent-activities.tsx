@@ -3,11 +3,11 @@ import Link from "next/link";
 import React from "react";
 import { HiOutlineCurrencyDollar } from "react-icons/hi";
 import Moment from "react-moment";
-import { authAxios } from "../../../lib/utils/axiosKits";
+import { Axios, authAxios } from "../../../lib/utils/axiosKits";
 import { ThemeContext } from "../../../context/ThemeContext";
 
 // create fetcher with authaxios
-const fetcher = (url: string) => authAxios(url).then((res) => res.data.data);
+const fetcher = (url: string) => Axios(url).then((res) => res.data.data);
 const activitiesAPI = "/users/notifications/catalog";
 
 const RecentActivities = () => {
