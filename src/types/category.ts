@@ -1,6 +1,6 @@
 export interface Category {
   _id: string;
-  categoryName: string;
+  categoryTitle: string;
   user: string;
   createdAt: string;
   updatedAt: string;
@@ -13,7 +13,7 @@ export interface GetCategoriesResponse {
 }
 
 export interface PostCategoryRequest {
-  categoryName: string;
+  categoryTitle: string;
   user: string;
 }
 

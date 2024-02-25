@@ -254,7 +254,7 @@ export default function JobDetails() {
                     <div className="grid">
                       {user && user?._id === data?.user ? (
                         <Link
-                          href={`/job/edit-job?active_id=${data?._id}`}
+                          href={`/find-job/${data?._id}/edit-job`}
                           className="py-2.5 block px-6 mb-2 leading-4 text-white bg-themePrimary rounded-md transition-all hover:bg-black hover:text-green"
                         >
                           Edit Job

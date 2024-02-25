@@ -17,7 +17,7 @@ const Banner = ({
       isFeatured: boolean;
       isActive: boolean;
     };
-    categoryName: string;
+    categoryTitle: string;
     subCategory: string[];
     logo: string;
     iconUrl: string;
@@ -100,8 +100,8 @@ const Banner = ({
                   >
                     <option value="">Select Categories</option>
                     {categories?.map((item, index) => (
-                      <option value={item.categoryName} key={index}>
-                        {_.capitalize(item.categoryName)}
+                      <option value={item.categoryTitle} key={index}>
+                        {_.capitalize(item.categoryTitle)}
                       </option>
                     ))}
                   </Form.Select>

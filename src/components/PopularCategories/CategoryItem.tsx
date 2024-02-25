@@ -8,7 +8,7 @@ import { Category } from "./PopularCategories";
 
 const CategoryItem = ({ data }: { data: Category }) => {
   const router = useRouter();
-
+  console.log("data: ", data);
   const OnSearchHandler = (title: string) => {
     const values = {
       category: title,
@@ -23,17 +23,17 @@ const CategoryItem = ({ data }: { data: Category }) => {
     // <Link href="/">
     <a
       className="text-center bg-white rounded-lg p-6 group cursor-pointer"
-      onClick={() => OnSearchHandler(data?.categoryName)}
+      onClick={() => OnSearchHandler(data?.categoryTitle)}
     >
       <div className="mb-3 flex justify-center transition-all group-hover:scale-125">
-        {data?.logo && (
+        {/* {data?.avatar && (
           <>
-            {_.includes(data.logo, ".svg") ? (
+            {_.includes(data.avatar, ".svg") ? (
               <ImageOpt
                 width={60}
                 height={60}
                 noPlaceholder
-                src={data.logo}
+                src={data.avatar}
                 className="rounded"
                 alt="icon"
               />
@@ -47,16 +47,23 @@ const CategoryItem = ({ data }: { data: Category }) => {
               />
             )}
           </>
-        )}
+        )} */}
+        <ImageOpt
+          width={60}
+          height={60}
+          className="rounded"
+          src={"/assets/img/avatar.png"}
+          alt="icon"
+        />
       </div>
       <h4 className="text-xs text-black font-normal mb-2">
-        {_.capitalize(data.categoryName) || data.categoryName}
+        {_.capitalize(data.categoryTitle) || data.categoryTitle}
       </h4>
       <p className="text-grayLight text-xss font-normal">
         {/* {data.count || data.subtitle} Jobs */}
-        {data.categoryName && data.categoryName}
-        {/* {!data.categoryTitle && data.subCategory} Job */}
-        {/* {data.subCategory.length > 1 && <span>s</span>} */}
+        {/* {data.categoryTitle && data.categoryTitle} */}
+        {data.subCategory} Job
+        {data.subCategory.length > 1 && <span>s</span>}
       </p>
     </a>
     // </Link>

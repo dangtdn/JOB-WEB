@@ -48,7 +48,7 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
   // const { mutate } = useSWRConfig()
   console.log(
     "categoryData: ",
-    categoryData?.map((item: any) => item.categoryName)
+    categoryData?.map((item: any) => item.categoryTitle)
   );
   // register submit job form
   const {
@@ -115,7 +115,7 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
         location,
         region,
         jobTypes,
-        category: category[0]?.categoryName ?? "",
+        category: category[0]?.categoryTitle ?? "",
         specialTags,
         jobDescription,
         jobExperience: "5",
@@ -392,7 +392,7 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
                 <MultiSelect
                   disabled={jobForm}
                   options={categoryData}
-                  displayValue="categoryName"
+                  displayValue="categoryTitle"
                   name="category"
                   validationSyntax={true}
                   register={register}

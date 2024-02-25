@@ -10,10 +10,11 @@ import { LoaderGrowing } from "../../../lib/loader/loader";
 import { authAxios } from "../../../lib/utils/axiosKits";
 import ImageOpt from "../../optimize/image";
 import { GetUserProfileResponse } from "@/types/user";
+import { useSWRConfig } from "swr";
 
 const ProfileBox = ({ data }: { data: GetUserProfileResponse }) => {
   const [photoImage, setPhotoImage] = React.useState(null) as any;
-  //   const { mutate } = useSWRConfig();
+  const { mutate } = useSWRConfig();
   const {
     register,
     handleSubmit,

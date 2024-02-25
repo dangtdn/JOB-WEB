@@ -19,7 +19,7 @@ const CategoryInfo = () => {
   ) as any;
   const { mutate } = useSWRConfig();
   const [loading, setLoading] = React.useState(false);
-
+  console.log("categoryData: ", categoryData);
   // get current pages
   const [currentPage, setCurrentPage] = React.useState(1);
   const [ShowPerPage, setShowPerPage] = React.useState(10);
@@ -41,9 +41,9 @@ const CategoryInfo = () => {
     setLoading(true);
     try {
       authAxios
-        .delete(`/job/category/${id}`)
+        .delete(`/admin/category/delete/${id}`)
         .then((res) => {
-          mutate("/job/category").then(() => {
+          mutate("/categories").then(() => {
             toast.success(res.data.message, {
               position: "bottom-right",
               className: "foo-bar",
@@ -117,9 +117,9 @@ const CategoryInfo = () => {
                   <th className="text-left whitespace-nowrap bg-themeDark rounded-tl-lg rounded-bl-lg px-4 py-3.5 leading-9 text-white text-xxs font-medium">
                     Category
                   </th>
-                  {/* <th className="text-left whitespace-nowrap bg-themeDark px-4 py-3.5 leading-9 text-white text-xxs font-medium">
+                  <th className="text-left whitespace-nowrap bg-themeDark px-4 py-3.5 leading-9 text-white text-xxs font-medium">
                     Sub Category
-                  </th> */}
+                  </th>
                   <th className="text-left whitespace-nowrap bg-themeDark rounded-tr-lg rounded-br-lg px-4 py-3.5 leading-9 text-white text-xxs font-medium">
                     Result
                   </th>
@@ -209,12 +209,12 @@ const TableItem = ({
             alt="img"
             className="rounded-lg"
           />
-          <span>{item.categoryName}</span>
+          <span>{item.categoryTitle}</span>
         </div>
       </td>
-      {/* <td className="text-themeDark text-base  px-3 py-3 align-middle">
+      <td className="text-themeDark text-base  px-3 py-3 align-middle">
         {_.toString(item.subCategory)}
-      </td> */}
+      </td>
       <td className="w-56 text-themeDark text-base pl-3 pr-6 py-3 align-middle   whitespace-nowrap">
         <div>
           <button
@@ -246,7 +246,7 @@ const TableItem = ({
           >
             {/* Edit */}
             <Link
-              href={`/job/edit-category?active_id=${item._id}`}
+              href={`/find-job/category/edit-category/${item._id}`}
               className="flex items-center group cursor-pointer gap-2 text-themeDark hover:text-themePrimary"
             >
               <span className="w-9 h-9 bg-[#1caf5721] flex items-center justify-center rounded-lg">

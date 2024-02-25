@@ -1,3 +1,5 @@
+"use client";
+
 import { MultiSelect } from "@/components/dashboard/form/multi-select-dropdown";
 import Layout from "@/components/dashboard/layout";
 import ImageOpt from "@/components/optimize/image";
@@ -12,17 +14,18 @@ import Multiselect from "multiselect-react-dropdown";
 // import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useRouter } from "next/router";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import useSWR, { useSWRConfig } from "swr";
 
-const fetcher = (url: any) => authAxios(url).then((res) => res.data.data);
+const fetcher = (url: any) => authAxios(url).then((res) => res.data);
 
 const EditJob = () => {
   const [isMailSent, setIsMailSent] = React.useState(false);
+  const { user, loggedIn, loggedOut, isAdmin } = useUser();
+  const userData = user;
   //  Send Email to the user
   useEffect(() => {
     if (isMailSent) {
@@ -45,7 +48,7 @@ const EditJob = () => {
       refreshInterval: 0,
     }
   );
-  const companiesData = companies.companies;
+  const companiesData = companies?.companies;
   const filterData = filters[0];
   // remove isApproved false from companiesData
   const ApprovedCompanies = _.filter(companiesData, (company) => {
@@ -60,11 +63,9 @@ const EditJob = () => {
   const router = useRouter();
   const pathName = usePathname();
   const jobId = pathName.split("/").at(-1);
-  const { data, error } = useSWR(jobId ? `/jobs/job/${jobId}` : null, fetcher, {
+  const { data, error } = useSWR(jobId ? `/jobs/${jobId}` : null, fetcher, {
     refreshInterval: 0,
   });
-  const { user } = useUser();
-  const userData = user;
   const isCandidate = userData?.role.isCandidate;
   const {
     register,
@@ -117,18 +118,18 @@ const EditJob = () => {
     try {
       await authAxios({
         method: "PUT",
-        url: `/jobs/job/${router?.query?.active_id}`,
+        url: `/admin/job/update/${jobId}`,
         data: formData,
       }).then((res) => {
         toast.success(res.data.message, {
           position: "bottom-right",
           className: "foo-bar",
         });
-        mutate("/jobs/private");
+        mutate("/admin/jobs/private");
         // send email to the user
         setIsMailSent(true);
         reset();
-        router.push("/job/manages-jobs");
+        router.push("/find-job/manages-jobs");
       });
     } catch (error: any) {
       toast.error(error.message, {
@@ -197,9 +198,9 @@ const EditJob = () => {
 
       <Layout>
         <main>
-          {status === "unauthenticated" && <UserNotLogin />}
-          {isCandidate && <UserGoBack />}
-          {userData && status === "authenticated" && !isCandidate && (
+          {loggedOut && <UserNotLogin />}
+          {userData && !isAdmin && <UserGoBack />}
+          {userData && loggedIn && !isCandidate && (
             <section>
               <div className="rounded-lg shadow-lg bg-white mb-8">
                 <div className="bg-themeDark rounded-lg py-3">

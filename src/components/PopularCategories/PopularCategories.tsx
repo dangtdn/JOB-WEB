@@ -4,69 +4,70 @@ import CategoryItem from "./CategoryItem";
 
 export type Category = {
   _id: string;
-  categoryName: string;
-  logo: string;
+  categoryTitle: string;
+  subCategory: string;
+  avatar: string;
   iconUrl?: string;
 };
 
 // export const categoryList: Category[] = [
 //   {
-//     categoryName: "Accounting/Finance",
+//     categoryTitle: "Accounting/Finance",
 //     logo: "./assets/img/top-c-1.svg",
 //     subCategory: ["1234 Jobs"],
 //   },
 //   {
-//     categoryName: "Automotive Jobs",
+//     categoryTitle: "Automotive Jobs",
 //     logo: "./assets/img/top-c-2.svg",
 //     subCategory: ["1234 Jobs"],
 //   },
 //   {
-//     categoryName: "Bank/Non-Bank Fin.",
+//     categoryTitle: "Bank/Non-Bank Fin.",
 //     logo: "./assets/img/top-c-3.svg",
 //     subCategory: ["1234 Jobs"],
 //   },
 //   {
-//     categoryName: "Commercial/Supply",
+//     categoryTitle: "Commercial/Supply",
 //     logo: "./assets/img/top-c-4.svg",
 //     subCategory: ["1234 Jobs"],
 //   },
 //   {
-//     categoryName: "Construction/Facilities",
+//     categoryTitle: "Construction/Facilities",
 //     logo: "./assets/img/top-c-5.svg",
 //     subCategory: ["1234 Jobs"],
 //   },
 //   {
-//     categoryName: "Design/Creative",
+//     categoryTitle: "Design/Creative",
 //     logo: "./assets/img/top-c-6.svg",
 //     subCategory: ["1234 Jobs"],
 //   },
 //   {
-//     categoryName: "Education/Training",
+//     categoryTitle: "Education/Training",
 //     logo: "./assets/img/top-c-7.svg",
 //     subCategory: ["1234 Jobs"],
 //   },
 //   {
-//     categoryName: "Engineer/Architects",
+//     categoryTitle: "Engineer/Architects",
 //     logo: "./assets/img/top-c-8.svg",
 //     subCategory: ["1234 Jobs"],
 //   },
 //   {
-//     categoryName: "Hospitality/Travel",
+//     categoryTitle: "Hospitality/Travel",
 //     logo: "./assets/img/top-c-9.svg",
 //     subCategory: ["1234 Jobs"],
 //   },
 //   {
-//     categoryName: "Electrical/Repair",
+//     categoryTitle: "Electrical/Repair",
 //     logo: "./assets/img/top-c-10.svg",
 //     subCategory: ["1234 Jobs"],
 //   },
 //   {
-//     categoryName: "IT/Telecommunication",
+//     categoryTitle: "IT/Telecommunication",
 //     logo: "./assets/img/top-c-11.svg",
 //     subCategory: ["1234 Jobs"],
 //   },
 //   {
-//     categoryName: "Marketing/Sales",
+//     categoryTitle: "Marketing/Sales",
 //     logo: "./assets/img/top-c-12.svg",
 //     subCategory: ["1234 Jobs"],
 //   },

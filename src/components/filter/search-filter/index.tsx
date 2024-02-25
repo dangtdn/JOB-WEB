@@ -245,8 +245,8 @@ export const JobsFilter = ({
                       <option value="">Select Categories</option>
                       {_.map(categoryData, (item, index) => {
                         return (
-                          <option value={item.categoryName} key={index}>
-                            {_.capitalize(item.categoryName)}
+                          <option value={item.categoryTitle} key={index}>
+                            {_.capitalize(item.categoryTitle)}
                           </option>
                         );
                       })}
@@ -488,8 +488,8 @@ export const CompanyFilter = ({
                       <option value="">Select Category</option>
                       {_.map(categoryData, (item, index) => {
                         return (
-                          <option key={index} value={item.categoryName}>
-                            {item.categoryName}
+                          <option key={index} value={item.categoryTitle}>
+                            {item.categoryTitle}
                           </option>
                         );
                       })}

@@ -42,7 +42,7 @@ type ThemeContextType = {
     iconUrl: string;
     __v: number;
   }[];
-  // categoryError,
+  categoryError?: any;
   // categoryMutate,
   logOutHandler?: () => Promise<void>;
   frontendLogOutHandler?: () => Promise<void>;
@@ -51,7 +51,7 @@ type ThemeContextType = {
 };
 
 const fetcher = (url: AxiosRequestConfig<any>) =>
-  Axios(url).then((res: any) => res.data.category);
+  Axios(url).then((res: any) => res.data.data);
 const JobCategoryAPI = "/categories";
 
 export const ThemeContext = createContext<ThemeContextType>({});
@@ -185,7 +185,7 @@ const ThemeContextProvider = ({ children }: { children: any }) => {
         lostPasswordShow,
         lostPasswordHandler,
         categoryData,
-        // categoryError,
+        categoryError,
         // categoryMutate,
         logOutHandler,
         frontendLogOutHandler,

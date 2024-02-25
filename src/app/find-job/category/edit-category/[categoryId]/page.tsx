@@ -7,25 +7,25 @@ import { LoaderGrowing } from "@/lib/loader/loader";
 import { authAxios } from "@/lib/utils/axiosKits";
 import { capitalize } from "lodash";
 import Head from "next/head";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import useSWR, { useSWRConfig, Key, Fetcher } from "swr";
 
-const fetcher = (url: string) => authAxios(url).then((res: any) => res.data);
+const fetcher = (url: string) =>
+  authAxios(url).then((res: any) => res.data.data);
 
 const EditCategory = () => {
   const router = useRouter();
+  const pathName = usePathname();
+  const id = pathName.split("/").at(-1);
   const [processing, setProcessing] = React.useState(false);
   const { mutate } = useSWRConfig();
-  const { data, error } = useSWR(
-    `/job/category/${router.query.active_id}`,
-    fetcher,
-    {
-      refreshInterval: 0,
-    }
-  );
+  const { data, error } = useSWR(`/categories/${id}`, fetcher, {
+    refreshInterval: 0,
+  });
 
   const [photoImage, setPhotoImage] = React.useState(null);
   const { user, loggedIn, loggedOut, isAdmin } = useUser();
@@ -39,7 +39,7 @@ const EditCategory = () => {
   } = useForm({
     mode: "onBlur",
   });
-
+  console.log("data: ", data);
   React.useEffect(() => {
     if (data) {
       setValue("categoryTitle", data.categoryTitle);
@@ -49,23 +49,27 @@ const EditCategory = () => {
   }, [data, setValue]);
 
   const onSubmitHandler = (data: any) => {
-    const formData = new FormData();
-    formData.append("categoryTitle", data.categoryTitle);
-    formData.append("subCategory", data.subCategory);
-    if (data.categoryIcon) {
-      formData.append("categoryIcon", data.categoryIcon[0]);
-    }
-
+    // const formData = new FormData();
+    // formData.append("categoryTitle", data.categoryTitle);
+    // formData.append("subCategory", data.subCategory);
+    // if (data.categoryIcon) {
+    //   formData.append("categoryIcon", data.categoryIcon[0]);
+    // }
+    const request = {
+      categoryTitle: data.categoryTitle,
+      subCategory: data.subCategory,
+      categoryIcon: data.categoryIcon ? data.categoryIcon[0] : "",
+    };
     setProcessing(true);
     try {
       authAxios
-        .put(`/job/category/${router.query.active_id}`, formData)
+        .put(`/admin/category/update/${id}`, request)
         .then((res: any) => {
           toast.success(res.data.message, {
             position: "bottom-right",
             className: "foo-bar",
           });
-          mutate("/job/category");
+          // mutate("/job/category");
           setProcessing(false);
           router.push("/find-job/category");
         })

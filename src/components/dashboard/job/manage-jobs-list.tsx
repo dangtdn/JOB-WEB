@@ -16,21 +16,20 @@ import { RiCheckboxCircleLine, RiEyeOffLine } from "react-icons/ri";
 
 import sweetAlert from "sweetalert";
 import Pagination from "../pagination";
-import { Axios, authAxios } from "@/lib/utils/axiosKits";
+import { authAxios } from "@/lib/utils/axiosKits";
 import useUser from "@/lib/auth/user";
 import { toast } from "react-toastify";
 import { LoaderGrowing } from "@/lib/loader/loader";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 
-const fetcher = (url: string) => Axios(url).then((res) => res.data);
+const fetcher = (url: string) => authAxios(url).then((res) => res.data);
+const urlAPI = "/admin/jobs/private";
 
 const MangeJobsList = () => {
-  const { data: oldData, error } = useSWR("/jobs", fetcher);
+  const { data, error } = useSWR(urlAPI, fetcher);
+  const { mutate } = useSWRConfig();
   const [loading, setLoading] = React.useState(false) as any;
   const { user, isAdmin } = useUser();
-  const data = {
-    jobs: oldData?.jobs?.filter((item: any) => item.user === user._id),
-  };
   console.log("data: ", data);
   // delete job function start
   const deleteJob = async (id: any) => {
@@ -46,16 +45,16 @@ const MangeJobsList = () => {
         try {
           await authAxios({
             method: "DELETE",
-            url: `/jobs/job/${id}`,
+            url: `/jobs/${id}`,
           })
             .then((res) => {
-              //   mutate(`/jobs/private`).then(() => {
-              toast.success(res.data.message, {
-                position: "bottom-right",
-                className: "foo-bar",
+              mutate(`/admin/jobs/private`).then(() => {
+                toast.success(res.data.message, {
+                  position: "bottom-right",
+                  className: "foo-bar",
+                });
+                setLoading(false);
               });
-              setLoading(false);
-              //   });
             })
             .catch((err) => {
               toast.error(err.response.data.message, {
@@ -316,7 +315,7 @@ const MangeJobsList = () => {
   const indexOfLastPost = currentPage * ShowPerPage;
   const indexOfFirstPost = indexOfLastPost - ShowPerPage;
   const currentPosts = data
-    ? data?.jobs?.slice(indexOfFirstPost, indexOfLastPost)
+    ? data?.data?.slice(indexOfFirstPost, indexOfLastPost)
     : [];
 
   const handlePageChange = (data: any) => {
@@ -374,7 +373,7 @@ const MangeJobsList = () => {
               </th>
             </tr>
           </thead>
-          {!data.jobs && (
+          {!data?.data && (
             <div className="w-full h-80">
               <LoaderGrowing />
             </div>
@@ -393,9 +392,9 @@ const MangeJobsList = () => {
                 </td>
               </tr>
             )}
-            {data?.jobs &&
+            {data?.data &&
               !error &&
-              (data?.jobs.length > 0 ? (
+              (data?.data.length > 0 ? (
                 <>
                   {currentPosts.map((item: any, index: any) => (
                     <TableItem
@@ -439,16 +438,16 @@ const MangeJobsList = () => {
             </div>
           </div>
         )}
-        {!data?.jobs && (
+        {!data?.data && (
           <div className="w-full lg:w-2/4 mx-auto h-40 bg-white shadow rounded-lg flex justify-center items-center relative">
             <div className="text-center">
               <LoaderGrowing />
             </div>
           </div>
         )}
-        {data?.jobs &&
+        {data?.data &&
           !error &&
-          (data?.jobs.length > 0 ? (
+          (data?.data.length > 0 ? (
             <>
               {_.map(currentPosts, (item, index) => (
                 <div
@@ -481,11 +480,11 @@ const MangeJobsList = () => {
             </div>
           ))}
       </div>
-      {data?.jobs && !error && data?.jobs.length > 0 && (
+      {data?.data && !error && data?.data.length > 0 && (
         <div>
           <Pagination
             setShowPerPage={setShowPerPage}
-            totalCount={data?.jobs?.length}
+            totalCount={data?.data?.length}
             showPerPage={ShowPerPage}
             handlePageChange={handlePageChange}
           />
@@ -598,7 +597,7 @@ const TableItem = ({
           <Link
             href={
               item?.applications?.length > 0
-                ? `/job/applications/${item?._id}`
+                ? `/find-job/applications/${item?._id}`
                 : "#"
             }
             className="text-themeDark whitespace-nowrap !mt-2 inline-block hover:text-white hover:bg-themePrimary transition-all duration-300 ease-in-out bg-green-300 rounded text-sm !px-4 !py-1"
@@ -638,7 +637,7 @@ const TableItem = ({
           >
             {/* Edit */}
             <Link
-              href={`/job/${item._id}/edit-job`}
+              href={`/find-job/${item._id}/edit-job`}
               className="flex items-center group cursor-pointer gap-2 text-themeDark hover:text-themePrimary"
             >
               <span className="w-9 h-9 bg-[#1caf5721] flex items-center justify-center rounded-lg">
@@ -812,7 +811,7 @@ const MobileTable = ({
         {/* Edit */}
         <div className="flex items-center gap-2">
           <Link
-            href={`/job/edit-job?active_id=${item._id}`}
+            href={`/find-job/${item._id}/edit-job`}
             className="bg-green-200 shadow-sm flex gap-2 py-2 px-3 items-center justify-center rounded-lg"
           >
             <AiOutlineEdit className="text-xxs text-themeDarker" />

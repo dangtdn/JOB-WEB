@@ -30,14 +30,11 @@ const AddCategoryForm = () => {
     // formData.append("subCategory", data.subCategory);
 
     const request = {
-      category: {
-        categoryName: data.categoryTitle,
-        logo: "",
-        user: user._id,
-      },
-      isAdmin: true,
+      categoryTitle: data.categoryTitle,
+      subCategory: data.subCategory,
+      categoryIcon: data.categoryIcon[0] ?? "",
     };
-
+    console.log("data: ", data);
     // const request = {
     //   categoryName: data.categoryTitle,
     //   user: user._id,
