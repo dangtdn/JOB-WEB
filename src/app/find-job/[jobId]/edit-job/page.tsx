@@ -62,10 +62,11 @@ const EditJob = () => {
   const { mutate } = useSWRConfig();
   const router = useRouter();
   const pathName = usePathname();
-  const jobId = pathName.split("/").at(-1);
+  const jobId = pathName.split("/")[2];
   const { data, error } = useSWR(jobId ? `/jobs/${jobId}` : null, fetcher, {
     refreshInterval: 0,
   });
+  console.log("data: ", data?.job);
   const isCandidate = userData?.role.isCandidate;
   const {
     register,
@@ -161,29 +162,29 @@ const EditJob = () => {
   React.useEffect(() => {
     if (data && categoryData) {
       const getCategoryName = _.find(categoryData, (category) => {
-        return category.categoryTitle === data.category;
+        return category.categoryTitle === data?.job.category;
       });
 
-      setCompanyName(data?.company ? [data?.company] : ("" as any));
+      setCompanyName(data?.job.company ? [data?.job.company] : ("" as any));
       setValue("companyName", getCategoryName ? [getCategoryName] : "");
-      setValue("jobTitle", data?.jobTitle);
-      setValue("email", data?.email);
-      setValue("jobDescription", data?.jobDescription);
-      setValue("salaryMinimum", data?.salary?.minimum);
-      setValue("salaryMaximum", data?.salary?.maximum);
-      setValue("hourlyrateMinimum", data?.hourlyrate?.minimum);
-      setValue("hourlyrateMaximum", data?.hourlyrate?.maximum);
-      setValue("location", data?.location);
-      setValue("applyLink", data?.applyLink ? data?.applyLink : "");
+      setValue("jobTitle", data?.job.jobTitle);
+      setValue("email", data?.job.email);
+      setValue("jobDescription", data?.job.jobDescription);
+      setValue("salaryMinimum", data?.job.salary?.minimum);
+      setValue("salaryMaximum", data?.job.salary?.maximum);
+      setValue("hourlyrateMinimum", data?.job.hourlyrate?.minimum);
+      setValue("hourlyrateMaximum", data?.job.hourlyrate?.maximum);
+      setValue("location", data?.job.location);
+      setValue("applyLink", data?.job.applyLink ? data?.job.applyLink : "");
       setCategoryName(getCategoryName && [getCategoryName]);
       setValue("category", getCategoryName && [getCategoryName]);
-      // setValue("headerImage", data?.headerImage);
-      if (data?.avatar) {
-        setJobHeaderImg(data?.avatar);
+      // setValue("headerImage", data?.job.headerImage);
+      if (data?.job.avatar) {
+        setJobHeaderImg(data?.job.avatar);
       }
-      setValue("jobTypes", data?.jobTypes);
-      setValue("specialTags", data?.specialTags);
-      setValue("region", [data?.region]);
+      setValue("jobTypes", data?.job.jobTypes);
+      setValue("specialTags", data?.job.specialTags);
+      setValue("region", [data?.job.region]);
     }
   }, [data, setValue, categoryData]);
 
@@ -283,10 +284,11 @@ const EditJob = () => {
                   </div>
                   {ApprovedCompanies.length < 1 && (
                     <div className="pt-6">
-                      <Link href="/company/add-company">
-                        <a className="bg-themePrimary inline-block text-white rounded-lg px-4 !py-3 shadow-themePrimary">
-                          Add Company
-                        </a>
+                      <Link
+                        href="/company/add-company"
+                        className="bg-themePrimary inline-block text-white rounded-lg px-4 !py-3 shadow-themePrimary"
+                      >
+                        Add Company
                       </Link>
                     </div>
                   )}
@@ -305,7 +307,10 @@ const EditJob = () => {
                       <p>{companiesError.message}</p>
                     </div>
                   )}
+                  {/* loader data fetch */}
                   {!filterData && <LoaderGrowing />}
+                  {error && <div>failed to load data</div>}
+                  {!data && <LoaderGrowing />}
                   <form className="space-y-8" onSubmit={handleSubmit(onSubmit)}>
                     <div className="flex flex-col sm:flex-row gap-8 ">
                       {/* JobTitle */}
@@ -370,7 +375,7 @@ const EditJob = () => {
                           forwardRef={undefined}
                           displayValue={undefined}
                           selectedValues={
-                            data?.region ? [data?.region] : undefined
+                            data?.job.region ? [data?.job.region] : undefined
                           }
                           className={undefined}
                         />
@@ -400,7 +405,7 @@ const EditJob = () => {
                           forwardRef={undefined}
                           displayValue={undefined}
                           selectedValues={
-                            data?.jobTypes ? data?.jobTypes : undefined
+                            data?.job.jobTypes ? data?.job.jobTypes : undefined
                           }
                           singleSelect={undefined}
                           className={undefined}
@@ -462,7 +467,9 @@ const EditJob = () => {
                           forwardRef={undefined}
                           displayValue={undefined}
                           selectedValues={
-                            data?.specialTags ? data?.specialTags : undefined
+                            data?.job.specialTags
+                              ? data?.job.specialTags
+                              : undefined
                           }
                           singleSelect={undefined}
                           className={undefined}
