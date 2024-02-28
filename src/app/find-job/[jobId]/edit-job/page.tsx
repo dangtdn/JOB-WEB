@@ -24,25 +24,43 @@ const fetcher = (url: any) => authAxios(url).then((res) => res.data);
 
 const EditJob = () => {
   const [isMailSent, setIsMailSent] = React.useState(false);
+  const [companyName, setCompanyName] = React.useState("");
+  const [categoryName, setCategoryName] = React.useState("");
+  const [JobHeaderImg, setJobHeaderImg] = React.useState("");
+  const jobForm = companyName ? false : true;
+  const { mutate } = useSWRConfig();
+  const router = useRouter();
+  const pathName = usePathname();
+  const jobId = pathName.split("/")[2];
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { errors, isSubmitting, isDirty },
+    getValues,
+  } = useForm({
+    mode: "onChange",
+  }) as any;
   const { user, loggedIn, loggedOut, isAdmin } = useUser();
   const userData = user;
-  //  Send Email to the user
-  useEffect(() => {
-    if (isMailSent) {
-      // sendEmail("JOB_PUBLISHED");
-      setIsMailSent(false);
-    }
-  }, [isMailSent]);
+  const isCandidate = userData?.role.isCandidate;
+  const companyAPI = "/companies";
+  const categoryAPI = "/categories";
+  const jobAPI = jobId ? `/jobs/${jobId}` : null;
 
-  // const { data: filterData, error: filterError } = useSWR(
-  //   "/admin/filters/retrives",
-  //   fetcher,
-  //   {
-  //     refreshInterval: 0,
-  //   }
-  // );
+  const { data, error } = useSWR(jobAPI, fetcher, {
+    refreshInterval: 0,
+  });
   const { data: companies, error: companiesError } = useSWR(
-    "/companies",
+    companyAPI,
+    fetcher,
+    {
+      refreshInterval: 0,
+    }
+  );
+  const { data: categoryData, error: categoryError } = useSWR(
+    categoryAPI,
     fetcher,
     {
       refreshInterval: 0,
@@ -54,29 +72,6 @@ const EditJob = () => {
   const ApprovedCompanies = _.filter(companiesData, (company) => {
     return company.status.isApproved && company.status.isActive;
   });
-  const { categoryData } = React.useContext(ThemeContext) as any;
-  const [companyName, setCompanyName] = React.useState("");
-  const [categoryName, setCategoryName] = React.useState("");
-  const [JobHeaderImg, setJobHeaderImg] = React.useState("");
-  const jobForm = companyName ? false : true;
-  const { mutate } = useSWRConfig();
-  const router = useRouter();
-  const pathName = usePathname();
-  const jobId = pathName.split("/")[2];
-  const { data, error } = useSWR(jobId ? `/jobs/${jobId}` : null, fetcher, {
-    refreshInterval: 0,
-  });
-  console.log("data: ", data?.job);
-  const isCandidate = userData?.role.isCandidate;
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    reset,
-    formState: { errors, isSubmitting, isDirty },
-  } = useForm({
-    mode: "onChange",
-  }) as any;
   // submit job form handler
   const onSubmit = async (data: any) => {
     const {
@@ -96,31 +91,36 @@ const EditJob = () => {
       salaryMinimum,
       specialTags,
     } = data;
-
-    const formData = new FormData();
-    formData.append("jobTitle", jobTitle); // return string
-    formData.append("jobDescription", jobDescription); // return string
-    formData.append("applyLink", applyLink); // return string
-    formData.append("category", category[0].categoryTitle); // return category title
-    formData.append("company", companyName[0]._id); // return company id
-    formData.append("email", email); // return company email
-    if (data.headerImage) {
-      formData.append("headerImage", headerImage[0]); // return image file
-    }
-    formData.append("hourlyrateMaximum", hourlyrateMaximum); // return number
-    formData.append("hourlyrateMinimum", hourlyrateMinimum); // return number
-    formData.append("location", location); // return string
-    formData.append("jobTypes", jobTypes); // return array
-    formData.append("region", region[0]); // return string
-    formData.append("salaryMaximum", salaryMaximum); // return number
-    formData.append("salaryMinimum", salaryMinimum); // return number
-    formData.append("specialTags", specialTags); // return array
+    console.log("region: ", region);
+    const request = {
+      job: {
+        jobTitle,
+        location,
+        region,
+        jobTypes,
+        category: category[0]?.categoryTitle ?? "",
+        specialTags,
+        jobDescription,
+        hourlyrate: {
+          minimum: hourlyrateMinimum,
+          maximum: hourlyrateMaximum,
+        },
+        salary: {
+          minimum: salaryMinimum,
+          maximum: salaryMaximum,
+        },
+        applyLink,
+        company: companyName[0]._id,
+        email,
+      },
+      headerImage: data.headerImage ? headerImage[0] : undefined,
+    };
 
     try {
       await authAxios({
         method: "PUT",
         url: `/admin/job/update/${jobId}`,
-        data: formData,
+        data: request,
       }).then((res) => {
         toast.success(res.data.message, {
           position: "bottom-right",
@@ -158,15 +158,22 @@ const EditJob = () => {
     required: "Company name is required",
   });
 
+  //  Send Email to the user
+  useEffect(() => {
+    if (isMailSent) {
+      // sendEmail("JOB_PUBLISHED");
+      setIsMailSent(false);
+    }
+  }, [isMailSent]);
+  console.log("getValues: ", getValues());
   // default value set
   React.useEffect(() => {
     if (data && categoryData) {
       const getCategoryName = _.find(categoryData, (category) => {
         return category.categoryTitle === data?.job.category;
       });
-
       setCompanyName(data?.job.company ? [data?.job.company] : ("" as any));
-      setValue("companyName", getCategoryName ? [getCategoryName] : "");
+      setValue("companyName", data?.job.company ? [data?.job.company] : "");
       setValue("jobTitle", data?.job.jobTitle);
       setValue("email", data?.job.email);
       setValue("jobDescription", data?.job.jobDescription);
@@ -184,7 +191,7 @@ const EditJob = () => {
       }
       setValue("jobTypes", data?.job.jobTypes);
       setValue("specialTags", data?.job.specialTags);
-      setValue("region", [data?.job.region]);
+      setValue("region", data?.job.region);
     }
   }, [data, setValue, categoryData]);
 
@@ -417,6 +424,7 @@ const EditJob = () => {
                         )}
                       </label>
                     </div>
+                    {!categoryData && <LoaderGrowing />}
                     <div className="flex flex-col sm:flex-row gap-8">
                       {/* Job Category */}
                       <label className="w-full sm:w-1/2" htmlFor="category">

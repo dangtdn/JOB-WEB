@@ -13,7 +13,7 @@ import { Axios, authAxios } from "../../../lib/utils/axiosKits";
 import { MultiSelect } from "./multi-select-dropdown";
 import { filters } from "@/data/mongodb collections/filters";
 import { useRouter } from "next/navigation";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import useUser from "@/lib/auth/user";
 
 const fetcher = (url: string) => Axios(url).then((res) => res.data);
@@ -21,18 +21,10 @@ const newFeature = (url: string) => authAxios(url).then((res) => res.data);
 
 const SubmitJobForm = ({ userData }: { userData: any }) => {
   const router = useRouter();
-  // const { data: filterData, error: filterError } = useSWR(
-  // 	'/admin/filters/retrives',
-  // 	fetcher,
-  // 	{
-  // 		refreshInterval: 0,
-  // 	}
-  // )
   const { data: companies, error: companiesError } = useSWR(
     "/companies",
     fetcher
   );
-  console.log("companies: ", companies);
   const companiesData = companies?.companies;
   const filterData = filters[0];
   // remove isApproved false from companiesData
@@ -45,11 +37,7 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
   const jobForm = companyName ? false : (true as boolean);
   const [loading, setLoading] = React.useState(false);
   const { user } = useUser();
-  // const { mutate } = useSWRConfig()
-  console.log(
-    "categoryData: ",
-    categoryData?.map((item: any) => item.categoryTitle)
-  );
+  const { mutate } = useSWRConfig();
   // register submit job form
   const {
     register,
@@ -60,7 +48,7 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
   } = useForm({
     mode: "onChange",
   }) as any;
-
+  console.log("categoryData: ", categoryData);
   // select package form
   const { register: registerPackage, handleSubmit: handleSubmitPackage } =
     useForm({
@@ -86,28 +74,6 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
       salaryMinimum,
       specialTags,
     } = data;
-    const input = {
-      user: user._id,
-      companyName: companyName[0].companyName,
-      company: companyName[0]._id,
-      jobTitle,
-      location,
-      region,
-      jobTypes,
-      category,
-      specialTags,
-      jobDescription,
-      email,
-      hourlyrate: {
-        minimum: hourlyrateMinimum,
-        maximum: hourlyrateMaximum,
-      },
-      salary: {
-        minimum: salaryMinimum,
-        maximum: salaryMaximum,
-      },
-      applyLink,
-    };
     const request = {
       job: {
         user: user._id,
@@ -146,7 +112,7 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
           position: "bottom-right",
           className: "foo-bar",
         });
-        // mutate("/jobs/private");
+        mutate("/admin/jobs/private");
         reset();
         router.push("/find-job/manages-jobs");
       });

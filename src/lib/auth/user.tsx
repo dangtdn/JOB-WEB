@@ -6,10 +6,12 @@ import { localGet, localRemove } from "../utils/localStore";
 import { Loader } from "../loader/loader";
 import { users } from "@/utils/dummy-content/mongodb-collections/Untitled";
 import { useRouter } from "next/navigation";
-import { GetUserProfileResponse } from "@/types/user";
+import useSWR from "swr";
+import fetcher from "./api-user";
 
 export default function useUser() {
-  const loading = false;
+  const { data, error, mutate } = useSWR("/current-user", fetcher);
+  const loading = !data && !error;
   const loggedIn = localGet("UserData") !== null;
   const loggedOut = localGet("UserData") === null ? true : false;
   const localData = localGet("UserData");
@@ -21,6 +23,9 @@ export default function useUser() {
       };
 
   // auto logout if token is expired or not found in localStorage
+  if (error && error?.response?.status === 401) {
+    localRemove("UserData");
+  }
 
   React.useEffect(() => {
     if (localData) {
@@ -33,16 +38,17 @@ export default function useUser() {
     }
   }, [localData]);
 
-  const isAdmin = dataUser?.role.isAdmin ?? false;
-  const isConfirmed = dataUser?.isConfirmed ?? false;
-  const isEmployer = dataUser?.role.isEmployer ?? false;
-  const isCandidate = dataUser?.role.isCandidate ?? false;
+  const isAdmin = data?.data?.role.isAdmin ?? false;
+  const isConfirmed = data?.data?.isConfirmed ?? false;
+  const isEmployer = data?.data?.role.isEmployer ?? false;
+  const isCandidate = data?.data?.role.isCandidate ?? false;
 
   return {
     loading,
     loggedIn,
     loggedOut,
-    user: dataUser,
+    user: data?.data,
+    mutate,
     isConfirmed,
     isAdmin,
     isEmployer,

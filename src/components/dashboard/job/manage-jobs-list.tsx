@@ -21,6 +21,7 @@ import useUser from "@/lib/auth/user";
 import { toast } from "react-toastify";
 import { LoaderGrowing } from "@/lib/loader/loader";
 import useSWR, { useSWRConfig } from "swr";
+import { localGet } from "@/lib/utils/localStore";
 
 const fetcher = (url: string) => authAxios(url).then((res) => res.data);
 const urlAPI = "/admin/jobs/private";
@@ -30,7 +31,6 @@ const MangeJobsList = () => {
   const { mutate } = useSWRConfig();
   const [loading, setLoading] = React.useState(false) as any;
   const { user, isAdmin } = useUser();
-  console.log("data: ", data);
   // delete job function start
   const deleteJob = async (id: any) => {
     sweetAlert({

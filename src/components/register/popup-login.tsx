@@ -9,8 +9,10 @@ import { Axios } from "../../lib/utils/axiosKits";
 import { localGet, localRemove, localSave } from "../../lib/utils/localStore";
 import { useRouter } from "next/navigation";
 import { untitled } from "@/data/mongodb collections/Untitled";
+import { useSWRConfig } from "swr";
 
 const PopupLogin = () => {
+  const { mutate } = useSWRConfig();
   const [loading, setLoading] = React.useState(false);
   const {
     LoginPopup,
@@ -58,15 +60,15 @@ const PopupLogin = () => {
             expires_in: new Date(new Date().getTime() + 86400000),
           });
           /* -------------------------- user logged in popup ------------------------- */
-          // mutate('/users/retrives').then(() => {
-          toast.success(res.data.message, {
-            position: "bottom-right",
-            className: "foo-bar",
+          mutate("/current-user").then(() => {
+            toast.success(res.data.message, {
+              position: "bottom-right",
+              className: "foo-bar",
+            });
+            setLoading(false);
+            LoginPopupHandler?.();
+            reset();
           });
-          setLoading(false);
-          LoginPopupHandler?.();
-          reset();
-          // })
         }
       })
       .catch((error) => {
@@ -77,18 +79,6 @@ const PopupLogin = () => {
         setLoading(false);
       });
 
-    // test
-    // localSave("UserData", {
-    //   ...untitled[0],
-    //   login_at: new Date(),
-    //   // expires one day after login
-    //   expires_in: new Date(new Date().getTime() + 86400000),
-    // });
-    // setLoading(false);
-    // LoginPopupHandler?.();
-    // reset();
-
-    // test
     if (data.remember) {
       localSave("user_login_info", data);
     }

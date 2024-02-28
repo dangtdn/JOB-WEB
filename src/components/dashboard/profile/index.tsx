@@ -5,14 +5,17 @@ import { Col, Row } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { FaCamera } from "react-icons/fa";
 import { toast } from "react-toastify";
-// import { useSWRConfig } from "swr";
 import { LoaderGrowing } from "../../../lib/loader/loader";
 import { authAxios } from "../../../lib/utils/axiosKits";
 import ImageOpt from "../../optimize/image";
 import { GetUserProfileResponse } from "@/types/user";
 import { useSWRConfig } from "swr";
 
-const ProfileBox = ({ data }: { data: GetUserProfileResponse }) => {
+const ProfileBox = ({
+  currentUser,
+}: {
+  currentUser: GetUserProfileResponse;
+}) => {
   const [photoImage, setPhotoImage] = React.useState(null) as any;
   const { mutate } = useSWRConfig();
   const {
@@ -24,13 +27,13 @@ const ProfileBox = ({ data }: { data: GetUserProfileResponse }) => {
   } = useForm({
     mode: "onChange",
     defaultValues: {
-      firstName: data.fullName.firstName,
-      lastName: data.fullName.lastName,
-      email: data.email,
-      aboutMe: data.aboutMe,
+      firstName: currentUser?.fullName.firstName,
+      lastName: currentUser?.fullName.lastName,
+      email: currentUser?.email,
+      aboutMe: currentUser?.aboutMe,
     },
   }) as any;
-
+  console.log("currentUser: ", currentUser);
   const {
     register: register2,
     formState: {
@@ -44,10 +47,10 @@ const ProfileBox = ({ data }: { data: GetUserProfileResponse }) => {
   }) as any;
 
   React.useEffect(() => {
-    if (data) {
-      setPhotoImage(data.avatar);
+    if (currentUser) {
+      setPhotoImage(currentUser.avatar);
     }
-  }, [data]);
+  }, [currentUser]);
 
   const onSubmit = async (data: any) => {
     const formData = new FormData();
@@ -56,31 +59,33 @@ const ProfileBox = ({ data }: { data: GetUserProfileResponse }) => {
     formData.append("email", data.email);
     formData.append("phoneNumber", data.phoneNumber);
     formData.append("aboutMe", data.aboutMe);
-    // if (data.profileImage) {
-    //   formData.append("profileImage", data.profileImage[0]);
-    // }
-    const request = {
-      fullName: {
-        firstName: data.firstName,
-        lastName: data.lastName,
-      },
-      aboutMe: data.aboutMe,
-      // avatar:
-      //   "https://res.cloudinary.com/js-template/image/upload/v1647758536/zh1snvlag4w0zyz0jjzq.jpg",
-      phoneNumber: data.phoneNumber,
-    };
+    if (data.profileImage) {
+      formData.append("profileImage", data.profileImage[0]);
+    }
+    console.log("currentUser: ", currentUser._id);
+    // const request = {
+    //   fullName: {
+    //     firstName: data.firstName,
+    //     lastName: data.lastName,
+    //   },
+    //   aboutMe: data.aboutMe,
+    //   avatar:
+    //     "https://res.cloudinary.com/js-template/image/upload/v1647758536/zh1snvlag4w0zyz0jjzq.jpg",
+    //   phoneNumber: data.phoneNumber,
+    // };
     try {
       await authAxios({
         method: "PUT",
-        url: `/admin/user/update/${data._id}`,
-        data: request,
+        url: `/admin/user/update/${currentUser._id}`,
+        data: formData,
       }).then((res: any) => {
-        // mutate("/users/retrives").then(() => {
-        toast.success(res.data.message, {
-          position: "bottom-right",
-          className: "foo-bar",
+        mutate("/current-user").then(() => {
+          console.log("res: ", res.data);
+          toast.success(res.data.message, {
+            position: "bottom-right",
+            className: "foo-bar",
+          });
         });
-        // });
       });
     } catch (error: any) {
       toast.error(error.response.data.message, {
@@ -171,7 +176,7 @@ const ProfileBox = ({ data }: { data: GetUserProfileResponse }) => {
         </div>
 
         {/* Loader */}
-        {!data && <LoaderGrowing />}
+        {!currentUser && <LoaderGrowing />}
 
         <form key={1} className="w-full" onSubmit={handleSubmit(onSubmit)}>
           <Row className="!mx-5 xl:mx-10 justify-center items-center">
@@ -302,7 +307,7 @@ const ProfileBox = ({ data }: { data: GetUserProfileResponse }) => {
                         {...register("phoneNumber")}
                         type="text"
                         placeholder="(406) 555-0120"
-                        defaultValue={data.phoneNumber}
+                        defaultValue={currentUser.phoneNumber}
                       />
                     </div>
                   </div>

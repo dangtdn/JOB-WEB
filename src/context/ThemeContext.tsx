@@ -5,9 +5,7 @@ import { toast } from "react-toastify";
 import useUser from "../lib/auth/user";
 import { authAxios, Axios } from "../lib/utils/axiosKits";
 import { localRemove } from "../lib/utils/localStore";
-import { categories } from "@/utils/dummy-content/mongodb-collections/categories";
 import { useRouter } from "next/navigation";
-import { Category } from "@/types/category";
 import { AxiosRequestConfig } from "axios";
 import useSWR from "swr";
 
@@ -82,7 +80,6 @@ const ThemeContextProvider = ({ children }: { children: any }) => {
   } = useSWR(JobCategoryAPI, fetcher, {
     revalidateOnFocus: false,
   });
-  // const categoryData = categories;
 
   // // user notification data fetching hooks
   // const { data: recentNotification, error: recentNotificationError } = useSWR(

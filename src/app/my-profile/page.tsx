@@ -9,8 +9,6 @@ import React from "react";
 
 const MyProfile = () => {
   const { user, loggedIn, loggedOut } = useUser();
-  //   const userData = user?.data;
-  // const userData = users[0];
 
   return (
     <>
@@ -21,7 +19,7 @@ const MyProfile = () => {
       <Layout>
         <main>
           {loggedOut && <UserNotLogin />}
-          {user && loggedIn && <ProfileBox data={user} />}
+          {user && loggedIn && <ProfileBox currentUser={user} />}
         </main>
       </Layout>
     </>
