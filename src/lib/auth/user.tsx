@@ -15,18 +15,18 @@ export default function useUser() {
   const loggedIn = localGet("UserData") !== null;
   const loggedOut = localGet("UserData") === null ? true : false;
   const localData = localGet("UserData");
-  const dataUser: GetUserProfileResponse = localData
-    ? localGet("UserData")?.user
-    : {
-        ...users[0],
-        _id: "624c18bf471afaba20bc15d3",
-      };
+  // const dataUser: GetUserProfileResponse = localData
+  //   ? localGet("UserData")?.user
+  //   : {
+  //       ...users[0],
+  //       _id: "624c18bf471afaba20bc15d3",
+  //     };
 
   // auto logout if token is expired or not found in localStorage
   if (error && error?.response?.status === 401) {
     localRemove("UserData");
   }
-
+  console.log("data?.data?: ", data?.data?.user);
   React.useEffect(() => {
     if (localData) {
       // auto logout if time is expired
@@ -38,16 +38,16 @@ export default function useUser() {
     }
   }, [localData]);
 
-  const isAdmin = data?.data?.role.isAdmin ?? false;
-  const isConfirmed = data?.data?.isConfirmed ?? false;
-  const isEmployer = data?.data?.role.isEmployer ?? false;
-  const isCandidate = data?.data?.role.isCandidate ?? false;
+  const isAdmin = data?.data?.user.role.isAdmin ?? false;
+  const isConfirmed = data?.data?.user.isConfirmed ?? false;
+  const isEmployer = data?.data?.user.role.isEmployer ?? false;
+  const isCandidate = data?.data?.user.role.isCandidate ?? false;
 
   return {
     loading,
     loggedIn,
     loggedOut,
-    user: data?.data,
+    user: data?.data?.user,
     mutate,
     isConfirmed,
     isAdmin,

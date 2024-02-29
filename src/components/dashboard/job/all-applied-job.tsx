@@ -17,8 +17,6 @@ const fetcher = (url: string) => authAxios(url).then((res) => res.data.data);
 const AllApplications = () => {
   const { user } = useUser();
   const { data, error } = useSWR(`users/${user._id}/job-apply`, fetcher);
-  // const data = jobApplies;
-  // const error = false;
   // get current pages
   const [currentPage, setCurrentPage] = React.useState(1);
   const [ShowPerPage, setShowPerPage] = React.useState(10);
@@ -105,11 +103,12 @@ const AllApplications = () => {
                   </>
                 ) : (
                   <tr>
-                    {/* <td
-											className="text-center whitespace-nowrap rounded-tr-lg rounded-br-lg px-4 py-6 leading-9 text-lg2 font-medium text-themeLight"
-											colSpan="5">
-											No data found ☹️
-										</td> */}
+                    <td
+                      className="text-center whitespace-nowrap rounded-tr-lg rounded-br-lg px-4 py-6 leading-9 text-lg2 font-medium text-themeLight"
+                      colSpan={5}
+                    >
+                      No data found ☹️
+                    </td>
                   </tr>
                 )}
               </tbody>
@@ -173,7 +172,9 @@ const TableItem = ({ item }: { item: any }) => {
       >
         <td className="text-themeDark text-base pl-6 py-4 align-middle">
           <Link
-            href={item?.jobItem?.jobTitle ? `/job/${item?.jobItem?._id}` : "#"}
+            href={
+              item?.jobItem?.jobTitle ? `/find-job/${item?.jobItem?._id}` : "#"
+            }
             className="text-lg2 text-themeDark hover:text-themePrimary transition-all duration-200 ease-in-out font-bold"
           >
             {item?.jobItem?.jobTitle}

@@ -204,7 +204,6 @@ const SideNav = ({ data }: { data: GetUserProfileResponse }) => {
   const sideNavMenuHandler = () => {
     setIsSideNavOpen(!isSideNavOpen);
   };
-  console.log("data.role.: ", data.role.isCandidate);
 
   return (
     <>

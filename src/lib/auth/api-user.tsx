@@ -3,7 +3,8 @@ import { authAxios } from "../utils/axiosKits";
 authAxios.interceptors.request.use((config) => {
   const localData = localStorage.getItem("UserData") ?? "";
   const token = JSON.parse(localData);
-  config.headers.Authorization = `Bearer ${token.accessToken}`;
+  console.log("token: ", token);
+  config.headers.Authorization = `Bearer ${token.token}`;
   return config;
 });
 

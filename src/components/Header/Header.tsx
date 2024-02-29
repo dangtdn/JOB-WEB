@@ -128,6 +128,7 @@ const Header = () => {
     setUserMenu(!UserMenu);
   };
   console.log("loggedIn: ", loggedIn);
+  console.log("userData: ", userData);
   return (
     <>
       {/* Header Component */}
