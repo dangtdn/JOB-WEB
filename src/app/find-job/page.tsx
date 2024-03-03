@@ -37,7 +37,9 @@ export default function FindJob() {
     jobs: [],
   });
   const [jobFilter, setJobFilter] = useState<any[]>([]);
-  // const data = { data: jobs, loading: false };
+  const indexOfLastItems = currentPage * jobsPerPage;
+  const indexOfFirstItems = indexOfLastItems - jobsPerPage;
+  const currentJobs = allJobs.jobs.slice(indexOfFirstItems, indexOfLastItems);
 
   // call SWR
   const jobAPI = "/jobs";
@@ -156,7 +158,7 @@ export default function FindJob() {
       <Layout>
         <main>
           <PageTitle title="Find Your Dream Job" excerpt={null} image={null} />
-          {/* {error && <div>Error! {error.message}</div>} */}
+          {error && <div>Error! {error.message}</div>}
           {!data && <Loader />}
           {data && (
             <>

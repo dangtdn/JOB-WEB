@@ -77,7 +77,14 @@ const CompanyDataList = () => {
       loading: true,
     },
   });
-  console.log("dataCompany: ", data);
+  const indexOfLastItems = currentPage * companiesPerPage;
+  const indexOfFirstItems = indexOfLastItems - companiesPerPage;
+  const currentCompanies = AllCompanies.companies.slice(
+    indexOfFirstItems,
+    indexOfLastItems
+  );
+
+  console.log("currentCompanies: ", currentCompanies);
   const handlePageChange = (data: any) => {
     setCurrentPage(data.selected);
   };
@@ -97,7 +104,7 @@ const CompanyDataList = () => {
     }
   }, [companyFilter]);
   console.log("companyFilter: ", companyFilter);
-  // if (error) return <div>Error! {error.message}</div>;
+  if (error) return <div>Error! {error.message}</div>;
   if (!data)
     return (
       <div className="h-80 w-full flex justify-center items-center">
