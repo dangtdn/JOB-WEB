@@ -32,8 +32,6 @@ const fetcher = (url: string) => Axios(url).then((res) => res.data);
 const AllCompanies = () => {
   const { mutate } = useSWRConfig();
   const { data: oldData, error } = useSWR("/companies", fetcher);
-  // const data = companies;
-  // const error = false;
   const [loading, setLoading] = React.useState(false);
   const { user, isAdmin } = useUser();
   const data = {
@@ -55,13 +53,13 @@ const AllCompanies = () => {
           authAxios
             .delete(`/companies/company/${id}`)
             .then((res) => {
-              // mutate("/companies/private").then(() => {
-              //   toast.success(capitalize(res.data.message), {
-              //     position: "bottom-right",
-              //     className: "foo-bar",
-              //   });
-              //   setLoading(false);
-              // });
+              mutate("/companies").then(() => {
+                toast.success(capitalize(res.data.message), {
+                  position: "bottom-right",
+                  className: "foo-bar",
+                });
+                setLoading(false);
+              });
             })
             .catch((err) => {
               toast.error(err?.response?.data?.message, {
@@ -390,7 +388,7 @@ const AllCompanies = () => {
                 <div
                   key={index}
                   className={`p-4 mb-4 shadow rounded-lg relative  ${
-                    user._id === item.user.$oid && isAdmin
+                    user._id === item.user && isAdmin
                       ? "bg-green-50"
                       : "bg-white"
                   }`}

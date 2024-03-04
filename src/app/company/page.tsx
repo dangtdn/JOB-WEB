@@ -13,16 +13,12 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import useSWR from "swr";
 
-const fetcher = (url: string) =>
-  Axios(url).then((res) => {
-    console.log(res.data);
-    return res.data;
-  });
+const fetcher = (url: string) => Axios(url).then((res) => res.data);
 const CompanyAPI = "/companies";
 
 const CompanyDataList = () => {
   // get current pages
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [companiesPerPage] = useState(9);
   const [companyFilter, setCompanyFilter] = useState<any[]>([]);
   const [AllCompanies, setAllCompanies] = useState<{
@@ -79,18 +75,16 @@ const CompanyDataList = () => {
   });
   const indexOfLastItems = currentPage * companiesPerPage;
   const indexOfFirstItems = indexOfLastItems - companiesPerPage;
-  const currentCompanies = AllCompanies.companies.slice(
-    indexOfFirstItems,
-    indexOfLastItems
-  );
+  const currentCompanies = AllCompanies.companies
+    ? AllCompanies.companies.slice(indexOfFirstItems, indexOfLastItems)
+    : [];
 
-  console.log("currentCompanies: ", currentCompanies);
   const handlePageChange = (data: any) => {
-    setCurrentPage(data.selected);
+    setCurrentPage(data.selected + 1);
   };
 
   useEffect(() => {
-    if (data.success) {
+    if (data.companies) {
       setCompanyFilter(data.companies);
     }
   }, [data]);
@@ -103,7 +97,7 @@ const CompanyDataList = () => {
       });
     }
   }, [companyFilter]);
-  console.log("companyFilter: ", companyFilter);
+
   if (error) return <div>Error! {error.message}</div>;
   if (!data)
     return (
@@ -154,7 +148,7 @@ const CompanyDataList = () => {
                     </div>
                   ))}
                 {AllCompanies.companies.length > 0 &&
-                  _.map(AllCompanies.companies, (item, index) => (
+                  _.map(currentCompanies, (item, index) => (
                     <CompanyItem key={index} item={item} />
                   ))}
               </div>

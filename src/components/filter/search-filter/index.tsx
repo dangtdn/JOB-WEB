@@ -53,7 +53,7 @@ export const JobsFilter = ({
   const ClearFilterHandler = () => {
     setJobTypes([]);
     setExperienceYear([]);
-    setCurrentPage(0);
+    setCurrentPage(1);
     handleResetForm();
   };
 
@@ -65,11 +65,11 @@ export const JobsFilter = ({
     if (e.target.checked) {
       if (!jobTypes.includes(value)) {
         await setJobTypes([...jobTypes, value]);
-        setCurrentPage(0);
+        setCurrentPage(1);
       }
     } else {
       await setJobTypes(jobTypes.filter((item: any) => item !== value));
-      setCurrentPage(0);
+      setCurrentPage(1);
     }
   };
 
@@ -81,11 +81,11 @@ export const JobsFilter = ({
     if (e.target.checked) {
       if (!experienceYear.includes(value)) {
         await setExperienceYear([...experienceYear, value]);
-        setCurrentPage(0);
+        setCurrentPage(1);
       }
     } else {
       await setExperienceYear(_.without(experienceYear, value));
-      setCurrentPage(0);
+      setCurrentPage(1);
     }
   };
 
@@ -177,7 +177,7 @@ export const JobsFilter = ({
                       type="text"
                       onChange={(e) => {
                         handleChange(e.target.value); // method from hook form register
-                        setCurrentPage(0); // current page reset to 0
+                        setCurrentPage(1); // current page reset to 0
                       }}
                       value={value}
                       onBlur={handleBlur}
@@ -207,7 +207,7 @@ export const JobsFilter = ({
                       type="text"
                       onChange={(e) => {
                         handleChange(e.target.value); // method from hook form register
-                        setCurrentPage(0); // current page reset to 0
+                        setCurrentPage(1); // current page reset to 0
                       }}
                       value={value}
                       onBlur={handleBlur}
@@ -236,7 +236,7 @@ export const JobsFilter = ({
                       aria-label="Categories"
                       onChange={(e) => {
                         handleChange(e.target.value); // method from hook form register
-                        setCurrentPage(0); // current page reset to 0
+                        setCurrentPage(1); // current page reset to 0
                       }}
                       onBlur={handleBlur}
                       value={value}
@@ -392,11 +392,6 @@ export const CompanyFilter = ({
 
   const handleClickSearch = () => {
     let newCompanyFilter = [...defaultData];
-    if (getValues().category !== "") {
-      newCompanyFilter = newCompanyFilter.filter(
-        (item) => item.category === getValues().category
-      );
-    }
     if (getValues().companyName !== "") {
       newCompanyFilter = newCompanyFilter.filter((item) =>
         item.companyName
@@ -404,7 +399,7 @@ export const CompanyFilter = ({
           .includes(getValues().companyName.trim().toLowerCase())
       );
     }
-    if (getValues().companyName === "" && getValues().category === "") {
+    if (getValues().companyName === "") {
       newCompanyFilter = [...defaultData];
     }
 
@@ -450,55 +445,12 @@ export const CompanyFilter = ({
                       type="text"
                       onChange={(e) => {
                         handleChange(e); // method from hook form register
-                        setCurrentPage(0); // current page reset to 0
+                        setCurrentPage(1); // current page reset to 0
                       }}
                       value={value}
                       onBlur={handleBlur}
                       placeholder="Company Name"
                     />
-                  );
-                }}
-              />
-            </div>
-            <div className="jobCategorise pb-4">
-              <Controller
-                control={control}
-                name="category"
-                defaultValue=""
-                render={({
-                  field: {
-                    name: fieldName,
-                    value,
-                    onChange: handleChange,
-                    onBlur: handleBlur,
-                  },
-                }) => {
-                  const error = errors[fieldName];
-                  return (
-                    <Form.Select
-                      aria-label="Default select example"
-                      onChange={(e) => {
-                        handleChange(e); // method from hook form register
-                        setCurrentPage(0); // current page reset to 0
-                      }}
-                      onBlur={handleBlur}
-                      value={value}
-                      className="border-0 focus:shadow-none p-3 w-full bg-light text-xxs text-grayLight text-base font-normal focus-visible:white focus:outline-none"
-                    >
-                      <option value="">Select Category</option>
-                      {_.map(categoryData, (item, index) => {
-                        return (
-                          <option key={index} value={item.categoryTitle}>
-                            {item.categoryTitle}
-                          </option>
-                        );
-                      })}
-                      {categoryData?.length === 0 && (
-                        <option value="" disabled>
-                          No Category Found
-                        </option>
-                      )}
-                    </Form.Select>
                   );
                 }}
               />

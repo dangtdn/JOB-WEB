@@ -27,7 +27,7 @@ export default function FindJob() {
   >([]);
 
   // get current pages
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [jobsPerPage] = useState(9);
   const [allJobs, setAllJobs] = useState<{
     totalJobCount: number;
@@ -39,7 +39,9 @@ export default function FindJob() {
   const [jobFilter, setJobFilter] = useState<any[]>([]);
   const indexOfLastItems = currentPage * jobsPerPage;
   const indexOfFirstItems = indexOfLastItems - jobsPerPage;
-  const currentJobs = allJobs.jobs.slice(indexOfFirstItems, indexOfLastItems);
+  const currentJobs = allJobs.jobs
+    ? allJobs.jobs.slice(indexOfFirstItems, indexOfLastItems)
+    : [];
 
   // call SWR
   const jobAPI = "/jobs";
@@ -150,7 +152,7 @@ export default function FindJob() {
   }, [jobFilter]);
 
   const handlePageChange = (data: any) => {
-    setCurrentPage(data.selected);
+    setCurrentPage(data.selected + 1);
   };
 
   return (
@@ -190,7 +192,7 @@ export default function FindJob() {
                         </div>
                       )}
                       <div className="grid gap-6 xl:gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 justify-center">
-                        {allJobs?.jobs?.map((item: any, index: number) => (
+                        {currentJobs.map((item: any, index: number) => (
                           <JobItem key={index} item={item} />
                         ))}
                       </div>

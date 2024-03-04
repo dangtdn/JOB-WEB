@@ -203,7 +203,7 @@ export const companies = [
       $oid: "624beb549da26ad1ef539761",
     },
     user: {
-      $oid: "622b4ce8210fd3b5bb5a3154",
+      $oid: "65782185af22f3891a5b26b4",
     },
     status: {
       isPublished: true,

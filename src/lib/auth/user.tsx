@@ -26,7 +26,7 @@ export default function useUser() {
   if (error && error?.response?.status === 401) {
     localRemove("UserData");
   }
-  console.log("data?.data?: ", data?.data?.user);
+
   React.useEffect(() => {
     if (localData) {
       // auto logout if time is expired

@@ -127,8 +127,7 @@ const Header = () => {
   const UserMenuHandler = () => {
     setUserMenu(!UserMenu);
   };
-  console.log("loggedIn: ", loggedIn);
-  console.log("userData: ", userData);
+
   return (
     <>
       {/* Header Component */}
