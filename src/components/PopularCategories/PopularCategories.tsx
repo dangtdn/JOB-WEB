@@ -74,7 +74,6 @@ export type Category = {
 // ];
 
 const PopularCategories = ({ data }: { data?: Category[] }) => {
-  console.log("data: ", data);
   return (
     <section className="py-16 md:py-20 lg:py-25 !bg-light">
       <div className="container">

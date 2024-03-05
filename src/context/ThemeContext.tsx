@@ -80,7 +80,7 @@ const ThemeContextProvider = ({ children }: { children: any }) => {
   } = useSWR(JobCategoryAPI, fetcher, {
     revalidateOnFocus: false,
   });
-
+  console.log("categoryData1: ", categoryData);
   // // user notification data fetching hooks
   // const { data: recentNotification, error: recentNotificationError } = useSWR(
   // 	loggedIn && `/notifications/recent/retrives`,

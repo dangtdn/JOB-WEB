@@ -5,20 +5,17 @@ import { ToastContainer } from "react-toastify";
 import PopupLogin from "@/components/register/popup-login";
 import PopupRegister from "@/components/register/popup-register";
 import LostPassword from "@/components/register/lost-password";
-import ThemeContextProvider, { ThemeContext } from "@/context/ThemeContext";
 
 const Layout = ({ children }: { children: React.ReactElement }) => {
   return (
     <>
-      <ThemeContextProvider>
-        <Header />
-        {children}
-        <ToastContainer />
-        <Footer />
-        <PopupLogin />
-        <PopupRegister />
-        <LostPassword />
-      </ThemeContextProvider>
+      <Header />
+      {children}
+      <ToastContainer />
+      <Footer />
+      <PopupLogin />
+      <PopupRegister />
+      <LostPassword />
     </>
   );
 };

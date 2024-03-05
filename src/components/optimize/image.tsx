@@ -30,7 +30,7 @@ export default function ImageOpt({
           className={className}
           layout={layout}
           blurDataURL={src}
-          placeholder="blur"
+          // placeholder="blur"
           priority
         />
       ) : (

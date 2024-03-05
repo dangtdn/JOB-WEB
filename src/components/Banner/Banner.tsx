@@ -4,26 +4,26 @@ import ImageOpt from "../optimize/image";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import _ from "lodash";
-import { ThemeContext } from "@/context/ThemeContext";
+import { Axios } from "@/lib/utils/axiosKits";
+import useSWR from 'swr'
+
+const fetcher = (url: string) => Axios(url).then((res) => res.data.data);
+const catsAPI = "/categories";
 
 const Banner = ({
   totalCount,
   categories,
 }: {
   totalCount: any;
-  categories: {
-    _id: string;
-    status: {
-      isFeatured: boolean;
-      isActive: boolean;
-    };
-    categoryTitle: string;
-    subCategory: string[];
-    logo: string;
-    iconUrl: string;
-  }[];
+  categories: any;
 }) => {
-  const { categoryData } = React.useContext(ThemeContext) as any;
+  const { data: categoryData, error: categoryError } = useSWR(
+    catsAPI,
+    fetcher,
+    {
+      fallbackData: [],
+    }
+  );
   const router = useRouter();
   const { register, handleSubmit } = useForm({
     mode: "onBlur",
@@ -99,11 +99,11 @@ const Banner = ({
                     className="border-0 focus:shadow-none py-3 select2-init text-xxs text-deep font-normal focus-visible:white focus:outline-none"
                   >
                     <option value="">Select Categories</option>
-                    {(categories ?? []).map((item, index) => (
-                      <option value={item.categoryTitle} key={index}>
-                        {_.capitalize(item.categoryTitle)}
-                      </option>
-                    ))}
+                    {categoryData.map((item: any) => (
+											<option value={item.categoryTitle} key={item._id}>
+												{_.capitalize(item.categoryTitle)}
+											</option>
+										))}
                   </Form.Select>
                 </div>
                 <div className="btn-banner px-4 md:!px-0 col-span-2 xl:col-span-1 text-center grid md:justify-end py-4 md:!py-2 lg:text-right mr-4">
