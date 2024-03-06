@@ -14,10 +14,10 @@ import useUser from "../../../lib/auth/user";
 import { Axios, authAxios } from "../../../lib/utils/axiosKits";
 import Pagination from "../pagination";
 
-const fetcher = (url: string) => Axios(url).then((res) => res.data);
+const fetcher = (url: string) => authAxios(url).then((res) => res.data.data);
 
 const AllResumes = () => {
-  // const { mutate } = useSWRConfig();
+  const { mutate } = useSWRConfig();
   const { user, isAdmin } = useUser();
   const { data: resumeData, error } = useSWR("/resumes", fetcher);
   const [loading, setLoading] = React.useState(false);
@@ -27,7 +27,7 @@ const AllResumes = () => {
   const indexOfLastPost = currentPage * ShowPerPage;
   const indexOfFirstPost = indexOfLastPost - ShowPerPage;
   console.log("resumeData: ", resumeData);
-  const data = resumeData?.resumes ?? [];
+  const data = resumeData ?? [];
   const currentPosts = data
     ? data.slice(indexOfFirstPost, indexOfLastPost)
     : [];
@@ -35,39 +35,39 @@ const AllResumes = () => {
   const deleteResume = (id: any) => {
     sweetAlert({
       title: "Are you sure?",
-      text: "You want to delete this category?",
+      text: "You want to delete this resume?",
       icon: "warning",
       buttons: true as any,
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
         setLoading(true);
-        // try {
-        //   authAxios
-        //     .delete(`/resumes/resume/${id}`)
-        //     .then((res) => {
-        //       return mutate("/resumes/retrives").then(() => {
-        //         toast.success(res.data.message, {
-        //           position: "bottom-right",
-        //           className: "foo-bar",
-        //         });
-        //         setLoading(false);
-        //       }, 1000 as any);
-        //     })
-        //     .catch((err) => {
-        //       toast.error(err?.response?.data?.message, {
-        //         position: "bottom-right",
-        //         className: "foo-bar",
-        //       });
-        //       setLoading(false);
-        //     });
-        // } catch (error: any) {
-        //   toast.error(error?.response?.data?.message, {
-        //     position: "bottom-right",
-        //     className: "foo-bar",
-        //   });
-        //   setLoading(false);
-        // }
+        try {
+          authAxios
+            .delete(`/resumes/${id}/delete`)
+            .then((res) => {
+              return mutate("/resumes").then(() => {
+                toast.success(res.data.message, {
+                  position: "bottom-right",
+                  className: "foo-bar",
+                });
+                setLoading(false);
+              }, 1000 as any);
+            })
+            .catch((err) => {
+              toast.error(err?.response?.data?.message, {
+                position: "bottom-right",
+                className: "foo-bar",
+              });
+              setLoading(false);
+            });
+        } catch (error: any) {
+          toast.error(error?.response?.data?.message, {
+            position: "bottom-right",
+            className: "foo-bar",
+          });
+          setLoading(false);
+        }
       }
     });
   };
@@ -515,7 +515,7 @@ const TableItem = ({
             }`}
           >
             {/* Edit */}
-            <Link href={`/resume/edit-resume?active_id=${item._id}`} passHref>
+            <Link href={`/resume/${item._id}/edit-resume`} passHref>
               <div className="flex items-center gap-2 text-themeDarker hover:text-themePrimary transition-all duration-300 ease-in-out group cursor-pointer ">
                 <span className="w-9 h-9 bg-[#1caf5721] flex items-center justify-center rounded-lg">
                   <AiOutlineEdit className="w-6 h-6 text-themePrimary group-hover:text-themePrimary transition-all duration-300 ease-in-out" />

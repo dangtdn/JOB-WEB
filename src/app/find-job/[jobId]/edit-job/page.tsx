@@ -357,7 +357,7 @@ const EditJob = () => {
                           type="text"
                           id="location"
                           {...register("location")}
-                          placeholder='e.g. "London"'
+                          placeholder='e.g. "VietNam"'
                         />
                       </label>
                     </div>

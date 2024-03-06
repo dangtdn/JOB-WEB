@@ -14,6 +14,7 @@ import { MultiSelect } from "../form/multi-select-dropdown";
 import { authAxios } from "@/lib/utils/axiosKits";
 import { toast } from "react-toastify";
 import { FormLoader, LoaderGrowing } from "@/lib/loader/loader";
+import { filters } from "@/data/mongodb collections/filters";
 
 const fetcher = (url: string) =>
   authAxios.get(url).then((res: any) => res.data);
@@ -21,7 +22,7 @@ const fetcher = (url: string) =>
 const ResumeForm = () => {
   const router = useRouter();
   const { mutate } = useSWRConfig();
-  const { data, error } = useSWR("/admin/filters/retrives", fetcher);
+  const data = filters[0];
   const { categoryData } = React.useContext(ThemeContext) as any;
   const [photoImage, setPhotoImage] = React.useState(null);
   // const [resumeImage, setResumeImage] = React.useState(null);
@@ -112,10 +113,10 @@ const ResumeForm = () => {
     try {
       await authAxios({
         method: "POST",
-        url: `/resumes/retrives`,
+        url: `/resumes/create`,
         data: formData,
       }).then((res: any) => {
-        mutate("/resumes/retrives").then(() => {
+        mutate("/resumes").then(() => {
           toast.success(res.data.message, {
             position: "bottom-right",
             className: "foo-bar",
@@ -317,7 +318,7 @@ const ResumeForm = () => {
                       } border border-gray rounded py-2.5 px-3 leading-tight focus:outline-none focus:bg-white`}
                       id="grid-first-name"
                       type="location"
-                      placeholder="London, UK"
+                      placeholder="VietNam, UK"
                       {...register("location", {
                         required: true,
                       })}

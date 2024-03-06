@@ -1,31 +1,28 @@
-import Layout from "@/components/Layout/Layout";
+"use client";
+
 import { LoaderGrowing } from "@/lib/loader/loader";
 import ImageOpt from "@/components/optimize/image";
-import { companies } from "@/data/mongodb collections/companies";
 import Head from "next/head";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { authAxios } from "@/lib/utils/axiosKits";
+import Layout from "@/components/dashboard/layout";
+import useSWR, { useSWRConfig } from "swr";
 
-// const fetcher = (url: string) =>
-// 	authAxios(url).then((res) => res.data.data.company)
+const fetcher = (url: string) =>
+  authAxios(url).then((res) => res.data.data.company);
 
 const EditCompany = () => {
   const [CompanyHeaderImg, setCompanyHeaderImg] = React.useState("");
   const [LogoImg, setLogoImg] = React.useState("");
   const router = useRouter();
-  // const { data, error } = useSWR(
-  // 	`/companies/company/${router.query.active_id}`,
-  // 	fetcher,
-  // 	{
-  // 		refreshInterval: 0,
-  // 	}
-  // )
   const pathName = usePathname();
-  const id = pathName.split("/").at(-1);
-  const data = companies.find((company) => company._id.$oid === id);
+  const companyId = pathName.split("/")[2];
+  const { data, error } = useSWR(`/company/${companyId}`, fetcher, {
+    refreshInterval: 0,
+  });
 
   const {
     register,
@@ -118,7 +115,7 @@ const EditCompany = () => {
     try {
       await authAxios({
         method: "PUT",
-        url: `/companies/company/${id}`,
+        url: `/companies/company/${companyId}`,
         data: formData,
       })
         .then((res: any) => {

@@ -15,17 +15,18 @@ import { MultiSelect } from "../form/multi-select-dropdown";
 import { authAxios } from "@/lib/utils/axiosKits";
 import { toast } from "react-toastify";
 import { FormLoader, LoaderGrowing } from "@/lib/loader/loader";
+import { filters } from "@/data/mongodb collections/filters";
 
-const fetcher = (url: string) => authAxios(url).then((res) => res.data);
+const fetcher = (url: string) => authAxios(url).then((res) => res.data.data);
 
 const EditResume = () => {
   const router = useRouter();
   const pathName = usePathname();
-  const id = pathName.split("/").at(-1);
+  const resumeId = pathName.split("/")[2];
   const { mutate } = useSWRConfig();
-  const { data, error } = useSWR("/admin/filters/retrives", fetcher);
+  const data = filters[0];
   const { data: resumeData, error: resumeError } = useSWR(
-    `/resumes/resume/${id}`,
+    `/resumes/${resumeId}`,
     fetcher
   );
   const { categoryData } = React.useContext(ThemeContext) as any;
@@ -40,6 +41,7 @@ const EditResume = () => {
     handleSubmit,
     setValue,
     formState: { errors, isSubmitting, isDirty },
+    getValues,
   } = useForm({
     mode: "onChange",
     defaultValues: {
@@ -58,9 +60,10 @@ const EditResume = () => {
       experiences: resumeData?.experience,
     },
   }) as any;
-
+  console.log("resumeData: ", resumeData);
+  console.log("getValues: ", getValues());
   React.useEffect(() => {
-    if (resumeData && !isDirty) {
+    if (resumeData) {
       const getCategoryName = _.find(categoryData, (category) => {
         return category.categoryTitle === resumeData?.category;
       });
@@ -141,10 +144,10 @@ const EditResume = () => {
     try {
       await authAxios({
         method: "PUT",
-        url: `/resumes/resume/${id}`,
+        url: `/resumes/${resumeId}/update`,
         data: formData,
       }).then((res) => {
-        mutate(`/resumes/resume/`).then(() => {
+        mutate(`/resumes`).then(() => {
           toast.success(res.data.message, {
             position: "bottom-right",
             className: "foo-bar",
@@ -203,6 +206,7 @@ const EditResume = () => {
             <LoaderGrowing />
           </div>
         )}
+        {resumeError && <div>failed to load data</div>}
         {data && (
           <form onSubmit={handleSubmit(onSubmitHandler)}>
             <div className="!mx-5 xl:mx-10 justify-center items-center">
@@ -334,7 +338,7 @@ const EditResume = () => {
                       } border border-gray rounded py-2.5 px-3 leading-tight focus:outline-none focus:bg-white`}
                       id="grid-first-name"
                       type="location"
-                      placeholder="London, UK"
+                      placeholder="VietNam, UK"
                       {...register("location", {
                         required: true,
                       })}

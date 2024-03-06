@@ -90,7 +90,7 @@ const AddCompanyForm = () => {
         latitude: locationLatitude,
         longitude: locationLongitude,
       },
-      logo: logoImage[0],
+      logo: logoImage[0] ? logoImage[0] : "",
     };
 
     try {
