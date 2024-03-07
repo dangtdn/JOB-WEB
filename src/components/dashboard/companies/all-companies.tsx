@@ -23,21 +23,17 @@ import {
   MdOutlineDownloadDone,
   MdOutlineFactCheck,
 } from "react-icons/md";
-import { companies } from "@/data/mongodb collections/companies";
 import Pagination from "../pagination";
 import useSWR, { useSWRConfig } from "swr";
 
-const fetcher = (url: string) => Axios(url).then((res) => res.data);
+const fetcher = (url: string) => authAxios(url).then((res) => res.data.data);
 
 const AllCompanies = () => {
   const { mutate } = useSWRConfig();
-  const { data: oldData, error } = useSWR("/companies", fetcher);
+  const { data, error } = useSWR("/companies/private", fetcher);
   const [loading, setLoading] = React.useState(false);
   const { user, isAdmin } = useUser();
-  const data = {
-    companies: oldData?.companies.filter((item: any) => item.user === user._id),
-  };
-  console.log("oldData: ", oldData);
+  console.log("dataComapany: ", data);
   // delete category function here
   const deleteCategory = (id: any) => {
     sweetAlert({
@@ -51,7 +47,7 @@ const AllCompanies = () => {
         setLoading(true);
         try {
           authAxios
-            .delete(`/companies/company/${id}`)
+            .delete(`/admin/company/${id}/delete`)
             .then((res) => {
               mutate("/companies").then(() => {
                 toast.success(capitalize(res.data.message), {
@@ -90,40 +86,40 @@ const AllCompanies = () => {
     } as any).then((willDelete) => {
       if (willDelete) {
         setLoading(true);
-        // try {
-        //   authAxios({
-        //     method: "PUT",
-        //     url: `/admin/companies/status/${id}`,
-        //     data: {
-        //       status: "approved",
-        //     },
-        //   })
-        //     .then((res) => {
-        //       mutate("/companies/private").then(() => {
-        //         addToast(capitalize(res.data.message), {
-        //           appearance: "success",
-        //           autoDismiss: true,
-        //           autoDismissTimeout: 3000,
-        //         });
-        //         setLoading(false);
-        //       });
-        //     })
-        //     .catch((err) => {
-        //       addToast(capitalize(err.response.data.message), {
-        //         appearance: "error",
-        //         autoDismiss: true,
-        //         autoDismissTimeout: 3000,
-        //       });
-        //       setLoading(false);
-        //     });
-        // } catch (error: any) {
-        //   addToast(capitalize(error.response.data.message), {
-        //     appearance: "error",
-        //     autoDismiss: true,
-        //     autoDismissTimeout: 3000,
-        //   });
-        //   setLoading(false);
-        // }
+        try {
+          authAxios({
+            method: "PUT",
+            url: `/admin/companies/status/${id}`,
+            data: {
+              status: "approved",
+            },
+          })
+            .then((res) => {
+              mutate("/companies/private").then(() => {
+                toast.success(capitalize(res.data.message), {
+                  position: "bottom-right",
+                  className: "foo-bar",
+                  autoClose: 3000,
+                });
+                setLoading(false);
+              });
+            })
+            .catch((err) => {
+              toast.error(capitalize(err.response.data.message), {
+                position: "bottom-right",
+                className: "foo-bar",
+                autoClose: 3000,
+              });
+              setLoading(false);
+            });
+        } catch (error: any) {
+          toast.error(capitalize(error.response.data.message), {
+            position: "bottom-right",
+            className: "foo-bar",
+            autoClose: 3000,
+          });
+          setLoading(false);
+        }
       }
     });
   };
@@ -139,40 +135,40 @@ const AllCompanies = () => {
     } as any).then((willDelete) => {
       if (willDelete) {
         setLoading(true);
-        // try {
-        //   authAxios({
-        //     method: "PUT",
-        //     url: `/admin/companies/status/${id}`,
-        //     data: {
-        //       status: "rejected",
-        //     },
-        //   })
-        //     .then((res: any) => {
-        //       return mutate("/companies/private").then(() => {
-        //         addToast(capitalize(res.data.message), {
-        //           appearance: "success",
-        //           autoDismiss: true,
-        //           autoDismissTimeout: 3000,
-        //         });
-        //         setLoading(false);
-        //       }, 2000 as any);
-        //     })
-        //     .catch((err: any) => {
-        //       addToast(capitalize(err.response.data.message), {
-        //         appearance: "error",
-        //         autoDismiss: true,
-        //         autoDismissTimeout: 3000,
-        //       });
-        //       setLoading(false);
-        //     });
-        // } catch (error: any) {
-        //   addToast(capitalize(error.response.data.message), {
-        //     appearance: "error",
-        //     autoDismiss: true,
-        //     autoDismissTimeout: 3000,
-        //   });
-        //   setLoading(false);
-        // }
+        try {
+          authAxios({
+            method: "PUT",
+            url: `/admin/companies/status/${id}`,
+            data: {
+              status: "rejected",
+            },
+          })
+            .then((res: any) => {
+              return mutate("/companies/private").then(() => {
+                toast.success(capitalize(res.data.message), {
+                  position: "bottom-right",
+                  className: "foo-bar",
+                  autoClose: 3000,
+                });
+                setLoading(false);
+              }, 2000 as any);
+            })
+            .catch((err: any) => {
+              toast.error(capitalize(err.response.data.message), {
+                position: "bottom-right",
+                className: "foo-bar",
+                autoClose: 3000,
+              });
+              setLoading(false);
+            });
+        } catch (error: any) {
+          toast.error(capitalize(error.response.data.message), {
+            position: "bottom-right",
+            className: "foo-bar",
+            autoClose: 3000,
+          });
+          setLoading(false);
+        }
         setTimeout(() => {
           setLoading(false);
         }, 10000);
@@ -183,73 +179,79 @@ const AllCompanies = () => {
   // enable job function start
   const enableJob = async (id: any) => {
     setLoading(true);
-    // try {
-    //   await authAxios({
-    //     method: "PUT",
-    //     url: `/admin/companies/status/${id}`,
-    //     data: {
-    //       status: "published",
-    //     },
-    //   })
-    //     .then((res) => {
-    //       return mutate(`/companies/private`).then(() => {
-    //         addToast(res.data.message, {
-    //           appearance: "success",
-    //           autoDismiss: true,
-    //         });
-    //         setLoading(false);
-    //       }, 1000 as any);
-    //     })
-    //     .catch((err) => {
-    //       addToast(err.response.data.message, {
-    //         appearance: "error",
-    //         autoDismiss: true,
-    //       });
-    //       setLoading(false);
-    //     });
-    // } catch (error: any) {
-    //   addToast(error.response.data.message, {
-    //     appearance: "error",
-    //     autoDismiss: true,
-    //   });
-    //   setLoading(false);
-    // }
+    try {
+      await authAxios({
+        method: "PUT",
+        url: `/admin/companies/status/${id}`,
+        data: {
+          status: "published",
+        },
+      })
+        .then((res) => {
+          return mutate(`/companies/private`).then(() => {
+            toast.success(res.data.message, {
+              position: "bottom-right",
+              className: "foo-bar",
+              autoClose: 3000,
+            });
+            setLoading(false);
+          }, 1000 as any);
+        })
+        .catch((err) => {
+          toast.error(err.response.data.message, {
+            position: "bottom-right",
+            className: "foo-bar",
+            autoClose: 3000,
+          });
+          setLoading(false);
+        });
+    } catch (error: any) {
+      toast.error(error.response.data.message, {
+        position: "bottom-right",
+        className: "foo-bar",
+        autoClose: 3000,
+      });
+      setLoading(false);
+    }
   };
 
   // disable job function start
   const disableJob = async (id: any) => {
     setLoading(true);
-    // try {
-    //   await authAxios({
-    //     method: "PUT",
-    //     url: `/admin/companies/status/${id}`,
-    //     data: {
-    //       status: "draft",
-    //     },
-    //   })
-    //     .then((res) => {
-    //       mutate(`/companies/private`).then(() => {
-    //         addToast(res.data.message, {
-    //           appearance: "success",
-    //           autoDismiss: true,
-    //         });
-    //         setLoading(false);
-    //       });
-    //     })
-    //     .catch((err) => {
-    //       addToast(err.response.data.message, {
-    //         appearance: "error",
-    //         autoDismiss: true,
-    //       });
-    //       setLoading(false);
-    //     });
-    // } catch (error: any) {
-    //   addToast(error.response.data.message, {
-    //     appearance: "error",
-    //     autoDismiss: true,
-    //   });
-    //   setLoading(false);
-    // }
+    try {
+      await authAxios({
+        method: "PUT",
+        url: `/admin/companies/status/${id}`,
+        data: {
+          status: "draft",
+        },
+      })
+        .then((res) => {
+          mutate(`/companies/private`).then(() => {
+            toast.success(res.data.message, {
+              position: "bottom-right",
+              className: "foo-bar",
+              autoClose: 3000,
+            });
+            setLoading(false);
+          });
+        })
+        .catch((err) => {
+          toast.error(err.response.data.message, {
+            position: "bottom-right",
+            className: "foo-bar",
+            autoClose: 3000,
+          });
+          setLoading(false);
+        });
+    } catch (error: any) {
+      toast.error(error.response.data.message, {
+        position: "bottom-right",
+        className: "foo-bar",
+        autoClose: 3000,
+      });
+      setLoading(false);
+    }
   };
 
   // get current pages
@@ -257,8 +259,8 @@ const AllCompanies = () => {
   const [ShowPerPage, setShowPerPage] = React.useState(10);
   const indexOfLastPost = currentPage * ShowPerPage;
   const indexOfFirstPost = indexOfLastPost - ShowPerPage;
-  const currentPosts = data?.companies
-    ? data?.companies?.slice(indexOfFirstPost, indexOfLastPost)
+  const currentPosts = data
+    ? data?.slice(indexOfFirstPost, indexOfLastPost)
     : [];
 
   const handlePageChange = (data: { selected: number }) => {
@@ -285,7 +287,7 @@ const AllCompanies = () => {
       {/* table start here */}
       {/* table data for desktop */}
       <div className="shadow rounded-lg mb-10 overflow-x-auto overflow-y-hidden hidden md:block relative">
-        {!data?.companies && !error && (
+        {!data && !error && (
           <div className="relative min-h-40">
             <table className="w-full table-auto">
               <thead>
@@ -322,7 +324,7 @@ const AllCompanies = () => {
             </div>
           </div>
         )}
-        {data?.companies && !error && (
+        {data && !error && (
           <>
             {loading && <LoaderGrowing />}
             <table className="w-full table-auto">
@@ -343,7 +345,7 @@ const AllCompanies = () => {
                 </tr>
               </thead>
               <tbody>
-                {data?.companies.length > 0 ? (
+                {data?.length > 0 ? (
                   <>
                     {_.map(currentPosts, (item, index) => (
                       <TableItem
@@ -375,14 +377,14 @@ const AllCompanies = () => {
 
       {/* table data for mobile */}
       <div className="block md:hidden">
-        {!data?.companies && !error && (
+        {!data && !error && (
           <div className="p-4 mb-4 h-60 relative shadow rounded-lg bg-white">
             <LoaderGrowing />
           </div>
         )}
-        {data?.companies &&
+        {data &&
           !error &&
-          (data?.companies.length > 0 ? (
+          (data?.length > 0 ? (
             <>
               {_.map(currentPosts, (item, index) => (
                 <div
@@ -414,11 +416,11 @@ const AllCompanies = () => {
           ))}
       </div>
 
-      {data?.companies && !error && data?.companies.length > 0 && (
+      {data && !error && data?.length > 0 && (
         <div>
           <Pagination
             setShowPerPage={setShowPerPage}
-            totalCount={data?.companies.length}
+            totalCount={data?.length}
             showPerPage={ShowPerPage}
             handlePageChange={handlePageChange}
           />

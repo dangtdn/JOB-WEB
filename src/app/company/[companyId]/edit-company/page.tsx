@@ -18,6 +18,7 @@ const EditCompany = () => {
   const [CompanyHeaderImg, setCompanyHeaderImg] = React.useState("");
   const [LogoImg, setLogoImg] = React.useState("");
   const router = useRouter();
+  const { mutate } = useSWRConfig();
   const pathName = usePathname();
   const companyId = pathName.split("/")[2];
   const { data, error } = useSWR(`/company/${companyId}`, fetcher, {
@@ -29,6 +30,7 @@ const EditCompany = () => {
     handleSubmit,
     setValue,
     formState: { errors, isSubmitting, isDirty },
+    getValues,
   } = useForm({
     mode: "onChange",
     defaultValues: {
@@ -54,16 +56,15 @@ const EditCompany = () => {
       eatablishedDate: data?.eatablishedDate,
     },
   });
-  //   const { mutate } = useSWRConfig();
-
+  console.log("getValues: ", getValues());
   React.useEffect(() => {
-    if (data && !isDirty) {
+    if (data) {
       setValue("companyName", data?.companyName);
       setValue("companyTagline", data?.companyTagline);
       setValue("phoneNumber", data?.phoneNumber);
       setValue("companyEmail", data?.companyEmail);
       setValue("companyWebsite", data?.companyWebsite);
-      // setValue("logoImage", data?.logoImage); //
+      setValue("logoImage", data?.logo); //
       setValue("description", data?.description);
       setValue("category", data?.category);
       setValue("location", data?.location);
@@ -73,7 +74,7 @@ const EditCompany = () => {
       setValue("linkedinLink", data?.socialLink?.linkedin);
       setValue("facebookLink", data?.socialLink?.facebook);
       setValue("twitterLink", data?.socialLink?.twitter);
-      // setValue("headerImage", data?.headerImage); //
+      setValue("headerImage", data?.headerImage ?? ""); //
       setValue("avarageSalary", data?.avarageSalary);
       setValue("companySize", data?.companySize);
       setValue("revenue", "");
@@ -82,7 +83,7 @@ const EditCompany = () => {
       setLogoImg(data?.logo);
       setCompanyHeaderImg(data?.thumb ?? "");
     }
-  }, [data, isDirty, setValue]);
+  }, [data, setValue]);
 
   // submit form handler
   const submitHandler = async (data: any) => {
@@ -93,7 +94,7 @@ const EditCompany = () => {
     formData.append("companyEmail", data.companyEmail);
     formData.append("companyWebsite", data.companyWebsite);
     if (data.logoImage) {
-      formData.append("logoImage", data.logoImage[0]);
+      formData.append("logo", data.logoImage[0]);
     }
     formData.append("description", data.description);
     formData.append("category", data.category);
@@ -115,18 +116,18 @@ const EditCompany = () => {
     try {
       await authAxios({
         method: "PUT",
-        url: `/companies/company/${companyId}`,
+        url: `/admin/company/${companyId}/update`,
         data: formData,
       })
         .then((res: any) => {
-          //   mutate("/companies/private").then(() => {
-          toast.success(res.data.message, {
-            position: "bottom-right",
-            className: "foo-bar",
-            autoClose: 3000,
+          mutate("/companies/private").then(() => {
+            toast.success(res.data.message, {
+              position: "bottom-right",
+              className: "foo-bar",
+              autoClose: 3000,
+            });
+            router.push("/company/manages-companies");
           });
-          router.push("/company/manages-companies");
-          //   });
         })
         .catch((err: any) => {
           toast.error(err.response.data.message, {
@@ -195,7 +196,7 @@ const EditCompany = () => {
               </p>
             </div>
             <div className="sm:px-5 py-10 mx-3 sm:mx-0">
-              {/* {error && <div>{error.message}</div>} */}
+              {error && <div>{error.message}</div>}
               {!data && <LoaderGrowing />}
               <form
                 className="space-y-8"
