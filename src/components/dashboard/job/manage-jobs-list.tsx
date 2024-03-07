@@ -86,13 +86,13 @@ const MangeJobsList = () => {
         },
       })
         .then((res) => {
-          //   mutate(`/jobs/private`).then(() => {
-          toast.success(res.data.message, {
-            position: "bottom-right",
-            className: "foo-bar",
+          mutate("/admin/jobs/private").then(() => {
+            toast.success(res.data.message, {
+              position: "bottom-right",
+              className: "foo-bar",
+            });
+            setLoading(false);
           });
-          setLoading(false);
-          //   });
         })
         .catch((err) => {
           toast.error(err.response.data.message, {
@@ -122,13 +122,13 @@ const MangeJobsList = () => {
         },
       })
         .then((res) => {
-          //   mutate(`/jobs/private`).then(() => {
-          toast.success(res.data.message, {
-            position: "bottom-right",
-            className: "foo-bar",
+          mutate("/admin/jobs/private").then(() => {
+            toast.success(res.data.message, {
+              position: "bottom-right",
+              className: "foo-bar",
+            });
+            setLoading(false);
           });
-          setLoading(false);
-          //   });
         })
         .catch((err) => {
           toast.error(err.response.data.message, {
@@ -158,13 +158,13 @@ const MangeJobsList = () => {
         },
       })
         .then((res) => {
-          //   mutate(`/jobs/private`).then(() => {
-          toast.success(res.data.message, {
-            position: "bottom-right",
-            className: "foo-bar",
+          mutate("/admin/jobs/private").then(() => {
+            toast.success(res.data.message, {
+              position: "bottom-right",
+              className: "foo-bar",
+            });
+            setLoading(false);
           });
-          setLoading(false);
-          //   });
         })
         .catch((err) => {
           toast.error(err.response.data.message, {
@@ -194,13 +194,13 @@ const MangeJobsList = () => {
         },
       })
         .then((res) => {
-          //   mutate(`/jobs/private`).then(() => {
-          toast.success(res.data.message, {
-            position: "bottom-right",
-            className: "foo-bar",
+          mutate("/admin/jobs/private").then(() => {
+            toast.success(res.data.message, {
+              position: "bottom-right",
+              className: "foo-bar",
+            });
+            setLoading(false);
           });
-          setLoading(false);
-          //   });
         })
         .catch((err) => {
           toast.error(err.response.data.message, {
@@ -237,13 +237,13 @@ const MangeJobsList = () => {
             },
           })
             .then((res) => {
-              //   mutate(`/jobs/private`).then(() => {
-              toast.success(res.data.message, {
-                position: "bottom-right",
-                className: "foo-bar",
+              mutate("/admin/jobs/private").then(() => {
+                toast.success(res.data.message, {
+                  position: "bottom-right",
+                  className: "foo-bar",
+                });
+                setLoading(false);
               });
-              setLoading(false);
-              //   });
             })
             .catch((err) => {
               toast.error(err.response.data.message, {
@@ -283,13 +283,13 @@ const MangeJobsList = () => {
             },
           })
             .then((res) => {
-              //   mutate(`/jobs/private`).then(() => {
-              toast.success(res.data.message, {
-                position: "bottom-right",
-                className: "foo-bar",
+              mutate("/admin/jobs/private").then(() => {
+                toast.success(res.data.message, {
+                  position: "bottom-right",
+                  className: "foo-bar",
+                });
+                setLoading(false);
               });
-              setLoading(false);
-              //   });
             })
             .catch((err) => {
               toast.error(err.response.data.message, {
