@@ -49,7 +49,7 @@ const AllCompanies = () => {
           authAxios
             .delete(`/admin/company/${id}/delete`)
             .then((res) => {
-              mutate("/companies").then(() => {
+              mutate("/companies/private").then(() => {
                 toast.success(capitalize(res.data.message), {
                   position: "bottom-right",
                   className: "foo-bar",

@@ -83,37 +83,37 @@ const AllResumes = () => {
     }).then((willDelete) => {
       if (willDelete) {
         setLoading(true);
-        // try {
-        //   authAxios({
-        //     method: "PUT",
-        //     url: `/admin/resumes/status/${id}`,
-        //     data: {
-        //       status: "approved",
-        //     },
-        //   })
-        //     .then((res) => {
-        //       return mutate("/resumes/retrives").then(() => {
-        //         toast.success(res.data.message, {
-        //           position: "bottom-right",
-        //           className: "foo-bar",
-        //         });
-        //         setLoading(false);
-        //       }, 1000 as any);
-        //     })
-        //     .catch((err) => {
-        //       toast.error(capitalize(err.response?.data?.message), {
-        //         position: "bottom-right",
-        //         className: "foo-bar",
-        //       });
-        //       setLoading(false);
-        //     });
-        // } catch (error: any) {
-        //   toast.error(capitalize(error.response?.data?.message), {
-        //     position: "bottom-right",
-        //     className: "foo-bar",
-        //   });
-        //   setLoading(false);
-        // }
+        try {
+          authAxios({
+            method: "PUT",
+            url: `/admin/resumes/status/${id}`,
+            data: {
+              status: "approved",
+            },
+          })
+            .then((res) => {
+              return mutate("/resumes").then(() => {
+                toast.success(res.data.message, {
+                  position: "bottom-right",
+                  className: "foo-bar",
+                });
+                setLoading(false);
+              }, 1000 as any);
+            })
+            .catch((err) => {
+              toast.error(capitalize(err.response?.data?.message), {
+                position: "bottom-right",
+                className: "foo-bar",
+              });
+              setLoading(false);
+            });
+        } catch (error: any) {
+          toast.error(capitalize(error.response?.data?.message), {
+            position: "bottom-right",
+            className: "foo-bar",
+          });
+          setLoading(false);
+        }
       }
     });
   };
@@ -129,37 +129,37 @@ const AllResumes = () => {
     }).then((willDelete) => {
       if (willDelete) {
         setLoading(true);
-        // try {
-        //   authAxios({
-        //     method: "PUT",
-        //     url: `/admin/resumes/status/${id}`,
-        //     data: {
-        //       status: "rejected",
-        //     },
-        //   })
-        //     .then((res) => {
-        //       return mutate("/resumes/retrives").then(() => {
-        //         toast.success(res.data.message, {
-        //           position: "bottom-right",
-        //           className: "foo-bar",
-        //         });
-        //         setLoading(false);
-        //       }, 1000 as any);
-        //     })
-        //     .catch((err) => {
-        //       toast.error(capitalize(err.response.data.message), {
-        //         position: "bottom-right",
-        //         className: "foo-bar",
-        //       });
-        //       setLoading(false);
-        //     });
-        // } catch (error: any) {
-        //   toast.error(capitalize(error.response?.data?.message), {
-        //     position: "bottom-right",
-        //     className: "foo-bar",
-        //   });
-        //   setLoading(false);
-        // }
+        try {
+          authAxios({
+            method: "PUT",
+            url: `/admin/resumes/status/${id}`,
+            data: {
+              status: "rejected",
+            },
+          })
+            .then((res) => {
+              return mutate("/resumes").then(() => {
+                toast.success(res.data.message, {
+                  position: "bottom-right",
+                  className: "foo-bar",
+                });
+                setLoading(false);
+              }, 1000 as any);
+            })
+            .catch((err) => {
+              toast.error(capitalize(err.response.data.message), {
+                position: "bottom-right",
+                className: "foo-bar",
+              });
+              setLoading(false);
+            });
+        } catch (error: any) {
+          toast.error(capitalize(error.response?.data?.message), {
+            position: "bottom-right",
+            className: "foo-bar",
+          });
+          setLoading(false);
+        }
       }
     });
   };
@@ -180,9 +180,9 @@ const AllResumes = () => {
             position: "bottom-right",
             className: "foo-bar",
           });
-          // mutate(`/resumes/retrives`).then(() => {
-          //   setLoading(false);
-          // }, 1000 as any);
+          mutate(`/resumes`).then(() => {
+            setLoading(false);
+          }, 1000 as any);
         })
         .catch((err) => {
           toast.error(err.response?.data?.message, {
@@ -212,13 +212,13 @@ const AllResumes = () => {
         },
       })
         .then((res) => {
-          // return mutate(`/resumes/retrives`).then(() => {
-          //   toast.success(res.data.message, {
-          //     position: "bottom-right",
-          //     className: "foo-bar",
-          //   });
-          //   setLoading(false);
-          // }, 700 as any);
+          return mutate(`/resumes`).then(() => {
+            toast.success(res.data.message, {
+              position: "bottom-right",
+              className: "foo-bar",
+            });
+            setLoading(false);
+          }, 700 as any);
         })
         .catch((err) => {
           toast.error(err.response?.data?.message, {
