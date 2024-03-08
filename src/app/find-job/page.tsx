@@ -95,7 +95,7 @@ export default function FindJob() {
   });
 
   useEffect(() => {
-    if (data?.success) {
+    if (data?.jobs) {
       const jobTypes: string[] = [];
       for (const job of data.jobs) {
         if (job.jobTypes) {

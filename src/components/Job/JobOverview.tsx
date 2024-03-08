@@ -6,7 +6,7 @@ import ImageOpt from "../optimize/image";
 import millify from "millify";
 
 const JobOverview = ({ data }: { data: any }) => {
-  const date = new Date(data?.job?.expireAt);
+  const date = new Date(data?.data?.expireAt);
   const expireAt = date.toLocaleDateString("en-US", {
     year: "numeric",
     day: "numeric",
@@ -14,13 +14,13 @@ const JobOverview = ({ data }: { data: any }) => {
   });
   return (
     <div className="p-8 rounded-md bg-white mb-6 relative">
-      {(!data?.job || data?.loading) && <LoaderGrowing />}
+      {(!data?.data || data?.loading) && <LoaderGrowing />}
       <h4 className="text-lg2 font-bold text-black leading-6 mb-6">
         Job Overview
       </h4>
       <ul>
         {/* Posted Date */}
-        {data?.job?.createdAt && (
+        {data?.data?.createdAt && (
           <li className="flex gap-3 items-center flex-wrap  !mb-3">
             <div className="">
               <ImageOpt
@@ -37,13 +37,13 @@ const JobOverview = ({ data }: { data: any }) => {
               </h5>
               <p className="text-grayLight text-sm font-normal">
                 {/* post date 2 day ago */}
-                <Moment fromNow>{data?.job?.createdAt}</Moment>
+                <Moment fromNow>{data?.data?.createdAt}</Moment>
               </p>
             </div>
           </li>
         )}
         {/* Deadline */}
-        {data?.job?.expireAt && (
+        {data?.data?.expireAt && (
           <li className="flex gap-3 items-center flex-wrap  !mb-3">
             <div className="">
               <ImageOpt
@@ -78,11 +78,11 @@ const JobOverview = ({ data }: { data: any }) => {
               Job Title
             </h5>
             <p className="text-grayLight text-sm font-normal">
-              {data?.job?.jobTitle}
+              {data?.data?.jobTitle}
             </p>
           </div>
         </li>
-        {data?.job?.jobTypes && (
+        {data?.data?.jobTypes && (
           <li className="flex gap-3 items-center flex-wrap  !mb-3">
             <div className="">
               <ImageOpt
@@ -98,13 +98,13 @@ const JobOverview = ({ data }: { data: any }) => {
                 Job Types
               </h5>
               <p className="text-grayLight text-sm font-normal">
-                {_.toString(data?.job?.jobTypes)}
+                {_.toString(data?.data?.jobTypes)}
               </p>
             </div>
           </li>
         )}
         {/* Hourly Rate */}
-        {data?.job?.hourlyrate?.minimum && data?.job?.hourlyrate?.maximum && (
+        {data?.data?.hourlyrate?.minimum && data?.data?.hourlyrate?.maximum && (
           <li className="flex gap-3 items-center flex-wrap  !mb-3">
             <div className="">
               <ImageOpt
@@ -120,12 +120,12 @@ const JobOverview = ({ data }: { data: any }) => {
                 Hourly Rate
               </h5>
               <p className="text-grayLight text-sm font-normal">
-                {millify(data?.job ? data?.job?.hourlyrate?.minimum : 10000, {
+                {millify(data?.job ? data?.data?.hourlyrate?.minimum : 10000, {
                   precision: 3,
                   lowercase: true,
                 })}{" "}
                 -{" "}
-                {millify(data?.job ? data?.job?.hourlyrate?.maximum : 100000, {
+                {millify(data?.job ? data?.data?.hourlyrate?.maximum : 100000, {
                   precision: 3,
                   lowercase: true,
                 })}{" "}
@@ -135,7 +135,7 @@ const JobOverview = ({ data }: { data: any }) => {
           </li>
         )}
         {/* Salary */}
-        {data?.job?.salary?.minimum && data?.job?.salary?.maximum && (
+        {data?.data?.salary?.minimum && data?.data?.salary?.maximum && (
           <li className="flex gap-3 items-center flex-wrap  !mb-3">
             <div className="">
               <ImageOpt
@@ -151,12 +151,12 @@ const JobOverview = ({ data }: { data: any }) => {
                 Salary
               </h5>
               <p className="text-grayLight text-sm font-normal">
-                {millify(data?.job ? data?.job?.salary?.minimum : 10000, {
+                {millify(data?.job ? data?.data?.salary?.minimum : 10000, {
                   precision: 3,
                   lowercase: true,
                 })}{" "}
                 -{" "}
-                {millify(data?.job ? data?.job?.salary?.maximum : 100000, {
+                {millify(data?.job ? data?.data?.salary?.maximum : 100000, {
                   precision: 3,
                   lowercase: true,
                 })}{" "}
@@ -165,7 +165,7 @@ const JobOverview = ({ data }: { data: any }) => {
           </li>
         )}
         {/* Location */}
-        {data?.job?.location && (
+        {data?.data?.location && (
           <li className="flex gap-3 items-center flex-wrap  !mb-3">
             <div className="">
               <ImageOpt
@@ -181,7 +181,7 @@ const JobOverview = ({ data }: { data: any }) => {
                 Job Location
               </h5>
               <p className="text-grayLight text-sm font-normal">
-                {data?.job?.location}
+                {data?.data?.location}
               </p>
             </div>
           </li>

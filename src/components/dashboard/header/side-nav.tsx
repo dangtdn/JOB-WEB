@@ -28,6 +28,13 @@ const candidatesMenu = [
     image: "./assets/img/nav-img-1.svg",
   },
   {
+    name: "Bookmarks",
+    link: "/bookmarks",
+    icon: <Bookmarks />,
+    alert: "",
+    image: "./assets/img/nav-img-3.svg",
+  },
+  {
     name: "Job Alerts",
     link: "/find-job/job-alerts",
     icon: <Alerts />,
@@ -72,6 +79,13 @@ const employerMenu = [
     image: "./assets/img/nav-img-1.svg",
   },
   {
+    name: "Bookmarks",
+    link: "/bookmarks",
+    icon: <Bookmarks />,
+    alert: "",
+    image: "./assets/img/nav-img-3.svg",
+  },
+  {
     name: "Manages Jobs",
     link: "/find-job/manages-jobs",
     icon: <ManagesJobIcon />,
@@ -114,6 +128,13 @@ const adminMenu = [
     icon: <Dashboard />,
     alert: "",
     image: "./assets/img/nav-img-1.svg",
+  },
+  {
+    name: "Bookmarks",
+    link: "/bookmarks",
+    icon: <Bookmarks />,
+    alert: "",
+    image: "./assets/img/nav-img-3.svg",
   },
   {
     name: "Manages Jobs",

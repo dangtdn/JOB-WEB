@@ -5,7 +5,7 @@ import { LoaderGrowing } from "../../lib/loader/loader";
 const JobCompanyName = ({ data }: { data: any }) => {
   return (
     <div className="p-8 rounded-md bg-white relative">
-      {(!data?.job || data?.loading) && <LoaderGrowing />}
+      {(!data?.data || data?.loading) && <LoaderGrowing />}
       <div className="text-center">
         <div className="flex justify-center mb-6">
           <ImageOpt
@@ -13,55 +13,55 @@ const JobCompanyName = ({ data }: { data: any }) => {
             height={100}
             noPlaceholder
             src={
-              data?.job?.company?.logo
-                ? data?.job?.company.logo
+              data?.data?.company?.logo
+                ? data?.data?.company.logo
                 : "/assets/img/avatar.png"
             }
             alt="img"
           />
         </div>
         <h4 className="text-lg2 font-medium text-black leading-6 mb-1">
-          {data?.job?.company?.companyName
-            ? data?.job?.company.companyName
+          {data?.data?.company?.companyName
+            ? data?.data?.company.companyName
             : "Company Name"}
         </h4>
         <p className="text-xs font-normal text-black leading-5 mb-4">
-          {data?.job?.company?.companyTagline
-            ? data?.job?.company.companyTagline
+          {data?.data?.company?.companyTagline
+            ? data?.data?.company.companyTagline
             : "Company Tagline"}
         </p>
         <p className="mb-3">
           <a
             className="text-xxs font-normal text-black leading-6 block"
             href={`mailto:${
-              data?.job?.company?.companyEmail
-                ? data?.job?.company.companyEmail
+              data?.data?.company?.companyEmail
+                ? data?.data?.company.companyEmail
                 : "info@example.com"
             }`}
           >
-            {data?.job?.company?.companyEmail
-              ? data?.job?.company.companyEmail
+            {data?.data?.company?.companyEmail
+              ? data?.data?.company.companyEmail
               : "info@example.com"}
           </a>
           <a
             className="text-xxs font-normal text-black leading-6 block"
             href={`tel:${
-              data?.job?.company?.phoneNumber
-                ? data?.job?.company?.phoneNumber
+              data?.data?.company?.phoneNumber
+                ? data?.data?.company?.phoneNumber
                 : "123456789"
             }`}
           >
-            {data?.job?.company?.phoneNumber
-              ? data?.job?.company?.phoneNumber
+            {data?.data?.company?.phoneNumber
+              ? data?.data?.company?.phoneNumber
               : "123456789"}
           </a>
         </p>
         <ul className="flex gap-3 flex-wrap justify-center">
           {/* website link */}
-          {data?.job?.company?.companyWebsite && (
+          {data?.data?.company?.companyWebsite && (
             <li>
               <a
-                href={`${data?.job?.company?.companyWebsite}`}
+                href={`${data?.data?.company?.companyWebsite}`}
                 target="_blank"
                 rel="noreferrer"
                 className="block"
@@ -77,10 +77,10 @@ const JobCompanyName = ({ data }: { data: any }) => {
             </li>
           )}
           {/* facebook link */}
-          {data?.job?.company?.socialLink?.facebook && (
+          {data?.data?.company?.socialLink?.facebook && (
             <li>
               <a
-                href={data?.job?.company?.socialLink?.facebook}
+                href={data?.data?.company?.socialLink?.facebook}
                 target="_blank"
                 rel="noreferrer"
               >
@@ -95,10 +95,10 @@ const JobCompanyName = ({ data }: { data: any }) => {
             </li>
           )}
           {/* linkedin link */}
-          {data?.job?.company?.socialLink?.linkedin && (
+          {data?.data?.company?.socialLink?.linkedin && (
             <li>
               <a
-                href={data?.job?.company?.socialLink?.linkedin}
+                href={data?.data?.company?.socialLink?.linkedin}
                 target="_blank"
                 rel="noreferrer"
               >
@@ -113,10 +113,10 @@ const JobCompanyName = ({ data }: { data: any }) => {
             </li>
           )}
           {/* twitter link */}
-          {data?.job?.company?.socialLink?.twitter && (
+          {data?.data?.company?.socialLink?.twitter && (
             <li>
               <a
-                href={data?.job?.company?.socialLink?.twitter}
+                href={data?.data?.company?.socialLink?.twitter}
                 target="_blank"
                 rel="noreferrer"
               >

@@ -1,13 +1,13 @@
 "use client";
 
-import AddJobAlerts from "@/components/dashboard/job-alerts/add-job-alerts";
+import AllList from "@/components/dashboard/bookmarks/all-list";
 import Layout from "@/components/dashboard/layout";
-import useUser, { UserGoBack, UserNotLogin } from "@/lib/auth/user";
+import useUser, { UserNotLogin } from "@/lib/auth/user";
 import Head from "next/head";
 import React from "react";
 
-export default function AddNewAlert() {
-  const { user, loggedIn, loggedOut, isEmployer } = useUser();
+export default function Bookmarks() {
+  const { user, loggedIn, loggedOut } = useUser();
   const userData = user;
 
   return (
@@ -19,8 +19,7 @@ export default function AddNewAlert() {
       <Layout>
         <main>
           {loggedOut && <UserNotLogin />}
-          {isEmployer && <UserGoBack />}
-          {userData && loggedIn && !isEmployer && <AddJobAlerts />}
+          {userData && loggedIn && <AllList />}
         </main>
       </Layout>
     </>

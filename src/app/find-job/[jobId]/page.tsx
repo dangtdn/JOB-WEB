@@ -8,13 +8,9 @@ import { useForm } from "react-hook-form";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { FacebookShareButton, TwitterShareButton } from "react-share";
 import { toast } from "react-toastify";
-// import sweetAlert from "sweetalert";
-import { jobs } from "@/utils/dummy-content/mongodb-collections/jobs";
-// import { jobApplies } from "@/utils/dummy-content/mongodb-collections/jobapplies";
+import sweetAlert from "sweetalert";
 import { usePathname, useRouter } from "next/navigation";
 import useUser from "@/lib/auth/user";
-import { bookmarks } from "@/utils/dummy-content/mongodb-collections/bookmarks";
-import { companies } from "@/utils/dummy-content/mongodb-collections/companies";
 import ImageOpt from "@/components/optimize/image";
 import { ThemeContext } from "@/context/ThemeContext";
 import Layout from "@/components/Layout/Layout";
@@ -24,11 +20,12 @@ import JobOverview from "@/components/Job/JobOverview";
 import JobCompanyName from "@/components/Job/JobCompanyName";
 import PopupModule from "@/lib/popup-modul/popup-modul";
 import { Axios, authAxios } from "@/lib/utils/axiosKits";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import RelatedJobs from "@/components/Job/RelatedJobs";
 
 const fetcher = (url: string) => Axios(url).then((res) => res.data);
-const authFetcher = (url: string) => authAxios(url).then((res) => res.data);
+const authFetcher = (url: string) =>
+  authAxios(url).then((res) => res.data.data);
 
 export default function JobDetails() {
   const router = useRouter();
@@ -43,8 +40,11 @@ export default function JobDetails() {
     }
   );
 
-  const isApplied = _.find(jobApplies, (item) => item?.jobItem?.$oid === id);
-  // const data = _.find([...jobs], (item) => item?._id.$oid === id);
+  const isApplied = _.find(
+    jobApplies?.applications,
+    (item) => item?.jobItem === id
+  );
+
   const { data, error } = useSWR(id ? `/jobs/${id}` : null, fetcher, {
     fallbackData: {
       job: {
@@ -87,13 +87,19 @@ export default function JobDetails() {
       loading: true,
     },
   });
-
-  const companiesData = [...companies];
+  // check isBookmark true or false
+  const { data: bookmarkData } = useSWR(
+    id ? `/user/bookmark/find/${id}` : null,
+    authFetcher,
+    {
+      refreshInterval: 0,
+    }
+  );
   const [Show, setShow] = React.useState(false);
   const [bookmark, setBookmark] = React.useState(false);
   const { LoginPopupHandler } = React.useContext(ThemeContext) as any;
   const [loading, setLoading] = React.useState(false);
-  // const { mutate } = useSWRConfig();
+  const { mutate } = useSWRConfig();
   const [FileName, setFileName] = React.useState();
   const {
     register,
@@ -123,35 +129,99 @@ export default function JobDetails() {
     formData.append("cvFile", data.cvFile[0]);
     formData.append("jobItem", id ?? "");
 
-    // try {
-    // 	await authAxios({
-    // 		method: 'post',
-    // 		url: `/jobs/apply/retrives`,
-    // 		data: formData,
-    // 	}).then((res) => {
-    // 		mutate('/jobs/apply/retrives').then(() => {
-    // 			addToast(res.data.message, {
-    // 				appearance: 'success',
-    // 				autoDismiss: true,
-    // 			})
-    // 			setShow(false)
-    // 			reset()
-    // 			setFileName('' as any)
-    // 		})
-    // 	})
-    // } catch (error: any) {
-    // 	if (error?.response?.data) {
-    // 		addToast(error?.response?.data?.message, {
-    // 			appearance: 'error',
-    // 			autoDismiss: true,
-    // 		})
-    // 	} else {
-    // 		addToast(error.message, {
-    // 			appearance: 'error',
-    // 			autoDismiss: true,
-    // 		})
-    // 	}
-    // }
+    try {
+      await authAxios({
+        method: "post",
+        url: `/job-apply/create`,
+        data: formData,
+      }).then((res) => {
+        mutate(`/users/${user._id}/job-apply`).then(() => {
+          toast.success(res.data.message, {
+            position: "bottom-right",
+            className: "foo-bar",
+          });
+          setShow(false);
+          reset();
+          setFileName("" as any);
+        });
+      });
+    } catch (error: any) {
+      if (error?.response?.data) {
+        toast.error(error?.response?.data?.message, {
+          position: "bottom-right",
+          className: "foo-bar",
+        });
+      } else {
+        toast.error(error.message, {
+          position: "bottom-right",
+          className: "foo-bar",
+        });
+      }
+    }
+  };
+
+  // job bookmark submit form
+  const jobBookmarkSubmit = async (data: any) => {
+    setLoading(true);
+    try {
+      await authAxios({
+        method: "post",
+        url: "/user/bookmark",
+        data: {
+          job: id,
+          note: data.note,
+        },
+      }).then((res) => {
+        mutate(`/user/bookmark/find/${id}`).then(() => {
+          toast.success(res.data.message, {
+            position: "bottom-right",
+            className: "foo-bar",
+          });
+          setBookmark(!bookmark);
+          setLoading(false);
+          bookmarkReset();
+        });
+      });
+    } catch (error: any) {
+      toast.error(error.responsive.data.message, {
+        position: "bottom-right",
+        className: "foo-bar",
+      });
+      setLoading(false);
+    }
+  };
+
+  // remove bookmark function
+  const removeBookmark = async () => {
+    setLoading(true);
+    try {
+      await authAxios({
+        method: "DELETE",
+        url: `/user/bookmark/${id}`,
+      }).then((res) => {
+        mutate(`/user/bookmark/find/${id}`).then(() => {
+          toast.success(res.data.message, {
+            position: "bottom-right",
+            className: "foo-bar",
+          });
+          setLoading(false);
+        });
+      });
+    } catch (error: any) {
+      if (error?.response?.data?.message) {
+        toast.error(error.response.data.message, {
+          position: "bottom-right",
+          className: "foo-bar",
+        });
+        setLoading(false);
+      } else {
+        toast.error("Something went wrong", {
+          position: "bottom-right",
+          className: "foo-bar",
+        });
+        setLoading(false);
+      }
+    }
   };
 
   const FileInput = register("cvFile", {
@@ -169,22 +239,24 @@ export default function JobDetails() {
 
       <Layout>
         <main>
-          <PageTitle image={data.job?.avatar} title="Job Details" />
+          <PageTitle image={data?.data?.avatar} title="Job Details" />
           <section className="pt-20 pb-24 !bg-light">
             <div className="container">
               <div className="lg:grid grid-cols-12 gap-6">
                 <div className="col-span-8">
                   {/* left Top */}
                   <div className="p-8 rounded-md bg-white flex flex-wrap justify-between items-center mb-6 relative">
-                    {(!data.job || loading || loading) && <LoaderGrowing />}
+                    {(!data?.data || data?.loading || loading) && (
+                      <LoaderGrowing />
+                    )}
                     <div className="flex gap-6 items-center flex-wrap">
                       <div className="">
                         <ImageOpt
                           width={100}
                           height={100}
                           src={
-                            data?.job?.company?.logo
-                              ? data?.job?.company?.logo
+                            data?.data?.company?.logo
+                              ? data?.data?.company?.logo
                               : "/assets/img/avatar.png"
                           }
                           alt="img"
@@ -192,13 +264,13 @@ export default function JobDetails() {
                       </div>
                       <div className="mb-6 xl:mb-0">
                         <h2 className="text-lg text-black font-bold leading-6 !mb-2">
-                          {data?.job?.jobTitle
-                            ? data?.job?.jobTitle
+                          {data?.data?.jobTitle
+                            ? data?.data?.jobTitle
                             : "Job Name"}
                         </h2>
                         <p className="text-grayLight text-xss1 font-normal !mb-2">
                           <span>
-                            {data?.job?.category ? data?.job?.category : ""}
+                            {data?.data?.category ? data?.data?.category : ""}
                           </span>
                         </p>
                         {/* social icons */}
@@ -220,8 +292,8 @@ export default function JobDetails() {
                           <li>
                             {/* facebook share link */}
                             <FacebookShareButton
-                              url={`/api/v1/job/${id}`}
-                              quote={`${data?.job?.jobTitle}`}
+                              url={`https://www.facebook.com/?locale=vi_VN`}
+                              quote={`${data?.data?.jobTitle}`}
                               className="social-icon"
                             >
                               <ImageOpt
@@ -235,8 +307,8 @@ export default function JobDetails() {
                           </li>
                           <li>
                             <TwitterShareButton
-                              url={`/api/v1/job/${id}`}
-                              title={data?.job?.jobTitle}
+                              url={`https://twitter.com/?lang=vi`}
+                              title={data?.data?.jobTitle}
                               className="social-icon"
                             >
                               <ImageOpt
@@ -252,9 +324,9 @@ export default function JobDetails() {
                       </div>
                     </div>
                     <div className="grid">
-                      {user && user?._id === data?.user ? (
+                      {user && user?._id === data?.data?.user ? (
                         <Link
-                          href={`/find-job/${data?._id}/edit-job`}
+                          href={`/find-job/${data?.data?._id}/edit-job`}
                           className="py-2.5 block px-6 mb-2 leading-4 text-white bg-themePrimary rounded-md transition-all hover:bg-black hover:text-green"
                         >
                           Edit Job
@@ -275,16 +347,52 @@ export default function JobDetails() {
                         ))
                       )}
                     </div>
+
+                    {/* Bookmark */}
+                    {user?._id !== data?.data?.user && (
+                      <button
+                        onClick={() => {
+                          if (bookmarkData?.isBookmark) {
+                            // remove bookmark
+                            sweetAlert({
+                              title: "Are you sure?",
+                              text: "You want to remove this job from your bookmark?",
+                              icon: "warning",
+                              buttons: true as any,
+                              dangerMode: true,
+                            }).then((willDelete) => {
+                              if (willDelete) {
+                                removeBookmark();
+                              }
+                            });
+                          } else {
+                            setBookmark(!bookmark);
+                          }
+                        }}
+                        className={`!p-2 group flex absolute top-0 right-0 justify-center items-center gap-2 mb-2 leading-4 rounded-md transition-all`}
+                      >
+                        {" "}
+                        {bookmarkData?.isBookmark ? (
+                          <AiFillHeart
+                            className={`text-themePrimary group-hover:text-themeLight text-lg`}
+                          />
+                        ) : (
+                          <AiOutlineHeart
+                            className={`text-themeLight group-hover:text-themePrimary text-lg`}
+                          />
+                        )}
+                      </button>
+                    )}
                   </div>
                   {/* left bottom */}
                   <div className="p-8 rounded-md bg-white relative">
-                    {(!data?.job || data?.loading) && <LoaderGrowing />}
+                    {(!data?.data || data?.loading) && <LoaderGrowing />}
                     <h4 className="text-lg2 font-bold text-black leading-6 mb-6">
                       Job Description
                     </h4>
                     <div className="mb-8">
-                      {data?.job?.jobDescription
-                        ? data?.job?.jobDescription
+                      {data?.data?.jobDescription
+                        ? data?.data?.jobDescription
                         : "No description"}
                     </div>
                     {/* Tags */}
@@ -293,7 +401,7 @@ export default function JobDetails() {
                         Tagged as:
                       </h4>
                       <ul className="flex gap-3 flex-wrap">
-                        {_.map(data?.job?.specialTags, (tag, index) => (
+                        {_.map(data?.data?.specialTags, (tag, index) => (
                           <li
                             className="text-deep text-xss1 font-normal py-0.5 px-3 rounded-sm border border-solid border-gray"
                             key={index}
@@ -488,6 +596,81 @@ export default function JobDetails() {
                 onClick={() => {
                   LoginPopupHandler();
                   setShow(!Show);
+                }}
+              >
+                Login Now
+              </button>
+            </div>
+          </div>
+        )}
+      </PopupModule>
+      {/* Job Bookmark popup */}
+      <PopupModule
+        PopupTitle="Bookmark Details"
+        Popup={bookmark}
+        PopupHandler={() => {
+          setBookmark(!bookmark);
+        }}
+      >
+        {loggedIn ? (
+          <form
+            className="grid grid-cols-1 gap-4"
+            onSubmit={bookmarkHandleSubmit(jobBookmarkSubmit)}
+          >
+            <div className="mb-6">
+              <label
+                className="block mb-2 text-themeDarker font-normal"
+                htmlFor="note"
+              >
+                Bookmark Note:
+              </label>
+              <textarea
+                className={`appearance-none block w-full !p-3 leading-5 text-themeDarker border ${
+                  errors?.note ? "!border-red-500" : "border-gray"
+                } placeholder:font-normal h-40 placeholder:text-xss1 rounded placeholder-themeDarkAlt focus:outline-none focus:ring-2 focus:ring-themePrimary focus:ring-opacity-50`}
+                id="note"
+                {...bookmarkRegister("note")}
+                placeholder="Note"
+              />
+              {errors?.note && (
+                <span className="text-red-500 text-xss italic">
+                  This field is required
+                </span>
+              )}
+            </div>
+            <button
+              className={`!py-3 px-7 flex gap-2 justify-center items-center transition-all duration-300 ease-in-out mb-6 w-full text-base text-white font-normal text-center leading-6 ${
+                bookmarkIsSubmitting || loading
+                  ? "bg-themeDarkerAlt"
+                  : "bg-themePrimary"
+              } rounded-md hover:bg-black`}
+              type="submit"
+              disabled={bookmarkIsSubmitting || loading}
+            >
+              {bookmarkIsSubmitting || loading
+                ? "Please wait..."
+                : "Add Bookmark"}
+              {(bookmarkIsSubmitting || loading) && (
+                <div
+                  className="spinner-grow w-5 h-5 text-themePrimary"
+                  role="status"
+                >
+                  <span className="sr-only">Loading...</span>
+                </div>
+              )}
+            </button>
+          </form>
+        ) : (
+          <div className="text-center grid justify-center items-center h-40">
+            <div>
+              <p className="text-xxs text-themeLighter !mb-4">
+                You must be logged in to bookmark this job.
+              </p>
+              <button
+                className="bg-themePrimary text-white px-10 !py-3 hover:bg-themeDarkerAlt transition-all duration-300 ease-in-out rounded text-base font-normal"
+                onClick={() => {
+                  LoginPopupHandler();
+                  setBookmark(!bookmark);
                 }}
               >
                 Login Now

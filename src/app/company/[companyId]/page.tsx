@@ -98,7 +98,6 @@ export default function CompanyProfile() {
           toast.success(res.data.message, {
             position: "bottom-right",
             className: "foo-bar",
-            autoClose: 3000,
           });
           setLoading(false);
           setBookmark(!bookmark);
@@ -127,7 +126,6 @@ export default function CompanyProfile() {
           toast.success(res.data.message, {
             position: "bottom-right",
             className: "foo-bar",
-            autoClose: 3000,
           });
           setLoading(false);
         });

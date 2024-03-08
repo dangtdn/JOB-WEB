@@ -27,7 +27,7 @@ const EditJobAlert = () => {
     onLoadingSlow: () => <LoaderGrowing />,
   });
   const { user, loggedIn, loggedOut, isEmployer } = useUser();
-  const userData = user?.data;
+  const userData = user;
   const [loading, setLoading] = React.useState(true);
   const { categoryData } = React.useContext(ThemeContext) as any;
   const {
