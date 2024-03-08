@@ -91,7 +91,7 @@ const EditJob = () => {
       salaryMinimum,
       specialTags,
     } = data;
-    console.log("region: ", region);
+
     const request = {
       job: {
         jobTitle,
@@ -165,7 +165,7 @@ const EditJob = () => {
       setIsMailSent(false);
     }
   }, [isMailSent]);
-  console.log("getValues: ", getValues());
+
   // default value set
   React.useEffect(() => {
     if (data && categoryData) {

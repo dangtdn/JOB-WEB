@@ -19,7 +19,7 @@ const CategoryInfo = () => {
   ) as any;
   const { mutate } = useSWRConfig();
   const [loading, setLoading] = React.useState(false);
-  console.log("categoryData: ", categoryData);
+
   // get current pages
   const [currentPage, setCurrentPage] = React.useState(1);
   const [ShowPerPage, setShowPerPage] = React.useState(10);

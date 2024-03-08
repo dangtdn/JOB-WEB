@@ -33,7 +33,7 @@ const AllCompanies = () => {
   const { data, error } = useSWR("/companies/private", fetcher);
   const [loading, setLoading] = React.useState(false);
   const { user, isAdmin } = useUser();
-  console.log("dataComapany: ", data);
+
   // delete category function here
   const deleteCategory = (id: any) => {
     sweetAlert({

@@ -81,7 +81,7 @@ export default function CompanyProfile() {
       loading: true,
     },
   });
-  console.log("data: ", data);
+
   // company bookmark submit form
   const companyBookmarkSubmit = async (data: any) => {
     setLoading(true);

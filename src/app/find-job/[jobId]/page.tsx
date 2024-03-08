@@ -42,7 +42,7 @@ export default function JobDetails() {
       refreshInterval: 0,
     }
   );
-  console.log("jobApplies: ", jobApplies);
+
   const isApplied = _.find(jobApplies, (item) => item?.jobItem?.$oid === id);
   // const data = _.find([...jobs], (item) => item?._id.$oid === id);
   const { data, error } = useSWR(id ? `/jobs/${id}` : null, fetcher, {
@@ -87,7 +87,7 @@ export default function JobDetails() {
       loading: true,
     },
   });
-  console.log("data: ", data);
+
   const companiesData = [...companies];
   const [Show, setShow] = React.useState(false);
   const [bookmark, setBookmark] = React.useState(false);

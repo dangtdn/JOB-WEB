@@ -33,7 +33,7 @@ const ProfileBox = ({
       aboutMe: currentUser?.aboutMe,
     },
   }) as any;
-  console.log("currentUser: ", currentUser);
+
   const {
     register: register2,
     formState: {
@@ -62,17 +62,7 @@ const ProfileBox = ({
     if (data.profileImage) {
       formData.append("profileImage", data.profileImage[0]);
     }
-    console.log("currentUser: ", currentUser._id);
-    // const request = {
-    //   fullName: {
-    //     firstName: data.firstName,
-    //     lastName: data.lastName,
-    //   },
-    //   aboutMe: data.aboutMe,
-    //   avatar:
-    //     "https://res.cloudinary.com/js-template/image/upload/v1647758536/zh1snvlag4w0zyz0jjzq.jpg",
-    //   phoneNumber: data.phoneNumber,
-    // };
+
     try {
       await authAxios({
         method: "PUT",
@@ -80,7 +70,6 @@ const ProfileBox = ({
         data: formData,
       }).then((res: any) => {
         mutate("/current-user").then(() => {
-          console.log("res: ", res.data);
           toast.success(res.data.message, {
             position: "bottom-right",
             className: "foo-bar",

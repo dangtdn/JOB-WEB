@@ -48,7 +48,7 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
   } = useForm({
     mode: "onChange",
   }) as any;
-  console.log("categoryData: ", categoryData);
+
   // select package form
   const { register: registerPackage, handleSubmit: handleSubmitPackage } =
     useForm({

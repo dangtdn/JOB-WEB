@@ -60,8 +60,7 @@ const EditResume = () => {
       experiences: resumeData?.experience,
     },
   }) as any;
-  console.log("resumeData: ", resumeData);
-  console.log("getValues: ", getValues());
+
   React.useEffect(() => {
     if (resumeData) {
       const getCategoryName = _.find(categoryData, (category) => {

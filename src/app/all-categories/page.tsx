@@ -10,7 +10,7 @@ import React from "react";
 
 export default function AllCategory() {
   const { categoryData, categoryError } = React.useContext(ThemeContext) as any;
-  console.log("categoryData: ", categoryData);
+
   if (categoryError) return <div>Error! {categoryError.message}</div>;
   if (!categoryData) return <LoaderGrowing />;
 

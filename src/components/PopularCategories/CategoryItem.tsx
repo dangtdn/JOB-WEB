@@ -8,7 +8,7 @@ import { Category } from "./PopularCategories";
 
 const CategoryItem = ({ data }: { data: Category }) => {
   const router = useRouter();
-  console.log("data: ", data);
+
   const OnSearchHandler = (title: string) => {
     const values = {
       category: title,

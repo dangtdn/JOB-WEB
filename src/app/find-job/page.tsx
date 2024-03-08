@@ -93,7 +93,7 @@ export default function FindJob() {
       loading: true,
     },
   });
-  console.log("jobs: ", data);
+
   useEffect(() => {
     if (data?.success) {
       const jobTypes: string[] = [];

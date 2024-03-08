@@ -6,11 +6,12 @@ import ImageOpt from "../../optimize/image";
 import { authAxios } from "../../../lib/utils/axiosKits";
 import { useRouter } from "next/navigation";
 import useUser from "@/lib/auth/user";
+import { useSWRConfig } from "swr";
 
 const AddCategoryForm = () => {
   const [photoImage, setPhotoImage] = React.useState(null) as any;
   const [processing, setProcessing] = React.useState(false) as any;
-  // const { mutate } = useSWRConfig()
+  const { mutate } = useSWRConfig();
   const router = useRouter();
   const { user } = useUser();
   const {
@@ -34,7 +35,7 @@ const AddCategoryForm = () => {
       subCategory: data.subCategory,
       categoryIcon: data.categoryIcon[0] ?? "",
     };
-    console.log("data: ", data);
+
     // const request = {
     //   categoryName: data.categoryTitle,
     //   user: user._id,
@@ -48,12 +49,12 @@ const AddCategoryForm = () => {
             position: "bottom-right",
             className: "foo-bar",
           });
-          // mutate('/admin/categories/retrives').then(() => {
-          reset();
-          setPhotoImage(null);
-          router.push(`/find-job/category`);
-          setProcessing(false);
-          // })
+          mutate("/categories").then(() => {
+            reset();
+            setPhotoImage(null);
+            router.push(`/find-job/category`);
+            setProcessing(false);
+          });
         })
         .catch((err) => {
           toast.error(capitalize(err.response.data.message), {

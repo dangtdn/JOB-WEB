@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { authAxios } from "@/lib/utils/axiosKits";
 import Layout from "@/components/dashboard/layout";
 import useSWR, { useSWRConfig } from "swr";
+import useUser, { UserGoBack, UserNotLogin } from "@/lib/auth/user";
 
 const fetcher = (url: string) =>
   authAxios(url).then((res) => res.data.data.company);
@@ -24,6 +25,7 @@ const EditCompany = () => {
   const { data, error } = useSWR(`/company/${companyId}`, fetcher, {
     refreshInterval: 0,
   });
+  const { user, loggedIn, loggedOut, isAdmin, isCandidate } = useUser();
 
   const {
     register,
@@ -56,7 +58,7 @@ const EditCompany = () => {
       eatablishedDate: data?.eatablishedDate,
     },
   });
-  console.log("getValues: ", getValues());
+
   React.useEffect(() => {
     if (data) {
       setValue("companyName", data?.companyName);
@@ -189,153 +191,494 @@ const EditCompany = () => {
 
       <Layout>
         <main>
-          <section className="rounded-lg shadow-lg relative">
-            <div className="bg-themeDark rounded-lg !py-3">
-              <p className="text-lg2 text-white px-6 sm:px-10">
-                Company Details
-              </p>
-            </div>
-            <div className="sm:px-5 py-10 mx-3 sm:mx-0">
-              {error && <div>{error.message}</div>}
-              {!data && <LoaderGrowing />}
-              <form
-                className="space-y-8"
-                onSubmit={handleSubmit(submitHandler)}
-              >
-                <div className="flex flex-col sm:flex-row gap-8 ">
-                  {/* company Name */}
-                  <label className="w-full sm:w-1/2" htmlFor="companyName">
-                    <p className="text-base font-normal text-themeDark pb-3">
-                      Company Name
-                    </p>
-                    <input
-                      className={`w-full border ${
-                        errors?.companyName
-                          ? "!border-red-400"
-                          : "border-themeLight"
-                      } focus:outline-none h-12 !px-3 rounded`}
-                      type="text"
-                      id="companyName"
-                      name="companyName"
-                      ref={companyName.ref}
-                      onChange={(e) => companyName.onChange(e)}
-                      onBlur={companyName.onBlur}
-                      placeholder="Jones Ferdinand"
-                    />
-                    {errors?.companyName && (
-                      <p className="text-red-400 text-sm italic">
-                        Company Name is required
+          {loggedOut && <UserNotLogin />}
+          {user && !isAdmin && <UserGoBack />}
+          {user && loggedIn && !isCandidate && (
+            <section className="rounded-lg shadow-lg relative">
+              <div className="bg-themeDark rounded-lg !py-3">
+                <p className="text-lg2 text-white px-6 sm:px-10">
+                  Company Details
+                </p>
+              </div>
+              <div className="sm:px-5 py-10 mx-3 sm:mx-0">
+                {error && <div>{error.message}</div>}
+                {!data && <LoaderGrowing />}
+                <form
+                  className="space-y-8"
+                  onSubmit={handleSubmit(submitHandler)}
+                >
+                  <div className="flex flex-col sm:flex-row gap-8 ">
+                    {/* company Name */}
+                    <label className="w-full sm:w-1/2" htmlFor="companyName">
+                      <p className="text-base font-normal text-themeDark pb-3">
+                        Company Name
                       </p>
-                    )}
-                  </label>
+                      <input
+                        className={`w-full border ${
+                          errors?.companyName
+                            ? "!border-red-400"
+                            : "border-themeLight"
+                        } focus:outline-none h-12 !px-3 rounded`}
+                        type="text"
+                        id="companyName"
+                        name="companyName"
+                        ref={companyName.ref}
+                        onChange={(e) => companyName.onChange(e)}
+                        onBlur={companyName.onBlur}
+                        placeholder="Jones Ferdinand"
+                      />
+                      {errors?.companyName && (
+                        <p className="text-red-400 text-sm italic">
+                          Company Name is required
+                        </p>
+                      )}
+                    </label>
 
-                  {/* company tagline */}
-                  <label className="w-full sm:w-1/2" htmlFor="companyTagline">
-                    <p className="text-base font-normal text-themeDark pb-3">
-                      Company Tagline{" "}
-                      <span className="text-sm text-themeDarkAlt">
-                        (optional)
-                      </span>
-                    </p>
-                    <input
-                      className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
-                      type="text"
-                      id="companyTagline"
-                      name="companyTagline"
-                      ref={companyTagline.ref}
-                      onChange={(e) => companyTagline.onChange(e)}
-                      onBlur={companyTagline.onBlur}
-                      placeholder="Company Tagline"
-                    />
-                  </label>
-                </div>
-                <div className="flex flex-col sm:flex-row gap-8">
-                  {/* company headquarters */}
-                  <label className="w-full sm:w-1/2" htmlFor="location">
-                    <p className="text-base font-normal text-themeDark pb-3">
-                      Company Headquarters{" "}
-                      <span className="text-sm text-themeDarkAlt">
-                        (optional)
-                      </span>
-                    </p>
-                    <input
-                      className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
-                      type="text"
-                      name="location"
-                      ref={location.ref}
-                      onChange={(e) => location.onChange(e)}
-                      onBlur={location.onBlur}
-                      id="location"
-                      placeholder="Los Angeles"
-                    />
-                  </label>
+                    {/* company tagline */}
+                    <label className="w-full sm:w-1/2" htmlFor="companyTagline">
+                      <p className="text-base font-normal text-themeDark pb-3">
+                        Company Tagline{" "}
+                        <span className="text-sm text-themeDarkAlt">
+                          (optional)
+                        </span>
+                      </p>
+                      <input
+                        className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
+                        type="text"
+                        id="companyTagline"
+                        name="companyTagline"
+                        ref={companyTagline.ref}
+                        onChange={(e) => companyTagline.onChange(e)}
+                        onBlur={companyTagline.onBlur}
+                        placeholder="Company Tagline"
+                      />
+                    </label>
+                  </div>
+                  <div className="flex flex-col sm:flex-row gap-8">
+                    {/* company headquarters */}
+                    <label className="w-full sm:w-1/2" htmlFor="location">
+                      <p className="text-base font-normal text-themeDark pb-3">
+                        Company Headquarters{" "}
+                        <span className="text-sm text-themeDarkAlt">
+                          (optional)
+                        </span>
+                      </p>
+                      <input
+                        className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
+                        type="text"
+                        name="location"
+                        ref={location.ref}
+                        onChange={(e) => location.onChange(e)}
+                        onBlur={location.onBlur}
+                        id="location"
+                        placeholder="Los Angeles"
+                      />
+                    </label>
 
-                  {/* locationLatitude */}
-                  <label className="w-full sm:w-1/2" htmlFor="locationLatitude">
-                    <p className="text-base font-normal text-themeDark pb-3">
-                      Latitude{" "}
-                      <span className="text-sm text-themeDarkAlt">
-                        (optional)
-                      </span>
-                    </p>
-                    <input
-                      className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
-                      type="text"
-                      id="locationLatitude"
-                      name="locationLatitude"
-                      ref={locationLatitude.ref}
-                      onChange={(e) => locationLatitude.onChange(e)}
-                      onBlur={locationLatitude.onBlur}
-                      placeholder="Web Developer"
-                    />
-                  </label>
-                </div>
-                <div className="flex flex-col sm:flex-row gap-8">
-                  {/* locationLongitude */}
-                  <label
-                    className="w-full sm:w-1/2"
-                    htmlFor="locationLongitude"
-                  >
-                    <p className="text-base font-normal text-themeDark pb-3">
-                      Longitude{" "}
-                      <span className="text-sm text-themeDarkAlt">
-                        (optional)
-                      </span>
-                    </p>
-                    <input
-                      className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
-                      type="text"
-                      id="locationLongitude"
-                      name="locationLongitude"
-                      ref={locationLongitude.ref}
-                      onChange={(e) => locationLongitude.onChange(e)}
-                      onBlur={locationLongitude.onBlur}
-                      placeholder="London,UK"
-                    />
-                  </label>
-                  {/* company logo */}
-                  <label className="w-full sm:w-1/2" htmlFor="logoImage">
-                    <p className="text-base font-normal text-themeDark !pb-3">
-                      Company Logo{" "}
+                    {/* locationLatitude */}
+                    <label
+                      className="w-full sm:w-1/2"
+                      htmlFor="locationLatitude"
+                    >
+                      <p className="text-base font-normal text-themeDark pb-3">
+                        Latitude{" "}
+                        <span className="text-sm text-themeDarkAlt">
+                          (optional)
+                        </span>
+                      </p>
+                      <input
+                        className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
+                        type="text"
+                        id="locationLatitude"
+                        name="locationLatitude"
+                        ref={locationLatitude.ref}
+                        onChange={(e) => locationLatitude.onChange(e)}
+                        onBlur={locationLatitude.onBlur}
+                        placeholder="Web Developer"
+                      />
+                    </label>
+                  </div>
+                  <div className="flex flex-col sm:flex-row gap-8">
+                    {/* locationLongitude */}
+                    <label
+                      className="w-full sm:w-1/2"
+                      htmlFor="locationLongitude"
+                    >
+                      <p className="text-base font-normal text-themeDark pb-3">
+                        Longitude{" "}
+                        <span className="text-sm text-themeDarkAlt">
+                          (optional)
+                        </span>
+                      </p>
+                      <input
+                        className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
+                        type="text"
+                        id="locationLongitude"
+                        name="locationLongitude"
+                        ref={locationLongitude.ref}
+                        onChange={(e) => locationLongitude.onChange(e)}
+                        onBlur={locationLongitude.onBlur}
+                        placeholder="London,UK"
+                      />
+                    </label>
+                    {/* company logo */}
+                    <label className="w-full sm:w-1/2" htmlFor="logoImage">
+                      <p className="text-base font-normal text-themeDark !pb-3">
+                        Company Logo{" "}
+                        <span className="text-sm text-themeDarkAlt">
+                          (optional)
+                        </span>
+                      </p>
+                      <div className="border border-themeLighter rounded !py-2 !px-3">
+                        {LogoImg && (
+                          <span className="!mb-3 items-center flex gap-3">
+                            <ImageOpt
+                              className="w-auto h-auto rounded-lg shadow-lg"
+                              src={LogoImg}
+                              width={100}
+                              height={100}
+                              alt="company logo"
+                            />
+                            <button
+                              className="bg-red-300 mt-2 text-white py-1 p-2.5 text-xss rounded hover:bg-red-500"
+                              onClick={() => {
+                                setLogoImg(null as any);
+                                setValue("logoImage", "");
+                              }}
+                            >
+                              Remove
+                            </button>
+                          </span>
+                        )}
+                        <div className="flex gap-4 items-center">
+                          <label
+                            className="block text-themeDark text-xss1 duration-300 ease-in-out py-1 px-3 border border-themeLighter shadow-sm cursor-pointer hover:bg-green-200 hover:border-green-200 rounded"
+                            htmlFor="logoImage"
+                          >
+                            Select File
+                            <input
+                              className="hidden"
+                              id="logoImage"
+                              accept="image/*"
+                              type="file"
+                              {...logoImage}
+                              ref={logoImage.ref}
+                              onBlur={logoImage.onBlur}
+                              onChange={(e) => {
+                                logoImage.onChange(e);
+                                PreviewImage(e, setLogoImg);
+                              }}
+                            />
+                          </label>
+                          <span className="text-xss1 text-themeLighter">
+                            Maximum file size: 100 MB.
+                          </span>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-8">
+                    {/* videoLink */}
+                    <label className="w-full sm:w-1/2" htmlFor="videoLink">
+                      <p className="text-base font-normal text-themeDark pb-3">
+                        video{" "}
+                        <span className="text-sm text-themeDarkAlt">
+                          (optional)
+                        </span>
+                      </p>
+                      <input
+                        className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
+                        type="text"
+                        id="videoLink"
+                        name="videoLink"
+                        ref={videoLink.ref}
+                        onChange={(e) => videoLink.onChange(e)}
+                        onBlur={videoLink.onBlur}
+                        placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                      />
+                    </label>
+
+                    {/* Since */}
+                    <label
+                      className="w-full sm:w-1/2"
+                      htmlFor="eatablishedDate"
+                    >
+                      <p className="text-base font-normal text-themeDark pb-3">
+                        Since{" "}
+                        <span className="text-sm text-themeDarkAlt">
+                          (optional)
+                        </span>
+                      </p>
+                      <input
+                        className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
+                        type="date"
+                        id="eatablishedDate"
+                        name="eatablishedDate"
+                        ref={eatablishedDate.ref}
+                        onChange={(e) => eatablishedDate.onChange(e)}
+                        onBlur={eatablishedDate.onBlur}
+                      />
+                    </label>
+                  </div>
+                  <div className="flex flex-col sm:flex-row gap-8">
+                    {/* company website */}
+                    <label className="w-full sm:w-1/2" htmlFor="companyWebsite">
+                      <p className="text-base font-normal text-themeDark pb-3">
+                        Company Website
+                        <span className="text-sm text-themeDarkAlt">
+                          (optional)
+                        </span>
+                      </p>
+                      <input
+                        className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
+                        type="url"
+                        id="companyWebsite"
+                        name="companyWebsite"
+                        ref={companyWebsite.ref}
+                        onChange={(e) => companyWebsite.onChange(e)}
+                        onBlur={companyWebsite.onBlur}
+                        placeholder="https://yourwebsite.com"
+                      />
+                    </label>
+
+                    {/* Email */}
+                    <label className="w-full sm:w-1/2" htmlFor="companyEmail">
+                      <p className="text-base font-normal text-themeDark pb-3">
+                        Email{" "}
+                        <span className="text-sm text-themeDarkAlt">
+                          (optional)
+                        </span>
+                      </p>
+                      <input
+                        className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
+                        type="email"
+                        id="companyEmail"
+                        name="companyEmail"
+                        ref={companyEmail.ref}
+                        onChange={(e) => companyEmail.onChange(e)}
+                        onBlur={companyEmail.onBlur}
+                        placeholder="info@youremail.com"
+                      />
+                    </label>
+                  </div>
+                  <div className=" flex flex-col sm:flex-row gap-8">
+                    {/* Phone number */}
+                    <label className="w-full sm:w-1/2" htmlFor="phoneNumber">
+                      <p className="text-base font-normal text-themeDark pb-3">
+                        Phone Number
+                        <span className="text-sm text-themeDarkAlt">
+                          (optional)
+                        </span>
+                      </p>
+                      <input
+                        className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
+                        type="text"
+                        id="phoneNumber"
+                        name="phoneNumber"
+                        ref={phoneNumber.ref}
+                        onChange={(e) => phoneNumber.onChange(e)}
+                        onBlur={phoneNumber.onBlur}
+                        placeholder="Your Phone Number"
+                      />
+                    </label>
+
+                    {/* Facebook Url */}
+                    <label className=" w-full sm:w-1/2" htmlFor="facebookLink">
+                      <p className="text-base font-normal text-themeDark pb-3 whitespace-nowrap">
+                        Facebook URL
+                        <span className="text-sm text-themeDarkAlt">
+                          (optional)
+                        </span>
+                      </p>
+                      <input
+                        className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
+                        type="url"
+                        id="facebookLink"
+                        name="facebookLink"
+                        ref={facebookLink.ref}
+                        onChange={(e) => facebookLink.onChange(e)}
+                        onBlur={facebookLink.onBlur}
+                        placeholder="https://facebook.com/yourprofile"
+                      />
+                    </label>
+                  </div>
+                  <div className=" flex flex-col sm:flex-row gap-8">
+                    {/* Twitter Url */}
+                    <label className=" w-full sm:w-1/2" htmlFor="twitterLink">
+                      <p className="text-base font-normal text-themeDark pb-3 whitespace-nowrap">
+                        Twitter URL
+                        <span className="text-sm text-themeDarkAlt">
+                          (optional)
+                        </span>
+                      </p>
+                      <input
+                        className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
+                        type="url"
+                        id="twitterLink"
+                        name="twitterLink"
+                        ref={twitterLink.ref}
+                        onChange={(e) => twitterLink.onChange(e)}
+                        onBlur={twitterLink.onBlur}
+                        placeholder="https://twitter.com/yourprofile"
+                      />
+                    </label>
+
+                    {/* LinkedIn Url */}
+                    <label className=" w-full sm:w-1/2" htmlFor="linkedinLink">
+                      <p className="text-base font-normal text-themeDark pb-3 whitespace-nowrap">
+                        Linkedin URL
+                        <span className="text-sm text-themeDarkAlt">
+                          (optional)
+                        </span>
+                      </p>
+                      <input
+                        className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
+                        type="url"
+                        id="linkedinLink"
+                        name="linkedinLink"
+                        ref={linkedinLink.ref}
+                        onChange={(e) => linkedinLink.onChange(e)}
+                        onBlur={linkedinLink.onBlur}
+                        placeholder="https://linkedin.com/yourprofile"
+                      />
+                    </label>
+                  </div>
+                  <div className=" flex flex-col sm:flex-row gap-8">
+                    {/* company size */}
+                    <label className="w-full sm:w-1/2" htmlFor="companySize">
+                      <p className="text-base font-normal text-themeDark pb-3">
+                        Company Size{" "}
+                        <span className="text-sm text-themeDarkAlt">
+                          (optional)
+                        </span>
+                      </p>
+                      <select
+                        aria-label="Default select example"
+                        className={`appearance-none block w-full text-themeDark ${
+                          errors?.companySize ? "!border-red-400" : ""
+                        } border rounded py-2.5 px-3 leading-tight focus:outline-none  h-12 focus:bg-white`}
+                        defaultValue={""}
+                        id="companySize"
+                        name="companySize"
+                        ref={companySize.ref}
+                        onChange={(e) => companySize.onChange(e)}
+                        onBlur={companySize.onBlur}
+                      >
+                        <option value="">Select Size</option>
+                        <option value="1-10">1-10</option>
+                        <option value="11-50">11-50</option>
+                        <option value="51-100">51-100</option>
+                        <option value="101-500">101-500</option>
+                      </select>
+                    </label>
+
+                    {/* average Salary */}
+                    <label className=" w-full sm:w-1/2" htmlFor="avarageSalary">
+                      <p className="text-base font-normal text-themeDark pb-3 whitespace-nowrap">
+                        Average Salary{" "}
+                        <span className="text-sm text-themeDarkAlt">
+                          (optional)
+                        </span>
+                      </p>
+                      <select
+                        aria-label="Default select example"
+                        className={`appearance-none block w-full text-themeDark border rounded py-2.5 px-3 leading-tight focus:outline-none  h-12 focus:bg-white`}
+                        defaultValue={""}
+                        id="avarageSalary"
+                        name="avarageSalary"
+                        ref={avarageSalary.ref}
+                        onChange={(e) => avarageSalary.onChange(e)}
+                        onBlur={avarageSalary.onBlur}
+                      >
+                        <option value="">Select Salary</option>
+                        <option value="0-10,000">0-10,000</option>
+                        <option value="10,000-50,000">10,000-50,000</option>
+                        <option value="50,000-100,000">50,000-100,000</option>
+                      </select>
+                    </label>
+                  </div>
+                  <div className=" flex flex-col sm:flex-row gap-8">
+                    {/* company revenue */}
+                    <label className="w-full sm:w-1/2" htmlFor="revenue">
+                      <p className="text-base font-normal text-themeDark pb-3">
+                        Company Revenue
+                        <span className="text-sm text-themeDarkAlt">
+                          (optional)
+                        </span>
+                      </p>
+                      <select
+                        aria-label="Default select example"
+                        className={`appearance-none block w-full text-themeDark border rounded py-2.5 px-3 leading-tight focus:outline-none  h-12 focus:bg-white`}
+                        defaultValue={""}
+                        id="revenue"
+                        name="revenue"
+                        ref={revenue.ref}
+                        onChange={(e) => revenue.onChange(e)}
+                        onBlur={revenue.onBlur}
+                      >
+                        <option value="">Select Revenue</option>
+                        <option value="0-10,000">0-10,000</option>
+                        <option value="10,000-50,000">10,000-50,000</option>
+                        <option value="50,000-100,000">50,000-100,000</option>
+                      </select>
+                    </label>
+
+                    {/* company category */}
+                    <label className="w-full sm:w-1/2" htmlFor="category">
+                      <p className="text-base font-normal text-themeDark pb-3">
+                        Company category
+                        <span className="text-sm text-themeDarkAlt">
+                          (optional)
+                        </span>
+                      </p>
+                      <select
+                        aria-label="Default select example"
+                        className={`appearance-none block w-full text-themeDark border rounded py-2.5 px-3 leading-tight focus:outline-none  h-12 focus:bg-white`}
+                        defaultValue={""}
+                        id="category"
+                        name="category"
+                        ref={category.ref}
+                        onChange={(e) => category.onChange(e)}
+                        onBlur={category.onBlur}
+                      >
+                        <option value="">Select Category</option>
+                        <option>Construction</option>
+                        <option>Engineering</option>
+                        <option>Finance</option>
+                        <option>Healthcare</option>
+                        <option>Hospitality</option>
+                        <option>IT</option>
+                        <option>Legal</option>
+                        <option>Manufacturing</option>
+                        <option>Marketing</option>
+                      </select>
+                    </label>
+                  </div>
+
+                  {/* Header Image */}
+                  <label className="w-full" htmlFor="headerImage">
+                    <p className="text-base font-normal text-themeDark !pb-1">
+                      Header Image
                       <span className="text-sm text-themeDarkAlt">
                         (optional)
                       </span>
                     </p>
                     <div className="border border-themeLighter rounded !py-2 !px-3">
-                      {LogoImg && (
-                        <span className="!mb-3 items-center flex gap-3">
+                      {CompanyHeaderImg && (
+                        <span className="!mb-6 w-2/3 items-center flex gap-3">
                           <ImageOpt
-                            className="w-auto h-auto rounded-lg shadow-lg"
-                            src={LogoImg}
-                            width={100}
-                            height={100}
+                            className="rounded-lg shadow-lg"
+                            src={CompanyHeaderImg}
+                            width={800}
+                            height={400}
                             alt="company logo"
                           />
                           <button
                             className="bg-red-300 mt-2 text-white py-1 p-2.5 text-xss rounded hover:bg-red-500"
                             onClick={() => {
-                              setLogoImg(null as any);
-                              setValue("logoImage", "");
+                              setCompanyHeaderImg(null as any);
+                              setValue("headerImage", "");
                             }}
                           >
                             Remove
@@ -345,21 +688,21 @@ const EditCompany = () => {
                       <div className="flex gap-4 items-center">
                         <label
                           className="block text-themeDark text-xss1 duration-300 ease-in-out py-1 px-3 border border-themeLighter shadow-sm cursor-pointer hover:bg-green-200 hover:border-green-200 rounded"
-                          htmlFor="logoImage"
+                          htmlFor="headerImage"
                         >
                           Select File
                           <input
                             className="hidden"
-                            id="logoImage"
                             accept="image/*"
-                            type="file"
-                            {...logoImage}
-                            ref={logoImage.ref}
-                            onBlur={logoImage.onBlur}
+                            id="headerImage"
+                            {...headerImage}
+                            ref={headerImage.ref}
+                            onBlur={headerImage.onBlur}
                             onChange={(e) => {
-                              logoImage.onChange(e);
-                              PreviewImage(e, setLogoImg);
+                              headerImage.onChange(e);
+                              PreviewImage(e, setCompanyHeaderImg);
                             }}
+                            type="file"
                           />
                         </label>
                         <span className="text-xss1 text-themeLighter">
@@ -368,381 +711,50 @@ const EditCompany = () => {
                       </div>
                     </div>
                   </label>
-                </div>
 
-                <div className="flex flex-col sm:flex-row gap-8">
-                  {/* videoLink */}
-                  <label className="w-full sm:w-1/2" htmlFor="videoLink">
+                  {/* company description required */}
+                  <label className="w-full" htmlFor="description">
                     <p className="text-base font-normal text-themeDark pb-3">
-                      video{" "}
-                      <span className="text-sm text-themeDarkAlt">
-                        (optional)
-                      </span>
+                      Company Description
                     </p>
-                    <input
-                      className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
-                      type="text"
-                      id="videoLink"
-                      name="videoLink"
-                      ref={videoLink.ref}
-                      onChange={(e) => videoLink.onChange(e)}
-                      onBlur={videoLink.onBlur}
-                      placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                    <textarea
+                      className={`w-full border border-themeLight ${
+                        errors?.description ? "!border-red-400" : ""
+                      } focus:outline-none h-36 !p-3 rounded`}
+                      // type="text"
+                      id="description"
+                      name="description"
+                      ref={description.ref}
+                      onChange={(e) => description.onChange(e)}
+                      onBlur={description.onBlur}
+                      placeholder="We are a team of expert designers and developers committed to rendering the best WordPress website designing services in a cost-effective practice. We are on a mission to help small business owners build their presence online. Our customer-centric approach ensures that the final product is unbeatable."
                     />
-                  </label>
-
-                  {/* Since */}
-                  <label className="w-full sm:w-1/2" htmlFor="eatablishedDate">
-                    <p className="text-base font-normal text-themeDark pb-3">
-                      Since{" "}
-                      <span className="text-sm text-themeDarkAlt">
-                        (optional)
-                      </span>
-                    </p>
-                    <input
-                      className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
-                      type="date"
-                      id="eatablishedDate"
-                      name="eatablishedDate"
-                      ref={eatablishedDate.ref}
-                      onChange={(e) => eatablishedDate.onChange(e)}
-                      onBlur={eatablishedDate.onBlur}
-                    />
-                  </label>
-                </div>
-                <div className="flex flex-col sm:flex-row gap-8">
-                  {/* company website */}
-                  <label className="w-full sm:w-1/2" htmlFor="companyWebsite">
-                    <p className="text-base font-normal text-themeDark pb-3">
-                      Company Website
-                      <span className="text-sm text-themeDarkAlt">
-                        (optional)
-                      </span>
-                    </p>
-                    <input
-                      className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
-                      type="url"
-                      id="companyWebsite"
-                      name="companyWebsite"
-                      ref={companyWebsite.ref}
-                      onChange={(e) => companyWebsite.onChange(e)}
-                      onBlur={companyWebsite.onBlur}
-                      placeholder="https://yourwebsite.com"
-                    />
-                  </label>
-
-                  {/* Email */}
-                  <label className="w-full sm:w-1/2" htmlFor="companyEmail">
-                    <p className="text-base font-normal text-themeDark pb-3">
-                      Email{" "}
-                      <span className="text-sm text-themeDarkAlt">
-                        (optional)
-                      </span>
-                    </p>
-                    <input
-                      className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
-                      type="email"
-                      id="companyEmail"
-                      name="companyEmail"
-                      ref={companyEmail.ref}
-                      onChange={(e) => companyEmail.onChange(e)}
-                      onBlur={companyEmail.onBlur}
-                      placeholder="info@youremail.com"
-                    />
-                  </label>
-                </div>
-                <div className=" flex flex-col sm:flex-row gap-8">
-                  {/* Phone number */}
-                  <label className="w-full sm:w-1/2" htmlFor="phoneNumber">
-                    <p className="text-base font-normal text-themeDark pb-3">
-                      Phone Number
-                      <span className="text-sm text-themeDarkAlt">
-                        (optional)
-                      </span>
-                    </p>
-                    <input
-                      className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
-                      type="text"
-                      id="phoneNumber"
-                      name="phoneNumber"
-                      ref={phoneNumber.ref}
-                      onChange={(e) => phoneNumber.onChange(e)}
-                      onBlur={phoneNumber.onBlur}
-                      placeholder="Your Phone Number"
-                    />
-                  </label>
-
-                  {/* Facebook Url */}
-                  <label className=" w-full sm:w-1/2" htmlFor="facebookLink">
-                    <p className="text-base font-normal text-themeDark pb-3 whitespace-nowrap">
-                      Facebook URL
-                      <span className="text-sm text-themeDarkAlt">
-                        (optional)
-                      </span>
-                    </p>
-                    <input
-                      className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
-                      type="url"
-                      id="facebookLink"
-                      name="facebookLink"
-                      ref={facebookLink.ref}
-                      onChange={(e) => facebookLink.onChange(e)}
-                      onBlur={facebookLink.onBlur}
-                      placeholder="https://facebook.com/yourprofile"
-                    />
-                  </label>
-                </div>
-                <div className=" flex flex-col sm:flex-row gap-8">
-                  {/* Twitter Url */}
-                  <label className=" w-full sm:w-1/2" htmlFor="twitterLink">
-                    <p className="text-base font-normal text-themeDark pb-3 whitespace-nowrap">
-                      Twitter URL
-                      <span className="text-sm text-themeDarkAlt">
-                        (optional)
-                      </span>
-                    </p>
-                    <input
-                      className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
-                      type="url"
-                      id="twitterLink"
-                      name="twitterLink"
-                      ref={twitterLink.ref}
-                      onChange={(e) => twitterLink.onChange(e)}
-                      onBlur={twitterLink.onBlur}
-                      placeholder="https://twitter.com/yourprofile"
-                    />
-                  </label>
-
-                  {/* LinkedIn Url */}
-                  <label className=" w-full sm:w-1/2" htmlFor="linkedinLink">
-                    <p className="text-base font-normal text-themeDark pb-3 whitespace-nowrap">
-                      Linkedin URL
-                      <span className="text-sm text-themeDarkAlt">
-                        (optional)
-                      </span>
-                    </p>
-                    <input
-                      className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
-                      type="url"
-                      id="linkedinLink"
-                      name="linkedinLink"
-                      ref={linkedinLink.ref}
-                      onChange={(e) => linkedinLink.onChange(e)}
-                      onBlur={linkedinLink.onBlur}
-                      placeholder="https://linkedin.com/yourprofile"
-                    />
-                  </label>
-                </div>
-                <div className=" flex flex-col sm:flex-row gap-8">
-                  {/* company size */}
-                  <label className="w-full sm:w-1/2" htmlFor="companySize">
-                    <p className="text-base font-normal text-themeDark pb-3">
-                      Company Size{" "}
-                      <span className="text-sm text-themeDarkAlt">
-                        (optional)
-                      </span>
-                    </p>
-                    <select
-                      aria-label="Default select example"
-                      className={`appearance-none block w-full text-themeDark ${
-                        errors?.companySize ? "!border-red-400" : ""
-                      } border rounded py-2.5 px-3 leading-tight focus:outline-none  h-12 focus:bg-white`}
-                      defaultValue={""}
-                      id="companySize"
-                      name="companySize"
-                      ref={companySize.ref}
-                      onChange={(e) => companySize.onChange(e)}
-                      onBlur={companySize.onBlur}
-                    >
-                      <option value="">Select Size</option>
-                      <option value="1-10">1-10</option>
-                      <option value="11-50">11-50</option>
-                      <option value="51-100">51-100</option>
-                      <option value="101-500">101-500</option>
-                    </select>
-                  </label>
-
-                  {/* average Salary */}
-                  <label className=" w-full sm:w-1/2" htmlFor="avarageSalary">
-                    <p className="text-base font-normal text-themeDark pb-3 whitespace-nowrap">
-                      Average Salary{" "}
-                      <span className="text-sm text-themeDarkAlt">
-                        (optional)
-                      </span>
-                    </p>
-                    <select
-                      aria-label="Default select example"
-                      className={`appearance-none block w-full text-themeDark border rounded py-2.5 px-3 leading-tight focus:outline-none  h-12 focus:bg-white`}
-                      defaultValue={""}
-                      id="avarageSalary"
-                      name="avarageSalary"
-                      ref={avarageSalary.ref}
-                      onChange={(e) => avarageSalary.onChange(e)}
-                      onBlur={avarageSalary.onBlur}
-                    >
-                      <option value="">Select Salary</option>
-                      <option value="0-10,000">0-10,000</option>
-                      <option value="10,000-50,000">10,000-50,000</option>
-                      <option value="50,000-100,000">50,000-100,000</option>
-                    </select>
-                  </label>
-                </div>
-                <div className=" flex flex-col sm:flex-row gap-8">
-                  {/* company revenue */}
-                  <label className="w-full sm:w-1/2" htmlFor="revenue">
-                    <p className="text-base font-normal text-themeDark pb-3">
-                      Company Revenue
-                      <span className="text-sm text-themeDarkAlt">
-                        (optional)
-                      </span>
-                    </p>
-                    <select
-                      aria-label="Default select example"
-                      className={`appearance-none block w-full text-themeDark border rounded py-2.5 px-3 leading-tight focus:outline-none  h-12 focus:bg-white`}
-                      defaultValue={""}
-                      id="revenue"
-                      name="revenue"
-                      ref={revenue.ref}
-                      onChange={(e) => revenue.onChange(e)}
-                      onBlur={revenue.onBlur}
-                    >
-                      <option value="">Select Revenue</option>
-                      <option value="0-10,000">0-10,000</option>
-                      <option value="10,000-50,000">10,000-50,000</option>
-                      <option value="50,000-100,000">50,000-100,000</option>
-                    </select>
-                  </label>
-
-                  {/* company category */}
-                  <label className="w-full sm:w-1/2" htmlFor="category">
-                    <p className="text-base font-normal text-themeDark pb-3">
-                      Company category
-                      <span className="text-sm text-themeDarkAlt">
-                        (optional)
-                      </span>
-                    </p>
-                    <select
-                      aria-label="Default select example"
-                      className={`appearance-none block w-full text-themeDark border rounded py-2.5 px-3 leading-tight focus:outline-none  h-12 focus:bg-white`}
-                      defaultValue={""}
-                      id="category"
-                      name="category"
-                      ref={category.ref}
-                      onChange={(e) => category.onChange(e)}
-                      onBlur={category.onBlur}
-                    >
-                      <option value="">Select Category</option>
-                      <option>Construction</option>
-                      <option>Engineering</option>
-                      <option>Finance</option>
-                      <option>Healthcare</option>
-                      <option>Hospitality</option>
-                      <option>IT</option>
-                      <option>Legal</option>
-                      <option>Manufacturing</option>
-                      <option>Marketing</option>
-                    </select>
-                  </label>
-                </div>
-
-                {/* Header Image */}
-                <label className="w-full" htmlFor="headerImage">
-                  <p className="text-base font-normal text-themeDark !pb-1">
-                    Header Image
-                    <span className="text-sm text-themeDarkAlt">
-                      (optional)
-                    </span>
-                  </p>
-                  <div className="border border-themeLighter rounded !py-2 !px-3">
-                    {CompanyHeaderImg && (
-                      <span className="!mb-6 w-2/3 items-center flex gap-3">
-                        <ImageOpt
-                          className="rounded-lg shadow-lg"
-                          src={CompanyHeaderImg}
-                          width={800}
-                          height={400}
-                          alt="company logo"
-                        />
-                        <button
-                          className="bg-red-300 mt-2 text-white py-1 p-2.5 text-xss rounded hover:bg-red-500"
-                          onClick={() => {
-                            setCompanyHeaderImg(null as any);
-                            setValue("headerImage", "");
-                          }}
-                        >
-                          Remove
-                        </button>
+                    {errors?.description && (
+                      <span className="text-sm text-red-400">
+                        Company Description is required
                       </span>
                     )}
-                    <div className="flex gap-4 items-center">
-                      <label
-                        className="block text-themeDark text-xss1 duration-300 ease-in-out py-1 px-3 border border-themeLighter shadow-sm cursor-pointer hover:bg-green-200 hover:border-green-200 rounded"
-                        htmlFor="headerImage"
-                      >
-                        Select File
-                        <input
-                          className="hidden"
-                          accept="image/*"
-                          id="headerImage"
-                          {...headerImage}
-                          ref={headerImage.ref}
-                          onBlur={headerImage.onBlur}
-                          onChange={(e) => {
-                            headerImage.onChange(e);
-                            PreviewImage(e, setCompanyHeaderImg);
-                          }}
-                          type="file"
-                        />
-                      </label>
-                      <span className="text-xss1 text-themeLighter">
-                        Maximum file size: 100 MB.
-                      </span>
-                    </div>
+                  </label>
+                  <div className="pt-6">
+                    <button
+                      type="submit"
+                      disabled={isSubmitting || !isDirty}
+                      className={`${
+                        isSubmitting ? "bg-themeDarkerAlt" : "bg-themePrimary"
+                      } text-white ${
+                        isDirty ? "opacity-100" : "opacity-30"
+                      } rounded-lg px-4 flex gap-1 items-center !py-3 shadow-xl shadow-themePrimary/25`}
+                    >
+                      {isSubmitting ? "Please wait..." : "Save Company"}
+                      {isSubmitting && (
+                        <div className="spinner-grow w-5 h-5 text-themePrimary ml-2" />
+                      )}
+                    </button>
                   </div>
-                </label>
-
-                {/* company description required */}
-                <label className="w-full" htmlFor="description">
-                  <p className="text-base font-normal text-themeDark pb-3">
-                    Company Description
-                  </p>
-                  <textarea
-                    className={`w-full border border-themeLight ${
-                      errors?.description ? "!border-red-400" : ""
-                    } focus:outline-none h-36 !p-3 rounded`}
-                    // type="text"
-                    id="description"
-                    name="description"
-                    ref={description.ref}
-                    onChange={(e) => description.onChange(e)}
-                    onBlur={description.onBlur}
-                    placeholder="We are a team of expert designers and developers committed to rendering the best WordPress website designing services in a cost-effective practice. We are on a mission to help small business owners build their presence online. Our customer-centric approach ensures that the final product is unbeatable."
-                  />
-                  {errors?.description && (
-                    <span className="text-sm text-red-400">
-                      Company Description is required
-                    </span>
-                  )}
-                </label>
-                <div className="pt-6">
-                  <button
-                    type="submit"
-                    disabled={isSubmitting || !isDirty}
-                    className={`${
-                      isSubmitting ? "bg-themeDarkerAlt" : "bg-themePrimary"
-                    } text-white ${
-                      isDirty ? "opacity-100" : "opacity-30"
-                    } rounded-lg px-4 flex gap-1 items-center !py-3 shadow-xl shadow-themePrimary/25`}
-                  >
-                    {isSubmitting ? "Please wait..." : "Save Company"}
-                    {isSubmitting && (
-                      <div className="spinner-grow w-5 h-5 text-themePrimary ml-2" />
-                    )}
-                  </button>
-                </div>
-              </form>
-            </div>
-          </section>
+                </form>
+              </div>
+            </section>
+          )}
         </main>
       </Layout>
     </>

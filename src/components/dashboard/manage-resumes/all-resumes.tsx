@@ -26,7 +26,7 @@ const AllResumes = () => {
   const [ShowPerPage, setShowPerPage] = React.useState(10);
   const indexOfLastPost = currentPage * ShowPerPage;
   const indexOfFirstPost = indexOfLastPost - ShowPerPage;
-  console.log("resumeData: ", resumeData);
+
   const data = resumeData ?? [];
   const currentPosts = data
     ? data.slice(indexOfFirstPost, indexOfLastPost)

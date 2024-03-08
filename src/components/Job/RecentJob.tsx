@@ -7,7 +7,6 @@ import { jobs } from "@/utils/dummy-content/mongodb-collections/jobs";
 const JobList = jobs;
 
 const RecentJob = ({ data }: { data: any[] }) => {
-  console.log("jobs: ", data);
   return (
     <section className="py-16 md:py-20 lg:py-24 bg-white">
       <div className="container">

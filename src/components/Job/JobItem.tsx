@@ -10,7 +10,7 @@ import { companies } from "@/utils/dummy-content/mongodb-collections/companies";
 
 const JobItem = ({ item }: { item: any }) => {
   const currCompanyLogo = item?.company?.logo ?? "";
-  console.log("item: ", item);
+
   return (
     <div
       className={`overflow-hidden relative h-full grid content-between px-6 !pt-4 pb-6 ${

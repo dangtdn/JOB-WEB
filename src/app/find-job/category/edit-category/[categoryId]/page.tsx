@@ -39,7 +39,7 @@ const EditCategory = () => {
   } = useForm({
     mode: "onBlur",
   });
-  console.log("data: ", data);
+
   React.useEffect(() => {
     if (data) {
       setValue("categoryTitle", data.categoryTitle);
