@@ -14,8 +14,6 @@ import { Axios } from "@/lib/utils/axiosKits";
 const fetcher = (url: string) => Axios(url).then((res: any) => res.data);
 const JobsAPI = "/jobs";
 const catsAPI = "/categories";
-const comsAPI = "/companies";
-const resAPI = "/resumes";
 
 const loadingCategory = [
   {
@@ -163,16 +161,10 @@ const Home = () => {
   const { data: jobData, error: jobError } = useSWR(JobsAPI, fetcher, {
     fallbackData: [],
   });
-  const { data: companyData, error: companyError } = useSWR(comsAPI, fetcher, {
-    fallbackData: [],
-  });
-  const { data: resumeData, error: resumeError } = useSWR(resAPI, fetcher, {
-    fallbackData: [],
-  });
   const totalCount = {
     totalJobs: jobData.jobs?.length,
-    totalCompanies: companyData?.companies?.length,
-    totalResumes: resumeData.resumes?.length,
+    totalCompanies: 0,
+    totalResumes: 0,
   };
   const CategoryData = ({ categoryData }: { categoryData: any }) => {
     if (!categoryData) {

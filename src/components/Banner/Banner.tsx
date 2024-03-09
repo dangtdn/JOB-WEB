@@ -5,10 +5,11 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import _ from "lodash";
 import { Axios } from "@/lib/utils/axiosKits";
-import useSWR from 'swr'
+import useSWR from "swr";
 
 const fetcher = (url: string) => Axios(url).then((res) => res.data.data);
 const catsAPI = "/categories";
+const CountAPI = "/jobs-count";
 
 const Banner = ({
   totalCount,
@@ -17,6 +18,9 @@ const Banner = ({
   totalCount: any;
   categories: any;
 }) => {
+  const { data: countData, error: countError } = useSWR(CountAPI, fetcher, {
+    fallbackData: totalCount,
+  });
   const { data: categoryData, error: categoryError } = useSWR(
     catsAPI,
     fetcher,
@@ -68,7 +72,10 @@ const Banner = ({
           >
             <form onSubmit={handleSubmit(OnSubmitHandler)}>
               <div className="bg-white overflow-hidden rounded-xl  md:grid gap-7 lg:gap-10 grid-cols-8 xl:grid-cols-7 items-center">
-                <div className="col-span-2  px-4 md:px-0 border-r-2 border-gray h-full flex items-center">
+                <div
+                  className="col-span-2 px-4 md:px-0 border-r-2 border-gray h-full flex items-center"
+                  style={{ paddingLeft: "12px !important" }}
+                >
                   <input
                     type="text"
                     className="w-full block !pr-3 py-4 border-b-2 border-gray md:border-0 md:py-4 focus:outline-none bg-left bg-no-repeat px-8 placeholder:text-deep"
@@ -100,10 +107,10 @@ const Banner = ({
                   >
                     <option value="">Select Categories</option>
                     {categoryData.map((item: any) => (
-											<option value={item.categoryTitle} key={item._id}>
-												{_.capitalize(item.categoryTitle)}
-											</option>
-										))}
+                      <option value={item.categoryTitle} key={item._id}>
+                        {_.capitalize(item.categoryTitle)}
+                      </option>
+                    ))}
                   </Form.Select>
                 </div>
                 <div className="btn-banner px-4 md:!px-0 col-span-2 xl:col-span-1 text-center grid md:justify-end py-4 md:!py-2 lg:text-right mr-4">
@@ -118,7 +125,7 @@ const Banner = ({
             </form>
           </div>
           <div className="grid gap-8 xl:gap-12 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1">
-            {totalCount && (
+            {countData && (
               <>
                 <div className="bg-white rounded-lg text-center p-8 duration-300 transition hover:bg-opacity-90">
                   <div className="flex mb-6 justify-center">
@@ -133,7 +140,7 @@ const Banner = ({
                     />
                   </div>
                   <h2 className="text-xl text-black font-bold leading-none mb-2">
-                    {totalCount.totalJobs + " +" ?? "0"}
+                    {countData.totalJobs + " +" ?? "0"}
                   </h2>
                   <p className="text-xs text-deep font-medium">JOB AVAILABLE</p>
                 </div>
@@ -150,7 +157,7 @@ const Banner = ({
                     />
                   </div>
                   <h2 className="text-xl text-black font-bold leading-none mb-2">
-                    {totalCount.totalCompanies + " +" ?? "0"}
+                    {countData.totalCompanies + " +" ?? "0"}
                   </h2>
                   <p className="text-xs text-deep font-medium">COMPANY</p>
                 </div>
@@ -167,7 +174,7 @@ const Banner = ({
                     />
                   </div>
                   <h2 className="text-xl text-black font-bold leading-none mb-2">
-                    {totalCount.totalResumes + " +" ?? "0"}
+                    {countData.totalResumes + " +" ?? "0"}
                   </h2>
                   <p className="text-xs text-deep font-medium">
                     AVAILABLE RESUMES
@@ -175,20 +182,20 @@ const Banner = ({
                 </div>
               </>
             )}
-            {/* {countError && (
-            <>
-              {_.map(["1", "2", "3"], (item) => (
-                <div
-                  key={item}
-                  className="text-center bg-red-400 p-20 rounded-lg"
-                >
-                  <p className="text-lg font-normal text-white leading-8">
-                    No Data Found
-                  </p>
-                </div>
-              ))}
-            </>
-          )} */}
+            {countError && (
+              <>
+                {_.map(["1", "2", "3"], (item) => (
+                  <div
+                    key={item}
+                    className="text-center bg-red-400 p-20 rounded-lg"
+                  >
+                    <p className="text-lg font-normal text-white leading-8">
+                      No Data Found
+                    </p>
+                  </div>
+                ))}
+              </>
+            )}
           </div>
         </div>
       </div>

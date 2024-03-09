@@ -29,6 +29,10 @@ const Menu = [
     pathName: "company",
   },
   {
+    name: "Career Advice",
+    link: "/career-advice",
+  },
+  {
     name: "Contact Us",
     link: "/contact",
     pathName: "contact",

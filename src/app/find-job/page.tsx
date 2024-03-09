@@ -44,7 +44,7 @@ export default function FindJob() {
     : [];
 
   // call SWR
-  const jobAPI = "/jobs";
+  const jobAPI = "/jobs-search";
   const { data, error } = useSWR(jobAPI, fetcher, {
     fallbackData: {
       jobs: [

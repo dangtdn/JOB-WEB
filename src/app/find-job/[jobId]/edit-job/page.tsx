@@ -165,33 +165,33 @@ const EditJob = () => {
       setIsMailSent(false);
     }
   }, [isMailSent]);
-
+  console.log("data: ", data);
   // default value set
   React.useEffect(() => {
     if (data && categoryData) {
       const getCategoryName = _.find(categoryData, (category) => {
-        return category.categoryTitle === data?.job.category;
+        return category.categoryTitle === data?.data?.category;
       });
-      setCompanyName(data?.job.company ? [data?.job.company] : ("" as any));
-      setValue("companyName", data?.job.company ? [data?.job.company] : "");
-      setValue("jobTitle", data?.job.jobTitle);
-      setValue("email", data?.job.email);
-      setValue("jobDescription", data?.job.jobDescription);
-      setValue("salaryMinimum", data?.job.salary?.minimum);
-      setValue("salaryMaximum", data?.job.salary?.maximum);
-      setValue("hourlyrateMinimum", data?.job.hourlyrate?.minimum);
-      setValue("hourlyrateMaximum", data?.job.hourlyrate?.maximum);
-      setValue("location", data?.job.location);
-      setValue("applyLink", data?.job.applyLink ? data?.job.applyLink : "");
+      setCompanyName(data?.data?.company ? [data?.data?.company] : ("" as any));
+      setValue("companyName", data?.data?.company ? [data?.data?.company] : "");
+      setValue("jobTitle", data?.data?.jobTitle);
+      setValue("email", data?.data?.email);
+      setValue("jobDescription", data?.data?.jobDescription);
+      setValue("salaryMinimum", data?.data?.salary?.minimum);
+      setValue("salaryMaximum", data?.data?.salary?.maximum);
+      setValue("hourlyrateMinimum", data?.data?.hourlyrate?.minimum);
+      setValue("hourlyrateMaximum", data?.data?.hourlyrate?.maximum);
+      setValue("location", data?.data?.location);
+      setValue("applyLink", data?.data?.applyLink ? data?.data?.applyLink : "");
       setCategoryName(getCategoryName && [getCategoryName]);
       setValue("category", getCategoryName && [getCategoryName]);
-      // setValue("headerImage", data?.job.headerImage);
-      if (data?.job.avatar) {
-        setJobHeaderImg(data?.job.avatar);
+      // setValue("headerImage", data?.data?.headerImage);
+      if (data?.data?.avatar) {
+        setJobHeaderImg(data?.data?.avatar);
       }
-      setValue("jobTypes", data?.job.jobTypes);
-      setValue("specialTags", data?.job.specialTags);
-      setValue("region", data?.job.region);
+      setValue("jobTypes", data?.data?.jobTypes);
+      setValue("specialTags", data?.data?.specialTags);
+      setValue("region", data?.data?.region);
     }
   }, [data, setValue, categoryData]);
 
@@ -382,7 +382,9 @@ const EditJob = () => {
                           forwardRef={undefined}
                           displayValue={undefined}
                           selectedValues={
-                            data?.job.region ? [data?.job.region] : undefined
+                            data?.data?.region
+                              ? [data?.data?.region]
+                              : undefined
                           }
                           className={undefined}
                         />
@@ -412,7 +414,9 @@ const EditJob = () => {
                           forwardRef={undefined}
                           displayValue={undefined}
                           selectedValues={
-                            data?.job.jobTypes ? data?.job.jobTypes : undefined
+                            data?.data?.jobTypes
+                              ? data?.data?.jobTypes
+                              : undefined
                           }
                           singleSelect={undefined}
                           className={undefined}
@@ -475,8 +479,8 @@ const EditJob = () => {
                           forwardRef={undefined}
                           displayValue={undefined}
                           selectedValues={
-                            data?.job.specialTags
-                              ? data?.job.specialTags
+                            data?.data?.specialTags
+                              ? data?.data?.specialTags
                               : undefined
                           }
                           singleSelect={undefined}
