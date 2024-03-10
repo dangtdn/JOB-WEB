@@ -42,7 +42,7 @@ const PopupRegister = () => {
                 lastName: data.last_name,
               },
               email: data.email,
-              isConfirmed: false,
+              // isConfirmed: false,
               password: data.password,
               role: {
                 isCandidate:
