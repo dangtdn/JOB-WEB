@@ -125,7 +125,7 @@ const Banner = ({
             </form>
           </div>
           <div className="grid gap-8 xl:gap-12 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1">
-            {countData && (
+            {countData && !countError && (
               <>
                 <div className="bg-white rounded-lg text-center p-8 duration-300 transition hover:bg-opacity-90">
                   <div className="flex mb-6 justify-center">
