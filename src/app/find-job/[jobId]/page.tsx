@@ -135,7 +135,7 @@ export default function JobDetails() {
         url: `/job-apply/create`,
         data: formData,
       }).then((res) => {
-        mutate(`/users/${user._id}/job-apply`).then(() => {
+        mutate(`/jobs/${id}/job-apply`).then(() => {
           toast.success(res.data.message, {
             position: "bottom-right",
             className: "foo-bar",

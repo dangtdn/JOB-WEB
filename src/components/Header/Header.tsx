@@ -8,110 +8,17 @@ import { HiChevronDown } from "react-icons/hi";
 import { MdClose } from "react-icons/md";
 import ImageOpt from "../optimize/image";
 import { ThemeContext } from "@/context/ThemeContext";
-import { users } from "@/utils/dummy-content/mongodb-collections/Untitled";
 import useSticky from "@/hooks/useSticky";
 import useUser from "@/lib/auth/user";
-
-const Menu = [
-  {
-    name: "Home",
-    link: "/",
-    pathName: "",
-  },
-  {
-    name: "Find Job",
-    link: "/find-job",
-    pathName: "find-job",
-  },
-  {
-    name: "Company",
-    link: "/company",
-    pathName: "company",
-  },
-  {
-    name: "Career Advice",
-    link: "/career-advice",
-  },
-  {
-    name: "Contact Us",
-    link: "/contact",
-    pathName: "contact",
-  },
-];
-
-const DashboardMenuList = [
-  {
-    name: "Dashboard",
-    link: "/dashboard",
-    pathName: "",
-  },
-  {
-    name: "Job Alerts",
-    link: "/job/job-alerts",
-    pathName: "",
-  },
-  {
-    name: "Manages Resumes",
-    link: "/resume/manages-resumes",
-    pathName: "",
-  },
-  {
-    name: "My Profile",
-    link: "/my-profile",
-    pathName: "",
-  },
-];
-
-const EmployerMenuList = [
-  {
-    name: "Dashboard",
-    link: "/dashboard",
-    pathName: "",
-  },
-  {
-    name: "Manges Jobs",
-    link: "/find-job/manages-jobs",
-    pathName: "",
-  },
-  {
-    name: "Manages Companies",
-    link: "/company/manages-companies",
-    pathName: "",
-  },
-  {
-    name: "My Profile",
-    link: "/my-profile",
-    pathName: "",
-  },
-];
-
-const AdminMenuList = [
-  {
-    name: "Dashboard",
-    link: "/dashboard",
-    pathName: "",
-  },
-  {
-    name: "Manges Jobs",
-    link: "/find-job/manages-jobs",
-    pathName: "",
-  },
-  {
-    name: "Manages Companies",
-    link: "/company/manages-companies",
-    pathName: "",
-  },
-  {
-    name: "Manages Resumes",
-    link: "/resume/manages-resumes",
-    pathName: "",
-  },
-  {
-    name: "My Profile",
-    link: "/my-profile",
-    pathName: "",
-  },
-];
+import {
+  AdminMenuList,
+  DashboardMenuList,
+  EmployerMenuList,
+  Menu,
+} from "../@menuData/menu";
+import { Logo } from "../icons";
+import { BiLogOut } from "react-icons/bi";
+import Image from "next/image";
 
 const Header = () => {
   const { stickyRef, sticky } = useSticky();
@@ -137,27 +44,25 @@ const Header = () => {
       {/* Header Component */}
       <header
         ref={stickyRef}
-        className={`shadow-sm ${sticky ? "sticky-header shadow-md" : ""}`}
+        className={`shadow-sm ${
+          sticky ? "sticky-header shadow-md" : ""
+        } bg-white`}
       >
-        <nav className="container py-2.5 bg-white">
+        <nav className="container py-2.5">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               {/* Desktop logo here ... */}
               <Link href="/" className="hidden sm:flex">
-                <ImageOpt
-                  src="/assets/img/logo.svg" // logo image here ...
-                  width={146}
-                  height={33}
-                  alt="logo"
+                <Logo
+                  className="w-[146px] h-[33px] text-themePrimary"
+                  dark={true}
                 />
               </Link>
               {/* Mobile logo here ... */}
               <Link href="/" className="sm:hidden flex">
-                <ImageOpt
-                  src="/assets/img/logo.svg" // logo image here ...
-                  width={100}
-                  height={33}
-                  alt="logo"
+                <Logo
+                  className="w-[100px] h-[33px] text-themePrimary"
+                  dark={true}
                 />
               </Link>
             </div>
@@ -168,7 +73,7 @@ const Header = () => {
                     <Link
                       href={item.link}
                       className={`${
-                        path === item.pathName
+                        path === item.link
                           ? "text-themePrimary"
                           : "text-arsenic"
                       } text-xs  font-medium transition-all hover:text-themePrimary`}
@@ -198,12 +103,13 @@ const Header = () => {
                                 alt="User image"
                                 width={48}
                                 height={48}
+                                noPlaceholder={true}
                               />
                             )}
                             {!userData?.avatar && (
-                              <ImageOpt
+                              <Image
                                 className="rounded-full object-cover object-right p-1 border border-solid border-gray-500"
-                                src="https://res.cloudinary.com/dyor9qtzh/image/upload/v1646289332/Meta-jobs/user_biyxrq.png"
+                                src="https://static.vecteezy.com/system/resources/thumbnails/009/734/564/small_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg"
                                 alt="User image"
                                 width={48}
                                 height={48}
@@ -226,7 +132,7 @@ const Header = () => {
                         <DashboardMenu active={UserMenu} />
                       </div>
                       <button
-                        className="mobile-toogle flex lg:hidden p-2 rounded-full transition-all outline-none"
+                        className="mobile-toggle flex lg:hidden p-2 rounded-full transition-all outline-none"
                         onClick={handleShow}
                       >
                         <svg
@@ -253,14 +159,14 @@ const Header = () => {
                       {path === "/login" || path === "/sign-up" ? (
                         <Link
                           href={"/login"}
-                          className="block bg-arsenic text-white px-3 py-2 text-xs font-medium rounded-md hover:!bg-themePrimary transition-all outline-none"
+                          className="block bg-black text-white px-3 py-2 text-xs font-medium rounded-md hover:!bg-themePrimary transition-all outline-none"
                         >
                           Sign In
                         </Link>
                       ) : (
                         <button
                           onClick={LoginPopupHandler}
-                          className="block bg-arsenic text-white px-3 py-2 text-xs font-medium rounded-md hover:!bg-themePrimary transition-all outline-none"
+                          className="block bg-black text-white px-3 py-2 text-xs font-medium rounded-md hover:!bg-themePrimary transition-all outline-none"
                         >
                           Sign In
                         </button>
@@ -271,14 +177,14 @@ const Header = () => {
                       {path === "/login" || path === "/sign-up" ? (
                         <Link
                           href={"/sign-up"}
-                          className="block bg-themePrimary text-white px-3 py-2 text-xs font-medium rounded-md hover:bg-arsenic transition-all outline-none"
+                          className="block bg-themePrimary text-white px-3 py-2 text-xs font-medium rounded-md hover:bg-black transition-all outline-none"
                         >
                           Sign Up
                         </Link>
                       ) : (
                         <button
                           onClick={RegisterPopupHandler}
-                          className="block bg-themePrimary text-white px-3 py-2 text-xs font-medium rounded-md hover:bg-arsenic transition-all outline-none"
+                          className="block bg-themePrimary text-white px-3 py-2 text-xs font-medium rounded-md hover:bg-black transition-all outline-none"
                         >
                           Sign Up
                         </button>
@@ -286,7 +192,7 @@ const Header = () => {
                     </li>
                     <li>
                       <button
-                        className="mobile-toogle flex lg:hidden p-2 rounded-full transition-all outline-none"
+                        className="mobile-toggle flex lg:hidden p-2 rounded-full transition-all outline-none"
                         onClick={handleShow}
                       >
                         <svg
@@ -311,15 +217,30 @@ const Header = () => {
         </nav>
       </header>
       {/* Header End */}
-
-      <MobileMenuWrapper className={show ? "show" : "hide"}>
-        <MobileMenu className={show ? "show" : "hide"}>
-          <MobileMenuHeader>
-            <CloseIcon>
-              <MdClose onClick={handleClose} />
-            </CloseIcon>
-          </MobileMenuHeader>
-          <MobileMenuBody>
+      {/* Mobile Menu Wrapper */}
+      <div
+        className={`fixed w-full h-full top-0  z-[100] transition-all duration-500 ease-in-out ${
+          show ? "left-0" : "-left-full"
+        }`}
+      >
+        {/* Mobile Menu */}
+        <div
+          className={`absolute top-0  max-w-[400px] w-full h-full z-[110]
+               transition-all duration-500 ease-in-out bg-[rgba(0,_0,_0,_0.6)] backdrop-blur-[10px] ${
+                 show ? "left-0" : "-left-full"
+               }`}
+        >
+          {/* Mobile Menu Header  */}
+          <div className="h-[60px]">
+            <div className="cursor-pointer absolute top-4 right-5">
+              <MdClose
+                onClick={handleClose}
+                className="w-[30px] h-[30px] text-[#f2f5f8] transition ease-in-out duration-500 hover:text-[#ff0000]"
+              />
+            </div>
+          </div>
+          {/* Menu body  */}
+          <div>
             {userData && (
               <div className="px-4">
                 <div className="relative">
@@ -330,17 +251,27 @@ const Header = () => {
                           className="rounded-lg object-cover object-right p-1 border border-solid border-gray-500"
                           src={userData?.avatar}
                           alt="User image"
-                          width={50}
-                          height={50}
+                          width={40}
+                          height={40}
+                          placeholder="blur"
+                          blurDataURL={userData?.avatar}
+                          quality={75}
+                          priority={true}
                         />
                       )}
                       {!userData?.avatar && (
                         <ImageOpt
                           className="rounded-lg object-cover object-right p-1 border border-solid border-gray-500"
-                          src="https://res.cloudinary.com/dyor9qtzh/image/upload/v1646289332/Meta-jobs/user_biyxrq.png"
+                          src="https://static.vecteezy.com/system/resources/thumbnails/009/734/564/small_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg"
                           alt="User image"
-                          width={50}
-                          height={50}
+                          width={40}
+                          height={40}
+                          placeholder="blur"
+                          blurDataURL={
+                            "https://static.vecteezy.com/system/resources/thumbnails/009/734/564/small_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg"
+                          }
+                          quality={75}
+                          priority={true}
                         />
                       )}
                     </div>
@@ -363,7 +294,7 @@ const Header = () => {
                   <Link
                     href={item.link}
                     className={`${
-                      path === item.pathName
+                      path === item.link
                         ? "text-themePrimary !border-themePrimary"
                         : "text-light"
                     } text-xxs py-3.5 px-4 border-b border-deep w-full transition-all hover:text-themePrimary hover:!border-themePrimary`}
@@ -373,15 +304,23 @@ const Header = () => {
                 </li>
               ))}
             </ul>
-          </MobileMenuBody>
-        </MobileMenu>
-        <OverlayContainer
-          className={show ? "show" : "hide"}
+          </div>
+        </div>
+        {/* Overlay Container */}
+        <div
+          className={`absolute w-full h-full top-0 transition-all duration-500 ease-in-out cursor-pointer bg-[rgba(0,_0,_0,_0.5)] ${
+            show ? "left-0" : "-left-full"
+          }`}
           onClick={handleClose}
         />
-      </MobileMenuWrapper>
-      <DashboardMenuOverlay
-        className={UserMenu ? "active" : ""}
+      </div>
+      {/* Dashboard Menu Overlay  */}
+      <div
+        className={`fixed w-full h-full top-0 z-30   ${
+          UserMenu
+            ? "opacity-100 transform scale-100"
+            : "transform opacity-0 scale-0"
+        }`}
         onClick={UserMenuHandler}
       />
     </>
@@ -394,177 +333,88 @@ function DashboardMenu({ active }: { active: any }) {
 
   return (
     <>
-      <DashboardMenuWrapper
-        className={`${active ? "active" : ""} bg-themeLighterAlt text-white`}
+      <div
+        className={`top-[calc(130%-8px)] absolute w-[230px] rounded-lg overflow-hidden p-0 -right-[15px] text-left transition-all duration-300 ease-in-out z-[999] shadow-xl before:content-[''] before:absolute before:right-[43px] before:-top-[6px] before:w-0 before:h-0 before:border-l-transparent before:border-r-transparent before:border-b-[rgb(247_248_250)] before:transition-all before:ease-in-out before:duration-300   ${
+          active
+            ? "transform scale-100 visible opacity-100"
+            : "opacity-0 invisible transform scale-[0.95]"
+        } bg-white`}
       >
-        <div className="p-3">
-          <ul>
-            {user && isCandidate && (
-              <>
-                {DashboardMenuList.map((item, index) => (
-                  <li key={index}>
-                    <Link
-                      href={item.link}
-                      className="block rounded w-full duration-300 ease-in-out py-2 text-base text-themeDarker hover:text-themePrimary"
-                    >
-                      {item.name}
-                    </Link>
-                  </li>
-                ))}
-              </>
-            )}
-            {user && isEmployer && (
-              <>
-                {EmployerMenuList.map((item, index) => (
-                  <li key={index}>
-                    <Link
-                      href={item.link}
-                      className="block rounded w-full duration-300 ease-in-out py-2 text-base text-themeDarker hover:text-themePrimary"
-                    >
-                      {item.name}
-                    </Link>
-                  </li>
-                ))}
-              </>
-            )}
-            {user && isAdmin && (
-              <>
-                {AdminMenuList.map((item, index) => (
-                  <li key={index}>
-                    <Link
-                      href={item.link}
-                      className="block rounded w-full duration-300 ease-in-out py-2 text-base text-themeDarker hover:text-themePrimary"
-                    >
-                      {item.name}
-                    </Link>
-                  </li>
-                ))}
-              </>
-            )}
-            <li>
-              <button
-                className="block text-left rounded w-full duration-300 ease-in-out py-2 text-base text-themeDarker hover:text-red-400"
-                onClick={frontendLogOutHandler}
-              >
-                Log Out
-              </button>
-            </li>
-          </ul>
-        </div>
-      </DashboardMenuWrapper>
+        <ul>
+          {user && isCandidate && (
+            <>
+              {DashboardMenuList.map((item, index) => (
+                <li
+                  key={index}
+                  className="border-b border-gray last-of-type:border-b-0"
+                >
+                  <Link
+                    href={item.link}
+                    className="flex items-center gap-3 w-full duration-300 ease-in-out p-3 hover:bg-themePrimary text-base text-themeDarker hover:text-white group"
+                  >
+                    <span className="text-themePrimary group-hover:text-white">
+                      {item?.icon}
+                    </span>
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </>
+          )}
+          {user && isEmployer && (
+            <>
+              {EmployerMenuList.map((item, index) => (
+                <li
+                  key={index}
+                  className="border-b border-gray last-of-type:border-b-0"
+                >
+                  <Link
+                    href={item.link}
+                    className="flex items-center gap-3 w-full duration-300 ease-in-out p-3 hover:bg-themePrimary text-base text-themeDarker hover:text-white group"
+                  >
+                    <span className="text-themePrimary group-hover:text-white">
+                      {item?.icon}
+                    </span>
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </>
+          )}
+          {user && isAdmin && (
+            <>
+              {AdminMenuList.map((item, index) => (
+                <li
+                  key={index}
+                  className="border-b border-gray last-of-type:border-b-0"
+                >
+                  <Link
+                    href={item.link}
+                    className="flex items-center gap-3 w-full duration-300 ease-in-out p-3 hover:bg-themePrimary text-base text-themeDarker hover:text-white group"
+                  >
+                    <span className="text-themePrimary group-hover:text-white">
+                      {item?.icon}
+                    </span>
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </>
+          )}
+          <li>
+            <button
+              className="flex items-center gap-3 text-left w-full duration-300 ease-in-out p-3 text-base bg-red-400 hover:bg-red-500 text-white"
+              onClick={frontendLogOutHandler}
+            >
+              {/* Log out icon */}
+              <BiLogOut className="w-5 h-5 flex-none" />
+              Log Out
+            </button>
+          </li>
+        </ul>
+      </div>
     </>
   );
 }
 
 export default Header;
-
-const MobileMenuWrapper = styled("div")`
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: -100%;
-  z-index: 100;
-  transition: all ease-in-out 0.5s;
-  &.show {
-    left: 0;
-  }
-`;
-const MobileMenu = styled("div")`
-  position: absolute;
-  top: 0;
-  left: -100%;
-  max-width: 400px;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  // blur background
-  backdrop-filter: blur(10px);
-  z-index: 110;
-  transition: all ease-in-out 0.5s;
-  &.show {
-    left: 0;
-  }
-`;
-const MobileMenuHeader = styled("div")`
-  height: 60px;
-`;
-const MobileMenuBody = styled("div")``;
-const CloseIcon = styled("div")`
-  cursor: pointer;
-  position: absolute;
-  right: 20px;
-  top: 15px;
-  & svg {
-    width: 30px;
-    height: 30px;
-    color: #f2f5f8;
-    transition: all ease-in-out 0.5s;
-    &:hover {
-      color: #ff0000;
-    }
-  }
-`;
-const OverlayContainer = styled("div")`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: -100%;
-  transition: all ease-in-out 0.5s;
-  background-color: rgba(0, 0, 0, 0.5);
-  cursor: pointer;
-  &.show {
-    left: 0;
-  }
-`;
-const DashboardMenuWrapper = styled("div")`
-  top: calc(100% - 8px);
-  width: 200px;
-  right: -5px;
-  border-radius: 3px;
-  box-shadow: 0px 0 8px 0px rgb(0 0 0 / 10%);
-  box-shadow: 0px 2px 12px 0px rgb(0 0 0 / 12%);
-  padding: 0;
-  position: absolute;
-  top: 120%;
-  right: 10px;
-  text-align: left;
-  z-index: 100;
-  transform: scale(0.95);
-  opacity: 0;
-  visibility: hidden;
-  transition: 0.3s;
-  pointer-events: none;
-  &.active {
-    transform: scale(1);
-    opacity: 1;
-    visibility: visible;
-    pointer-events: all;
-  }
-  &::before {
-    content: "";
-    position: absolute;
-    right: 43px;
-    top: -6px;
-    width: 0;
-    height: 0;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-bottom: 6px solid rgb(247 248 250);
-    transition: border-color 0.3s;
-  }
-`;
-const DashboardMenuOverlay = styled("div")`
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  z-index: 30;
-  opacity: 0;
-  transform: scale(0);
-  &.active {
-    opacity: 1;
-    transform: scale(1);
-  }
-`;
