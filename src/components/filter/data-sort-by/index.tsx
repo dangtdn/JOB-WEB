@@ -52,7 +52,7 @@ const SortBy = ({ totalCount }: { totalCount: any }) => {
         We have found <span className="text-themePrimary">{totalCount}</span>{" "}
         Jobs
       </p>
-      <div className="px-2">
+      {/* <div className="px-2">
         <Form.Select
           aria-label="Default select example"
           name="sortBy"
@@ -71,7 +71,7 @@ const SortBy = ({ totalCount }: { totalCount: any }) => {
 
           <option value="featured">{_.capitalize("featured")}</option>
         </Form.Select>
-      </div>
+      </div> */}
     </div>
   );
 };

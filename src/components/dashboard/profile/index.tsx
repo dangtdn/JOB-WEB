@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { FaCamera } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { FormLoader, LoaderGrowing } from "../../../lib/loader/loader";
-import { authAxios } from "../../../lib/utils/axiosKits";
+import { authAxios, authAxios1 } from "../../../lib/utils/axiosKits";
 import ImageOpt from "../../optimize/image";
 import { GetUserProfileResponse } from "@/types/user";
 import { useSWRConfig } from "swr";
@@ -64,7 +64,7 @@ const ProfileBox = ({
     }
 
     try {
-      await authAxios({
+      await authAxios1({
         method: "PUT",
         url: `/admin/user/update/${currentUser._id}`,
         data: formData,
