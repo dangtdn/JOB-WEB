@@ -7,6 +7,7 @@ import { authAxios } from "../../../lib/utils/axiosKits";
 import { useRouter } from "next/navigation";
 import useUser from "@/lib/auth/user";
 import { useSWRConfig } from "swr";
+import { FormLoader } from "@/lib/loader/loader";
 
 const AddCategoryForm = () => {
   const [photoImage, setPhotoImage] = React.useState(null) as any;
@@ -93,7 +94,7 @@ const AddCategoryForm = () => {
 
   return (
     <section className="mb-6">
-      <div className="rounded-lg shadow">
+      <div className="rounded-lg shadow-lg bg-white">
         <div className="h-16 bg-themeDark flex items-center px-10 rounded-lg">
           <p className="text-xxs text-white">Add Category</p>
         </div>
@@ -114,9 +115,11 @@ const AddCategoryForm = () => {
                   <input
                     className={`appearance-none block w-full text-themeDark ${
                       errors.categoryTitle ? "!border-red-400" : ""
-                    } border rounded-lg !py-3.5 px-3 mb-1 leading-tight focus:outline-none focus:bg-white`}
+                    } border border-gray rounded-md !py-3.5 px-3 mb-1 leading-tight focus:outline-none focus:bg-white`}
                     id="categoryTitle"
-                    {...register("categoryTitle", { required: true })}
+                    {...register("categoryTitle", {
+                      required: true,
+                    })}
                     type="text"
                     placeholder="Display Advertising"
                   />
@@ -137,9 +140,11 @@ const AddCategoryForm = () => {
                   <input
                     className={`appearance-none block w-full text-themeDark ${
                       errors.subCategory ? "!border-red-400" : ""
-                    } border !py-3.5 rounded-lg px-3 mb-1 leading-tight focus:outline-none focus:bg-white`}
+                    } border border-gray !py-3.5 rounded-md px-3 mb-1 leading-tight focus:outline-none focus:bg-white`}
                     id="subCategory"
-                    {...register("subCategory", { required: true })}
+                    {...register("subCategory", {
+                      required: true,
+                    })}
                     type="text"
                     placeholder="Add Sub Category..."
                   />
@@ -154,10 +159,8 @@ const AddCategoryForm = () => {
                   <span>Image</span>
                   <div
                     className={`mt-2 gap-4 border ${
-                      errors.categoryIcon
-                        ? "!border-red-400"
-                        : "border-themeLighter"
-                    } rounded-lg py-1.5 !px-3`}
+                      errors.categoryIcon ? "!border-red-400" : "border-gray"
+                    } rounded-md py-1.5 !px-3`}
                   >
                     {photoImage && (
                       <span className="!mb-3 items-center flex gap-3">
@@ -185,7 +188,7 @@ const AddCategoryForm = () => {
                     )}
                     <div className="flex gap-4 items-center">
                       <label
-                        className={`block text-themeDark text-xss1 duration-300  ease-in-out !py-1 !px-3 border shadow-sm cursor-pointer border-themeLighter hover:bg-green-200 hover:border-green-200 rounded`}
+                        className={`block text-themeDark text-xss1 duration-300  ease-in-out !py-1 !px-3 border shadow-sm cursor-pointer border-gray hover:bg-themePrimary/20 hover:border-themePrimary/20 rounded`}
                         htmlFor="image"
                       >
                         Select File
@@ -224,9 +227,7 @@ const AddCategoryForm = () => {
                   } rounded-lg shadow text-white text-xxs shadow-themePrimary`}
                 >
                   {processing ? "Please wait..." : "Add Category"}
-                  {processing && (
-                    <div className="spinner-grow w-5 h-5 text-themePrimary" />
-                  )}
+                  {processing && <FormLoader />}
                 </button>
               </div>
             </form>

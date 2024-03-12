@@ -1,6 +1,6 @@
 "use client";
 
-import { LoaderGrowing } from "@/lib/loader/loader";
+import { FormLoader, LoaderGrowing } from "@/lib/loader/loader";
 import ImageOpt from "@/components/optimize/image";
 import Head from "next/head";
 import { useParams, usePathname, useRouter } from "next/navigation";
@@ -194,7 +194,7 @@ const EditCompany = () => {
           {loggedOut && <UserNotLogin />}
           {user && !isAdmin && <UserGoBack />}
           {user && loggedIn && !isCandidate && (
-            <section className="rounded-lg shadow-lg relative">
+            <section className="rounded-lg shadow-lg bg-white relative">
               <div className="bg-themeDark rounded-lg !py-3">
                 <p className="text-lg2 text-white px-6 sm:px-10">
                   Company Details
@@ -204,7 +204,7 @@ const EditCompany = () => {
                 {error && <div>{error.message}</div>}
                 {!data && <LoaderGrowing />}
                 <form
-                  className="space-y-8"
+                  className="space-y-5"
                   onSubmit={handleSubmit(submitHandler)}
                 >
                   <div className="flex flex-col sm:flex-row gap-8 ">
@@ -217,7 +217,7 @@ const EditCompany = () => {
                         className={`w-full border ${
                           errors?.companyName
                             ? "!border-red-400"
-                            : "border-themeLight"
+                            : "border-gray"
                         } focus:outline-none h-12 !px-3 rounded`}
                         type="text"
                         id="companyName"
@@ -243,7 +243,7 @@ const EditCompany = () => {
                         </span>
                       </p>
                       <input
-                        className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
+                        className="w-full border border-gray focus:outline-none h-12 !px-3 rounded"
                         type="text"
                         id="companyTagline"
                         name="companyTagline"
@@ -264,7 +264,7 @@ const EditCompany = () => {
                         </span>
                       </p>
                       <input
-                        className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
+                        className="w-full border border-gray focus:outline-none h-12 !px-3 rounded"
                         type="text"
                         name="location"
                         ref={location.ref}
@@ -287,7 +287,7 @@ const EditCompany = () => {
                         </span>
                       </p>
                       <input
-                        className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
+                        className="w-full border border-gray focus:outline-none h-12 !px-3 rounded"
                         type="text"
                         id="locationLatitude"
                         name="locationLatitude"
@@ -311,7 +311,7 @@ const EditCompany = () => {
                         </span>
                       </p>
                       <input
-                        className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
+                        className="w-full border border-gray focus:outline-none h-12 !px-3 rounded"
                         type="text"
                         id="locationLongitude"
                         name="locationLongitude"
@@ -329,7 +329,7 @@ const EditCompany = () => {
                           (optional)
                         </span>
                       </p>
-                      <div className="border border-themeLighter rounded !py-2 !px-3">
+                      <div className="border border-gray rounded !py-2 !px-3">
                         {LogoImg && (
                           <span className="!mb-3 items-center flex gap-3">
                             <ImageOpt
@@ -352,7 +352,7 @@ const EditCompany = () => {
                         )}
                         <div className="flex gap-4 items-center">
                           <label
-                            className="block text-themeDark text-xss1 duration-300 ease-in-out py-1 px-3 border border-themeLighter shadow-sm cursor-pointer hover:bg-green-200 hover:border-green-200 rounded"
+                            className="block text-themeDark text-xss1 duration-300 ease-in-out py-1 px-3 border border-gray shadow-sm cursor-pointer hover:bg-themePrimary/20 hover:border-themePrimary/20 rounded"
                             htmlFor="logoImage"
                           >
                             Select File
@@ -388,7 +388,7 @@ const EditCompany = () => {
                         </span>
                       </p>
                       <input
-                        className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
+                        className="w-full border border-gray focus:outline-none h-12 !px-3 rounded"
                         type="text"
                         id="videoLink"
                         name="videoLink"
@@ -411,7 +411,7 @@ const EditCompany = () => {
                         </span>
                       </p>
                       <input
-                        className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
+                        className="w-full border border-gray focus:outline-none h-12 !px-3 rounded"
                         type="date"
                         id="eatablishedDate"
                         name="eatablishedDate"
@@ -431,7 +431,7 @@ const EditCompany = () => {
                         </span>
                       </p>
                       <input
-                        className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
+                        className="w-full border border-gray focus:outline-none h-12 !px-3 rounded"
                         type="url"
                         id="companyWebsite"
                         name="companyWebsite"
@@ -451,7 +451,7 @@ const EditCompany = () => {
                         </span>
                       </p>
                       <input
-                        className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
+                        className="w-full border border-gray focus:outline-none h-12 !px-3 rounded"
                         type="email"
                         id="companyEmail"
                         name="companyEmail"
@@ -472,7 +472,7 @@ const EditCompany = () => {
                         </span>
                       </p>
                       <input
-                        className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
+                        className="w-full border border-gray focus:outline-none h-12 !px-3 rounded"
                         type="text"
                         id="phoneNumber"
                         name="phoneNumber"
@@ -492,7 +492,7 @@ const EditCompany = () => {
                         </span>
                       </p>
                       <input
-                        className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
+                        className="w-full border border-gray focus:outline-none h-12 !px-3 rounded"
                         type="url"
                         id="facebookLink"
                         name="facebookLink"
@@ -513,7 +513,7 @@ const EditCompany = () => {
                         </span>
                       </p>
                       <input
-                        className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
+                        className="w-full border border-gray focus:outline-none h-12 !px-3 rounded"
                         type="url"
                         id="twitterLink"
                         name="twitterLink"
@@ -533,7 +533,7 @@ const EditCompany = () => {
                         </span>
                       </p>
                       <input
-                        className="w-full border border-themeLight focus:outline-none h-12 !px-3 rounded"
+                        className="w-full border border-gray focus:outline-none h-12 !px-3 rounded"
                         type="url"
                         id="linkedinLink"
                         name="linkedinLink"
@@ -557,7 +557,7 @@ const EditCompany = () => {
                         aria-label="Default select example"
                         className={`appearance-none block w-full text-themeDark ${
                           errors?.companySize ? "!border-red-400" : ""
-                        } border rounded py-2.5 px-3 leading-tight focus:outline-none  h-12 focus:bg-white`}
+                        } border border-gray rounded py-2.5 px-3 leading-tight focus:outline-none  h-12 focus:bg-white`}
                         defaultValue={""}
                         id="companySize"
                         name="companySize"
@@ -583,7 +583,7 @@ const EditCompany = () => {
                       </p>
                       <select
                         aria-label="Default select example"
-                        className={`appearance-none block w-full text-themeDark border rounded py-2.5 px-3 leading-tight focus:outline-none  h-12 focus:bg-white`}
+                        className={`appearance-none block w-full text-themeDark border border-gray rounded py-2.5 px-3 leading-tight focus:outline-none  h-12 focus:bg-white`}
                         defaultValue={""}
                         id="avarageSalary"
                         name="avarageSalary"
@@ -609,7 +609,7 @@ const EditCompany = () => {
                       </p>
                       <select
                         aria-label="Default select example"
-                        className={`appearance-none block w-full text-themeDark border rounded py-2.5 px-3 leading-tight focus:outline-none  h-12 focus:bg-white`}
+                        className={`appearance-none block w-full text-themeDark border border-gray rounded py-2.5 px-3 leading-tight focus:outline-none  h-12 focus:bg-white`}
                         defaultValue={""}
                         id="revenue"
                         name="revenue"
@@ -634,7 +634,7 @@ const EditCompany = () => {
                       </p>
                       <select
                         aria-label="Default select example"
-                        className={`appearance-none block w-full text-themeDark border rounded py-2.5 px-3 leading-tight focus:outline-none  h-12 focus:bg-white`}
+                        className={`appearance-none block w-full text-themeDark border border-gray rounded py-2.5 px-3 leading-tight focus:outline-none  h-12 focus:bg-white`}
                         defaultValue={""}
                         id="category"
                         name="category"
@@ -657,85 +657,90 @@ const EditCompany = () => {
                   </div>
 
                   {/* Header Image */}
-                  <label className="w-full" htmlFor="headerImage">
-                    <p className="text-base font-normal text-themeDark !pb-1">
-                      Header Image
-                      <span className="text-sm text-themeDarkAlt">
-                        (optional)
-                      </span>
-                    </p>
-                    <div className="border border-themeLighter rounded !py-2 !px-3">
-                      {CompanyHeaderImg && (
-                        <span className="!mb-6 w-2/3 items-center flex gap-3">
-                          <ImageOpt
-                            className="rounded-lg shadow-lg"
-                            src={CompanyHeaderImg}
-                            width={800}
-                            height={400}
-                            alt="company logo"
-                          />
-                          <button
-                            className="bg-red-300 mt-2 text-white py-1 p-2.5 text-xss rounded hover:bg-red-500"
-                            onClick={() => {
-                              setCompanyHeaderImg(null as any);
-                              setValue("headerImage", "");
-                            }}
+                  <div>
+                    <label className="w-full" htmlFor="headerImage">
+                      <p className="text-base font-normal text-themeDark !pb-1">
+                        Header Image
+                        <span className="text-sm text-themeDarkAlt">
+                          (optional)
+                        </span>
+                      </p>
+                      <div className="border border-gray rounded !py-2 !px-3">
+                        {CompanyHeaderImg && (
+                          <span className="!mb-6 w-2/3 items-center flex gap-3">
+                            <ImageOpt
+                              className="rounded-lg shadow-lg"
+                              src={CompanyHeaderImg}
+                              width={800}
+                              height={400}
+                              alt="company logo"
+                            />
+                            <button
+                              className="bg-red-300 mt-2 text-white py-1 p-2.5 text-xss rounded hover:bg-red-500"
+                              onClick={() => {
+                                setCompanyHeaderImg(null as any);
+                                setValue("headerImage", "");
+                              }}
+                            >
+                              Remove
+                            </button>
+                          </span>
+                        )}
+                        <div className="flex gap-4 items-center">
+                          <label
+                            className="block text-themeDark text-xss1 duration-300 ease-in-out py-1 px-3 border border-gray shadow-sm cursor-pointer hover:bg-themePrimary/20 hover:border-themePrimary/20 rounded"
+                            htmlFor="headerImage"
                           >
-                            Remove
-                          </button>
-                        </span>
-                      )}
-                      <div className="flex gap-4 items-center">
-                        <label
-                          className="block text-themeDark text-xss1 duration-300 ease-in-out py-1 px-3 border border-themeLighter shadow-sm cursor-pointer hover:bg-green-200 hover:border-green-200 rounded"
-                          htmlFor="headerImage"
-                        >
-                          Select File
-                          <input
-                            className="hidden"
-                            accept="image/*"
-                            id="headerImage"
-                            {...headerImage}
-                            ref={headerImage.ref}
-                            onBlur={headerImage.onBlur}
-                            onChange={(e) => {
-                              headerImage.onChange(e);
-                              PreviewImage(e, setCompanyHeaderImg);
-                            }}
-                            type="file"
-                          />
-                        </label>
-                        <span className="text-xss1 text-themeLighter">
-                          Maximum file size: 100 MB.
-                        </span>
+                            Select File
+                            <input
+                              className="hidden"
+                              accept="image/*"
+                              id="headerImage"
+                              {...headerImage}
+                              ref={headerImage.ref}
+                              onBlur={headerImage.onBlur}
+                              onChange={(e) => {
+                                headerImage.onChange(e);
+                                PreviewImage(e, setCompanyHeaderImg);
+                              }}
+                              type="file"
+                            />
+                          </label>
+                          <span className="text-xss1 text-themeLighter">
+                            Maximum file size: 100 MB.
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  </label>
+                    </label>
+                  </div>
 
                   {/* company description required */}
-                  <label className="w-full" htmlFor="description">
-                    <p className="text-base font-normal text-themeDark pb-3">
-                      Company Description
-                    </p>
-                    <textarea
-                      className={`w-full border border-themeLight ${
-                        errors?.description ? "!border-red-400" : ""
-                      } focus:outline-none h-36 !p-3 rounded`}
-                      // type="text"
-                      id="description"
-                      name="description"
-                      ref={description.ref}
-                      onChange={(e) => description.onChange(e)}
-                      onBlur={description.onBlur}
-                      placeholder="We are a team of expert designers and developers committed to rendering the best WordPress website designing services in a cost-effective practice. We are on a mission to help small business owners build their presence online. Our customer-centric approach ensures that the final product is unbeatable."
-                    />
-                    {errors?.description && (
-                      <span className="text-sm text-red-400">
-                        Company Description is required
-                      </span>
-                    )}
-                  </label>
-                  <div className="pt-6">
+                  <div>
+                    <label className="w-full" htmlFor="description">
+                      <p className="text-base font-normal text-themeDark pb-3">
+                        Company Description
+                      </p>
+                      <textarea
+                        className={`w-full border border-gray ${
+                          errors?.description ? "!border-red-400" : ""
+                        } focus:outline-none h-36 !p-3 rounded`}
+                        // type="text"
+                        id="description"
+                        name="description"
+                        ref={description.ref}
+                        onChange={(e) => description.onChange(e)}
+                        onBlur={description.onBlur}
+                        placeholder="We are a team of expert designers and developers committed to rendering the best WordPress website designing services in a cost-effective practice. We are on a mission to help small business owners build their presence online. Our customer-centric approach ensures that the final product is unbeatable."
+                      />
+                      {errors?.description && (
+                        <span className="text-sm text-red-400">
+                          Company Description is required
+                        </span>
+                      )}
+                    </label>
+                  </div>
+
+                  <div>
                     <button
                       type="submit"
                       disabled={isSubmitting || !isDirty}
@@ -743,12 +748,10 @@ const EditCompany = () => {
                         isSubmitting ? "bg-themeDarkerAlt" : "bg-themePrimary"
                       } text-white ${
                         isDirty ? "opacity-100" : "opacity-30"
-                      } rounded-lg px-4 flex gap-1 items-center !py-3 shadow-xl shadow-themePrimary/25`}
+                      } rounded-lg px-4 flex gap-1 items-center !py-3 shadow-themePrimary`}
                     >
-                      {isSubmitting ? "Please wait..." : "Save Company"}
-                      {isSubmitting && (
-                        <div className="spinner-grow w-5 h-5 text-themePrimary ml-2" />
-                      )}
+                      {isSubmitting ? "Please wait..." : "Save Changes"}
+                      {isSubmitting && <FormLoader />}
                     </button>
                   </div>
                 </form>
