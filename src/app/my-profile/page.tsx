@@ -1,6 +1,6 @@
 "use client";
 
-import Layout from "@/components/Layout/Layout";
+import Layout from "@/components/dashboard/layout";
 import ProfileBox from "@/components/dashboard/profile";
 import useUser, { UserNotLogin } from "@/lib/auth/user";
 import { users } from "@/utils/dummy-content/mongodb-collections/Untitled";

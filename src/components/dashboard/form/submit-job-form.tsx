@@ -7,7 +7,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { ThemeContext } from "../../../context/ThemeContext";
-import { LoaderGrowing } from "../../../lib/loader/loader";
+import { FormLoader, LoaderGrowing } from "../../../lib/loader/loader";
 import ImageOpt from "../../optimize/image";
 import { Axios, authAxios } from "../../../lib/utils/axiosKits";
 import { MultiSelect } from "./multi-select-dropdown";
@@ -145,7 +145,7 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
 
   return (
     <section>
-      <div className="rounded-lg shadow-lg mb-8">
+      <div className="rounded-lg shadow-lg bg-white mb-8">
         <div className="bg-themeDark rounded-lg py-3">
           <p className="text-lg2 font-semibold text-white px-6 sm:px-10">
             Select Company
@@ -227,7 +227,7 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
             <div className="pt-6">
               <Link
                 href="/company/add-company"
-                className="bg-themePrimary inline-block text-white rounded-lg px-4 !py-3 shadow-xl shadow-themePrimary/25"
+                className="bg-themePrimary inline-block text-white rounded-lg px-4 !py-3 shadow-themePrimary"
               >
                 Add Company
               </Link>
@@ -235,19 +235,19 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
           )}
         </div>
       </div>
-      <div className="rounded-lg shadow-lg relative">
+      <div className="rounded-lg shadow-lg bg-white relative">
         <div className="bg-themeDark rounded-lg py-3">
           <p className="text-lg2 font-semibold text-white px-6 sm:px-10">
             Job Details
           </p>
         </div>
         <div className="sm:px-5 py-10 mx-3 sm:mx-0">
-          {/* {companiesError && (
+          {companiesError && (
             <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
               <p className="font-bold">Error</p>
               <p>{companiesError.message}</p>
             </div>
-          )} */}
+          )}
           {!filterData && <LoaderGrowing />}
           <form className="space-y-8" onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col sm:flex-row gap-8 ">
@@ -259,7 +259,7 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
                 <input
                   disabled={jobForm}
                   className={`w-full border ${
-                    errors?.jobTitle ? "!border-red-400" : "border-themeLight"
+                    errors?.jobTitle ? "!border-red-400" : "border-gray"
                   } focus:outline-none h-12 px-3 rounded`}
                   type="text"
                   id="jobTitle"
@@ -282,11 +282,11 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
                 </p>
                 <input
                   disabled={jobForm}
-                  className="w-full border border-themeLight focus:outline-none h-12 px-3 rounded"
+                  className="w-full border border-gray focus:outline-none h-12 px-3 rounded"
                   type="text"
                   id="location"
                   {...register("location")}
-                  placeholder='e.g. "VietNam"'
+                  placeholder='e.g. "London"'
                 />
               </label>
             </div>
@@ -416,9 +416,7 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
               <textarea
                 disabled={jobForm}
                 className={`w-full border ${
-                  errors?.jobDescription
-                    ? "!border-red-400"
-                    : "border-themeLight"
+                  errors?.jobDescription ? "!border-red-400" : "border-gray"
                 } focus:outline-none h-36 p-3 rounded`}
                 type="text"
                 id="jobDescription"
@@ -442,7 +440,7 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
                 <input
                   disabled={jobForm}
                   className={`w-full border ${
-                    errors?.email ? "!border-red-400" : "border-themeLight"
+                    errors?.email ? "!border-red-400" : "border-gray"
                   } focus:outline-none h-12 px-3 rounded`}
                   type="email"
                   placeholder="info@youremail.com"
@@ -472,7 +470,7 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
                   className={`w-full border ${
                     errors?.hourlyrateMinimum
                       ? "!border-red-400"
-                      : "border-themeLight"
+                      : "border-gray"
                   } focus:outline-none h-12 px-3 rounded`}
                   type="text"
                   id="hourlyrateMinimum"
@@ -503,7 +501,7 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
                   className={`w-full border ${
                     errors?.hourlyrateMaximum
                       ? "!border-red-400"
-                      : "border-themeLight"
+                      : "border-gray"
                   } focus:outline-none h-12 px-3 rounded`}
                   type="text"
                   placeholder="60"
@@ -531,9 +529,7 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
                 <input
                   disabled={jobForm}
                   className={`w-full border ${
-                    errors?.salaryMinimum
-                      ? "!border-red-400"
-                      : "border-themeLight"
+                    errors?.salaryMinimum ? "!border-red-400" : "border-gray"
                   } focus:outline-none h-12 px-3 rounded`}
                   type="text"
                   placeholder="1500"
@@ -563,9 +559,7 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
                 <input
                   disabled={jobForm}
                   className={`w-full border ${
-                    errors?.salaryMaximum
-                      ? "!border-red-400"
-                      : "border-themeLight"
+                    errors?.salaryMaximum ? "!border-red-400" : "border-gray"
                   } focus:outline-none h-12 px-3 rounded`}
                   type="text"
                   placeholder="2000"
@@ -592,7 +586,7 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
                 <input
                   disabled={jobForm}
                   className={`w-full border ${
-                    errors?.applyLink ? "!border-red-400" : "border-themeLight"
+                    errors?.applyLink ? "!border-red-400" : "border-gray"
                   } focus:outline-none h-12 px-3 rounded`}
                   type="url"
                   placeholder="http://www.example.com"
@@ -618,7 +612,7 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
                 Header Image
                 <span className="text-sm text-themeDarkAlt">(optional)</span>
               </p>
-              <div className="border border-themeLighter rounded !py-2 !px-3">
+              <div className="border border-gray rounded !py-2 !px-3">
                 {JobHeaderImg && (
                   <span className="!mb-6 w-2/3 items-center flex gap-3">
                     <ImageOpt
@@ -646,7 +640,7 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
                       jobForm
                         ? "bg-themeLighterAlt hover:!bg-themeLighterAlt cursor-default"
                         : ""
-                    } text-themeDark text-xss1 duration-300 ease-in-out py-1 px-3 border border-themeLighter shadow-sm cursor-pointer hover:bg-green-200 hover:border-green-200 rounded`}
+                    } text-themeDark text-xss1 duration-300 ease-in-out py-1 px-3 border border-gray shadow-sm cursor-pointer hover:bg-themePrimary/20 hover:border-themePrimary/20 rounded`}
                     htmlFor="headerImage"
                   >
                     Select File
@@ -679,16 +673,11 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
                   isSubmitting ? "bg-themeDarkerAlt" : "bg-themePrimary"
                 } ${
                   jobForm ? "opacity-30" : "opacity-100"
-                } text-white rounded-lg px-4 !py-3 shadow-xl shadow-themePrimary/25`}
+                } text-white rounded-lg px-4 !py-3 shadow-themePrimary`}
               >
                 {isSubmitting ? "Please wait..." : "Create New Job"}
                 {/* loader */}
-                {isSubmitting && (
-                  <div
-                    className="spinner-grow w-5 h-5 text-themePrimary"
-                    role="status"
-                  />
-                )}
+                {isSubmitting && <FormLoader />}
               </button>
             </div>
           </form>

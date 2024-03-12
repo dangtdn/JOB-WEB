@@ -1,15 +1,15 @@
 "use client";
 
 import React from "react";
-import { Col, Row } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { FaCamera } from "react-icons/fa";
 import { toast } from "react-toastify";
-import { LoaderGrowing } from "../../../lib/loader/loader";
+import { FormLoader, LoaderGrowing } from "../../../lib/loader/loader";
 import { authAxios, authAxios1 } from "../../../lib/utils/axiosKits";
 import ImageOpt from "../../optimize/image";
 import { GetUserProfileResponse } from "@/types/user";
 import { useSWRConfig } from "swr";
+import { useRouter } from "next/navigation";
 
 const ProfileBox = ({
   currentUser,
@@ -18,10 +18,10 @@ const ProfileBox = ({
 }) => {
   const [photoImage, setPhotoImage] = React.useState(null) as any;
   const { mutate } = useSWRConfig();
+  const router = useRouter();
   const {
     register,
     handleSubmit,
-    watch,
     reset,
     formState: { errors, isSubmitting, isSubmitted, isDirty },
   } = useForm({
@@ -56,11 +56,11 @@ const ProfileBox = ({
     const formData = new FormData();
     formData.append("firstName", data.firstName);
     formData.append("lastName", data.lastName);
-    formData.append("email", data.email);
     formData.append("phoneNumber", data.phoneNumber);
     formData.append("aboutMe", data.aboutMe);
-    if (data.profileImage) {
-      formData.append("profileImage", data.profileImage[0]);
+    if (data.profileImage[0]) {
+      const imagePath = URL.createObjectURL(data.profileImage[0]);
+      formData.append("profileImage", imagePath);
     }
 
     try {
@@ -74,6 +74,10 @@ const ProfileBox = ({
             position: "bottom-right",
             className: "foo-bar",
           });
+          setTimeout(() => {
+            router.refresh();
+            reset();
+          }, 4000);
         });
       });
     } catch (error: any) {
@@ -159,7 +163,7 @@ const ProfileBox = ({
 
   return (
     <section className="mb-6">
-      <div className="rounded-lg shadow">
+      <div className="rounded-lg shadow-lg bg-white">
         <div className="h-16 bg-themeDark mb-8 flex items-center px-10 rounded-lg">
           <p className="text-xxs text-white">My Profile</p>
         </div>
@@ -167,11 +171,11 @@ const ProfileBox = ({
         {/* Loader */}
         {!currentUser && <LoaderGrowing />}
 
-        <form key={1} className="w-full" onSubmit={handleSubmit(onSubmit)}>
-          <Row className="!mx-5 xl:mx-10 justify-center items-center">
-            <Col xs={12} md={10} lg={3} className="mb-4">
+        <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
+          <div className="!mx-5 xl:mx-10 justify-center items-center grid grid-cols-12">
+            <div className="mb-4 col-span-12 md:col-span-4 lg:col-span-3">
               <div className="flex justify-center">
-                <div className="relative inline-block w-40 h-40 xl:w-52 xl:h-52 rounded-full border-3 !border-themeLighter">
+                <div className="relative inline-block w-40 h-40 xl:w-52 xl:h-52 rounded-full border-3 !border-gray">
                   <label htmlFor="image">
                     {photoImage && (
                       <ImageOpt
@@ -185,7 +189,7 @@ const ProfileBox = ({
                       <ImageOpt
                         className="rounded-full p-1"
                         layout="fill"
-                        src="https://res.cloudinary.com/dyor9qtzh/image/upload/v1646289332/Meta-jobs/user_biyxrq.png"
+                        src="https://via.placeholder.com/200x200"
                         alt="Profile image"
                       />
                     )}
@@ -209,9 +213,9 @@ const ProfileBox = ({
                   </label>
                 </div>
               </div>
-            </Col>
+            </div>
 
-            <Col xs={12} md={12} lg={9} className="mb-4">
+            <div className="mb-4 col-span-12 md:col-span-8 lg:col-span-9">
               {/* form  */}
               <div>
                 <div className="w-full">
@@ -229,7 +233,9 @@ const ProfileBox = ({
                           errors.firstName ? "!border-red-500" : "border-gray"
                         } rounded py-2.5 px-3  leading-tight focus:outline-none focus:bg-white`}
                         id="grid-first-name"
-                        {...register("firstName", { required: true })}
+                        {...register("firstName", {
+                          required: true,
+                        })}
                         type="text"
                         placeholder="Jane"
                       />
@@ -251,7 +257,9 @@ const ProfileBox = ({
                           errors.lastName ? "!border-red-500" : "border-gray"
                         } rounded py-2.5 px-3 leading-tight focus:outline-none focus:bg-white`}
                         id="grid-first-name"
-                        {...register("lastName", { required: true })}
+                        {...register("lastName", {
+                          required: true,
+                        })}
                         type="text"
                         placeholder="Ferdinand"
                       />
@@ -272,9 +280,12 @@ const ProfileBox = ({
                         className={`appearance-none block w-full text-themeDark border ${
                           errors.email ? "!border-red-500" : "border-gray"
                         } rounded py-2.5 px-3 leading-tight focus:outline-none focus:bg-white"
-                        id="grid-first-name`}
-                        {...register("email", { required: true })}
+                      id="grid-first-name`}
+                        {...register("email", {
+                          required: true,
+                        })}
                         type="text"
+                        readOnly
                         placeholder="info@gmail.com"
                       />
                       {errors.email && (
@@ -303,8 +314,8 @@ const ProfileBox = ({
                 </div>
                 {/* </form> */}
               </div>
-            </Col>
-          </Row>
+            </div>
+          </div>
           {/* button 1 */}
           <div className="mx-10 mt-3">
             <p className="themeDark text-xxs">About Me</p>
@@ -319,24 +330,13 @@ const ProfileBox = ({
                 disabled={!isDirty || isSubmitting}
                 className={`!py-3 px-8 flex gap-2 items-center ${
                   isSubmitting ? "bg-themeDarkerAlt" : "bg-themePrimary"
-                } rounded-lg shadow shadow-themePrimary ${
+                } rounded-lg shadow-themePrimary ${
                   isDirty ? "opacity-100" : "opacity-30"
                 } text-white font-medium text-xxs`}
               >
                 {/* <Link href="#"> */}
-                {isSubmitting ? "Please wait..." : "Submit"}
-                {isSubmitting && (
-                  <div
-                    className="spinner-grow text-themePrimary w-5 h-5"
-                    role="status"
-                  >
-                    <span className="sr-only">Loading...</span>
-                  </div>
-                )}
-                {/* {!isSubmitting && <a className="text-white font-medium text-xxs" >
-                  Save Changes
-                </a>} */}
-                {/* </Link> */}
+                {isSubmitting ? "Please wait..." : "Save Changes"}
+                {isSubmitting && <FormLoader />}
               </button>
             </div>
           </div>
@@ -345,12 +345,12 @@ const ProfileBox = ({
 
       {/* Change Password 2 */}
       <form key={2} onSubmit={handleSubmit2(onSubmitPassword)}>
-        <div className="mt-12 rounded-lg shadow">
+        <div className="mt-12 rounded-lg shadow-lg bg-white">
           <div className="mx-10">
             <p className="pt-6 text-themeDark text-xxs font-medium   ">
               Change Password
             </p>
-            <hr className="mt-3" />
+            <hr className="mt-3 border-gray" />
             <div className="pt-6 md:flex gap-6">
               <div className="w-full md:w-3/6">
                 <label
@@ -366,7 +366,9 @@ const ProfileBox = ({
                   id="grid-first-name"
                   type="password"
                   placeholder="********"
-                  {...register2("currentPassword", { required: true })}
+                  {...register2("currentPassword", {
+                    required: true,
+                  })}
                 />
                 {errors2.currentPassword && (
                   <span className="text-red-400 text-sm italic">
@@ -388,7 +390,9 @@ const ProfileBox = ({
                   id="grid-first-name"
                   type="password"
                   placeholder="********"
-                  {...register2("newPassword", { required: true })}
+                  {...register2("newPassword", {
+                    required: true,
+                  })}
                 />
                 {errors2.newPassword && (
                   <span className="text-red-400 text-sm italic block">
@@ -409,22 +413,12 @@ const ProfileBox = ({
                 disabled={!isDirty2 || isSubmitting2}
                 className={`!py-3 px-8 flex gap-2 items-center ${
                   isSubmitting2 ? "bg-themeDarkerAlt" : "bg-themePrimary"
-                }  rounded-lg shadow shadow-themePrimary ${
+                }  rounded-lg shadow-themePrimary ${
                   isDirty2 ? "opacity-100" : "opacity-30"
                 } text-white font-medium text-xxs`}
               >
-                {isSubmitting2 ? "Please wait..." : "Submit"}
-                {isSubmitting2 && (
-                  <div
-                    className="spinner-grow text-themePrimary w-5 h-5"
-                    role="status"
-                  >
-                    <span className="sr-only">Loading...</span>
-                  </div>
-                )}
-                {/* <Link href="#"> */}
-                {/* {!isSubmitting2 && <a className="text-white font-medium text-xxs">Save Changes</a>} */}
-                {/* </Link> */}
+                {isSubmitting2 ? "Please wait..." : "Save Changes"}
+                {isSubmitting2 && <FormLoader />}
               </button>
             </div>
           </div>

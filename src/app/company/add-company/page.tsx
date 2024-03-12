@@ -1,6 +1,7 @@
 "use client";
-import Layout from "@/components/Layout/Layout";
+
 import AddCompanyForm from "@/components/dashboard/form/add-company-form";
+import Layout from "@/components/dashboard/layout";
 import useUser, { UserGoBack, UserNotLogin } from "@/lib/auth/user";
 import Head from "next/head";
 import React from "react";
