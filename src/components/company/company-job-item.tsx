@@ -132,7 +132,7 @@ const CompanyJobItem = ({ item, loading }: { item: any; loading: any }) => {
             href={`/find-job/${item?._id}`}
             className="block text-center py-3 px-6 bg-light rounded-md group-hover:!bg-themePrimary leading-4 text-deep transition-all text-xs group-hover:text-white"
           >
-            Apply Now
+            See Details
           </Link>
         </div>
       </div>

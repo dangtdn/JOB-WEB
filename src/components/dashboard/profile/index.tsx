@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { FaCamera } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { LoaderGrowing } from "../../../lib/loader/loader";
-import { authAxios } from "../../../lib/utils/axiosKits";
+import { authAxios, authAxios1 } from "../../../lib/utils/axiosKits";
 import ImageOpt from "../../optimize/image";
 import { GetUserProfileResponse } from "@/types/user";
 import { useSWRConfig } from "swr";
@@ -64,7 +64,7 @@ const ProfileBox = ({
     }
 
     try {
-      await authAxios({
+      await authAxios1({
         method: "PUT",
         url: `/admin/user/update/${currentUser._id}`,
         data: formData,
@@ -291,7 +291,7 @@ const ProfileBox = ({
                         Phone
                       </label>
                       <input
-                        className="appearance-none block w-full text-themeDark border rounded py-2.5 px-3 mb-3 leading-tight focus:outline-none focus:bg-white"
+                        className="appearance-none block w-full text-themeDark border border-gray rounded py-2.5 px-3 mb-3 leading-tight focus:outline-none focus:bg-white"
                         id="grid-first-name"
                         {...register("phoneNumber")}
                         type="text"
@@ -309,7 +309,7 @@ const ProfileBox = ({
           <div className="mx-10 mt-3">
             <p className="themeDark text-xxs">About Me</p>
             <textarea
-              className="w-full h-36 border  focus:outline-none focus:bg-white mt-3 p-3 rounded"
+              className="w-full h-36 border border-gray focus:outline-none focus:bg-white mt-3 p-3 rounded"
               placeholder="Type something"
               {...register("aboutMe")}
             />

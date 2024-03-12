@@ -126,14 +126,14 @@ const CompanyDataList = () => {
                   </span>{" "}
                   Company
                 </p>
-                <div className="text-center mr-2.5">
+                {/* <div className="text-center mr-2.5">
                   <Link
                     href="/company/add-company"
                     className="block w-auto bg-themePrimary text-white px-6 py-2.5 text-xss font-medium rounded-md hover:bg-black transition-all outline-none"
                   >
                     Add Your Company
                   </Link>
-                </div>
+                </div> */}
               </div>
               <div className="grid gap-6 xl:gap-6 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1">
                 {data?.loading &&

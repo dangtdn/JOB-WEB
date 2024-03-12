@@ -6,6 +6,7 @@ import { AiFillStar } from "react-icons/ai";
 import Moment from "react-moment";
 import ImageOpt from "../optimize/image";
 import { companies } from "@/utils/dummy-content/mongodb-collections/companies";
+import millify from "millify";
 // const { millify } = require("millify");
 
 const JobItem = ({ item }: { item: any }) => {
@@ -145,7 +146,7 @@ const JobItem = ({ item }: { item: any }) => {
                 src="/assets/img/dollar-sign3.svg"
                 alt="img"
               />
-              {/* {millify(item.salary?.minimum ? item.salary?.minimum : 10000, {
+              {millify(item.salary?.minimum ? item.salary?.minimum : 10000, {
                 precision: 3,
                 lowercase: true,
               })}{" "}
@@ -153,8 +154,7 @@ const JobItem = ({ item }: { item: any }) => {
               {millify(item.salary?.maximum ? item.salary?.maximum : 100000, {
                 precision: 3,
                 lowercase: true,
-              })}{" "} */}
-              Taka
+              })}{" "}
             </div>
           </li>
           <li className="mb-0">
@@ -166,11 +166,11 @@ const JobItem = ({ item }: { item: any }) => {
                 src="/assets/img/clock1.svg"
                 alt="img"
               />
-              {/* <Moment fromNow>
+              <Moment fromNow>
                 {item
                   ? item.createdAt
                   : "Fri May 27 2022 10:19:22 GMT+0600 (Bangladesh Standard Time)"}
-              </Moment> */}
+              </Moment>
             </div>
           </li>
         </ul>
@@ -179,7 +179,7 @@ const JobItem = ({ item }: { item: any }) => {
             href={item ? (item?._id ? `/find-job/${item?._id}` : "#") : "#"}
             className="block leading-4 text-deep text-xs group-hover:text-white text-center py-3 px-6 bg-light rounded-md transition-all group-hover:!bg-themePrimary"
           >
-            Apply Now
+            See Details
           </Link>
         </div>
       </div>
