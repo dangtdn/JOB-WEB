@@ -1,618 +1,684 @@
-import Banner from "@/components/Banner/Banner";
-import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
-import Carousel from "@/components/Carousel/Carousel";
-import Footer from "@/components/Footer/Footer";
-import JobCard from "@/components/Cards/JobCard/JobCard";
-import Navbar from "@/components/Navbar/Navbar";
-import Image from "next/image";
-import { RiGlobalLine, RiFacebookFill } from "react-icons/ri";
-import { TiSocialLinkedin } from "react-icons/ti";
-import { FaMoneyBillWave } from "react-icons/fa";
-import { MdOutlineLocationOn } from "react-icons/md";
-import { BsCalendar, BsClock, BsBag, BsWatch } from "react-icons/bs";
+"use client";
 
-export default function JobDetail() {
-  const renderBody = () => {
-    return (
-      <section className="pb-24 !bg-gray-100 w-full">
-        <div className="container mx-auto">
-          <Breadcrumb />
-          <div className="lg:grid grid-cols-12 gap-6">
-            <div className="col-span-8">
-              <div className="p-8 rounded-md bg-white flex flex-wrap justify-between items-center mb-6 relative">
-                <div className="flex gap-6 items-center flex-wrap">
-                  <div>
-                    <div style={{ marginBottom: "-7px" }}>
-                      <span
-                        style={{
-                          boxSizing: "border-box",
-                          display: "inline-block",
-                          overflow: "hidden",
-                          width: "initial",
-                          height: "initial",
-                          background: "none",
-                          opacity: 1,
-                          border: 0,
-                          margin: 0,
-                          padding: 0,
-                          position: "relative",
-                          maxWidth: "100%",
-                        }}
-                      >
-                        <span
-                          style={{
-                            boxSizing: "border-box",
-                            display: "block",
-                            width: "initial",
-                            height: "initial",
-                            background: "none",
-                            opacity: 1,
-                            border: 0,
-                            margin: 0,
-                            padding: 0,
-                            maxWidth: "100%",
-                          }}
-                        >
-                          <img
-                            alt=""
-                            aria-hidden="true"
-                            src="data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20version=%271.1%27%20width=%27100%27%20height=%27100%27/%3e"
-                            style={{
-                              display: "block",
-                              maxWidth: "100%",
-                              width: "initial",
-                              height: "initial",
-                              background: "none",
-                              opacity: 1,
-                              border: 0,
-                              margin: 0,
-                              padding: 0,
-                            }}
-                          />
-                        </span>
-                        <img
-                          alt="img"
-                          srcSet="https://res.cloudinary.com/js-template/image/upload/v1649142612/eeli62k6lgqzrc0x56qo.png?w=128&q=75 1x, https://res.cloudinary.com/js-template/image/upload/v1649142612/eeli62k6lgqzrc0x56qo.png?w=256&q=75 2x"
-                          src="https://res.cloudinary.com/js-template/image/upload/v1649142612/eeli62k6lgqzrc0x56qo.png?w=256&q=75"
-                          decoding="async"
-                          data-nimg="intrinsic"
-                          style={{
-                            position: "absolute",
-                            inset: 0,
-                            boxSizing: "border-box",
-                            padding: 0,
-                            border: "none",
-                            margin: "auto",
-                            display: "block",
-                            width: 0,
-                            height: 0,
-                            minWidth: "100%",
-                            maxWidth: "100%",
-                            minHeight: "100%",
-                            maxHeight: "100%",
-                          }}
-                        />
-                        <noscript />
-                      </span>
-                    </div>
-                  </div>
-                  <div className="mb-6 xl:mb-0">
-                    <h2 className="text-lg text-black font-bold leading-6 !mb-2">
-                      Billing Support Specialist Job
-                    </h2>
-                    <p className="text-grayLight text-xss1 font-normal !mb-2">
-                      <span>Commercial/Supply</span>
-                    </p>
-                    <ul className="flex gap-3 flex-wrap items-center">
-                      <li>
-                        <span className="font-medium">Share on</span>
-                      </li>
-                      <li>
-                        <button
-                          aria-label="facebook"
-                          className="react-share__ShareButton social-icon"
-                          style={{
-                            backgroundColor: "transparent",
-                            border: "none",
-                            padding: 0,
-                            font: "inherit",
-                            color: "inherit",
-                            cursor: "pointer",
-                          }}
-                        >
-                          <div style={{ marginBottom: "-7px" }}>
-                            <span
-                              style={{
-                                boxSizing: "border-box",
-                                display: "inline-block",
-                                overflow: "hidden",
-                                width: "initial",
-                                height: "initial",
-                                background: "none",
-                                opacity: 1,
-                                border: 0,
-                                margin: 0,
-                                padding: 0,
-                                position: "relative",
-                                maxWidth: "100%",
-                              }}
-                            >
-                              <RiFacebookFill />
-                            </span>
-                          </div>
-                        </button>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <div className="grid">
-                  <button className="py-2.5 block px-6 mb-2 leading-4 text-white bg-themePrimary rounded-md transition-all hover:bg-black hover:text-green">
-                    Apply Now
-                  </button>
-                </div>
-                <button className="!p-2 group flex absolute top-0 right-0 justify-center items-center gap-2 mb-2 leading-4 rounded-md transition-all">
-                  {" "}
-                  <svg
-                    stroke="currentColor"
-                    fill="currentColor"
-                    strokeWidth={0}
-                    viewBox="0 0 1024 1024"
-                    className="text-themeLight group-hover:text-themePrimary text-lg"
-                    height="1em"
-                    width="1em"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M923 283.6a260.04 260.04 0 0 0-56.9-82.8 264.4 264.4 0 0 0-84-55.5A265.34 265.34 0 0 0 679.7 125c-49.3 0-97.4 13.5-139.2 39-10 6.1-19.5 12.8-28.5 20.1-9-7.3-18.5-14-28.5-20.1-41.8-25.5-89.9-39-139.2-39-35.5 0-69.9 6.8-102.4 20.3-31.4 13-59.7 31.7-84 55.5a258.44 258.44 0 0 0-56.9 82.8c-13.9 32.3-21 66.6-21 101.9 0 33.3 6.8 68 20.3 103.3 11.3 29.5 27.5 60.1 48.2 91 32.8 48.9 77.9 99.9 133.9 151.6 92.8 85.7 184.7 144.9 188.6 147.3l23.7 15.2c10.5 6.7 24 6.7 34.5 0l23.7-15.2c3.9-2.5 95.7-61.6 188.6-147.3 56-51.7 101.1-102.7 133.9-151.6 20.7-30.9 37-61.5 48.2-91 13.5-35.3 20.3-70 20.3-103.3.1-35.3-7-69.6-20.9-101.9zM512 814.8S156 586.7 156 385.5C156 283.6 240.3 201 344.3 201c73.1 0 136.5 40.8 167.7 100.4C543.2 241.8 606.6 201 679.7 201c104 0 188.3 82.6 188.3 184.5 0 201.2-356 429.3-356 429.3z" />
-                  </svg>
-                </button>
-              </div>
-              <div className="p-8 rounded-md bg-white relative">
-                <h4 className="text-lg2 font-bold text-black leading-6 mb-6">
-                  Job Description
-                </h4>
-                <div className="mb-8">
-                  It is a long established fact that a reader will be distracted
-                  by the readable content of a page when looking at its layout.
-                  The point of using Lorem Ipsum is that it has a more-or-less
-                  normal distribution of letters, as opposed to using Content
-                  here, content here, making it look like readable English. Many
-                  desktop publishing packages and web page editors now use Lorem
-                  Ipsum as their default model text, and a search for lorem
-                  ipsum will uncover many web sites still in their infancy.
-                  Various versions have evolved over the years, sometimes by
-                  accident, sometimes on purpose (injected humour and the like).
-                  There are many variations of passages of Lorem Ipsum
-                  available, but the majority have suffered alteration in some
-                  form, by injected humour, or randomised words which dont look
-                  even slightly believable. If you are going to use a passage of
-                  Lorem Ipsum, you need to be sure there isnt anything
-                  embarrassing hidden in the middle of text. All the Lorem Ipsum
-                  generators on the Internet tend to repeat predefined chunks as
-                  necessary, making this the first true generator on the
-                  Internet. It uses a dictionary of over 200 Latin words,
-                  combined with a handful of model sentence structures, to
-                  generate Lorem Ipsum which looks reasonable. The generated
-                  Lorem Ipsum is therefore always free from repetition, injected
-                  humour, or non-characteristic words etc.
-                </div>
-                <div className="mb-8">
-                  <h4 className="text-lg2 font-bold text-black leading-6 mb-6">
-                    Tagged as:
-                  </h4>
-                  <ul className="flex gap-3 flex-wrap">
-                    <li className="text-deep text-xss1 font-normal py-0.5 px-3 rounded-sm border border-solid border-gray">
-                      CSS
-                    </li>
-                    <li className="text-deep text-xss1 font-normal py-0.5 px-3 rounded-sm border border-solid border-gray">
-                      HTML
-                    </li>
-                    <li className="text-deep text-xss1 font-normal py-0.5 px-3 rounded-sm border border-solid border-gray">
-                      React
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div className="col-span-4">
-              <div className="p-8 rounded-md bg-white mb-6 relative">
-                <h4 className="text-lg2 font-bold text-black leading-6 mb-6">
-                  Job Overview
-                </h4>
-                <ul>
-                  <li className="flex gap-3 items-center flex-wrap !mb-3">
-                    <div>
-                      <div style={{ marginBottom: "-7px" }}>
-                        <span
-                          style={{
-                            boxSizing: "border-box",
-                            display: "inline-block",
-                            overflow: "hidden",
-                            width: "initial",
-                            height: "initial",
-                            background: "none",
-                            opacity: 1,
-                            border: 0,
-                            margin: 0,
-                            padding: 0,
-                            position: "relative",
-                            maxWidth: "100%",
-                          }}
-                        >
-                          <BsCalendar />
-                        </span>
-                      </div>
-                    </div>
-                    <div>
-                      <h5 className="text-base font-medium text-black leading-5 mb-0">
-                        Job Posted
-                      </h5>
-                      <p className="text-grayLight text-sm font-normal" />
-                    </div>
-                  </li>
-                  <li className="flex gap-3 items-center flex-wrap !mb-3">
-                    <div>
-                      <div style={{ marginBottom: "-7px" }}>
-                        <span
-                          style={{
-                            boxSizing: "border-box",
-                            display: "inline-block",
-                            overflow: "hidden",
-                            width: "initial",
-                            height: "initial",
-                            background: "none",
-                            opacity: 1,
-                            border: 0,
-                            margin: 0,
-                            padding: 0,
-                            position: "relative",
-                            maxWidth: "100%",
-                          }}
-                        >
-                          <BsClock />
-                        </span>
-                      </div>
-                    </div>
-                    <div>
-                      <h5 className="text-base font-medium text-black leading-5 mb-0">
-                        Deadline
-                      </h5>
-                      <p className="text-grayLight text-sm font-normal">
-                        April 30, 2022
-                      </p>
-                    </div>
-                  </li>
-                  <li className="flex gap-3 items-center flex-wrap !mb-3">
-                    <div>
-                      <div style={{ marginBottom: "-7px" }}>
-                        <span
-                          style={{
-                            boxSizing: "border-box",
-                            display: "inline-block",
-                            overflow: "hidden",
-                            width: "initial",
-                            height: "initial",
-                            background: "none",
-                            opacity: 1,
-                            border: 0,
-                            margin: 0,
-                            padding: 0,
-                            position: "relative",
-                            maxWidth: "100%",
-                          }}
-                        >
-                          <BsBag />
-                        </span>
-                      </div>
-                    </div>
-                    <div>
-                      <h5 className="text-base font-medium text-black leading-5 mb-0">
-                        Job Types
-                      </h5>
-                      <p className="text-grayLight text-sm font-normal">
-                        Full Time
-                      </p>
-                    </div>
-                  </li>
-                  <li className="flex gap-3 items-center flex-wrap !mb-3">
-                    <div>
-                      <div style={{ marginBottom: "-7px" }}>
-                        <span
-                          style={{
-                            boxSizing: "border-box",
-                            display: "inline-block",
-                            overflow: "hidden",
-                            width: "initial",
-                            height: "initial",
-                            background: "none",
-                            opacity: 1,
-                            border: 0,
-                            margin: 0,
-                            padding: 0,
-                            position: "relative",
-                            maxWidth: "100%",
-                          }}
-                        >
-                          <BsWatch />
-                        </span>
-                      </div>
-                    </div>
-                    <div>
-                      <h5 className="text-base font-medium text-black leading-5 mb-0">
-                        Hourly Rate
-                      </h5>
-                      <p className="text-grayLight text-sm font-normal">
-                        30 - 50 / hour
-                      </p>
-                    </div>
-                  </li>
-                  <li className="flex gap-3 items-center flex-wrap !mb-3">
-                    <div>
-                      <div style={{ marginBottom: "-7px" }}>
-                        <span
-                          style={{
-                            boxSizing: "border-box",
-                            display: "inline-block",
-                            overflow: "hidden",
-                            width: "initial",
-                            height: "initial",
-                            background: "none",
-                            opacity: 1,
-                            border: 0,
-                            margin: 0,
-                            padding: 0,
-                            position: "relative",
-                            maxWidth: "100%",
-                          }}
-                        >
-                          <FaMoneyBillWave />
-                        </span>
-                      </div>
-                    </div>
-                    <div>
-                      <h5 className="text-base font-medium text-black leading-5 mb-0">
-                        Salary
-                      </h5>
-                      <p className="text-grayLight text-sm font-normal">
-                        25k - 45k{" "}
-                      </p>
-                    </div>
-                  </li>
-                  <li className="flex gap-3 items-center flex-wrap !mb-3">
-                    <div>
-                      <div style={{ marginBottom: "-7px" }}>
-                        <span
-                          style={{
-                            boxSizing: "border-box",
-                            display: "inline-block",
-                            overflow: "hidden",
-                            width: "initial",
-                            height: "initial",
-                            background: "none",
-                            opacity: 1,
-                            border: 0,
-                            margin: 0,
-                            padding: 0,
-                            position: "relative",
-                            maxWidth: "100%",
-                          }}
-                        >
-                          <MdOutlineLocationOn />
-                        </span>
-                      </div>
-                    </div>
-                    <div>
-                      <h5 className="text-base font-medium text-black leading-5 mb-0">
-                        Job Location
-                      </h5>
-                      <p className="text-grayLight text-sm font-normal">
-                        Anywhere
-                      </p>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-              <div className="p-8 rounded-md bg-white relative">
-                <div className="text-center">
-                  <div className="flex justify-center mb-6">
-                    <div style={{ marginBottom: "-7px" }}>
-                      <span
-                        style={{
-                          boxSizing: "border-box",
-                          display: "inline-block",
-                          overflow: "hidden",
-                          width: "initial",
-                          height: "initial",
-                          background: "none",
-                          opacity: 1,
-                          border: 0,
-                          margin: 0,
-                          padding: 0,
-                          position: "relative",
-                          maxWidth: "100%",
-                        }}
-                      >
-                        <span
-                          style={{
-                            boxSizing: "border-box",
-                            display: "block",
-                            width: "initial",
-                            height: "initial",
-                            background: "none",
-                            opacity: 1,
-                            border: 0,
-                            margin: 0,
-                            padding: 0,
-                            maxWidth: "100%",
-                          }}
-                        >
-                          <img
-                            alt=""
-                            aria-hidden="true"
-                            src="data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20version=%271.1%27%20width=%27100%27%20height=%27100%27/%3e"
-                            style={{
-                              display: "block",
-                              maxWidth: "100%",
-                              width: "initial",
-                              height: "initial",
-                              background: "none",
-                              opacity: 1,
-                              border: 0,
-                              margin: 0,
-                              padding: 0,
-                            }}
-                          />
-                        </span>
-                        <img
-                          alt="img"
-                          srcSet="https://res.cloudinary.com/js-template/image/upload/v1649142612/eeli62k6lgqzrc0x56qo.png?w=128&q=75 1x, https://res.cloudinary.com/js-template/image/upload/v1649142612/eeli62k6lgqzrc0x56qo.png?w=256&q=75 2x"
-                          src="https://res.cloudinary.com/js-template/image/upload/v1649142612/eeli62k6lgqzrc0x56qo.png?w=256&q=75"
-                          decoding="async"
-                          data-nimg="intrinsic"
-                          style={{
-                            position: "absolute",
-                            inset: 0,
-                            boxSizing: "border-box",
-                            padding: 0,
-                            border: "none",
-                            margin: "auto",
-                            display: "block",
-                            width: 0,
-                            height: 0,
-                            minWidth: "100%",
-                            maxWidth: "100%",
-                            minHeight: "100%",
-                            maxHeight: "100%",
-                          }}
-                        />
-                      </span>
-                    </div>
-                  </div>
-                  <h4 className="text-lg2 font-medium text-black leading-6 mb-1">
-                    JS Template
-                  </h4>
-                  <p className="text-xs font-normal text-black leading-5 mb-4">
-                    Get it done with love
-                  </p>
-                  <p className="mb-3">
-                    <a
-                      className="text-xxs font-normal text-black leading-6 block"
-                      href="mailto:rjrobi900@gmail.com"
-                    >
-                      rjrobi900@gmail.com
-                    </a>
-                    <a
-                      className="text-xxs font-normal text-black leading-6 block"
-                      href="tel:01980033442"
-                    >
-                      01980033442
-                    </a>
-                  </p>
-                  <ul className="flex gap-3 flex-wrap justify-center">
-                    <li>
-                      <a
-                        href="https://yourwebsite.com"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="block"
-                      >
-                        <div style={{ marginBottom: "-7px" }}>
-                          <span
-                            style={{
-                              boxSizing: "border-box",
-                              display: "inline-block",
-                              overflow: "hidden",
-                              width: "initial",
-                              height: "initial",
-                              background: "none",
-                              opacity: 1,
-                              border: 0,
-                              margin: 0,
-                              padding: 0,
-                              position: "relative",
-                              maxWidth: "100%",
-                            }}
-                          >
-                            <RiGlobalLine />
-                          </span>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="https://facebook.com"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        <div style={{ marginBottom: "-7px" }}>
-                          <span
-                            style={{
-                              boxSizing: "border-box",
-                              display: "inline-block",
-                              overflow: "hidden",
-                              width: "initial",
-                              height: "initial",
-                              background: "none",
-                              opacity: 1,
-                              border: 0,
-                              margin: 0,
-                              padding: 0,
-                              position: "relative",
-                              maxWidth: "100%",
-                            }}
-                          >
-                            <RiFacebookFill />
-                          </span>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="https://linkedin.com"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        <div style={{ marginBottom: "-7px" }}>
-                          <span
-                            style={{
-                              boxSizing: "border-box",
-                              display: "inline-block",
-                              overflow: "hidden",
-                              width: "initial",
-                              height: "initial",
-                              background: "none",
-                              opacity: 1,
-                              border: 0,
-                              margin: 0,
-                              padding: 0,
-                              position: "relative",
-                              maxWidth: "100%",
-                            }}
-                          >
-                            <TiSocialLinkedin />
-                          </span>
-                        </div>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    );
+import _ from "lodash";
+import Head from "next/head";
+import Link from "next/link";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { FacebookShareButton, TwitterShareButton } from "react-share";
+import { toast } from "react-toastify";
+import sweetAlert from "sweetalert";
+import { usePathname, useRouter } from "next/navigation";
+import useUser from "@/lib/auth/user";
+import ImageOpt from "@/components/optimize/image";
+import { ThemeContext } from "@/context/ThemeContext";
+import Layout from "@/components/Layout/Layout";
+import PageTitle from "@/components/page-title";
+import { LoaderGrowing } from "@/lib/loader/loader";
+import JobOverview from "@/components/Job/JobOverview";
+import JobCompanyName from "@/components/Job/JobCompanyName";
+import PopupModule from "@/lib/popup-modul/popup-modul";
+import { Axios, authAxios } from "@/lib/utils/axiosKits";
+import useSWR, { useSWRConfig } from "swr";
+import RelatedJobs from "@/components/Job/RelatedJobs";
+
+const fetcher = (url: string) => Axios(url).then((res) => res.data);
+const authFetcher = (url: string) =>
+  authAxios(url).then((res) => res.data.data);
+
+export default function JobDetails() {
+  const router = useRouter();
+  const pathName = usePathname();
+  const id = pathName.split("/").at(-1);
+  const { user, loggedIn, isEmployer } = useUser();
+  const { data: jobApplies } = useSWR(
+    loggedIn ? `/jobs/${id}/job-apply` : null,
+    authFetcher,
+    {
+      refreshInterval: 0,
+    }
+  );
+
+  const isApplied = _.find(
+    jobApplies?.applications,
+    (item) => item?.jobItem === id
+  );
+
+  const { data, error } = useSWR(id ? `/jobs/${id}` : null, fetcher, {
+    fallbackData: {
+      job: {
+        applyLink: "https://localhost.com",
+        avatar:
+          "https://res.cloudinary.com/js-template/image/upload/v1647869499/fo7kcvjmwabbjheb7urc.jpg",
+        category: "IT/Telecommunication",
+        company: {
+          _id: "6232421d2b674a4761d4a050",
+          companyName: "Company Name",
+          companyTagline: "Get it done with love",
+          companyEmail: "info@example.com",
+          phoneNumber: "123456789",
+          companyWebsite: "https://yourwebsite.com",
+          socialLink: {
+            linkedin: "undefined",
+            facebook: "undefined",
+            twitter: "undefined",
+          },
+          logo: "/assets/img/avatar.png",
+        },
+        createdAt: "2022-03-20T13:38:21.874Z",
+        email: "info@gmail.com",
+        hourlyrate: { minimum: 22, maximum: 22 },
+        jobDescription: "adeqwdqw",
+        jobTitle: "developer",
+        jobTypes: ["Full Time", "Freelance"],
+        location: "dhaka",
+        region: "America",
+        salary: { minimum: 222, maximum: 222 },
+        specialTags: ["HTML", "Development"],
+        status: {
+          isApproved: false,
+          isPublished: true,
+          isFeatured: false,
+          isActive: true,
+        },
+        updatedAt: "2022-03-21T13:31:40.115Z",
+      },
+      loading: true,
+    },
+  });
+  // check isBookmark true or false
+  const { data: bookmarkData } = useSWR(
+    id ? `/user/bookmark/find/${id}` : null,
+    authFetcher,
+    {
+      refreshInterval: 0,
+    }
+  );
+  const [Show, setShow] = React.useState(false);
+  const [bookmark, setBookmark] = React.useState(false);
+  const { LoginPopupHandler } = React.useContext(ThemeContext) as any;
+  const [loading, setLoading] = React.useState(false);
+  const { mutate } = useSWRConfig();
+  const [FileName, setFileName] = React.useState();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    mode: "onChange",
+  });
+
+  const {
+    register: bookmarkRegister,
+    handleSubmit: bookmarkHandleSubmit,
+    reset: bookmarkReset,
+    formState: { isSubmitting: bookmarkIsSubmitting },
+  } = useForm({
+    mode: "onChange",
+  });
+
+  // job apply submit form
+  const jobApplySubmit = async (data: any) => {
+    const formData = new FormData();
+    formData.append("fullName", data.fullName);
+    formData.append("email", data.email);
+    formData.append("coverLetter", data.coverLetter);
+    formData.append("cvFile", data.cvFile[0]);
+    formData.append("jobItem", id ?? "");
+
+    try {
+      await authAxios({
+        method: "post",
+        url: `/job-apply/create`,
+        data: formData,
+      }).then((res) => {
+        mutate(`/users/${user._id}/job-apply`).then(() => {
+          toast.success(res.data.message, {
+            position: "bottom-right",
+            className: "foo-bar",
+          });
+          setShow(false);
+          reset();
+          setFileName("" as any);
+        });
+      });
+    } catch (error: any) {
+      if (error?.response?.data) {
+        toast.error(error?.response?.data?.message, {
+          position: "bottom-right",
+          className: "foo-bar",
+        });
+      } else {
+        toast.error(error.message, {
+          position: "bottom-right",
+          className: "foo-bar",
+        });
+      }
+    }
   };
 
+  // job bookmark submit form
+  const jobBookmarkSubmit = async (data: any) => {
+    setLoading(true);
+    try {
+      await authAxios({
+        method: "post",
+        url: "/user/bookmark",
+        data: {
+          job: id,
+          note: data.note,
+        },
+      }).then((res) => {
+        mutate(`/user/bookmark/find/${id}`).then(() => {
+          toast.success(res.data.message, {
+            position: "bottom-right",
+            className: "foo-bar",
+          });
+          setBookmark(!bookmark);
+          setLoading(false);
+          bookmarkReset();
+        });
+      });
+    } catch (error: any) {
+      toast.error(error.responsive.data.message, {
+        position: "bottom-right",
+        className: "foo-bar",
+      });
+      setLoading(false);
+    }
+  };
+
+  // remove bookmark function
+  const removeBookmark = async () => {
+    setLoading(true);
+    try {
+      await authAxios({
+        method: "DELETE",
+        url: `/user/bookmark/${id}`,
+      }).then((res) => {
+        mutate(`/user/bookmark/find/${id}`).then(() => {
+          toast.success(res.data.message, {
+            position: "bottom-right",
+            className: "foo-bar",
+          });
+          setLoading(false);
+        });
+      });
+    } catch (error: any) {
+      if (error?.response?.data?.message) {
+        toast.error(error.response.data.message, {
+          position: "bottom-right",
+          className: "foo-bar",
+        });
+        setLoading(false);
+      } else {
+        toast.error("Something went wrong", {
+          position: "bottom-right",
+          className: "foo-bar",
+        });
+        setLoading(false);
+      }
+    }
+  };
+
+  const FileInput = register("cvFile", {
+    pattern: {
+      value: /\.(pdf|doc|docx)$/i,
+      message: "Please upload a valid file",
+    },
+  });
+
   return (
-    <div>
-      <header>
-        <Navbar />
-      </header>
-      <main className="flex min-h-screen flex-col items-center justify-center pt-12">
-        <Banner />
-        {renderBody()}
-      </main>
-      <Footer />
-    </div>
+    <>
+      <Head>
+        <meta name="description" content="Generated by create next app" />
+      </Head>
+
+      <Layout>
+        <main>
+          <PageTitle image={data?.data?.avatar} title="Job Details" />
+          <section className="pt-20 pb-24 !bg-light">
+            <div className="container">
+              <div className="lg:grid grid-cols-12 gap-6">
+                <div className="col-span-8">
+                  {/* left Top */}
+                  <div className="p-8 rounded-md bg-white flex flex-wrap justify-between items-center mb-6 relative">
+                    {(!data?.data || data?.loading || loading) && (
+                      <LoaderGrowing />
+                    )}
+                    <div className="flex gap-6 items-center flex-wrap">
+                      <div className="">
+                        <ImageOpt
+                          width={100}
+                          height={100}
+                          src={
+                            data?.data?.company?.logo
+                              ? data?.data?.company?.logo
+                              : "/assets/img/avatar.png"
+                          }
+                          alt="img"
+                        />
+                      </div>
+                      <div className="mb-6 xl:mb-0">
+                        <h2 className="text-lg text-black font-bold leading-6 !mb-2">
+                          {data?.data?.jobTitle
+                            ? data?.data?.jobTitle
+                            : "Job Name"}
+                        </h2>
+                        <p className="text-grayLight text-xss1 font-normal !mb-2">
+                          <span>
+                            {data?.data?.category ? data?.data?.category : ""}
+                          </span>
+                        </p>
+                        {/* social icons */}
+                        <ul className="flex gap-3 flex-wrap items-center">
+                          <li>
+                            <span className="font-medium">Share on</span>
+                          </li>
+                          {/* <li>
+                            <a href="#">
+                              <Image
+                                width={36}
+                                height={36}
+                                noPlaceholder
+                                src="/assets/img/global.svg"
+                                alt="icon"
+                              />
+                            </a>
+                          </li> */}
+                          <li>
+                            {/* facebook share link */}
+                            <FacebookShareButton
+                              url={`https://www.facebook.com/?locale=vi_VN`}
+                              quote={`${data?.data?.jobTitle}`}
+                              className="social-icon"
+                            >
+                              <ImageOpt
+                                width={36}
+                                height={36}
+                                noPlaceholder
+                                src="/assets/img/fb.svg"
+                                alt="icon"
+                              />
+                            </FacebookShareButton>
+                          </li>
+                          <li>
+                            <TwitterShareButton
+                              url={`https://twitter.com/?lang=vi`}
+                              title={data?.data?.jobTitle}
+                              className="social-icon"
+                            >
+                              <ImageOpt
+                                width={36}
+                                height={36}
+                                noPlaceholder
+                                src="/assets/img/twitter2.svg"
+                                alt="icon"
+                              />
+                            </TwitterShareButton>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div className="grid">
+                      {user && user?._id === data?.data?.user ? (
+                        <Link
+                          href={`/find-job/${data?.data?._id}/edit-job`}
+                          className="py-2.5 block px-6 mb-2 leading-4 text-white bg-themePrimary rounded-md transition-all hover:bg-black hover:text-green"
+                        >
+                          Edit Job
+                        </Link>
+                      ) : (
+                        !isEmployer &&
+                        (isApplied ? (
+                          <span className="py-2.5 block px-6 mb-2 leading-4 text-white bg-themePrimary rounded-md transition-all">
+                            Applied
+                          </span>
+                        ) : (
+                          <button
+                            onClick={() => setShow(!Show)}
+                            className="py-2.5 block px-6 mb-2 leading-4 text-white bg-themePrimary rounded-md transition-all hover:bg-black hover:text-green"
+                          >
+                            Apply Now
+                          </button>
+                        ))
+                      )}
+                    </div>
+
+                    {/* Bookmark */}
+                    {user?._id !== data?.data?.user && (
+                      <button
+                        onClick={() => {
+                          if (bookmarkData?.isBookmark) {
+                            // remove bookmark
+                            sweetAlert({
+                              title: "Are you sure?",
+                              text: "You want to remove this job from your bookmark?",
+                              icon: "warning",
+                              buttons: true as any,
+                              dangerMode: true,
+                            }).then((willDelete) => {
+                              if (willDelete) {
+                                removeBookmark();
+                              }
+                            });
+                          } else {
+                            setBookmark(!bookmark);
+                          }
+                        }}
+                        className={`!p-2 group flex absolute top-0 right-0 justify-center items-center gap-2 mb-2 leading-4 rounded-md transition-all`}
+                      >
+                        {" "}
+                        {bookmarkData?.isBookmark ? (
+                          <AiFillHeart
+                            className={`text-themePrimary group-hover:text-themeLight text-lg`}
+                          />
+                        ) : (
+                          <AiOutlineHeart
+                            className={`text-themeLight group-hover:text-themePrimary text-lg`}
+                          />
+                        )}
+                      </button>
+                    )}
+                  </div>
+                  {/* left bottom */}
+                  <div className="p-8 rounded-md bg-white relative">
+                    {(!data?.data || data?.loading) && <LoaderGrowing />}
+                    <h4 className="text-lg2 font-bold text-black leading-6 mb-6">
+                      Job Description
+                    </h4>
+                    <div className="mb-8">
+                      {data?.data?.jobDescription
+                        ? data?.data?.jobDescription
+                        : "No description"}
+                    </div>
+                    {/* Tags */}
+                    <div className="mb-8">
+                      <h4 className="text-lg2 font-bold text-black leading-6 mb-6">
+                        Tagged as:
+                      </h4>
+                      <ul className="flex gap-3 flex-wrap">
+                        {_.map(data?.data?.specialTags, (tag, index) => (
+                          <li
+                            className="text-deep text-xss1 font-normal py-0.5 px-3 rounded-sm border border-solid border-gray"
+                            key={index}
+                          >
+                            {tag}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-span-4">
+                  <JobOverview data={data} />
+                  <JobCompanyName data={data} />
+                </div>
+              </div>
+            </div>
+          </section>
+          {data?.relatedJobs && data?.relatedJobs.length > 0 && (
+            <RelatedJobs data={data} />
+          )}
+        </main>
+      </Layout>
+
+      {/* Job Application popup */}
+      <PopupModule
+        PopupTitle={`Apply For This Job`}
+        Popup={Show}
+        PopupHandler={() => setShow(!Show)}
+      >
+        {loggedIn ? (
+          user && !isEmployer ? (
+            <form onSubmit={handleSubmit(jobApplySubmit)}>
+              {/* Full Name */}
+              <div className="mb-6">
+                <label
+                  className="block mb-2 text-themeDarker font-normal"
+                  htmlFor="fullName"
+                >
+                  Full Name
+                </label>
+                <input
+                  className={`appearance-none block w-full !p-3 leading-5 text-themeDarker border ${
+                    errors?.fullName ? "!border-red-500" : "border-gray"
+                  } placeholder:font-normal placeholder:text-xss1 rounded placeholder-themeDarkAlt focus:outline-none focus:ring-2 focus:ring-themePrimary focus:ring-opacity-50`}
+                  type="fullName"
+                  id="fullName"
+                  {...register("fullName", { required: true })}
+                  placeholder="Enter Your Full Name"
+                />
+                {errors?.fullName && (
+                  <span className="text-red-500 text-xss italic">
+                    This field is required
+                  </span>
+                )}
+              </div>
+              {/* Email Address */}
+              <div className="mb-6">
+                <label
+                  className="block mb-2 text-themeDarker font-normal"
+                  htmlFor="email"
+                >
+                  Email Address
+                </label>
+                <input
+                  className={`appearance-none block w-full !p-3 leading-5 text-themeDarker border ${
+                    errors?.email ? "!border-red-500" : "border-gray"
+                  } placeholder:font-normal placeholder:text-xss1 rounded placeholder-themeDarkAlt focus:outline-none focus:ring-2 focus:ring-themePrimary focus:ring-opacity-50`}
+                  type="email"
+                  id="email"
+                  {...register("email", { required: true })}
+                  placeholder="Enter Your Full Name"
+                />
+                {errors?.email && (
+                  <span className="text-red-500 text-xss italic">
+                    This field is required
+                  </span>
+                )}
+              </div>
+              {/* Message */}
+              <div className="mb-6">
+                <label
+                  className="block mb-2 text-themeDarker font-normal"
+                  htmlFor="coverLetter"
+                >
+                  Message
+                </label>
+                <textarea
+                  className={`appearance-none block w-full !p-3 leading-5 text-themeDarker border ${
+                    errors?.coverLetter ? "!border-red-500" : "border-gray"
+                  } placeholder:font-normal h-40 placeholder:text-xss1 rounded placeholder-themeDarkAlt focus:outline-none focus:ring-2 focus:ring-themePrimary focus:ring-opacity-50`}
+                  id="coverLetter"
+                  {...register("coverLetter")}
+                  placeholder="Your cover letter/coverLetter sent to the employer"
+                />
+              </div>
+              <div className="mb-6">
+                <span>
+                  Upload CV{" "}
+                  <span className="text-themeLighter text-xs">(optional)</span>
+                </span>
+                <div className="mt-2 border border-themeLighter rounded p-2 relative">
+                  {FileName && (
+                    <span className="!mb-3 items-center flex gap-3">
+                      <span className="chip bg-green-100 text-themeLight rounded text-xs leading-4 !p-2">
+                        {FileName}
+                      </span>
+                      <button
+                        type="button"
+                        className="bg-red-300 text-white !py-1 px-2.5 text-xss rounded-md hover:bg-red-500"
+                        onClick={() => {
+                          setFileName("" as any);
+                          // setResumeImage(null);
+                          setValue("cvFile", "");
+                        }}
+                      >
+                        Remove
+                      </button>
+                    </span>
+                  )}
+                  <div className="flex gap-3 items-center">
+                    <label
+                      className="block text-themeDark text-sm duration-300 ease-in-out py-1 px-3 border border-themeLight shadow-sm cursor-pointer hover:bg-green-200 hover:border-green-200 rounded"
+                      htmlFor="cvFile"
+                    >
+                      Select File
+                      <input
+                        className="hidden"
+                        id="cvFile"
+                        accept=".doc,.docx,.pdf"
+                        {...FileInput}
+                        ref={FileInput.ref}
+                        onBlur={FileInput.onBlur}
+                        onChange={(e: any) => {
+                          FileInput.onChange(e);
+                          setFileName(e.target.files[0].name);
+                        }}
+                        type="file"
+                      />
+                      {errors?.image && (
+                        <span className="text-red-500 text-xs italic">
+                          {errors?.image?.message as string}
+                        </span>
+                      )}
+                    </label>
+                    <span className="text-xss1 text-themeLighter">
+                      Maximum file size: 100 MB.
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <button
+                className={`!py-3 px-7 flex gap-2 justify-center items-center transition-all duration-300 ease-in-out mb-6 w-full text-base text-white font-normal text-center leading-6 ${
+                  isSubmitting ? "bg-themeDarkerAlt" : "bg-themePrimary"
+                } rounded-md hover:bg-black`}
+                type="submit"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Please wait..." : "Send Application"}
+                {isSubmitting && (
+                  <div
+                    className="spinner-grow w-5 h-5 text-themePrimary"
+                    role="status"
+                  >
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                )}
+              </button>
+              <p>
+                You can apply to this job and others using your online resume.
+                Click the button above to send your online resume and email your
+                application to the employer.
+              </p>
+            </form>
+          ) : (
+            <div className="text-center grid justify-center items-center h-40">
+              <div>
+                <p className="text-lg2 text-themeLight !mb-4">
+                  You must be a candidate to apply for this job.
+                </p>
+              </div>
+            </div>
+          )
+        ) : (
+          <div className="text-center grid justify-center items-center h-40">
+            <div>
+              <p className="text-xxs text-themeLighter !mb-4">
+                You must be logged in to apply for this job.
+              </p>
+              <button
+                className="bg-themePrimary text-white px-10 !py-3 hover:bg-themeDarkerAlt transition-all duration-300 ease-in-out rounded text-base font-normal"
+                onClick={() => {
+                  LoginPopupHandler();
+                  setShow(!Show);
+                }}
+              >
+                Login Now
+              </button>
+            </div>
+          </div>
+        )}
+      </PopupModule>
+      {/* Job Bookmark popup */}
+      <PopupModule
+        PopupTitle="Bookmark Details"
+        Popup={bookmark}
+        PopupHandler={() => {
+          setBookmark(!bookmark);
+        }}
+      >
+        {loggedIn ? (
+          <form
+            className="grid grid-cols-1 gap-4"
+            onSubmit={bookmarkHandleSubmit(jobBookmarkSubmit)}
+          >
+            <div className="mb-6">
+              <label
+                className="block mb-2 text-themeDarker font-normal"
+                htmlFor="note"
+              >
+                Bookmark Note:
+              </label>
+              <textarea
+                className={`appearance-none block w-full !p-3 leading-5 text-themeDarker border ${
+                  errors?.note ? "!border-red-500" : "border-gray"
+                } placeholder:font-normal h-40 placeholder:text-xss1 rounded placeholder-themeDarkAlt focus:outline-none focus:ring-2 focus:ring-themePrimary focus:ring-opacity-50`}
+                id="note"
+                {...bookmarkRegister("note")}
+                placeholder="Note"
+              />
+              {errors?.note && (
+                <span className="text-red-500 text-xss italic">
+                  This field is required
+                </span>
+              )}
+            </div>
+            <button
+              className={`!py-3 px-7 flex gap-2 justify-center items-center transition-all duration-300 ease-in-out mb-6 w-full text-base text-white font-normal text-center leading-6 ${
+                bookmarkIsSubmitting || loading
+                  ? "bg-themeDarkerAlt"
+                  : "bg-themePrimary"
+              } rounded-md hover:bg-black`}
+              type="submit"
+              disabled={bookmarkIsSubmitting || loading}
+            >
+              {bookmarkIsSubmitting || loading
+                ? "Please wait..."
+                : "Add Bookmark"}
+              {(bookmarkIsSubmitting || loading) && (
+                <div
+                  className="spinner-grow w-5 h-5 text-themePrimary"
+                  role="status"
+                >
+                  <span className="sr-only">Loading...</span>
+                </div>
+              )}
+            </button>
+          </form>
+        ) : (
+          <div className="text-center grid justify-center items-center h-40">
+            <div>
+              <p className="text-xxs text-themeLighter !mb-4">
+                You must be logged in to bookmark this job.
+              </p>
+              <button
+                className="bg-themePrimary text-white px-10 !py-3 hover:bg-themeDarkerAlt transition-all duration-300 ease-in-out rounded text-base font-normal"
+                onClick={() => {
+                  LoginPopupHandler();
+                  setBookmark(!bookmark);
+                }}
+              >
+                Login Now
+              </button>
+            </div>
+          </div>
+        )}
+      </PopupModule>
+    </>
   );
 }
