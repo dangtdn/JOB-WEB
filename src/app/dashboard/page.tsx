@@ -1,7 +1,7 @@
 "use client";
 
 import RecentActivities from "@/components/dashboard/dashboard/recent-activities";
-import ResumePackages from "@/components/dashboard/dashboard/resume-packages";
+import ResumeBookmarks from "@/components/dashboard/dashboard/recent-bookmarks";
 import UserInfoBox from "@/components/dashboard/dashboard/user-info-box";
 import Layout from "@/components/dashboard/layout";
 import useUser, { UserNotLogin } from "@/lib/auth/user";
@@ -26,13 +26,13 @@ const Dashboard = () => {
             <section className="mb-6">
               <div className="mx-auto">
                 <UserInfoBox />
-                <div className="grid lg:grid-cols-2 grid-cols-1 sm:grid-cols-1 gap-4">
+                <div className="grid lg:grid-cols-2 grid-cols-1 sm:grid-cols-1 gap-10">
                   <div>
                     <RecentActivities />
                   </div>
-                  {/* <div>
-                    <ResumePackages />
-                  </div> */}
+                  <div>
+                    <ResumeBookmarks />
+                  </div>
                 </div>
               </div>
             </section>

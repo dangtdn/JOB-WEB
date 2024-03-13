@@ -7,7 +7,6 @@ import React from "react";
 import { HiChevronDown } from "react-icons/hi";
 import { MdClose } from "react-icons/md";
 import Skeleton from "react-loading-skeleton";
-import Moment from "react-moment";
 import { ThemeContext } from "../../../context/ThemeContext";
 import Image from "../../optimize/image";
 import { authAxios } from "@/lib/utils/axiosKits";
@@ -21,6 +20,8 @@ import {
 } from "@/components/@menuData/menu";
 import { BiLogOut } from "react-icons/bi";
 import { srcDefaultImg } from "@/constants/appConstants";
+import { IoNotificationsCircle } from "react-icons/io5";
+import moment from "moment";
 
 const fetcher = (url: string) => authAxios(url).then((res) => res.data);
 
@@ -42,7 +43,7 @@ const Header = () => {
   path = path[path.length - 1] as any;
 
   const newNotification =
-    _.filter(recentNotification, (item) => {
+    _.filter(recentNotification?.notification, (item) => {
       return _.lowerCase(item.status) === "unread";
     }).length > 0;
 
@@ -117,7 +118,7 @@ const Header = () => {
             </div>
 
             <div className="hidden lg:flex items-center justify-center">
-              {/* <ul className="flex items-center space-x-6 mr-6">
+              <ul className="flex items-center space-x-6 mr-6">
                 <li className="relative !p-1 grid items-center">
                   <button
                     className={`text-themeDark relative hover:text-themePrimary ${
@@ -144,7 +145,7 @@ const Header = () => {
                     <NotificationMenu active={notification} />
                   )}
                 </li>
-              </ul> */}
+              </ul>
               <div className="hidden lg:block">
                 <div className="relative">
                   {userData && (
@@ -203,7 +204,7 @@ const Header = () => {
               </div>
             </div>
             <div className="lg:hidden flex items-center gap-2">
-              {/* <ul className="flex items-center space-x-6 !mr-2">
+              <ul className="flex items-center space-x-6 !mr-2">
                 <li className="relative !p-1 grid items-center">
                   <button
                     className={`text-themeDark relative hover:text-themePrimary ${
@@ -230,7 +231,7 @@ const Header = () => {
                     <NotificationMenu active={notification} />
                   )}
                 </li>
-              </ul> */}
+              </ul>
               <div>
                 <div className="relative">
                   {userData && (
@@ -367,9 +368,9 @@ const Header = () => {
                 </div>
               )}
               {/* data */}
-              {recentNotification && (
+              {recentNotification?.notification && (
                 <>
-                  {_.map(recentNotification, (notify, index) => (
+                  {_.map(recentNotification?.notification, (notify, index) => (
                     <div
                       className="flex justify-between gap-3 !py-2 border-b cursor-pointer border-themeLighter"
                       onMouseEnter={() => notificationSeenHandler(notify._id)}
@@ -395,7 +396,8 @@ const Header = () => {
                   <div className="flex justify-between gap-3 !pt-3">
                     <div>
                       <p className="text-sm text-text-themeDarker">
-                        {recentNotification.length} new notifications
+                        {recentNotification?.notification.length} new
+                        notifications
                       </p>
                     </div>
                     <div>
@@ -539,18 +541,23 @@ function DashboardMenu({ active }: { active: any }) {
   );
 }
 
+// Notification Menu Wrapper
 function NotificationMenu({ active }: { active: any }) {
   const { recentNotification, recentNotificationError } = React.useContext(
     ThemeContext
   ) as any;
   return (
     <>
-      <NotificationMenuWrapper
-        className={`${
-          active ? "active" : ""
-        } bg-themeLighterAlt text-white absolute`}
+      <div
+        className={`transition-all	duration-300 ease-in-out w-[350px] -right-[150%] rounded-[3px] p-0 top-[150%]  text-left
+           z-[999] shadow-[0px_0_8px_0px_rgb(0_0_0_/_10%)] before:content-[''] before:absolute before:right-[50px] before:-top-[6px] before:w-0 before:h-0 before:border-l-transparent before:border-r-transparent before:border-b-[rgb(247_248_250)] before:transition-all before:ease-in-out before:duration-300 ${
+             active
+               ? "transform scale-100 visible opacity-100"
+               : "opacity-0 invisible transform scale-[0.95]"
+           } bg-themeLighterAlt text-white absolute rounded-lg overflow-hidden`}
       >
-        <NotificationList className="!p-4">
+        {/* Notification List */}
+        <div className="pb-8 bg-white max-h-[400px] overflow-y-auto">
           {/* center loader */}
           {!recentNotification && !recentNotificationError && (
             <div className="flex py-7 justify-center items-center h-full">
@@ -573,55 +580,48 @@ function NotificationMenu({ active }: { active: any }) {
             </div>
           )}
           {/* data */}
-          {recentNotification && (
+          {recentNotification?.notification && (
             <>
-              {_.map(recentNotification, (notify, index) => (
+              {_.map(recentNotification?.notification, (notify, index) => (
                 <div
-                  className="flex justify-between gap-3 !py-2 border-b cursor-pointer border-themeDarkAlt"
+                  className="flex justify-between cursor-pointer items-center px-4 py-3 border-b border-gray last-of-type:border-b-0 hover:bg-themeLighterAlt -mx-2"
                   onMouseEnter={() =>
                     _.lowerCase(notify.status) === "unread" &&
                     notificationSeenHandler(notify._id)
                   }
                 >
-                  <div>
-                    <p className="text-sm text-themeDarker inline-block relative">
-                      {notify.event}
-                      {_.lowerCase(notify.status) === "unread" && (
-                        <span className="w-1.5 h-1.5 bg-blue-500 rounded-full absolute top-0 -right-3" />
-                      )}
-                    </p>
-                    <p className="text-sm text-themeLighter">
-                      {notify.message}
-                    </p>
-                  </div>
-                  <div>
-                    <span className="text-sm text-themeLight">
-                      {/* <Moment fromNow>{notify.timestamp}</Moment> */}
-                    </span>
+                  <div className="flex gap-2 items-center">
+                    {/* Message Icon */}
+                    <IoNotificationsCircle className="w-10 h-10 mx-1 text-themePrimary flex-none" />
+                    <div>
+                      <p className="text-themeLight text-sm inline mr-2 relative">
+                        {moment(notify.timestamp).fromNow()}
+                        {_.lowerCase(notify.status) === "unread" && (
+                          <span className="flex h-2 w-2 absolute top-0 -right-3">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                          </span>
+                        )}
+                      </p>
+                      <p className="text-sm text-themeLighter">
+                        {notify.message}
+                      </p>
+                    </div>
                   </div>
                 </div>
               ))}
-              <div className="flex justify-between gap-3 !pt-3">
-                <div>
-                  <p className="text-sm text-themeDarker">
-                    {recentNotification.length} new notifications
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm text-themeDarker">
-                    <Link
-                      href="/notifications"
-                      className="text-themePrimary hover:text-themeDarker"
-                    >
-                      View all
-                    </Link>
-                  </p>
-                </div>
-              </div>
             </>
           )}
-        </NotificationList>
-      </NotificationMenuWrapper>
+        </div>
+        <div className="absolute bottom-0 right-0 mt-2 bg-white rounded-md shadow-lg overflow-hidden z-20 w-full">
+          <Link
+            href="/notifications"
+            className="block bg-themeDarkerAlt w-full p-2 text-white text-center font-bold"
+          >
+            See all notifications
+          </Link>
+        </div>
+      </div>
     </>
   );
 }

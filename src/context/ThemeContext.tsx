@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import useUser from "../lib/auth/user";
 import { authAxios, Axios } from "../lib/utils/axiosKits";
 import { localRemove } from "../lib/utils/localStore";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { AxiosRequestConfig } from "axios";
 import useSWR from "swr";
 
@@ -26,36 +26,57 @@ type ThemeContextType = {
   setRegisterPopup?: React.Dispatch<React.SetStateAction<boolean>>;
   lostPasswordShow?: boolean;
   lostPasswordHandler?: () => void;
-  categoryData?: {
-    _id: {
-      $oid: string;
-    };
-    status: {
-      isFeatured: boolean;
-      isActive: boolean;
-    };
-    categoryTitle: string;
-    subCategory: string[];
-    avatar: string;
-    iconUrl: string;
-    __v: number;
-  }[];
+  categoryData?: any[];
   categoryError?: any;
+  bookmarkData: any;
+  bookmarkError: any;
   // categoryMutate,
   logOutHandler?: () => Promise<void>;
   frontendLogOutHandler?: () => Promise<void>;
-  // recentNotification,
-  // recentNotificationError,
+  recentNotification: any;
+  recentNotificationError: any;
+};
+
+const defaultThemeContext: ThemeContextType = {
+  apiEndPoint: "",
+  body: null,
+  windowWidth: undefined,
+  windowHeight: undefined,
+  isMobileMenuOpen: false,
+  setIsMobileMenuOpen: undefined,
+  isSideNavOpen: false,
+  setIsSideNavOpen: undefined,
+  LoginPopup: false,
+  LoginPopupHandler: undefined,
+  setLoginPopup: undefined,
+  RegisterPopup: false,
+  RegisterPopupHandler: undefined,
+  setRegisterPopup: undefined,
+  lostPasswordShow: false,
+  lostPasswordHandler: undefined,
+  categoryData: undefined,
+  categoryError: undefined,
+  // categoryMutate: undefined,
+  recentNotification: undefined,
+  recentNotificationError: undefined,
+  bookmarkData: undefined,
+  bookmarkError: undefined,
+  // bookmarkMutate: undefined,
+  // hydrationFix: false,
 };
 
 const fetcher = (url: AxiosRequestConfig<any>) =>
   Axios(url).then((res: any) => res.data.data);
+const authFetcher = (url: string) =>
+  authAxios(url).then((res: any) => res.data.data);
 const JobCategoryAPI = "/categories";
 
-export const ThemeContext = createContext<ThemeContextType>({});
+export const ThemeContext =
+  createContext<ThemeContextType>(defaultThemeContext);
 
 const ThemeContextProvider = ({ children }: { children: any }) => {
   const apiEndPoint = `/api`;
+  const pathName = usePathname();
   const [windowWidth, setWindowWidth] = React.useState(
     typeof window === "object" && window.innerWidth
   );
@@ -80,12 +101,22 @@ const ThemeContextProvider = ({ children }: { children: any }) => {
   } = useSWR(JobCategoryAPI, fetcher, {
     revalidateOnFocus: false,
   });
-  console.log("categoryData1: ", categoryData);
-  // // user notification data fetching hooks
-  // const { data: recentNotification, error: recentNotificationError } = useSWR(
-  // 	loggedIn && `/notifications/recent/retrives`,
-  // 	authFetcher
-  // )
+
+  // user notification data fetching hooks
+  const { data: recentNotification, error: recentNotificationError } = useSWR(
+    loggedIn && `/notifications`,
+    authFetcher
+  );
+
+  // user bookmark data fetching hooks
+  const {
+    data: bookmarkData,
+    error: bookmarkError,
+    mutate: bookmarkMutate,
+  } = useSWR(
+    pathName.split("/")[1] === "dashboard" && `/bookmarks`,
+    authFetcher
+  );
 
   const router = useRouter();
 
@@ -184,11 +215,13 @@ const ThemeContextProvider = ({ children }: { children: any }) => {
         lostPasswordHandler,
         categoryData,
         categoryError,
+        bookmarkData,
+        bookmarkError,
         // categoryMutate,
         logOutHandler,
         frontendLogOutHandler,
-        // recentNotification,
-        // recentNotificationError,
+        recentNotification,
+        recentNotificationError,
       }}
     >
       {children}
