@@ -95,3 +95,4 @@ export const accessToken = "1|YFGYFlTw1mVLF83UuajgobFVpyBmoPhGJonhXpDv";
 export const longitude = 105.979021;
 export const latitude = 10.250192;
 export const baseURL = "https://dashboard.tuvanxaydungvinhlong.vn";
+export const srcDefaultImg = "/../assets/img/animal2.png";

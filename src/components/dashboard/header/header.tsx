@@ -20,6 +20,7 @@ import {
   Menu,
 } from "@/components/@menuData/menu";
 import { BiLogOut } from "react-icons/bi";
+import { srcDefaultImg } from "@/constants/appConstants";
 
 const fetcher = (url: string) => authAxios(url).then((res) => res.data);
 
@@ -152,7 +153,7 @@ const Header = () => {
                       onClick={UserMenuHandler}
                     >
                       <div className="mr-3 lg:pl-4 lg:border-l lg:border-l-themeLighter flex items-center">
-                        {userData?.avatar && (
+                        {/* {userData?.avatar && (
                           <Image
                             className="rounded-full object-cover object-right p-1 border border-solid border-gray-500"
                             src={userData?.avatar}
@@ -160,16 +161,16 @@ const Header = () => {
                             width={50}
                             height={50}
                           />
-                        )}
-                        {!userData?.avatar && (
-                          <Image
-                            className="rounded-full object-cover object-right p-1 border border-solid border-gray-500"
-                            src="https://static.vecteezy.com/system/resources/thumbnails/009/734/564/small_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg"
-                            alt="User image"
-                            width={50}
-                            height={50}
-                          />
-                        )}
+                        )} */}
+                        {/* {!userData?.avatar && ( */}
+                        <Image
+                          className="rounded-full object-cover object-right p-1 border border-solid border-gray-500"
+                          src={srcDefaultImg}
+                          alt="User image"
+                          width={50}
+                          height={50}
+                        />
+                        {/* )} */}
                       </div>
                       <div>
                         <p className="text-sm leading-8">
@@ -238,7 +239,7 @@ const Header = () => {
                       onClick={UserMenuHandler}
                     >
                       <div className="mr-3 pl-3 border-l border-l-themeLighter flex items-center">
-                        {userData?.avatar && (
+                        {/* {userData?.avatar && (
                           <Image
                             className="rounded-full object-cover object-right p-1 border border-solid border-gray-500"
                             src={userData?.avatar}
@@ -246,16 +247,16 @@ const Header = () => {
                             width={50}
                             height={50}
                           />
-                        )}
-                        {!userData?.avatar && (
-                          <Image
-                            className="rounded-full object-cover object-right p-1 border border-solid border-gray-500"
-                            src="https://res.cloudinary.com/dyor9qtzh/image/upload/v1646289332/Meta-jobs/user_biyxrq.png"
-                            alt="User image"
-                            width={50}
-                            height={50}
-                          />
-                        )}
+                        )} */}
+                        {/* {!userData?.avatar && ( */}
+                        <Image
+                          className="rounded-full object-cover object-right p-1 border border-solid border-gray-500"
+                          src={srcDefaultImg}
+                          alt="User image"
+                          width={50}
+                          height={50}
+                        />
+                        {/* )} */}
                       </div>
                       <div>
                         <p className="text-sm leading-8">

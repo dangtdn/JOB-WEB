@@ -47,11 +47,11 @@ export const DashboardMenuList = [
     link: "/find-job/job-alerts",
     icon: <AlertIcon />,
   },
-  {
-    name: "Manages Resumes",
-    link: "/resume/manages-resumes",
-    icon: <ManagesResumeIcon />,
-  },
+  // {
+  //   name: "Manages Resumes",
+  //   link: "/resume/manages-resumes",
+  //   icon: <ManagesResumeIcon />,
+  // },
   {
     name: "My Profile",
     link: "/my-profile",
@@ -100,11 +100,11 @@ export const AdminMenuList = [
     link: "/company/manages-companies",
     icon: <ManagesCompanyIcon />,
   },
-  {
-    name: "Manages Resumes",
-    link: "/resume/manages-resumes",
-    icon: <ManagesResumeIcon />,
-  },
+  // {
+  //   name: "Manages Resumes",
+  //   link: "/resume/manages-resumes",
+  //   icon: <ManagesResumeIcon />,
+  // },
   {
     name: "My Profile",
     link: "/my-profile",
@@ -142,20 +142,20 @@ export const candidatesMenu = [
     alert: "",
     image: "./assets/img/nav-img-5.svg",
   },
-  {
-    name: "Resumes",
-    link: "/resume/manages-resumes",
-    icon: <ManagesResumeIcon />,
-    alert: "",
-    image: "./assets/img/nav-img-5.svg",
-  },
-  {
-    name: "Add Resume",
-    link: "/resume/add-resume",
-    icon: <AddIcon />,
-    alert: "",
-    image: "./assets/img/nav-img-6.svg",
-  },
+  // {
+  //   name: "Resumes",
+  //   link: "/resume/manages-resumes",
+  //   icon: <ManagesResumeIcon />,
+  //   alert: "",
+  //   image: "./assets/img/nav-img-5.svg",
+  // },
+  // {
+  //   name: "Add Resume",
+  //   link: "/resume/add-resume",
+  //   icon: <AddIcon />,
+  //   alert: "",
+  //   image: "./assets/img/nav-img-6.svg",
+  // },
   {
     name: "My Profile",
     link: "/my-profile",
@@ -287,22 +287,22 @@ export const adminMenu = [
       },
     ],
   },
-  {
-    name: "Resumes",
-    link: "/resume/manages-resumes",
-    icon: <ManagesResumeIcon />,
-    alert: "",
-    image: "./assets/img/nav-img-5.svg",
-    submenu: [
-      {
-        name: "Add Resumes",
-        link: "/resume/add-resume",
-        icon: <AddIcon />,
-        alert: "",
-        image: "./assets/img/nav-img-6.svg",
-      },
-    ],
-  },
+  // {
+  //   name: "Resumes",
+  //   link: "/resume/manages-resumes",
+  //   icon: <ManagesResumeIcon />,
+  //   alert: "",
+  //   image: "./assets/img/nav-img-5.svg",
+  //   submenu: [
+  //     {
+  //       name: "Add Resumes",
+  //       link: "/resume/add-resume",
+  //       icon: <AddIcon />,
+  //       alert: "",
+  //       image: "./assets/img/nav-img-6.svg",
+  //     },
+  //   ],
+  // },
   {
     name: "My Profile",
     link: "/my-profile",

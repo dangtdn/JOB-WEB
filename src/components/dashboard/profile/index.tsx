@@ -10,6 +10,7 @@ import ImageOpt from "../../optimize/image";
 import { GetUserProfileResponse } from "@/types/user";
 import { useSWRConfig } from "swr";
 import { useRouter } from "next/navigation";
+import { srcDefaultImg } from "@/constants/appConstants";
 
 const ProfileBox = ({
   currentUser,
@@ -177,22 +178,22 @@ const ProfileBox = ({
               <div className="flex justify-center">
                 <div className="relative inline-block w-40 h-40 xl:w-52 xl:h-52 rounded-full border-3 !border-gray">
                   <label htmlFor="image">
-                    {photoImage && (
+                    {/* {photoImage && (
                       <ImageOpt
                         className="rounded-full p-1"
                         layout="fill"
                         src={photoImage}
                         alt="Profile image"
                       />
-                    )}
-                    {!photoImage && (
-                      <ImageOpt
-                        className="rounded-full p-1"
-                        layout="fill"
-                        src="https://static.vecteezy.com/system/resources/thumbnails/009/734/564/small_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg"
-                        alt="Profile image"
-                      />
-                    )}
+                    )} */}
+                    {/* {!photoImage && ( */}
+                    <ImageOpt
+                      className="rounded-full p-1"
+                      layout="fill"
+                      src={srcDefaultImg}
+                      alt="Profile image"
+                    />
+                    {/* )} */}
                     <span className="absolute flex justify-center cursor-pointer items-center bg-gray w-12 h-12 bottom-0 right-0 ml-24 rounded-full">
                       <input
                         className="hidden"

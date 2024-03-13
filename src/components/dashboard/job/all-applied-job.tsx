@@ -7,19 +7,23 @@ import { FiFile } from "react-icons/fi";
 import Pagination from "../pagination";
 import { authAxios } from "@/lib/utils/axiosKits";
 import { LoaderGrowing } from "@/lib/loader/loader";
-import { jobApplies } from "@/data/mongodb collections/jobapplies";
 import PopupModule from "@/lib/popup-modul/popup-modul";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import useUser from "@/lib/auth/user";
+import { CgTrash } from "react-icons/cg";
+import { toast } from "react-toastify";
+import sweetAlert from "sweetalert";
 
 const fetcher = (url: string) => authAxios(url).then((res) => res.data.data);
 
 const AllApplications = () => {
   const { user } = useUser();
   const { data, error } = useSWR(`users/${user._id}/job-apply`, fetcher);
+  const [loading, setLoading] = React.useState(false);
   // get current pages
   const [currentPage, setCurrentPage] = React.useState(1);
   const [ShowPerPage, setShowPerPage] = React.useState(10);
+  const { mutate } = useSWRConfig();
   const indexOfLastPost = currentPage * ShowPerPage;
   const indexOfFirstPost = indexOfLastPost - ShowPerPage;
   const currentPosts = data
@@ -30,8 +34,45 @@ const AllApplications = () => {
     setCurrentPage(data.selected + 1);
   };
 
+  const onRemove = (id: any, userId: any) => {
+    setLoading(true);
+    sweetAlert({
+      title: "Are you sure?",
+      text: "You want to delete this application?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    } as any).then((willDelete) => {
+      if (willDelete) {
+        try {
+          authAxios({
+            method: "DELETE",
+            url: `/users/${id}/delete`,
+          }).then((res) => {
+            mutate(`users/${userId}/job-apply`).then(() => {
+              toast.success(res.data.message, {
+                position: "bottom-right",
+                className: "foo-bar",
+              });
+              setLoading(false);
+            });
+          });
+        } catch (error: any) {
+          toast.error(error.response.data.message, {
+            position: "bottom-right",
+            className: "foo-bar",
+          });
+          setLoading(false);
+        }
+      } else {
+        setLoading(false);
+      }
+    });
+  };
+
   return (
     <section className="mb-6">
+      {loading && <LoaderGrowing />}
       {/* table start here */}
       {/* table data for desktop */}
       <div className="shadow rounded-lg mb-10 overflow-x-auto overflow-y-hidden hidden md:block relative">
@@ -92,13 +133,16 @@ const AllApplications = () => {
                   <th className="text-left whitespace-nowrap bg-themeDark px-4 py-3.5 leading-9 text-white text-xxs font-medium w-48">
                     Status
                   </th>
+                  <th className="text-left whitespace-nowrap bg-themeDark px-4 py-3.5 leading-9 text-white text-xxs font-medium w-48">
+                    Setting
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {data.length > 0 ? (
                   <>
                     {_.map(currentPosts, (item, index) => (
-                      <TableItem key={index} item={item} />
+                      <TableItem key={index} item={item} onRemove={onRemove} />
                     ))}
                   </>
                 ) : (
@@ -161,7 +205,13 @@ const AllApplications = () => {
   );
 };
 
-const TableItem = ({ item }: { item: any }) => {
+const TableItem = ({
+  item,
+  onRemove,
+}: {
+  item: any;
+  onRemove: (id: any, userId: any) => void;
+}) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
@@ -220,6 +270,13 @@ const TableItem = ({ item }: { item: any }) => {
                 Applied
               </span>
             </span>
+          </div>
+        </td>
+        <td className="text-themeDark text-base  px-3 py-4 align-middle">
+          <div>
+            <button onClick={() => onRemove(item?._id, item?.user)}>
+              <CgTrash className="text-2xl text-themeLight hover:text-red-400" />
+            </button>
           </div>
         </td>
       </tr>

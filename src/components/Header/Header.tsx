@@ -19,6 +19,7 @@ import {
 import { Logo } from "../icons";
 import { BiLogOut } from "react-icons/bi";
 import Image from "next/image";
+import { srcDefaultImg } from "@/constants/appConstants";
 
 const Header = () => {
   const { stickyRef, sticky } = useSticky();
@@ -96,7 +97,7 @@ const Header = () => {
                           onClick={UserMenuHandler}
                         >
                           <div className="mr-3 flex items-center">
-                            {userData?.avatar && (
+                            {/* {userData?.avatar && (
                               <ImageOpt
                                 className="rounded-full object-cover object-right p-1 border border-solid border-gray-500"
                                 src={userData?.avatar}
@@ -105,16 +106,16 @@ const Header = () => {
                                 height={48}
                                 noPlaceholder={true}
                               />
-                            )}
-                            {!userData?.avatar && (
-                              <Image
-                                className="rounded-full object-cover object-right p-1 border border-solid border-gray-500"
-                                src="https://static.vecteezy.com/system/resources/thumbnails/009/734/564/small_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg"
-                                alt="User image"
-                                width={48}
-                                height={48}
-                              />
-                            )}
+                            )} */}
+                            {/* {!userData?.avatar && ( */}
+                            <Image
+                              className="rounded-full object-cover object-right p-1 border border-solid border-gray-500"
+                              src={srcDefaultImg}
+                              alt="User image"
+                              width={48}
+                              height={48}
+                            />
+                            {/* )} */}
                           </div>
                           <div>
                             <p className="text-sm leading-8">
@@ -246,7 +247,7 @@ const Header = () => {
                 <div className="relative">
                   <div className="flex gap-3 items-center text-center cursor-pointer">
                     <div className="flex items-center">
-                      {userData?.avatar && (
+                      {/* {userData?.avatar && (
                         <ImageOpt
                           className="rounded-lg object-cover object-right p-1 border border-solid border-gray-500"
                           src={userData?.avatar}
@@ -258,22 +259,20 @@ const Header = () => {
                           quality={75}
                           priority={true}
                         />
-                      )}
-                      {!userData?.avatar && (
-                        <ImageOpt
-                          className="rounded-lg object-cover object-right p-1 border border-solid border-gray-500"
-                          src="https://static.vecteezy.com/system/resources/thumbnails/009/734/564/small_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg"
-                          alt="User image"
-                          width={40}
-                          height={40}
-                          placeholder="blur"
-                          blurDataURL={
-                            "https://static.vecteezy.com/system/resources/thumbnails/009/734/564/small_2x/default-avatar-profile-icon-of-social-media-user-vector.jpg"
-                          }
-                          quality={75}
-                          priority={true}
-                        />
-                      )}
+                      )} */}
+                      {/* {!userData?.avatar && ( */}
+                      <ImageOpt
+                        className="rounded-lg object-cover object-right p-1 border border-solid border-gray-500"
+                        src={srcDefaultImg}
+                        alt="User image"
+                        width={40}
+                        height={40}
+                        placeholder="blur"
+                        blurDataURL={srcDefaultImg}
+                        quality={75}
+                        priority={true}
+                      />
+                      {/* )} */}
                     </div>
                     <div className="text-left">
                       <p className="text-sm leading-4 text-white">
