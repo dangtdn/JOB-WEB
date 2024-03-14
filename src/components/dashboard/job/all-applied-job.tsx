@@ -17,8 +17,45 @@ import sweetAlert from "sweetalert";
 const fetcher = (url: string) => authAxios(url).then((res) => res.data.data);
 
 const AllApplications = () => {
-  const { user } = useUser();
-  const { data, error } = useSWR(`users/${user._id}/job-apply`, fetcher);
+  const { user, isAdmin, isEmployer, isCandidate } = useUser();
+  const { data: dataApplications, error: errorApplications } = useSWR(
+    isAdmin && `/applications`,
+    fetcher
+  );
+  const { data: dataJobPrivate, error: errorJobPrivate } = useSWR(
+    isEmployer && `/admin/jobs/private`,
+    fetcher
+  );
+  const { data: dataUserApplication, error: errorUserApplication } = useSWR(
+    isCandidate && `users/${user._id}/job-apply`,
+    fetcher
+  );
+  const getData = () => {
+    if (isAdmin) {
+      return dataApplications;
+    } else if (isEmployer) {
+      return (dataJobPrivate ?? [])?.reduce((applies: any[], item: any) => {
+        if (item?.applications) {
+          applies = [...applies, ...item.applications];
+        }
+        return applies;
+      }, [] as any[]);
+    } else if (isCandidate) {
+      return dataUserApplication;
+    } else {
+      return [];
+    }
+  };
+
+  const error = () => {
+    if (isAdmin) {
+      return errorApplications;
+    } else if (isEmployer) {
+      return errorJobPrivate;
+    } else {
+      return errorUserApplication;
+    }
+  };
   const [loading, setLoading] = React.useState(false);
   // get current pages
   const [currentPage, setCurrentPage] = React.useState(1);
@@ -26,8 +63,8 @@ const AllApplications = () => {
   const { mutate } = useSWRConfig();
   const indexOfLastPost = currentPage * ShowPerPage;
   const indexOfFirstPost = indexOfLastPost - ShowPerPage;
-  const currentPosts = data
-    ? data?.slice(indexOfFirstPost, indexOfLastPost)
+  const currentPosts = getData()
+    ? getData()?.slice(indexOfFirstPost, indexOfLastPost)
     : [];
 
   const handlePageChange = (data: any) => {
@@ -76,7 +113,7 @@ const AllApplications = () => {
       {/* table start here */}
       {/* table data for desktop */}
       <div className="shadow rounded-lg mb-10 overflow-x-auto overflow-y-hidden hidden md:block relative">
-        {!data && !error && (
+        {!getData() && !error() && (
           <div className="relative min-h-40">
             <table className="w-full table-auto">
               <thead>
@@ -101,7 +138,7 @@ const AllApplications = () => {
             </table>
           </div>
         )}
-        {error && (
+        {error() && (
           <div className="w-full lg:w-2/4 mx-auto h-40 bg-white shadow rounded-lg flex justify-center items-center">
             <div className="text-center">
               <h3 className="text-lg mb-2 font-semibold text-red-400">
@@ -113,7 +150,7 @@ const AllApplications = () => {
             </div>
           </div>
         )}
-        {data && !error && (
+        {getData() && !error() && (
           <>
             <table className="w-full table-auto">
               <thead>
@@ -124,9 +161,9 @@ const AllApplications = () => {
                   <th className="text-left whitespace-nowrap bg-themeDark px-4 py-3.5 leading-9 text-white text-xxs font-medium">
                     Cover Letter
                   </th>
-                  <th className="text-left whitespace-nowrap bg-themeDark px-4 py-3.5 leading-9 text-white text-xxs font-medium">
+                  {/* <th className="text-left whitespace-nowrap bg-themeDark px-4 py-3.5 leading-9 text-white text-xxs font-medium">
                     CV
-                  </th>
+                  </th> */}
                   <th className="text-left whitespace-nowrap bg-themeDark px-4 py-3.5 leading-9 text-white text-xxs font-medium">
                     Email
                   </th>
@@ -139,7 +176,7 @@ const AllApplications = () => {
                 </tr>
               </thead>
               <tbody>
-                {data.length > 0 ? (
+                {getData().length > 0 ? (
                   <>
                     {_.map(currentPosts, (item, index) => (
                       <TableItem key={index} item={item} onRemove={onRemove} />
@@ -163,14 +200,14 @@ const AllApplications = () => {
 
       {/* table data for mobile */}
       <div className="block md:hidden">
-        {!data && !error && (
+        {!getData() && !error() && (
           <div className="p-4 mb-4 h-60 relative shadow rounded-lg bg-white">
             <LoaderGrowing />
           </div>
         )}
-        {data &&
-          !error &&
-          (data.length > 0 ? (
+        {getData() &&
+          !error() &&
+          (getData().length > 0 ? (
             <>
               {_.map(currentPosts, (item, index) => (
                 <div
@@ -190,11 +227,11 @@ const AllApplications = () => {
           ))}
       </div>
 
-      {data && !error && data.length > 0 && (
+      {getData() && !error() && getData().length > 0 && (
         <div>
           <Pagination
             setShowPerPage={setShowPerPage}
-            totalCount={data?.length}
+            totalCount={getData()?.length}
             showPerPage={ShowPerPage}
             handlePageChange={handlePageChange}
           />
@@ -246,7 +283,7 @@ const TableItem = ({
             </div>
           )}
         </td>
-        <td className="text-themeDark text-base pl-6 py-4 align-middle">
+        {/* <td className="text-themeDark text-base pl-6 py-4 align-middle">
           {item?.cvFile && (
             <div>
               <a
@@ -259,7 +296,7 @@ const TableItem = ({
               </a>
             </div>
           )}
-        </td>
+        </td> */}
         <td className="text-themeDark text-base pl-6 py-4 align-middle">
           <p className="text-base text-themeDark">{item?.email}</p>
         </td>

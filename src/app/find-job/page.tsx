@@ -153,7 +153,7 @@ export default function FindJob() {
   };
 
   return (
-    <div>
+    <>
       <Layout>
         <main>
           <PageTitle title="Find Your Dream Job" excerpt={null} image={null} />
@@ -215,6 +215,6 @@ export default function FindJob() {
           )}
         </main>
       </Layout>
-    </div>
+    </>
   );
 }

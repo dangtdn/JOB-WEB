@@ -22,6 +22,7 @@ import { BiLogOut } from "react-icons/bi";
 import { srcDefaultImg } from "@/constants/appConstants";
 import { IoNotificationsCircle } from "react-icons/io5";
 import moment from "moment";
+import { Logo } from "@/components/icons";
 
 const fetcher = (url: string) => authAxios(url).then((res) => res.data);
 
@@ -72,11 +73,9 @@ const Header = () => {
                   data-config-id="brand"
                 >
                   <span className="hidden xl:flex items-center">
-                    <Image
-                      src="/../assets/img/logo.svg" // logo image here ...
-                      alt="Logo Artemis"
-                      width={146}
-                      height={33}
+                    <Logo
+                      className="w-[146px] h-[33px] text-themePrimary"
+                      dark={true}
                     />
                   </span>
                   {/* Mobile Logo Text */}
@@ -372,6 +371,7 @@ const Header = () => {
                 <>
                   {_.map(recentNotification?.notification, (notify, index) => (
                     <div
+                      key={index}
                       className="flex justify-between gap-3 !py-2 border-b cursor-pointer border-themeLighter"
                       onMouseEnter={() => notificationSeenHandler(notify._id)}
                     >
@@ -584,6 +584,7 @@ function NotificationMenu({ active }: { active: any }) {
             <>
               {_.map(recentNotification?.notification, (notify, index) => (
                 <div
+                  key={index}
                   className="flex justify-between cursor-pointer items-center px-4 py-3 border-b border-gray last-of-type:border-b-0 hover:bg-themeLighterAlt -mx-2"
                   onMouseEnter={() =>
                     _.lowerCase(notify.status) === "unread" &&

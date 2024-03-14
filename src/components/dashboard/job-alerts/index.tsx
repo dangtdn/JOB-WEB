@@ -223,9 +223,11 @@ const JobAlertsInfo = () => {
               <th className="text-left whitespace-nowrap bg-themeDark px-4 py-3.5 leading-9 text-white text-xxs font-medium">
                 Status
               </th>
-              <th className="text-left whitespace-nowrap bg-themeDark rounded-tr-lg rounded-br-lg px-4 py-3.5 leading-9 text-white text-xxs font-medium">
-                Result
-              </th>
+              {isAdmin && (
+                <th className="text-left whitespace-nowrap bg-themeDark rounded-tr-lg rounded-br-lg px-4 py-3.5 leading-9 text-white text-xxs font-medium">
+                  Result
+                </th>
+              )}
             </tr>
           </thead>
           <tbody>
@@ -392,37 +394,38 @@ const TableItem = ({
           <span className="text-red-400">Disable</span>
         )}
       </td>
-      <td className="text-themeDark text-base pl-3 py-4 align-middle   whitespace-nowrap">
-        <div>
-          <button
-            className={`flex ${
-              isOpen ? "mb-2" : ""
-            } items-center transition-all duration-300 ease-in-out gap-2 cursor-pointer`}
-            onClick={toggle}
-          >
-            <span className="w-9 h-9 bg-[#1caf5721] flex items-center justify-center rounded-lg">
-              <RiCheckboxCircleLine className="w-6 h-6 text-themePrimary" />
-            </span>
-            <span>Show Results</span>
-            <span
-              className={`transition duration-200 ease-in-out ${
-                isOpen ? "rotate-180" : ""
+      {isAdmin && (
+        <td className="text-themeDark text-base pl-3 py-4 align-middle   whitespace-nowrap">
+          <div>
+            <button
+              className={`flex ${
+                isOpen ? "mb-2" : ""
+              } items-center transition-all duration-300 ease-in-out gap-2 cursor-pointer`}
+              onClick={toggle}
+            >
+              <span className="w-9 h-9 bg-[#1caf5721] flex items-center justify-center rounded-lg">
+                <RiCheckboxCircleLine className="w-6 h-6 text-themePrimary" />
+              </span>
+              <span>Show Results</span>
+              <span
+                className={`transition duration-200 ease-in-out ${
+                  isOpen ? "rotate-180" : ""
+                }`}
+              >
+                <HiChevronDown />
+              </span>
+            </button>
+
+            {/* dropdown items */}
+            <div
+              className={`grid duration-300 ease-in-out ${
+                isOpen
+                  ? "opacity-100 h-full gap-2 visible"
+                  : "opacity-0 h-0 invisible"
               }`}
             >
-              <HiChevronDown />
-            </span>
-          </button>
-
-          {/* dropdown items */}
-          <div
-            className={`grid duration-300 ease-in-out ${
-              isOpen
-                ? "opacity-100 h-full gap-2 visible"
-                : "opacity-0 h-0 invisible"
-            }`}
-          >
-            {/* Email hidden */}
-            {/* <div
+              {/* Email hidden */}
+              {/* <div
               className="flex items-center  cursor-pointer gap-2 text-themeDarker hover:text-themePrimary transition-all duration-300 ease-in-out group"
               onClick={() => sendEmail(item._id)}
             >
@@ -431,56 +434,57 @@ const TableItem = ({
               </span>
               <span>Email</span>
             </div> */}
-            {/* Edit */}
-            <Link
-              href={`/find-job/job-alerts/${item._id}/edit-job-alert`}
-              className="flex items-center gap-2 text-themeDarker hover:text-themePrimary transition-all duration-300 ease-in-out group"
-            >
-              <span className="w-9 h-9 bg-[#1caf5721] flex items-center justify-center rounded-lg">
-                <AiOutlineEdit className="w-6 h-6 text-themeDarker group-hover:text-themePrimary transition-all duration-300 ease-in-out" />
-              </span>
-              <span>Edit</span>
-            </Link>
-            {/* Disable */}
-            {user?._id === item.user && (
-              <div>
-                {item.active ? (
-                  <div
-                    className="flex items-center group cursor-pointer hover:text-red-500 gap-2"
-                    onClick={() => disableJob(item._id)}
-                  >
-                    <span className="w-9 h-9 bg-[#1caf5721] flex items-center justify-center rounded-lg">
-                      <RiEyeOffLine className="w-6 h-6 text-themeDark group-hover:text-red-500" />
-                    </span>
-                    <span>Disable</span>
-                  </div>
-                ) : (
-                  <div
-                    className="flex items-center group cursor-pointer hover:text-themePrimary gap-2"
-                    onClick={() => enableJob(item._id)}
-                  >
-                    <span className="w-9 h-9 bg-[#1caf5721] flex items-center justify-center rounded-lg">
-                      <AiOutlineEye className="w-6 h-6 text-themeDark group-hover:text-themePrimary" />
-                    </span>
-                    <span>Enabled</span>
-                  </div>
-                )}
+              {/* Edit */}
+              <Link
+                href={`/find-job/job-alerts/${item._id}/edit-job-alert`}
+                className="flex items-center gap-2 text-themeDarker hover:text-themePrimary transition-all duration-300 ease-in-out group"
+              >
+                <span className="w-9 h-9 bg-[#1caf5721] flex items-center justify-center rounded-lg">
+                  <AiOutlineEdit className="w-6 h-6 text-themeDarker group-hover:text-themePrimary transition-all duration-300 ease-in-out" />
+                </span>
+                <span>Edit</span>
+              </Link>
+              {/* Disable */}
+              {user?._id === item.user && (
+                <div>
+                  {item.active ? (
+                    <div
+                      className="flex items-center group cursor-pointer hover:text-red-500 gap-2"
+                      onClick={() => disableJob(item._id)}
+                    >
+                      <span className="w-9 h-9 bg-[#1caf5721] flex items-center justify-center rounded-lg">
+                        <RiEyeOffLine className="w-6 h-6 text-themeDark group-hover:text-red-500" />
+                      </span>
+                      <span>Disable</span>
+                    </div>
+                  ) : (
+                    <div
+                      className="flex items-center group cursor-pointer hover:text-themePrimary gap-2"
+                      onClick={() => enableJob(item._id)}
+                    >
+                      <span className="w-9 h-9 bg-[#1caf5721] flex items-center justify-center rounded-lg">
+                        <AiOutlineEye className="w-6 h-6 text-themeDark group-hover:text-themePrimary" />
+                      </span>
+                      <span>Enabled</span>
+                    </div>
+                  )}
+                </div>
+              )}
+              {/* Delete */}
+              <div
+                className="flex items-center gap-2 cursor-pointer group text-themeDarker hover:text-red-400 transition-all duration-300 ease-in-out"
+                onClick={() => deleteJobAlert(item._id)}
+              >
+                <span className="w-9 h-9 bg-[#1caf5721] flex items-center justify-center rounded-lg">
+                  <CgTrash className="w-6 h-6 text-themeDarker group-hover:text-red-400 transition-all duration-300 ease-in-out" />
+                </span>
+                <span>Delete</span>
               </div>
-            )}
-            {/* Delete */}
-            <div
-              className="flex items-center gap-2 cursor-pointer group text-themeDarker hover:text-red-400 transition-all duration-300 ease-in-out"
-              onClick={() => deleteJobAlert(item._id)}
-            >
-              <span className="w-9 h-9 bg-[#1caf5721] flex items-center justify-center rounded-lg">
-                <CgTrash className="w-6 h-6 text-themeDarker group-hover:text-red-400 transition-all duration-300 ease-in-out" />
-              </span>
-              <span>Delete</span>
             </div>
+            {/* end dropdown items */}
           </div>
-          {/* end dropdown items */}
-        </div>
-      </td>
+        </td>
+      )}
     </tr>
   );
 };

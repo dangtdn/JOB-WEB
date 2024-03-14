@@ -210,6 +210,13 @@ export const employerMenu = [
     image: "./assets/img/nav-img-6.svg",
   },
   {
+    name: "Applications",
+    link: "/find-job/applications",
+    icon: <ApplicationIcon />,
+    alert: "",
+    image: "./assets/img/nav-img-5.svg",
+  },
+  {
     name: "My Profile",
     link: "/my-profile",
     icon: <Profile />,

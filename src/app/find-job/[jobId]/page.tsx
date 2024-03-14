@@ -498,7 +498,7 @@ export default function JobDetails() {
                   placeholder="Your cover letter/coverLetter sent to the employer"
                 />
               </div>
-              <div className="mb-6">
+              {/* <div className="mb-6">
                 <span>
                   Upload CV{" "}
                   <span className="text-themeLighter text-xs">(optional)</span>
@@ -552,7 +552,7 @@ export default function JobDetails() {
                     </span>
                   </div>
                 </div>
-              </div>
+              </div> */}
               <button
                 className={`!py-3 px-7 flex gap-2 justify-center items-center transition-all duration-300 ease-in-out mb-6 w-full text-base text-white font-normal text-center leading-6 ${
                   isSubmitting ? "bg-themeDarkerAlt" : "bg-themePrimary"

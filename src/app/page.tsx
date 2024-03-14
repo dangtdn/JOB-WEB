@@ -183,7 +183,7 @@ const Home = () => {
   };
 
   return (
-    <div>
+    <>
       <Layout>
         <main>
           <Banner totalCount={totalCount} categories={categoryData} />
@@ -194,7 +194,7 @@ const Home = () => {
           <Blogs data={blogsData} />
         </main>
       </Layout>
-    </div>
+    </>
   );
 };
 

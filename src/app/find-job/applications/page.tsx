@@ -18,8 +18,7 @@ const Applications = () => {
       <Layout>
         <main>
           {loggedOut && <UserNotLogin />}
-          {isEmployer && <UserGoBack />}
-          {userData && loggedIn && !isEmployer && <AllApplications />}
+          {userData && loggedIn && <AllApplications />}
         </main>
       </Layout>
     </>
