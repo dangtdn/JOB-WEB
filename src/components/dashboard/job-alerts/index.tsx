@@ -20,7 +20,7 @@ const fetcher = (url: string) => authAxios(url).then((res) => res.data.data);
 const JobAlertsInfo = () => {
   const { data, error } = useSWR("/job-alerts", fetcher);
   const [loading, setLoading] = React.useState(false);
-  const { user, isAdmin } = useUser();
+  const { user, isCandidate } = useUser();
   const { mutate } = useSWRConfig();
 
   // delete category function here
@@ -185,16 +185,18 @@ const JobAlertsInfo = () => {
     <section className="mb-6">
       {/* button here */}
 
-      <div className="pb-6 text-right">
-        <button className="!py-3 px-8 bg-themePrimary rounded-lg shadow shadow-themePrimary">
-          <Link
-            href="/find-job/add-new-alert"
-            className="text-white font-medium text-xxs"
-          >
-            Add New Alert
-          </Link>
-        </button>
-      </div>
+      {!isCandidate && (
+        <div className="pb-6 text-right">
+          <button className="!py-3 px-8 bg-themePrimary rounded-lg shadow shadow-themePrimary">
+            <Link
+              href="/find-job/add-new-job-notifications"
+              className="text-white font-medium text-xxs"
+            >
+              Add New Job Notification
+            </Link>
+          </button>
+        </div>
+      )}
 
       {/* table start here */}
       {/* table data for desktop */}
@@ -203,10 +205,10 @@ const JobAlertsInfo = () => {
           <thead>
             <tr>
               <th className="text-left whitespace-nowrap bg-themeDark rounded-tl-lg rounded-bl-lg px-4 py-3.5 leading-9 text-white text-xxs font-medium">
-                Alert Name
+                Job Name
               </th>
               <th className="text-left whitespace-nowrap bg-themeDark px-4 py-3.5 leading-9 text-white text-xxs font-medium">
-                Keywords
+                Types
               </th>
               <th className="text-left whitespace-nowrap bg-themeDark px-4 py-3.5 leading-9 text-white text-xxs font-medium">
                 Categories
@@ -217,13 +219,13 @@ const JobAlertsInfo = () => {
               <th className="text-left whitespace-nowrap bg-themeDark px-4 py-3.5 leading-9 text-white text-xxs font-medium">
                 Location
               </th>
-              <th className="text-left whitespace-nowrap bg-themeDark px-4 py-3.5 leading-9 text-white text-xxs font-medium">
+              {/* <th className="text-left whitespace-nowrap bg-themeDark px-4 py-3.5 leading-9 text-white text-xxs font-medium">
                 Frequency
-              </th>
+              </th> */}
               <th className="text-left whitespace-nowrap bg-themeDark px-4 py-3.5 leading-9 text-white text-xxs font-medium">
                 Status
               </th>
-              {isAdmin && (
+              {!isCandidate && (
                 <th className="text-left whitespace-nowrap bg-themeDark rounded-tr-lg rounded-br-lg px-4 py-3.5 leading-9 text-white text-xxs font-medium">
                   Result
                 </th>
@@ -305,7 +307,7 @@ const JobAlertsInfo = () => {
               <div
                 key={index}
                 className={`p-4 mb-4 shadow rounded-lg relative ${
-                  user?._id === item.user && isAdmin
+                  user?._id === item.user && !isCandidate
                     ? "bg-green-50"
                     : "bg-white"
                 }`}
@@ -358,7 +360,7 @@ const TableItem = ({
   enableJob: any;
   disableJob: any;
 }) => {
-  const { user, isAdmin } = useUser();
+  const { user, isCandidate } = useUser();
   const [isOpen, setIsOpen] = React.useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
@@ -366,14 +368,14 @@ const TableItem = ({
   return (
     <tr
       className={`border-b ${
-        user?._id === item.user && isAdmin ? "bg-green-50" : ""
+        user?._id === item.user && !isCandidate ? "bg-green-50" : ""
       } border-themeLighter w-full align-top last-of-type:border-none`}
     >
       <td className="text-themeDark text-base  pl-6 py-4 align-middle">
         {item.name}
       </td>
       <td className="text-themeDark text-base  px-3 py-4 align-middle">
-        {item.keyword}
+        {item.type.join(",")}
       </td>
       <td className="text-themeDark text-base px-3 py-4 align-middle">
         {item.category}
@@ -384,9 +386,9 @@ const TableItem = ({
       <td className="text-themeDark text-base px-3 py-4 align-middle">
         {item.region}
       </td>
-      <td className="text-themeDark text-base  px-4 py-4 align-middle">
+      {/* <td className="text-themeDark text-base  px-4 py-4 align-middle">
         {item.emailFrequency}
-      </td>
+      </td> */}
       <td className="text-base  px-3 py-4 align-middle">
         {item.active ? (
           <span className="text-green-400">Enabled</span>
@@ -394,7 +396,7 @@ const TableItem = ({
           <span className="text-red-400">Disable</span>
         )}
       </td>
-      {isAdmin && (
+      {!isCandidate && (
         <td className="text-themeDark text-base pl-3 py-4 align-middle   whitespace-nowrap">
           <div>
             <button
@@ -502,7 +504,7 @@ const MobileTable = ({
   enableJob: any;
   disableJob: any;
 }) => {
-  const { user, isAdmin } = useUser();
+  const { user, isCandidate } = useUser();
   return (
     <div className="relative">
       <div className="flex flex-wrap justify-between mb-3">
@@ -518,7 +520,7 @@ const MobileTable = ({
       </div>
       <h3 className="text-lg font-medium mb-2">{item.name}</h3>
       <div className="text-themeDark text-xss1">
-        <strong>Keyword:</strong> {item.keyword}
+        <strong>Types:</strong> {item.type.join(",")}
       </div>
       <div className="text-themeDark text-xss1">
         <strong>Categories:</strong> {item.category}
@@ -531,9 +533,10 @@ const MobileTable = ({
       </div>
 
       {/* Action buttons */}
-      <div className="flex flex-wrap gap-3 mt-3">
-        {/* Email hidden */}
-        {/* <div
+      {!isCandidate && (
+        <div className="flex flex-wrap gap-3 mt-3">
+          {/* Email hidden */}
+          {/* <div
           className="flex items-center gap-2"
           onClick={() => sendEmail(item._id)}
         >
@@ -542,49 +545,50 @@ const MobileTable = ({
             <span className="text-themeDarker text-sm">Email</span>
           </div>
         </div> */}
-        {/* Edit */}
-        <div className="flex items-center gap-2">
-          <Link
-            href={`/job/edit-job-alert?active_id=${item._id}`}
-            className="bg-green-200 shadow-sm flex gap-2 py-2 px-3 items-center justify-center rounded-lg"
-          >
-            <AiOutlineEdit className="text-xxs text-themeDarker" />
-            <span className="text-themeDarker text-sm">Edit</span>
-          </Link>
-        </div>
-        {/* Disable */}
-        {user?._id === item.user && (
+          {/* Edit */}
           <div className="flex items-center gap-2">
-            {item.active ? (
-              <div
-                className="bg-indigo-200 shadow-sm flex gap-2 py-2 px-3 items-center justify-center rounded-lg"
-                onClick={() => disableJob(item._id)}
-              >
-                <RiEyeOffLine className="text-xxs text-themeDarker" />
-                <span className="text-themeDarker text-sm">Disable</span>
-              </div>
-            ) : (
-              <div
-                className="bg-indigo-200 shadow-sm flex gap-2 py-2 px-3 items-center justify-center rounded-lg"
-                onClick={() => enableJob(item._id)}
-              >
-                <AiOutlineEye className="text-xxs text-themeDarker" />
-                <span className="text-themeDarker text-sm">Enable</span>
-              </div>
-            )}
+            <Link
+              href={`/job/edit-job-alert?active_id=${item._id}`}
+              className="bg-green-200 shadow-sm flex gap-2 py-2 px-3 items-center justify-center rounded-lg"
+            >
+              <AiOutlineEdit className="text-xxs text-themeDarker" />
+              <span className="text-themeDarker text-sm">Edit</span>
+            </Link>
           </div>
-        )}
-        {/* Delete */}
-        <div
-          className="flex items-center gap-2"
-          // onClick={() => deleteJob(item._id) as any}
-        >
-          <div className="bg-red-200 shadow-sm flex gap-2 py-2 px-3 items-center justify-center rounded-lg">
-            <CgTrash className="text-xxs text-themeDarker" />
-            <span className="text-themeDarker text-sm">Delete</span>
+          {/* Disable */}
+          {user?._id === item.user && (
+            <div className="flex items-center gap-2">
+              {item.active ? (
+                <div
+                  className="bg-indigo-200 shadow-sm flex gap-2 py-2 px-3 items-center justify-center rounded-lg"
+                  onClick={() => disableJob(item._id)}
+                >
+                  <RiEyeOffLine className="text-xxs text-themeDarker" />
+                  <span className="text-themeDarker text-sm">Disable</span>
+                </div>
+              ) : (
+                <div
+                  className="bg-indigo-200 shadow-sm flex gap-2 py-2 px-3 items-center justify-center rounded-lg"
+                  onClick={() => enableJob(item._id)}
+                >
+                  <AiOutlineEye className="text-xxs text-themeDarker" />
+                  <span className="text-themeDarker text-sm">Enable</span>
+                </div>
+              )}
+            </div>
+          )}
+          {/* Delete */}
+          <div
+            className="flex items-center gap-2"
+            // onClick={() => deleteJob(item._id) as any}
+          >
+            <div className="bg-red-200 shadow-sm flex gap-2 py-2 px-3 items-center justify-center rounded-lg">
+              <CgTrash className="text-xxs text-themeDarker" />
+              <span className="text-themeDarker text-sm">Delete</span>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

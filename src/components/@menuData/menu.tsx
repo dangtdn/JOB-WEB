@@ -43,7 +43,7 @@ export const DashboardMenuList = [
     icon: <Dashboard />,
   },
   {
-    name: "Job Alerts",
+    name: "Job Notifications",
     link: "/find-job/job-alerts",
     icon: <AlertIcon />,
   },
@@ -129,7 +129,7 @@ export const candidatesMenu = [
     image: "./assets/img/nav-img-3.svg",
   },
   {
-    name: "Job Alerts",
+    name: "Job Notifications",
     link: "/find-job/job-alerts",
     icon: <Alerts />,
     alert: "",
@@ -217,6 +217,13 @@ export const employerMenu = [
     image: "./assets/img/nav-img-5.svg",
   },
   {
+    name: "Job Notifications",
+    link: "/find-job/job-alerts",
+    icon: <Alerts />,
+    alert: "",
+    image: "./assets/img/nav-img-4.svg",
+  },
+  {
     name: "My Profile",
     link: "/my-profile",
     icon: <Profile />,
@@ -263,7 +270,7 @@ export const adminMenu = [
         image: "./assets/img/nav-img-5.svg",
       },
       {
-        name: "Job Alerts",
+        name: "Job Notifications",
         link: "/find-job/job-alerts",
         icon: <AlertIcon />,
         alert: "",

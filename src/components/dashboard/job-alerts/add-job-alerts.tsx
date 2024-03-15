@@ -9,10 +9,17 @@ import { toast } from "react-toastify";
 import { FormLoader, LoaderGrowing } from "@/lib/loader/loader";
 import { filters } from "@/data/mongodb collections/filters";
 import { useRouter } from "next/navigation";
+import useSWR from "swr";
+
+const fetcher = (url: string) => authAxios(url).then((res) => res.data.data);
 
 const AddJobAlerts = () => {
   const router = useRouter();
   const filterData = filters[0];
+  const { data: dataJobPrivate, error: errorJobPrivate } = useSWR(
+    "/admin/jobs/private",
+    fetcher
+  );
   const { categoryData } = React.useContext(ThemeContext) as any;
   const {
     register,
@@ -25,7 +32,7 @@ const AddJobAlerts = () => {
   const onSubmitHandler = async (data: any) => {
     const newData = {
       name: data.alertName,
-      keyword: data.keyword,
+      keyword: "",
       region: data.region[0],
       category: data.category[0].categoryTitle,
       tags: data.tags,
@@ -70,7 +77,9 @@ const AddJobAlerts = () => {
       <section className="mb-6">
         <div className="rounded-lg shadow-lg bg-white">
           <div className="bg-themeDark rounded-lg !py-3">
-            <p className="text-lg2 text-white px-6 sm:px-10">Add New Alert</p>
+            <p className="text-lg2 text-white px-6 sm:px-10">
+              Add new job notifications{" "}
+            </p>
           </div>
           <div className="sm:px-5 py-5 mx-3 sm:mx-0">
             <form onSubmit={handleSubmit(onSubmitHandler)} className="relative">
@@ -85,7 +94,7 @@ const AddJobAlerts = () => {
                         className="block tracking-wide text-gray-700 text-xxs mb-2"
                         htmlFor="grid-first-name"
                       >
-                        Alert Name
+                        Job Name
                       </label>
                       <input
                         className={`appearance-none block w-full text-gray-700 border border-gray ${
@@ -105,7 +114,7 @@ const AddJobAlerts = () => {
                       )}
                     </div>
 
-                    {/* Keyword */}
+                    {/* Keyword
                     <div className="w-full md:w-3/6 px-3 md:py-2">
                       <label
                         className="block tracking-wide text-gray-700 text-xxs mb-2"
@@ -129,7 +138,7 @@ const AddJobAlerts = () => {
                           This field is required
                         </p>
                       )}
-                    </div>
+                    </div> */}
 
                     {/* Region Name */}
                     <div className="w-full md:w-3/6 px-3 md:py-2">
@@ -263,13 +272,13 @@ const AddJobAlerts = () => {
                       )}
                     </div>
 
-                    {/* Email Frequency */}
+                    {/* To Job */}
                     <div className="w-full md:w-3/6 px-3 md:py-2">
                       <label
                         className="block tracking-wide text-gray-700 text-xxs mb-2"
                         htmlFor="grid-last-name"
                       >
-                        Email Frequency
+                        View job details
                       </label>
                       <select
                         aria-label="Default select example"
@@ -281,15 +290,12 @@ const AddJobAlerts = () => {
                           required: true,
                         })}
                       >
-                        <option value="">Select Frequency</option>
-                        {_.map(
-                          ["Daily", "Weekly", "Fortnightly", "Monthly"],
-                          (item, index) => (
-                            <option value={item} key={index}>
-                              {item}
-                            </option>
-                          )
-                        )}
+                        <option value="">Select Job</option>
+                        {_.map(dataJobPrivate, (item, index) => (
+                          <option value={item?._id} key={index}>
+                            {item?.jobTitle}
+                          </option>
+                        ))}
                       </select>
                       {errors?.frequency && (
                         <p className="text-red-400 text-sm italic py-2">
