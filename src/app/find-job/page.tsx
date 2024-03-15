@@ -1,15 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Loading from "./loading";
 import Layout from "@/components/Layout/Layout";
 import PageTitle from "@/components/page-title";
-import { jobs } from "@/utils/dummy-content/mongodb-collections/jobs";
 import { JobsFilter } from "@/components/filter/search-filter";
 import SortBy from "@/components/filter/data-sort-by";
 import ImageOpt from "@/components/optimize/image";
 import Pagination from "@/components/pagination";
-import { jobFilter } from "@/utils/dummy-content/mongodb-collections/jobfilters";
 import JobItem from "@/components/Job/JobItem";
 import { Axios } from "@/lib/utils/axiosKits";
 import useSWR from "swr";
@@ -156,7 +153,7 @@ export default function FindJob() {
   };
 
   return (
-    <div>
+    <>
       <Layout>
         <main>
           <PageTitle title="Find Your Dream Job" excerpt={null} image={null} />
@@ -218,6 +215,6 @@ export default function FindJob() {
           )}
         </main>
       </Layout>
-    </div>
+    </>
   );
 }

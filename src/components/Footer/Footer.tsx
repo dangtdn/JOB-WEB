@@ -16,8 +16,8 @@ const footerCandidate = [
     link: "/dashboard",
   },
   {
-    name: "Job Alert",
-    link: "/job/job-alerts",
+    name: "Job Notifications",
+    link: "/find-job/job-alerts",
   },
   {
     name: "My Bookmarks",
@@ -39,7 +39,7 @@ const footerEmployer = [
   },
   {
     name: "Post a Job",
-    link: "/job/submit-job",
+    link: "/find-job/submit-job",
   },
   {
     name: "My Bookmarks",

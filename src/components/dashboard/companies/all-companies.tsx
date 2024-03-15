@@ -460,7 +460,7 @@ const TableItem = ({
   return (
     <tr
       className={`border-b ${
-        user._id === item.user.$oid && isAdmin ? "bg-green-50" : ""
+        user._id === item.user && isAdmin ? "bg-green-50" : ""
       } w-full border-themeLighter align-top last-of-type:border-none`}
     >
       <td className="text-themeDark text-base pl-6 py-4 align-middle">

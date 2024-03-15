@@ -4,7 +4,7 @@ export const jobAlerts = [
       $oid: "6244a2683265d26bb605ab24",
     },
     user: {
-      $oid: "622b4d0a210fd3b5bb5a315c",
+      $oid: "65782185af22f3891a5b26b4",
     },
     name: "Alert Test",
     active: true,
@@ -21,7 +21,7 @@ export const jobAlerts = [
       $oid: "6245535dadd9a7870dffbcf8",
     },
     user: {
-      $oid: "624537c5add9a7870dffb173",
+      $oid: "65782185af22f3891a5b26b4",
     },
     name: "Alert Test",
     active: true,
@@ -38,7 +38,7 @@ export const jobAlerts = [
       $oid: "624557e6add9a7870dffbede",
     },
     user: {
-      $oid: "6230e1ee604699b80d342b7b",
+      $oid: "65782185af22f3891a5b26b4",
     },
     name: "My Alert",
     active: true,
@@ -55,7 +55,7 @@ export const jobAlerts = [
       $oid: "62493106bf3a28adaae433f2",
     },
     user: {
-      $oid: "6231c957665e34e94e267890",
+      $oid: "65782185af22f3891a5b26b4",
     },
     name: "wordpress",
     active: true,

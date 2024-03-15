@@ -19,10 +19,10 @@ const UserInfoBox = (): any => {
               <h2 className="text-5xl font-semibold">00</h2>
             </div>
 
-            <div className="shadow py-4 px-3 bg-[#1CAF57] text-white rounded-lg text-center">
+            {/* <div className="shadow py-4 px-3 bg-[#1CAF57] text-white rounded-lg text-center">
               <p className="font-normal text-lg mb-3">Total Resumes</p>
               <h2 className="text-5xl font-semibold">00</h2>
-            </div>
+            </div> */}
             <div className="shadow py-4 px-3 bg-[#3CC6FC] text-white rounded-lg text-center">
               <p className="font-normal text-lg mb-3">Total Employe</p>
               <h2 className="text-5xl font-semibold">00</h2>

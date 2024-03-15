@@ -2,9 +2,6 @@ import _ from "lodash";
 import Link from "next/link";
 import React from "react";
 import JobItem from "./JobItem";
-import { jobs } from "@/utils/dummy-content/mongodb-collections/jobs";
-
-const JobList = jobs;
 
 const RecentJob = ({ data }: { data: any[] }) => {
   return (

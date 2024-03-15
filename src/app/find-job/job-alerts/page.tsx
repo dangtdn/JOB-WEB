@@ -18,8 +18,7 @@ export default function JobAlerts() {
       <Layout>
         <main>
           {loggedOut && <UserNotLogin />}
-          {isEmployer && <UserGoBack />}
-          {userData && loggedIn && !isEmployer && <JobAlertsInfo />}
+          {userData && loggedIn && <JobAlertsInfo />}
         </main>
       </Layout>
     </>

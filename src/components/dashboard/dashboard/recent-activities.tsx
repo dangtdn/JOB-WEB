@@ -1,14 +1,8 @@
 import _ from "lodash";
-import Link from "next/link";
+import moment from "moment";
 import React from "react";
-import { HiOutlineCurrencyDollar } from "react-icons/hi";
-import Moment from "react-moment";
-import { Axios, authAxios } from "../../../lib/utils/axiosKits";
+import { IoNotificationsCircle } from "react-icons/io5";
 import { ThemeContext } from "../../../context/ThemeContext";
-
-// create fetcher with authaxios
-const fetcher = (url: string) => Axios(url).then((res) => res.data.data);
-const activitiesAPI = "/users/notifications/catalog";
 
 const RecentActivities = () => {
   // const { data, error } = useSWR(activitiesAPI, fetcher);
@@ -19,8 +13,8 @@ const RecentActivities = () => {
   if (!recentNotification) {
     return (
       <div>
-        <div className="shadow p-4 rounded h-full">
-          <div className="pb-3 border-b border-themeLight mb-3">
+        <div className="shadow-lg rounded-lg h-full bg-white relative overflow-hidden">
+          <div className="px-5 md:px-10 pt-5 pb-3 border-b border-gray">
             <h2 className="text-lg2 font-semibold">Recent Activities</h2>
           </div>
         </div>
@@ -34,53 +28,45 @@ const RecentActivities = () => {
   // if data
 
   return (
-    <div className="shadow p-4 rounded h-full">
-      <div className="pb-3 border-b border-themeLight mb-3">
+    <div className="shadow-lg rounded-lg h-full bg-white relative overflow-hidden">
+      <div className="px-5 md:px-10 pt-5 pb-3 border-b border-gray">
         <h2 className="text-lg2 font-semibold">Recent Activities</h2>
       </div>
-      <div>
-        {recentNotification &&
-          _.map(recentNotification, (notify, index) => (
-            <div
-              className="flex flex-wrap justify-between !p-2 !mb-2"
-              key={index}
-            >
-              <div className="flex items-center gap-3 lg:gap-4">
-                <div>
-                  <div className="flex w-12 h-12 justify-center items-center rounded-full bg-[#21b75d2a]">
-                    <HiOutlineCurrencyDollar className="text-lg2 text-themePrimary " />
+      <div className="pb-5">
+        {recentNotification?.notification &&
+          _.map(
+            _.slice(recentNotification?.notification, 0, 5),
+            (
+              notify: {
+                event: string;
+                message: string;
+                timestamp: string;
+              },
+              index: number
+            ) => (
+              <div
+                className="flex flex-wrap justify-between py-3 px-5 md:px-8 border-b border-gray last-of-type:border-b-0 hover:bg-themeLighterAlt transition-all duration-300 ease-in-out"
+                key={index}
+              >
+                <div className="flex items-center gap-3 lg:gap-4">
+                  <div>
+                    <IoNotificationsCircle className="w-10 h-10 text-themePrimary" />
+                  </div>
+                  <div>
+                    <p className="text-sm sm:text-xs break-all text-themeLight">
+                      {moment(notify.timestamp).fromNow()}
+                    </p>
+                    <p className="text-sm text-themeLighter">
+                      {notify.message}
+                    </p>
+                    <span className="block sm:hidden text-sm text-themeLight">
+                      {moment(notify.timestamp).fromNow()}
+                    </span>
                   </div>
                 </div>
-                <div>
-                  <p className="text-sm sm:text-xs break-all text-themeDarker">
-                    {notify.event}
-                  </p>
-                  <p className="text-sm text-themeLighter">{notify.message}</p>
-                  <span className="block sm:hidden text-sm text-themeLight">
-                    {/* <Moment fromNow>{notify.timestamp}</Moment> */}
-                  </span>
-                </div>
               </div>
-              <div className="hidden sm:block">
-                <span className="text-sm text-themeLight">
-                  {/* <Moment fromNow>{notify.timestamp}</Moment> */}
-                </span>
-              </div>
-            </div>
-          ))}
-        <div className=" flex items-center justify-between w-full !pt-4 border-t border-themeLighter !mt-2">
-          <div>
-            <p className="text-xs !pl-2 text-themeDarker">
-              {recentNotification.length} Recent Activities
-            </p>
-          </div>
-          <Link
-            href="/notifications"
-            className="text-sm text-white transition-all duration-300 ease-in-out bg-themePrimary hover:bg-themeDarkerAlt !py-3 px-8 rounded"
-          >
-            View All
-          </Link>
-        </div>
+            )
+          )}
       </div>
     </div>
   );

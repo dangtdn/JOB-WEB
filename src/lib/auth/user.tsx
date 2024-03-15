@@ -1,10 +1,8 @@
 "use client";
 
 import React from "react";
-// import useSWR from "swr";
 import { localGet, localRemove } from "../utils/localStore";
 import { Loader } from "../loader/loader";
-import { users } from "@/utils/dummy-content/mongodb-collections/Untitled";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
 import fetcher from "./api-user";
@@ -15,12 +13,6 @@ export default function useUser() {
   const loggedIn = localGet("UserData") !== null;
   const loggedOut = localGet("UserData") === null ? true : false;
   const localData = localGet("UserData");
-  // const dataUser: GetUserProfileResponse = localData
-  //   ? localGet("UserData")?.user
-  //   : {
-  //       ...users[0],
-  //       _id: "624c18bf471afaba20bc15d3",
-  //     };
 
   // auto logout if token is expired or not found in localStorage
   if (error && error?.response?.status === 401) {

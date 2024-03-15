@@ -10,6 +10,7 @@ import ImageOpt from "../../optimize/image";
 import { GetUserProfileResponse } from "@/types/user";
 import { useSWRConfig } from "swr";
 import { useRouter } from "next/navigation";
+import { srcDefaultImg } from "@/constants/appConstants";
 
 const ProfileBox = ({
   currentUser,
@@ -58,13 +59,13 @@ const ProfileBox = ({
     formData.append("lastName", data.lastName);
     formData.append("phoneNumber", data.phoneNumber);
     formData.append("aboutMe", data.aboutMe);
-    if (data.profileImage[0]) {
-      const imagePath = URL.createObjectURL(data.profileImage[0]);
+    if (data.profileImage) {
+      const imagePath = data.profileImage[0];
       formData.append("profileImage", imagePath);
     }
 
     try {
-      await authAxios1({
+      await authAxios({
         method: "PUT",
         url: `/admin/user/update/${currentUser._id}`,
         data: formData,
@@ -189,7 +190,7 @@ const ProfileBox = ({
                       <ImageOpt
                         className="rounded-full p-1"
                         layout="fill"
-                        src="https://via.placeholder.com/200x200"
+                        src={srcDefaultImg}
                         alt="Profile image"
                       />
                     )}

@@ -245,7 +245,7 @@ const TableItem = ({
             }`}
           >
             {/* Edit */}
-            <Link
+            {/* <Link
               href={`/find-job/category/edit-category/${item._id}`}
               className="flex items-center group cursor-pointer gap-2 text-themeDark hover:text-themePrimary"
             >
@@ -253,7 +253,7 @@ const TableItem = ({
                 <AiOutlineEdit className="w-6 h-6 text-themeDark group-hover:text-themePrimary" />
               </span>
               <span>Edit</span>
-            </Link>
+            </Link> */}
             {/* Delete */}
             <div
               className="flex items-center group cursor-pointer hover:text-red-500 gap-2"
@@ -303,7 +303,7 @@ const MobileTable = ({
       {/* Action buttons */}
       <div className="flex flex-wrap gap-3 mt-6">
         {/* Edit */}
-        <div className="flex items-center group cursor-pointer gap-2">
+        {/* <div className="flex items-center group cursor-pointer gap-2">
           <Link
             href={`/find-job/category/edit-category?active_id=${item._id}`}
             className="bg-green-200 shadow-sm flex gap-2 py-2 px-3 items-center justify-center rounded-lg"
@@ -311,7 +311,7 @@ const MobileTable = ({
             <AiOutlineEdit className="text-xs text-themeDarker" />
             <span className="text-themeDarker text-xss1">Edit</span>
           </Link>
-        </div>
+        </div> */}
         {/* Delete */}
         <div className="flex items-center gap-2">
           <div

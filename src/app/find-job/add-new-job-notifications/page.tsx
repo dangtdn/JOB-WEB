@@ -19,8 +19,7 @@ export default function AddNewAlert() {
       <Layout>
         <main>
           {loggedOut && <UserNotLogin />}
-          {isEmployer && <UserGoBack />}
-          {userData && loggedIn && !isEmployer && <AddJobAlerts />}
+          {userData && loggedIn && <AddJobAlerts />}
         </main>
       </Layout>
     </>

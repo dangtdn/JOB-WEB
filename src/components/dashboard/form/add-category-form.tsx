@@ -27,24 +27,14 @@ const AddCategoryForm = () => {
 
   const onSubmitHandler = (data: any) => {
     const formData = new FormData();
-    // formData.append("categoryTitle", data.categoryTitle);
-    // formData.append("categoryIcon", data.categoryIcon[0]);
-    // formData.append("subCategory", data.subCategory);
+    formData.append("categoryTitle", data.categoryTitle);
+    formData.append("categoryIcon", data.categoryIcon[0]);
+    formData.append("subCategory", data.subCategory);
 
-    const request = {
-      categoryTitle: data.categoryTitle,
-      subCategory: data.subCategory,
-      categoryIcon: data.categoryIcon[0] ?? "",
-    };
-
-    // const request = {
-    //   categoryName: data.categoryTitle,
-    //   user: user._id,
-    // };
     setProcessing(true);
     try {
       authAxios
-        .post("/admin/category/create", request)
+        .post("/admin/category/create", formData)
         .then((res) => {
           toast.success(res.data.message, {
             position: "bottom-right",

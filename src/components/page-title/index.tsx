@@ -20,7 +20,7 @@ const PageTitle = ({
     >
       <div
         className="absolute w-full h-full left-0 top-0 z-2"
-        style={{ backgroundColor: "rgb(135 186 171 / 77%)" }}
+        style={{ backgroundColor: "#a6a5dea6" }}
       />
       <div className="container p-16">
         <div className="w-10/12 m-auto z-4 relative pt-10 pb-7">
