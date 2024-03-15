@@ -178,22 +178,22 @@ const ProfileBox = ({
               <div className="flex justify-center">
                 <div className="relative inline-block w-40 h-40 xl:w-52 xl:h-52 rounded-full border-3 !border-gray">
                   <label htmlFor="image">
-                    {/* {photoImage && (
+                    {photoImage && (
                       <ImageOpt
                         className="rounded-full p-1"
                         layout="fill"
                         src={photoImage}
                         alt="Profile image"
                       />
-                    )} */}
-                    {/* {!photoImage && ( */}
-                    <ImageOpt
-                      className="rounded-full p-1"
-                      layout="fill"
-                      src={srcDefaultImg}
-                      alt="Profile image"
-                    />
-                    {/* )} */}
+                    )}
+                    {!photoImage && (
+                      <ImageOpt
+                        className="rounded-full p-1"
+                        layout="fill"
+                        src={srcDefaultImg}
+                        alt="Profile image"
+                      />
+                    )}
                     <span className="absolute flex justify-center cursor-pointer items-center bg-gray w-12 h-12 bottom-0 right-0 ml-24 rounded-full">
                       <input
                         className="hidden"

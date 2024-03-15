@@ -5,6 +5,7 @@ import ImageOpt from "../../optimize/image";
 import { authAxios } from "../../../lib/utils/axiosKits";
 import { useRouter } from "next/navigation";
 import useUser from "@/lib/auth/user";
+import { useSWRConfig } from "swr";
 
 const AddCompanyForm = () => {
   const router = useRouter();
@@ -17,7 +18,7 @@ const AddCompanyForm = () => {
     setValue,
     formState: { errors, isSubmitting },
   } = useForm();
-  // const { mutate } = useSWRConfig()
+  const { mutate } = useSWRConfig();
 
   // submit form handler
   const submitHandler = async (data: any) => {
@@ -54,7 +55,7 @@ const AddCompanyForm = () => {
         data: formData,
       })
         .then((res) => {
-          // mutate('/companies/private')
+          mutate("/companies/private");
           toast.success(res.data.message, {
             position: "bottom-right",
             className: "foo-bar",

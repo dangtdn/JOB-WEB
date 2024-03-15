@@ -41,7 +41,7 @@ const EditCompany = () => {
       phoneNumber: data?.phoneNumber,
       companyEmail: data?.companyEmail,
       companyWebsite: data?.companyWebsite,
-      logoImage: data?.logo,
+      logoImage: data?.logoImage,
       description: data?.description,
       category: data?.category,
       location: data?.location,
@@ -66,7 +66,7 @@ const EditCompany = () => {
       setValue("phoneNumber", data?.phoneNumber);
       setValue("companyEmail", data?.companyEmail);
       setValue("companyWebsite", data?.companyWebsite);
-      setValue("logoImage", data?.logo); //
+      // setValue("logoImage", data?.logoImage);
       setValue("description", data?.description);
       setValue("category", data?.category);
       setValue("location", data?.location);
@@ -76,7 +76,7 @@ const EditCompany = () => {
       setValue("linkedinLink", data?.socialLink?.linkedin);
       setValue("facebookLink", data?.socialLink?.facebook);
       setValue("twitterLink", data?.socialLink?.twitter);
-      setValue("headerImage", data?.headerImage ?? ""); //
+      // setValue("headerImage", data?.headerImage ?? ""); //
       setValue("avarageSalary", data?.avarageSalary);
       setValue("companySize", data?.companySize);
       setValue("revenue", "");
@@ -96,7 +96,7 @@ const EditCompany = () => {
     formData.append("companyEmail", data.companyEmail);
     formData.append("companyWebsite", data.companyWebsite);
     if (data.logoImage) {
-      formData.append("logo", data.logoImage[0]);
+      formData.append("logoImage", data.logoImage[0]);
     }
     formData.append("description", data.description);
     formData.append("category", data.category);
@@ -192,7 +192,7 @@ const EditCompany = () => {
       <Layout>
         <main>
           {loggedOut && <UserNotLogin />}
-          {user && !isAdmin && <UserGoBack />}
+          {user && isCandidate && <UserGoBack />}
           {user && loggedIn && !isCandidate && (
             <section className="rounded-lg shadow-lg bg-white relative">
               <div className="bg-themeDark rounded-lg !py-3">

@@ -161,9 +161,9 @@ const AllApplications = () => {
                   <th className="text-left whitespace-nowrap bg-themeDark px-4 py-3.5 leading-9 text-white text-xxs font-medium">
                     Cover Letter
                   </th>
-                  {/* <th className="text-left whitespace-nowrap bg-themeDark px-4 py-3.5 leading-9 text-white text-xxs font-medium">
+                  <th className="text-left whitespace-nowrap bg-themeDark px-4 py-3.5 leading-9 text-white text-xxs font-medium">
                     CV
-                  </th> */}
+                  </th>
                   <th className="text-left whitespace-nowrap bg-themeDark px-4 py-3.5 leading-9 text-white text-xxs font-medium">
                     Email
                   </th>
@@ -283,11 +283,11 @@ const TableItem = ({
             </div>
           )}
         </td>
-        {/* <td className="text-themeDark text-base pl-6 py-4 align-middle">
+        <td className="text-themeDark text-base pl-6 py-4 align-middle">
           {item?.cvFile && (
             <div>
               <a
-                href={item?.cvFile}
+                href={`${item?.cvFile.split("pdf")[0]}jpg`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-themeDark whitespace-nowrap !mt-2 inline-block hover:text-white hover:bg-themePrimary transition-all duration-300 ease-in-out bg-green-100 rounded text-sm !px-4 !py-1"
@@ -296,7 +296,7 @@ const TableItem = ({
               </a>
             </div>
           )}
-        </td> */}
+        </td>
         <td className="text-themeDark text-base pl-6 py-4 align-middle">
           <p className="text-base text-themeDark">{item?.email}</p>
         </td>

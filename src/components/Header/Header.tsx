@@ -97,7 +97,7 @@ const Header = () => {
                           onClick={UserMenuHandler}
                         >
                           <div className="mr-3 flex items-center">
-                            {/* {userData?.avatar && (
+                            {userData?.avatar && (
                               <ImageOpt
                                 className="rounded-full object-cover object-right p-1 border border-solid border-gray-500"
                                 src={userData?.avatar}
@@ -106,8 +106,8 @@ const Header = () => {
                                 height={48}
                                 noPlaceholder={true}
                               />
-                            )} */}
-                            {/* {!userData?.avatar && ( */}
+                            )}
+                            {!userData?.avatar && (
                             <Image
                               className="rounded-full object-cover object-right p-1 border border-solid border-gray-500"
                               src={srcDefaultImg}
@@ -115,7 +115,7 @@ const Header = () => {
                               width={48}
                               height={48}
                             />
-                            {/* )} */}
+                             )}
                           </div>
                           <div>
                             <p className="text-sm leading-8">
