@@ -372,7 +372,12 @@ const TableItem = ({
       } border-themeLighter w-full align-top last-of-type:border-none`}
     >
       <td className="text-themeDark text-base  pl-6 py-4 align-middle">
-        {item.name}
+        <Link
+          href={`/find-job/${item.emailFrequency}`}
+          className="hover:text-themePrimary relative pr-2"
+        >
+          {item.name}
+        </Link>
       </td>
       <td className="text-themeDark text-base  px-3 py-4 align-middle">
         {item.type.join(",")}

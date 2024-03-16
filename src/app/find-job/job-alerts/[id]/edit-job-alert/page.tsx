@@ -11,7 +11,6 @@ import _ from "lodash";
 import Head from "next/head";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
-import { Col, Form, Row } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import useSWR from "swr";
@@ -21,12 +20,14 @@ const fetcher = (url: string) => authAxios(url).then((res) => res.data.data);
 const EditJobAlert = () => {
   const router = useRouter();
   const filterData = filters[0];
+  const { data: dataJobPrivate, error: errorJobPrivate } = useSWR(
+    "/admin/jobs/private",
+    fetcher
+  );
   const pathName = usePathname();
   const jobAlertId = pathName.split("/")[3];
-  const { data, error } = useSWR(`/jobs/alert/${jobAlertId}`, fetcher, {
-    onLoadingSlow: () => <LoaderGrowing />,
-  });
-  const { user, loggedIn, loggedOut, isEmployer } = useUser();
+  const { data, error } = useSWR(`/jobs/alert/${jobAlertId}`, fetcher);
+  const { user, loggedIn, loggedOut, isCandidate } = useUser();
   const userData = user;
   const [loading, setLoading] = React.useState(true);
   const { categoryData } = React.useContext(ThemeContext) as any;
@@ -39,7 +40,7 @@ const EditJobAlert = () => {
   } = useForm({});
 
   React.useEffect(() => {
-    if (data && !isDirty) {
+    if (data) {
       setValue("alertName", data.name);
       setValue("keyword", data.keyword);
       setValue("region", [data.region]);
@@ -54,7 +55,7 @@ const EditJobAlert = () => {
   const onSubmitHandler = async (data: any) => {
     const newData = {
       name: data.alertName,
-      keyword: data.keyword,
+      keyword: "",
       region: data.region[0],
       category: data.category[0].categoryTitle,
       tags: data.tags,
@@ -101,8 +102,8 @@ const EditJobAlert = () => {
       <Layout>
         <main>
           {loggedOut && <UserNotLogin />}
-          {isEmployer && <UserGoBack />}
-          {userData && loggedIn && !isEmployer && (
+          {isCandidate && <UserGoBack />}
+          {userData && loggedIn && !isCandidate && (
             <section className="mb-6">
               <div className="rounded-lg shadow-lg bg-white">
                 <div className="bg-themeDark rounded-lg !py-3">
@@ -147,7 +148,7 @@ const EditJobAlert = () => {
                           </div>
 
                           {/* Keyword */}
-                          <div className="w-full md:w-3/6 px-3 md:py-2">
+                          {/* <div className="w-full md:w-3/6 px-3 md:py-2">
                             <label
                               className="block tracking-wide text-gray-700 text-xxs mb-2"
                               htmlFor="grid-last-name"
@@ -170,7 +171,7 @@ const EditJobAlert = () => {
                                 This field is required
                               </p>
                             )}
-                          </div>
+                          </div> */}
 
                           {/* Region Name */}
                           <div className="w-full md:w-3/6 px-3 md:py-2">
@@ -308,13 +309,13 @@ const EditJobAlert = () => {
                             )}
                           </div>
 
-                          {/* Email Frequency */}
+                          {/* To Job  */}
                           <div className="w-full md:w-3/6 px-3 md:py-2">
                             <label
                               className="block tracking-wide text-gray-700 text-xxs mb-2"
                               htmlFor="grid-last-name"
                             >
-                              Email Frequency
+                              View job details
                             </label>
                             <select
                               aria-label="Default select example"
@@ -327,14 +328,11 @@ const EditJobAlert = () => {
                               })}
                             >
                               <option value="">Select Frequency</option>
-                              {_.map(
-                                ["Daily", "Weekly", "Fortnightly", "Monthly"],
-                                (item, index) => (
-                                  <option value={item} key={index}>
-                                    {item}
-                                  </option>
-                                )
-                              )}
+                              {_.map(dataJobPrivate, (item, index) => (
+                                <option value={item?._id} key={index}>
+                                  {item?.jobTitle}
+                                </option>
+                              ))}
                             </select>
                             {errors?.frequency && (
                               <p className="text-red-400 text-sm italic py-2">
