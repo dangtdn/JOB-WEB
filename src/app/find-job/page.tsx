@@ -50,35 +50,35 @@ export default function FindJob() {
           img: "./assets/img/loader/job_loader.svg",
         },
         {
-          id: 1,
+          id: 2,
           img: "./assets/img/loader/job_loader.svg",
         },
         {
-          id: 1,
+          id: 3,
           img: "./assets/img/loader/job_loader.svg",
         },
         {
-          id: 1,
+          id: 4,
           img: "./assets/img/loader/job_loader.svg",
         },
         {
-          id: 1,
+          id: 5,
           img: "./assets/img/loader/job_loader.svg",
         },
         {
-          id: 1,
+          id: 6,
           img: "./assets/img/loader/job_loader.svg",
         },
         {
-          id: 1,
+          id: 7,
           img: "./assets/img/loader/job_loader.svg",
         },
         {
-          id: 1,
+          id: 8,
           img: "./assets/img/loader/job_loader.svg",
         },
         {
-          id: 1,
+          id: 9,
           img: "./assets/img/loader/job_loader.svg",
         },
       ],

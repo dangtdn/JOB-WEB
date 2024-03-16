@@ -173,7 +173,7 @@ export const JobsFilter = ({
                   const error = errors[fieldName];
                   return (
                     <input
-                      className="bg-light rounded-md w-full text-grayLight text-base py-3 px-6 leading-tight focus:outline-none"
+                      className="bg-light rounded-md w-full text-grayLight text-base py-3 px-2 leading-tight focus:outline-none"
                       type="text"
                       onChange={(e) => {
                         handleChange(e.target.value); // method from hook form register
@@ -203,7 +203,7 @@ export const JobsFilter = ({
                   const error = errors[fieldName];
                   return (
                     <input
-                      className="bg-light rounded-md w-full text-grayLight text-base py-3 px-6 leading-tight focus:outline-none"
+                      className="bg-light rounded-md w-full text-grayLight text-base py-3 px-2 leading-tight focus:outline-none"
                       type="text"
                       onChange={(e) => {
                         handleChange(e.target.value); // method from hook form register
@@ -232,7 +232,7 @@ export const JobsFilter = ({
                 }) => {
                   const error = errors[fieldName];
                   return (
-                    <Form.Select
+                    <select
                       aria-label="Categories"
                       onChange={(e) => {
                         handleChange(e.target.value); // method from hook form register
@@ -240,7 +240,7 @@ export const JobsFilter = ({
                       }}
                       onBlur={handleBlur}
                       value={value}
-                      className="border-0 focus:shadow-none p-3 w-full bg-light text-xxs text-grayLight text-base font-normal focus-visible:white focus:outline-none"
+                      className="border-0 focus:shadow-none h-[52px] bg-light text-xxs text-grayLight text-base font-normal focus-visible:white focus:outline-none w-full svg_icon px-2 appearance-none rounded-md"
                     >
                       <option value="">Select Categories</option>
                       {_.map(categoryData, (item, index) => {
@@ -250,7 +250,7 @@ export const JobsFilter = ({
                           </option>
                         );
                       })}
-                    </Form.Select>
+                    </select>
                   );
                 }}
               />
@@ -441,7 +441,7 @@ export const CompanyFilter = ({
                   const error = errors[fieldName];
                   return (
                     <input
-                      className="bg-light rounded-md w-full py-3 px-6 leading-tight focus:outline-none"
+                      className="bg-light rounded-md w-full py-3 px-2 leading-tight focus:outline-none"
                       type="text"
                       onChange={(e) => {
                         handleChange(e); // method from hook form register

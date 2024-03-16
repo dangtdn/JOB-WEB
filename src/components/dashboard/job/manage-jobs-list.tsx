@@ -323,175 +323,177 @@ const MangeJobsList = () => {
   };
 
   return (
-    <section className="mb-6">
-      {/* button here */}
+    <>
+      <section className="mb-6">
+        {/* button here */}
 
-      <div className="pb-6 text-right">
-        <button className="!py-3 px-8 bg-themePrimary rounded-lg shadow shadow-themePrimary">
-          <Link
-            href="/find-job/submit-job"
-            className="text-white font-medium text-xxs"
-          >
-            Add New Job
-          </Link>
-        </button>
-      </div>
+        <div className="pb-6 text-right">
+          <button className="!py-3 px-8 bg-themePrimary rounded-lg shadow shadow-themePrimary">
+            <Link
+              href="/find-job/submit-job"
+              className="text-white font-medium text-xxs"
+            >
+              Add New Job
+            </Link>
+          </button>
+        </div>
 
-      {/*end  button here */}
+        {/*end  button here */}
 
-      {/* table start here */}
-      {/* table data for desktop */}
-      <div className="shadow rounded-lg mb-10 overflow-x-auto overflow-y-hidden hidden md:block relative">
-        {/* loader */}
+        {/* table start here */}
+        {/* table data for desktop */}
+        <div className="shadow rounded-lg mb-10 overflow-x-auto overflow-y-hidden hidden md:block relative">
+          {/* loader */}
 
-        <table className="w-full table-auto">
-          <thead>
-            <tr>
-              <th className="text-left whitespace-nowrap bg-themeDark rounded-tl-lg rounded-bl-lg px-4 py-3.5 leading-9 text-white text-xxs font-medium">
-                Title
-              </th>
-              {/* <th className="text-left whitespace-nowrap bg-themeDark px-4 py-3.5 leading-9 text-white text-xxs font-medium">
+          <table className="w-full table-auto">
+            <thead>
+              <tr>
+                <th className="text-left whitespace-nowrap bg-themeDark rounded-tl-lg rounded-bl-lg px-4 py-3.5 leading-9 text-white text-xxs font-medium">
+                  Title
+                </th>
+                {/* <th className="text-left whitespace-nowrap bg-themeDark px-4 py-3.5 leading-9 text-white text-xxs font-medium">
                 Filled
               </th> */}
-              <th className="text-left whitespace-nowrap bg-themeDark px-3 py-3.5 leading-9 text-white text-xxs font-medium">
-                Date Posted
-              </th>
-              <th className="text-left whitespace-nowrap bg-themeDark px-3 py-3.5 leading-9 text-white text-xxs font-medium">
-                Listing Expires
-              </th>
-              <th className="text-left whitespace-nowrap bg-themeDark px-4 py-3.5 leading-9 text-white text-xxs font-medium">
-                Status
-              </th>
-              <th className="text-left whitespace-nowrap bg-themeDark px-4 py-3.5 leading-9 text-white text-xxs font-medium">
-                Featured
-              </th>
-              <th className="text-left whitespace-nowrap bg-themeDark px-4 py-3.5 leading-9 text-white text-xxs font-medium w-36">
-                Applications
-              </th>
-              <th className="text-left whitespace-nowrap bg-themeDark rounded-tr-lg rounded-br-lg px-4 py-3.5 leading-9 text-white text-xxs font-medium w-48">
-                Result
-              </th>
-            </tr>
-          </thead>
-          {!data?.data && (
-            <div className="w-full h-80">
-              <LoaderGrowing />
-            </div>
-          )}
-          {loading && <LoaderGrowing />}
-          <tbody>
-            {error && (
-              <tr>
-                <td
-                  className="text-center whitespace-nowrap rounded-tr-lg rounded-br-lg px-4 py-6 leading-9 text-lg2 font-medium text-themeLight"
-                  colSpan={"8" as any}
-                >
-                  <p className="text-center text-themeLight">
-                    Something went wrong. Please try again later.
-                  </p>
-                </td>
+                <th className="text-left whitespace-nowrap bg-themeDark px-3 py-3.5 leading-9 text-white text-xxs font-medium">
+                  Date Posted
+                </th>
+                <th className="text-left whitespace-nowrap bg-themeDark px-3 py-3.5 leading-9 text-white text-xxs font-medium">
+                  Listing Expires
+                </th>
+                <th className="text-left whitespace-nowrap bg-themeDark px-4 py-3.5 leading-9 text-white text-xxs font-medium">
+                  Status
+                </th>
+                <th className="text-left whitespace-nowrap bg-themeDark px-4 py-3.5 leading-9 text-white text-xxs font-medium">
+                  Featured
+                </th>
+                <th className="text-left whitespace-nowrap bg-themeDark px-4 py-3.5 leading-9 text-white text-xxs font-medium w-36">
+                  Applications
+                </th>
+                <th className="text-left whitespace-nowrap bg-themeDark rounded-tr-lg rounded-br-lg px-4 py-3.5 leading-9 text-white text-xxs font-medium w-48">
+                  Result
+                </th>
               </tr>
+            </thead>
+            {!data?.data && (
+              <div className="w-full h-80">
+                <LoaderGrowing />
+              </div>
             )}
-            {data?.data &&
-              !error &&
-              (data?.data.length > 0 ? (
-                <>
-                  {currentPosts.map((item: any, index: any) => (
-                    <TableItem
-                      key={index}
-                      item={item}
-                      approvedJob={approvedJob}
-                      rejectedJob={rejectedJob}
-                      deleteJob={deleteJob}
-                      enableJob={enableJob}
-                      disableJob={disableJob}
-                      featureJob={featureJob}
-                      unFeatureJob={unFeatureJob}
-                    />
-                  ))}
-                </>
-              ) : (
+            {loading && <LoaderGrowing />}
+            <tbody>
+              {error && (
                 <tr>
                   <td
                     className="text-center whitespace-nowrap rounded-tr-lg rounded-br-lg px-4 py-6 leading-9 text-lg2 font-medium text-themeLight"
                     colSpan={"8" as any}
                   >
-                    No data found ☹️
+                    <p className="text-center text-themeLight">
+                      Something went wrong. Please try again later.
+                    </p>
                   </td>
                 </tr>
-              ))}
-          </tbody>
-        </table>
-      </div>
-
-      {/* table data for mobile */}
-      <div className="block md:hidden">
-        {error && (
-          <div className="w-full lg:w-2/4 mx-auto h-40 bg-white shadow rounded-lg flex justify-center items-center">
-            <div className="text-center">
-              <h3 className="text-lg mb-2 font-semibold text-red-400">
-                Failed to load data ☹️
-              </h3>
-              <p className="text-themeLight">
-                Check Your internat connection OR api response issue.
-              </p>
-            </div>
-          </div>
-        )}
-        {!data?.data && (
-          <div className="w-full lg:w-2/4 mx-auto h-40 bg-white shadow rounded-lg flex justify-center items-center relative">
-            <div className="text-center">
-              <LoaderGrowing />
-            </div>
-          </div>
-        )}
-        {data?.data &&
-          !error &&
-          (data?.data.length > 0 ? (
-            <>
-              {_.map(currentPosts, (item, index) => (
-                <div
-                  key={index}
-                  className={`p-4 mb-4 shadow rounded-lg relative ${
-                    user._id === item.user && isAdmin
-                      ? "bg-green-50"
-                      : "bg-white"
-                  }`}
-                >
-                  {loading && <LoaderGrowing />}
-                  <MobileTable
-                    item={item}
-                    approvedJob={approvedJob}
-                    deleteJob={deleteJob}
-                    disableJob={disableJob}
-                    enableJob={enableJob}
-                    featureJob={featureJob}
-                    rejectedJob={rejectedJob}
-                    unFeatureJob={unFeatureJob}
-                  />
-                </div>
-              ))}
-            </>
-          ) : (
-            <div className="text-center p-8 mb-4 shadow rounded-lg bg-white">
-              <h3 className="text-lg font-semibold text-red-400">
-                No data found ☹️
-              </h3>
-            </div>
-          ))}
-      </div>
-      {data?.data && !error && data?.data.length > 0 && (
-        <div>
-          <Pagination
-            setShowPerPage={setShowPerPage}
-            totalCount={data?.data?.length}
-            showPerPage={ShowPerPage}
-            handlePageChange={handlePageChange}
-          />
+              )}
+              {data?.data &&
+                !error &&
+                (data?.data.length > 0 ? (
+                  <>
+                    {currentPosts.map((item: any, index: any) => (
+                      <TableItem
+                        key={index}
+                        item={item}
+                        approvedJob={approvedJob}
+                        rejectedJob={rejectedJob}
+                        deleteJob={deleteJob}
+                        enableJob={enableJob}
+                        disableJob={disableJob}
+                        featureJob={featureJob}
+                        unFeatureJob={unFeatureJob}
+                      />
+                    ))}
+                  </>
+                ) : (
+                  <tr>
+                    <td
+                      className="text-center whitespace-nowrap rounded-tr-lg rounded-br-lg px-4 py-6 leading-9 text-lg2 font-medium text-themeLight"
+                      colSpan={"8" as any}
+                    >
+                      No data found ☹️
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
         </div>
-      )}
-      {/* end table start here */}
-    </section>
+
+        {/* table data for mobile */}
+        <div className="block md:hidden">
+          {error && (
+            <div className="w-full lg:w-2/4 mx-auto h-40 bg-white shadow rounded-lg flex justify-center items-center">
+              <div className="text-center">
+                <h3 className="text-lg mb-2 font-semibold text-red-400">
+                  Failed to load data ☹️
+                </h3>
+                <p className="text-themeLight">
+                  Check Your internat connection OR api response issue.
+                </p>
+              </div>
+            </div>
+          )}
+          {!data?.data && (
+            <div className="w-full lg:w-2/4 mx-auto h-40 bg-white shadow rounded-lg flex justify-center items-center relative">
+              <div className="text-center">
+                <LoaderGrowing />
+              </div>
+            </div>
+          )}
+          {data?.data &&
+            !error &&
+            (data?.data.length > 0 ? (
+              <>
+                {_.map(currentPosts, (item, index) => (
+                  <div
+                    key={index}
+                    className={`p-4 mb-4 shadow rounded-lg relative ${
+                      user._id === item.user && isAdmin
+                        ? "bg-green-50"
+                        : "bg-white"
+                    }`}
+                  >
+                    {loading && <LoaderGrowing />}
+                    <MobileTable
+                      item={item}
+                      approvedJob={approvedJob}
+                      deleteJob={deleteJob}
+                      disableJob={disableJob}
+                      enableJob={enableJob}
+                      featureJob={featureJob}
+                      rejectedJob={rejectedJob}
+                      unFeatureJob={unFeatureJob}
+                    />
+                  </div>
+                ))}
+              </>
+            ) : (
+              <div className="text-center p-8 mb-4 shadow rounded-lg bg-white">
+                <h3 className="text-lg font-semibold text-red-400">
+                  No data found ☹️
+                </h3>
+              </div>
+            ))}
+        </div>
+        {data?.data && !error && data?.data.length > 0 && (
+          <div>
+            <Pagination
+              setShowPerPage={setShowPerPage}
+              totalCount={data?.data?.length}
+              showPerPage={ShowPerPage}
+              handlePageChange={handlePageChange}
+            />
+          </div>
+        )}
+        {/* end table start here */}
+      </section>
+    </>
   );
 };
 

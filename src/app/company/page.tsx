@@ -9,7 +9,6 @@ import Pagination from "@/components/pagination";
 import { Axios } from "@/lib/utils/axiosKits";
 import _ from "lodash";
 import Head from "next/head";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import useSWR from "swr";
 
@@ -84,7 +83,7 @@ const CompanyDataList = () => {
   };
 
   useEffect(() => {
-    if (data.companies) {
+    if (data && data.companies) {
       setCompanyFilter(data.companies);
     }
   }, [data]);

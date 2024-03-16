@@ -74,39 +74,30 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
       salaryMinimum,
       specialTags,
     } = data;
-    const request = {
-      job: {
-        user: user._id,
-        jobTitle,
-        location,
-        region,
-        jobTypes,
-        category: category[0]?.categoryTitle ?? "",
-        specialTags,
-        jobDescription,
-        jobExperience: "5",
-        applyDeadline:
-          "Sun Dec 18 2022 08:51:19 GMT+0600 (Bangladesh Standard Time)",
-        hourlyrate: {
-          minimum: hourlyrateMinimum,
-          maximum: hourlyrateMaximum,
-        },
-        salary: {
-          minimum: salaryMinimum,
-          maximum: salaryMaximum,
-        },
-        applyLink,
-        expireAt: "1650882239758",
-        company: companyName[0]._id,
-        email,
-      },
-      headerImage: data.headerImage ? headerImage[0] : undefined,
-    };
+    const formData = new FormData();
+    formData.append("jobTitle", jobTitle); // return string
+    formData.append("jobDescription", jobDescription); // return string
+    formData.append("applyLink", applyLink); // return string
+    formData.append("category", category[0].categoryTitle); // return category title
+    formData.append("company", companyName[0]._id); // return company id
+    formData.append("email", email); // return company email
+    if (data.headerImage) {
+      formData.append("headerImage", headerImage[0]); // return image file
+    }
+    formData.append("hourlyrateMaximum", hourlyrateMaximum); // return number
+    formData.append("hourlyrateMinimum", hourlyrateMinimum); // return number
+    formData.append("location", location); // return string
+    formData.append("jobTypes", jobTypes); // return array
+    formData.append("region", region[0]); // return string
+    formData.append("salaryMaximum", salaryMaximum); // return number
+    formData.append("salaryMinimum", salaryMinimum); // return number
+    formData.append("specialTags", specialTags); // return array
+
     try {
-      await Axios({
+      await authAxios({
         method: "POST",
         url: "/admin/job/create",
-        data: request,
+        data: formData,
       }).then((res) => {
         toast.success(res.data.message, {
           position: "bottom-right",

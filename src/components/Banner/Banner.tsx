@@ -1,5 +1,4 @@
 import React from "react";
-import { Form } from "react-bootstrap";
 import ImageOpt from "../optimize/image";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -72,10 +71,7 @@ const Banner = ({
           >
             <form onSubmit={handleSubmit(OnSubmitHandler)}>
               <div className="bg-white overflow-hidden rounded-xl  md:grid gap-7 lg:gap-10 grid-cols-8 xl:grid-cols-7 items-center">
-                <div
-                  className="col-span-2 px-4 md:px-0 border-r-2 border-gray h-full flex items-center"
-                  style={{ paddingLeft: "12px !important" }}
-                >
+                <div className="col-span-2  px-4 md:px-0 md:pl-4 border-r-2 border-gray h-full flex items-center">
                   <input
                     type="text"
                     className="w-full block !pr-3 py-4 border-b-2 border-gray md:border-0 md:py-4 focus:outline-none bg-left bg-no-repeat px-8 placeholder:text-deep"
@@ -100,10 +96,10 @@ const Banner = ({
                   />
                 </div>
                 <div className="col-span-2 px-4 md:!px-0">
-                  <Form.Select
+                  <select
                     aria-label="Default select example"
                     {...register("category")}
-                    className="border-0 focus:shadow-none py-3 select2-init text-xxs text-deep font-normal focus-visible:white focus:outline-none"
+                    className="border-0 focus:shadow-none py-3 select2-init text-xxs text-deep font-normal focus-visible:white focus:outline-none w-full"
                   >
                     <option value="">Select Categories</option>
                     {categoryData.map((item: any) => (
@@ -111,7 +107,7 @@ const Banner = ({
                         {_.capitalize(item.categoryTitle)}
                       </option>
                     ))}
-                  </Form.Select>
+                  </select>
                 </div>
                 <div className="btn-banner px-4 md:!px-0 col-span-2 xl:col-span-1 text-center grid md:justify-end py-4 md:!py-2 lg:text-right mr-4">
                   <button
@@ -124,7 +120,7 @@ const Banner = ({
               </div>
             </form>
           </div>
-          <div className="grid gap-8 xl:gap-12 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1">
+          <div className="grid gap-8 xl:gap-12 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-1">
             {countData && !countError && (
               <>
                 <div className="bg-white rounded-lg text-center p-8 duration-300 transition hover:bg-opacity-90">
@@ -140,7 +136,7 @@ const Banner = ({
                     />
                   </div>
                   <h2 className="text-xl text-black font-bold leading-none mb-2">
-                    {countData.totalJobs + " +" ?? "0"}
+                    {countData?.totalJobs + " +" ?? "0"}
                   </h2>
                   <p className="text-xs text-deep font-medium">JOB AVAILABLE</p>
                 </div>
@@ -157,11 +153,11 @@ const Banner = ({
                     />
                   </div>
                   <h2 className="text-xl text-black font-bold leading-none mb-2">
-                    {countData.totalCompanies + " +" ?? "0"}
+                    {countData?.totalCompanies + " +" ?? "0"}
                   </h2>
                   <p className="text-xs text-deep font-medium">COMPANY</p>
                 </div>
-                <div className="bg-white rounded-lg text-center p-8 duration-300 transition hover:bg-opacity-90">
+                {/* <div className="bg-white rounded-lg text-center p-8 duration-300 transition hover:bg-opacity-90">
                   <div className="flex mb-6 justify-center">
                     <ImageOpt
                       width={50}
@@ -179,7 +175,7 @@ const Banner = ({
                   <p className="text-xs text-deep font-medium">
                     AVAILABLE RESUMES
                   </p>
-                </div>
+                </div> */}
               </>
             )}
             {countError && (

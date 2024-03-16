@@ -1,6 +1,5 @@
 import _ from "lodash";
 import React from "react";
-import { Col, Form, Row } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { MultiSelect } from "../form/multi-select-dropdown";

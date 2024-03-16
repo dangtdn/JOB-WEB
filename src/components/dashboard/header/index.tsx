@@ -1,11 +1,8 @@
 "use client";
 
-import { Alert } from "react-bootstrap";
 import Header from "./header";
 import SideNav from "./side-nav";
 import useUser from "@/lib/auth/user";
-import { authAxios } from "@/lib/utils/axiosKits";
-import { toast } from "react-toastify";
 
 const MainHeader = ({
   children,
