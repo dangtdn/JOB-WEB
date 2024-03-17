@@ -8,6 +8,7 @@ import { localRemove } from "../lib/utils/localStore";
 import { usePathname, useRouter } from "next/navigation";
 import { AxiosRequestConfig } from "axios";
 import useSWR from "swr";
+import sweetAlert from "sweetalert";
 
 type ThemeContextType = {
   apiEndPoint?: string;
@@ -158,8 +159,13 @@ const ThemeContextProvider = ({ children }: { children: any }) => {
   };
 
   const lostPasswordHandler = () => {
-    setLostPasswordShow(!lostPasswordShow);
-    setLoginPopup(false);
+    sweetAlert({
+      title: "Lost Password",
+      text: "Please contact the administrator at the 'Contact Us' page for support.",
+      icon: "info",
+      buttons: true,
+      dangerMode: true,
+    } as any);
   };
 
   const logOutHandler = async () => {

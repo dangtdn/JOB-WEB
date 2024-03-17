@@ -49,27 +49,22 @@ const EditCategory = () => {
   }, [data, setValue]);
 
   const onSubmitHandler = (data: any) => {
-    // const formData = new FormData();
-    // formData.append("categoryTitle", data.categoryTitle);
-    // formData.append("subCategory", data.subCategory);
-    // if (data.categoryIcon) {
-    //   formData.append("categoryIcon", data.categoryIcon[0]);
-    // }
-    const request = {
-      categoryTitle: data.categoryTitle,
-      subCategory: data.subCategory,
-      categoryIcon: data.categoryIcon ? data.categoryIcon[0] : "",
-    };
+    const formData = new FormData();
+    formData.append("categoryTitle", data.categoryTitle);
+    formData.append("subCategory", data.subCategory);
+    if (data.categoryIcon) {
+      formData.append("categoryIcon", data.categoryIcon[0]);
+    }
     setProcessing(true);
     try {
       authAxios
-        .put(`/admin/category/update/${id}`, request)
+        .put(`/admin/category/update/${id}`, formData)
         .then((res: any) => {
           toast.success(res.data.message, {
             position: "bottom-right",
             className: "foo-bar",
           });
-          // mutate("/job/category");
+          mutate("/categories");
           setProcessing(false);
           router.push("/find-job/category");
         })
