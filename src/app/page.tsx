@@ -162,7 +162,7 @@ const Home = () => {
     fallbackData: [],
   });
   const totalCount = {
-    totalJobs: jobData.jobs?.length,
+    totalJobs: jobData?.jobs?.length ?? 0,
     totalCompanies: 0,
     totalResumes: 0,
   };

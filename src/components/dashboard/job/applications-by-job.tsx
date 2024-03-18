@@ -1,31 +1,24 @@
-"use client";
-
 import _ from "lodash";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import { FiFile } from "react-icons/fi";
+import useSWR, { useSWRConfig } from "swr";
 import Pagination from "../pagination";
 import { authAxios } from "@/lib/utils/axiosKits";
 import { LoaderGrowing } from "@/lib/loader/loader";
-import { toast } from "react-toastify";
 import PopupModule from "@/lib/popup-modul/popup-modul";
-import { usePathname } from "next/navigation";
-import { jobs } from "@/data/mongodb collections/jobs";
-import useSWR from "swr";
+import { toast } from "react-toastify";
 
-const fetcher = (url: string) => authAxios(url).then((res) => res.data);
+const fetcher = (url: string) => authAxios(url).then((res) => res.data.data);
 
 const ApplicationsByJob = () => {
   const pathName = usePathname();
   const id = pathName.split("/").at(-1);
-  const { data: applicationDataAPI, error } = useSWR(
-    id ? `jobs/${id}/job-apply` : null,
+  console.log("applicationData: ", id);
+  const { data: applicationData, error } = useSWR(
+    id ? `/jobs/${id}/job-apply` : null,
     fetcher
   );
-  const currentJob = _.find(jobs, (item) => item._id.$oid === id);
-  const applicationData = {
-    ...currentJob,
-    applications: applicationDataAPI.applications,
-  };
   const data = applicationData?.applications;
   const [loading, setLoading] = React.useState(false);
   // get current pages
@@ -45,7 +38,7 @@ const ApplicationsByJob = () => {
     <section className="mb-6">
       {/* table start here */}
       {/* table data for desktop */}
-      <div className="shadow rounded-lg mb-10 overflow-x-auto overflow-y-hidden hidden md:block relative">
+      <div className="shadow-lg bg-white rounded-lg mb-10 overflow-x-auto overflow-y-hidden hidden md:block relative">
         <table className="w-full table-auto">
           <thead>
             <tr>
@@ -79,7 +72,7 @@ const ApplicationsByJob = () => {
                   className="text-center whitespace-nowrap rounded-tr-lg rounded-br-lg px-4 py-6 leading-9 text-lg2 font-medium text-themeLight"
                   colSpan={"8" as any}
                 >
-                  <p className="text-center text-themeLight">
+                  <p className="text-center text-red-400">
                     Something went wrong. Please try again later.
                   </p>
                 </td>
@@ -183,15 +176,14 @@ const TableItem = ({
 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const toggle = () => setIsOpen(!isOpen);
-  //   const { addToast } = useToasts();
-  //   const { mutate } = useSWRConfig();
+  const { mutate } = useSWRConfig();
 
   const updateApplicationStatus = async (status: any) => {
     setLoading(true);
     try {
       await authAxios({
         method: "PUT",
-        url: `/user/application/job/${item._id}`,
+        url: `/jobs/${item._id}/job-apply/update`,
         data: status,
       }).then((res) => {
         if (res.status === 200 || res.status === 201) {
@@ -199,9 +191,9 @@ const TableItem = ({
             position: "bottom-right",
             className: "foo-bar",
           });
-          //   mutate(`/employee/application/job/${item.jobItem}`).then(() => {
-          //     setLoading(false);
-          //   });
+          mutate(`/jobs/${item.jobItem}/job-apply`).then(() => {
+            setLoading(false);
+          });
         }
       });
     } catch (error: any) {
@@ -224,7 +216,7 @@ const TableItem = ({
   return (
     <>
       <tr
-        className={`border-b w-full border-themeLighter align-top last-of-type:border-none`}
+        className={`border-b w-full border-gray align-top last-of-type:border-none`}
       >
         <td className="text-themeDark text-base pl-6 py-4 align-middle">
           {/* <Link href={item?.user ? `/resume/${item?.user}` : "#"}> */}
@@ -238,7 +230,7 @@ const TableItem = ({
             <div>
               <button
                 onClick={toggle}
-                className="text-themeDark whitespace-nowrap !mt-2 inline-block hover:text-white hover:bg-themePrimary transition-all duration-300 ease-in-out bg-green-100 rounded text-sm !px-4 !py-1"
+                className="text-themeDark whitespace-nowrap !mt-2 inline-block hover:text-white hover:bg-themePrimary transition-all duration-300 ease-in-out bg-themePrimary/10 rounded text-sm !px-4 !py-1"
               >
                 Read Cover Letter
               </button>
@@ -249,10 +241,10 @@ const TableItem = ({
           {item?.cvFile && (
             <div>
               <a
-                href={item?.cvFile}
+                href={`${item?.cvFile.split("pdf")[0]}jpg`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-themeDark whitespace-nowrap !mt-2 inline-block hover:text-white hover:bg-themePrimary transition-all duration-300 ease-in-out bg-green-100 rounded text-sm !px-4 !py-1"
+                className="text-themeDark whitespace-nowrap !mt-2 inline-block hover:text-white hover:bg-themePrimary transition-all duration-300 ease-in-out bg-themePrimary/10 rounded text-sm !px-4 !py-1"
               >
                 View CV
               </a>
@@ -379,7 +371,7 @@ const MobileTable = ({
               {item?.coverLetter && (
                 <div className="flex items-center gap-2">
                   <button
-                    className="bg-green-200 shadow-sm flex gap-2 py-2 px-3 items-center justify-center cursor-pointer rounded-lg"
+                    className="bg-themePrimary/20 shadow-sm flex gap-2 py-2 px-3 items-center justify-center cursor-pointer rounded-lg"
                     onClick={toggle}
                   >
                     <FiFile className="text-xxs text-themeDarker" />
@@ -393,7 +385,7 @@ const MobileTable = ({
               {item?.cvFile && (
                 <div className="flex items-center gap-2">
                   <a
-                    className="bg-green-200 shadow-sm flex gap-2 py-2 px-3 items-center justify-center cursor-pointer rounded-lg"
+                    className="bg-themePrimary/20 shadow-sm flex gap-2 py-2 px-3 items-center justify-center cursor-pointer rounded-lg"
                     href={item?.cvFile}
                   >
                     <FiFile className="text-xxs text-themeDarker" />

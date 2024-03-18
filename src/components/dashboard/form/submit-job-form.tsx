@@ -21,6 +21,7 @@ const newFeature = (url: string) => authAxios(url).then((res) => res.data);
 
 const SubmitJobForm = ({ userData }: { userData: any }) => {
   const router = useRouter();
+  const { user } = useUser();
   const { data: companies, error: companiesError } = useSWR(
     "/companies",
     fetcher
@@ -30,13 +31,12 @@ const SubmitJobForm = ({ userData }: { userData: any }) => {
   // remove isApproved false from companiesData
   const ApprovedCompanies = _.filter(companiesData, (company) => {
     return company.status.isApproved && company.status.isActive;
-  });
+  }).filter((company) => company?.user === user?._id);
   const { categoryData } = React.useContext(ThemeContext) as any;
   const [companyName, setCompanyName] = React.useState("");
   const [JobHeaderImg, setJobHeaderImg] = React.useState("");
   const jobForm = companyName ? false : (true as boolean);
   const [loading, setLoading] = React.useState(false);
-  const { user } = useUser();
   const { mutate } = useSWRConfig();
   // register submit job form
   const {

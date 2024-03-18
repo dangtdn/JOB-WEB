@@ -12,12 +12,3 @@ export const authAxios = axios.create({
     Accept: "application/json",
   },
 });
-
-export const authAxios1 = axios.create({
-  baseURL: `http://localhost:8000/api`,
-  headers: {
-    Authorization: `Bearer ${localGet("UserData")?.token}`,
-    Accept: "application/json",
-    "Content-Type": "multipart/form-data",
-  },
-});

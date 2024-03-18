@@ -86,7 +86,13 @@ const AllApplications = () => {
             method: "DELETE",
             url: `/users/${id}/delete`,
           }).then((res) => {
-            mutate(`users/${userId}/job-apply`).then(() => {
+            mutate(
+              !isAdmin
+                ? isEmployer
+                  ? `/admin/jobs/private`
+                  : `users/${user._id}/job-apply`
+                : `/applications`
+            ).then(() => {
               toast.success(res.data.message, {
                 position: "bottom-right",
                 className: "foo-bar",
@@ -304,7 +310,7 @@ const TableItem = ({
           <div className="text-left flex gap-3">
             <span className="inline-grid gap-3">
               <span className="border !border-themePrimary text-themePrimary bg-transparent !px-6 py-2 rounded text-center text-xs">
-                Applied
+                {item?.status}
               </span>
             </span>
           </div>

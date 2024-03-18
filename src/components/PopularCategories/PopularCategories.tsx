@@ -86,9 +86,11 @@ const PopularCategories = ({ data }: { data?: Category[] }) => {
           </h2>
         </div>
         <div className="grid gap-4 xl:gap-5 xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2">
-          {data?.map((item, index) => (
-            <CategoryItem key={index} data={item} />
-          ))}
+          {data
+            ?.filter((_, index) => index < 12)
+            .map((item, index) => (
+              <CategoryItem key={index} data={item} />
+            ))}
         </div>
         <div className="text-center mt-14">
           <Link

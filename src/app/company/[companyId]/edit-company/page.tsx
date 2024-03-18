@@ -570,6 +570,8 @@ const EditCompany = () => {
                         <option value="11-50">11-50</option>
                         <option value="51-100">51-100</option>
                         <option value="101-500">101-500</option>
+                        <option value="501-1000">501-1000</option>
+                        <option value="+1000">+1000</option>
                       </select>
                     </label>
 
@@ -621,6 +623,7 @@ const EditCompany = () => {
                         <option value="0-10,000">0-10,000</option>
                         <option value="10,000-50,000">10,000-50,000</option>
                         <option value="50,000-100,000">50,000-100,000</option>
+                        <option value="+100,000">+100,000</option>
                       </select>
                     </label>
 
@@ -643,15 +646,16 @@ const EditCompany = () => {
                         onBlur={category.onBlur}
                       >
                         <option value="">Select Category</option>
-                        <option>Construction</option>
-                        <option>Engineering</option>
-                        <option>Finance</option>
-                        <option>Healthcare</option>
-                        <option>Hospitality</option>
-                        <option>IT</option>
-                        <option>Legal</option>
-                        <option>Manufacturing</option>
-                        <option>Marketing</option>
+                        <option>Software Development Company</option>
+                        <option>IT Services Provider</option>
+                        <option>Technology Consulting Firm</option>
+                        <option>Cloud Computing Company</option>
+                        <option>Cybersecurity Solutions Provider</option>
+                        <option>Artificial Intelligence (AI) Company</option>
+                        <option>Data Analytics Firm</option>
+                        <option>Mobile App Development Agency</option>
+                        <option>Web Development Company</option>
+                        <option>E-commerce Solutions Provider</option>
                       </select>
                     </label>
                   </div>
