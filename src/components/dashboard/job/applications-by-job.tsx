@@ -238,7 +238,7 @@ const TableItem = ({
           )}
         </td>
         <td className="text-themeDark text-base pl-6 py-4 align-middle">
-          {item?.cvFile && (
+          {item?.cvFile !== "undefined" && (
             <div>
               <a
                 href={`${item?.cvFile.split("pdf")[0]}jpg`}
@@ -382,7 +382,7 @@ const MobileTable = ({
                 </div>
               )}
               {/* View CV */}
-              {item?.cvFile && (
+              {item?.cvFile !== "undefined" && (
                 <div className="flex items-center gap-2">
                   <a
                     className="bg-themePrimary/20 shadow-sm flex gap-2 py-2 px-3 items-center justify-center cursor-pointer rounded-lg"

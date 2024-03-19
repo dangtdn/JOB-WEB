@@ -28,7 +28,6 @@ const authFetcher = (url: string) =>
   authAxios(url).then((res) => res.data.data);
 
 export default function JobDetails() {
-  const router = useRouter();
   const pathName = usePathname();
   const id = pathName.split("/").at(-1);
   const { user, loggedIn, isEmployer } = useUser();
@@ -42,7 +41,7 @@ export default function JobDetails() {
 
   const isApplied = _.find(
     jobApplies?.applications,
-    (item) => item?.jobItem === id
+    (item) => item?.user === user._id
   );
 
   const { data, error } = useSWR(id ? `/jobs/${id}` : null, fetcher, {
