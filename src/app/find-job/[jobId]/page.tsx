@@ -22,6 +22,7 @@ import PopupModule from "@/lib/popup-modul/popup-modul";
 import { Axios, authAxios } from "@/lib/utils/axiosKits";
 import useSWR, { useSWRConfig } from "swr";
 import RelatedJobs from "@/components/Job/RelatedJobs";
+import JobDescription from "@/components/ContentDescription/ContentDescription";
 
 const fetcher = (url: string) => Axios(url).then((res) => res.data);
 const authFetcher = (url: string) =>
@@ -41,7 +42,7 @@ export default function JobDetails() {
 
   const isApplied = _.find(
     jobApplies?.applications,
-    (item) => item?.user === user._id
+    (item) => item?.user === user?._id
   );
 
   const { data, error } = useSWR(id ? `/jobs/${id}` : null, fetcher, {
@@ -390,9 +391,13 @@ export default function JobDetails() {
                       Job Description
                     </h4>
                     <div className="mb-8">
-                      {data?.data?.jobDescription
-                        ? data?.data?.jobDescription
-                        : "No description"}
+                      {data?.data?.jobDescription ? (
+                        <JobDescription
+                          description={data?.data?.jobDescription}
+                        />
+                      ) : (
+                        "No description"
+                      )}
                     </div>
                     {/* Tags */}
                     <div className="mb-8">

@@ -19,6 +19,7 @@ import ImageOpt from "@/components/optimize/image";
 import CompanyJobItem from "@/components/company/company-job-item";
 import CompanyInfo from "@/components/company/company-info";
 import PopupModule from "@/lib/popup-modul/popup-modul";
+import ContentDescription from "@/components/ContentDescription/ContentDescription";
 
 const fetcher = (url: string) => Axios(url).then((res) => res.data);
 const authFetcher = (url: string) =>
@@ -325,7 +326,9 @@ export default function CompanyProfile() {
                       About Company
                     </h4>
                     <div className="mb-0 text-xs text-deep font-normal leading-6">
-                      {data?.data?.company?.description}
+                      <ContentDescription
+                        description={data?.data?.company?.description}
+                      />
                     </div>
                   </div>
 
