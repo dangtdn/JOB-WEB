@@ -54,10 +54,10 @@ const Pagination = ({
           window.scrollTo(0, 250);
           handlePageChange(data);
         }}
-        containerClassName={`flex flex-row flex-nowrap justify-between md:justify-center items-center`}
-        pageLinkClassName={`flex w-10 h-10 mx-1 text-xs justify-center items-center rounded-md bg-white text-deep hover:!bg-themePrimary hover:text-white`}
-        breakLinkClassName={`flex w-10 h-10 mx-1 text-xs justify-center items-center rounded-md bg-white text-deep hover:!bg-themePrimary hover:text-white`}
-        activeLinkClassName={`flex w-10 h-10 mx-1 text-xs justify-center items-center rounded-md !bg-themePrimary text-white`}
+        containerClassName="flex flex-row flex-nowrap justify-between md:justify-center items-center"
+        pageLinkClassName="flex w-10 h-10 mx-1 text-xs justify-center items-center rounded-md bg-white text-deep hover:!bg-themePrimary hover:text-white"
+        breakLinkClassName="flex w-10 h-10 mx-1 text-xs justify-center items-center rounded-md bg-white text-deep hover:!bg-themePrimary hover:text-white"
+        activeLinkClassName="flex w-10 h-10 mx-1 text-xs justify-center items-center rounded-md !bg-themePrimary text-white"
       />
     </div>
   );
