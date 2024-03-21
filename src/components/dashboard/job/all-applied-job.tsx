@@ -68,7 +68,7 @@ const AllApplications = () => {
     : [];
 
   const handlePageChange = (data: any) => {
-    setCurrentPage(data.selected + 1);
+    setCurrentPage(data.selected);
   };
 
   const onRemove = (id: any, userId: any) => {
@@ -240,6 +240,7 @@ const AllApplications = () => {
             totalCount={getData()?.length}
             showPerPage={ShowPerPage}
             handlePageChange={handlePageChange}
+            currentPage={currentPage}
           />
         </div>
       )}

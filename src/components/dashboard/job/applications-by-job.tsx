@@ -31,7 +31,7 @@ const ApplicationsByJob = () => {
     : [];
 
   const handlePageChange = (data: any) => {
-    setCurrentPage(data.selected + 1);
+    setCurrentPage(data.selected);
   };
 
   return (
@@ -157,6 +157,7 @@ const ApplicationsByJob = () => {
             totalCount={data?.length}
             showPerPage={ShowPerPage}
             handlePageChange={handlePageChange}
+            currentPage={currentPage}
           />
         </div>
       )}
