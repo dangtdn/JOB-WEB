@@ -121,7 +121,7 @@ const Footer = () => {
                   alt="icon"
                   noPlaceholder
                 />
-                tdtu@gmail.com
+                tdtworks@tdtu.edu.com
               </a>
             </div>
             <div className="xl:col-span-3 lg:col-span-4 md:col-span-6 mb-10 xl:mb-0 xl:pl-10">
