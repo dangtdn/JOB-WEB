@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import sweetAlert from "sweetalert";
 
 const fetcher = (url: string) => authAxios(url).then((res) => res.data.data);
+const fetcher1 = (url: string) => authAxios(url).then((res) => res.data);
 
 const AllApplications = () => {
   const { user, isAdmin, isEmployer, isCandidate } = useUser();
@@ -24,7 +25,7 @@ const AllApplications = () => {
   );
   const { data: dataJobPrivate, error: errorJobPrivate } = useSWR(
     isEmployer && `/admin/jobs/private`,
-    fetcher
+    fetcher1
   );
   const { data: dataUserApplication, error: errorUserApplication } = useSWR(
     isCandidate && `users/${user._id}/job-apply`,
@@ -34,7 +35,7 @@ const AllApplications = () => {
     if (isAdmin) {
       return dataApplications;
     } else if (isEmployer) {
-      return dataJobPrivate?.reduce((applies: any[], item: any) => {
+      return dataJobPrivate?.data?.reduce((applies: any[], item: any) => {
         if (item?.applications) {
           applies = [...applies, ...item.applications];
         }
