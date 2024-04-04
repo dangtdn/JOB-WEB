@@ -34,7 +34,7 @@ const AllApplications = () => {
     if (isAdmin) {
       return dataApplications;
     } else if (isEmployer) {
-      return (dataJobPrivate ?? [])?.reduce((applies: any[], item: any) => {
+      return dataJobPrivate?.reduce((applies: any[], item: any) => {
         if (item?.applications) {
           applies = [...applies, ...item.applications];
         }
