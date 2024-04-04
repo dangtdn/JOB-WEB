@@ -542,7 +542,7 @@ const TableItem = ({
     >
       <td className="text-themeDark text-base  pl-6 py-4 align-middle">
         <Link
-          href={item ? `/job/${item?._id}` : "#"}
+          href={item ? `/find-job/${item?._id}` : "#"}
           className="text-xxs text-themeDarker hover:text-themePrimary"
         >
           {item.jobTitle}
